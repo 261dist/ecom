@@ -297,6 +297,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Inicio rápido">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dev-maven-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DEV (Maven local)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prod-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PROD (Docker)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1024,6 +1052,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Inicio rápido">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dev-maven-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DEV (Maven local)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prod-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PROD (Docker)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1156,21 +1212,37 @@
 <li>Angular 19 (cliente web)</li>
 </ul>
 <h2 id="inicio-rapido">Inicio rápido</h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># 1. Crear redes Docker (una sola vez)</span>
+<h3 id="dev-maven-local">DEV (Maven local)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Crear redes Docker (una sola vez, si no existen)</span>
 docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>ecom-prod-net
 docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>ecom-dev-net
 
-<span class="c1"># 2. Infraestructura (Config:8099, Eureka:8761, Gateway:8090)</span>
-<span class="nb">cd</span><span class="w"> </span>infra
-docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="c1"># 2. Infraestructura (Config, Eureka)</span>
+<span class="nb">cd</span><span class="w"> </span>infra<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="c1">#   http://localhost:8099 — Config Server</span>
+<span class="c1">#   http://localhost:8761  — Eureka Dashboard</span>
 
-<span class="c1"># 3. Servicios (cada uno en su terminal, o todos con -d)</span>
-<span class="nb">cd</span><span class="w"> </span>services/auth-ms<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
-<span class="nb">cd</span><span class="w"> </span>services/catalogo-ms<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
-<span class="nb">cd</span><span class="w"> </span>services/producto-ms<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="c1"># 3. Servicios (cada uno en su terminal)</span>
+<span class="nb">cd</span><span class="w"> </span>services/auth-ms<span class="w">      </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w"> </span>-Dspring-boot.run.profiles<span class="o">=</span>dev
+<span class="nb">cd</span><span class="w"> </span>services/catalogo-ms<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w"> </span>-Dspring-boot.run.profiles<span class="o">=</span>dev
+<span class="nb">cd</span><span class="w"> </span>services/producto-ms<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w"> </span>-Dspring-boot.run.profiles<span class="o">=</span>dev
+</code></pre></div>
+<h3 id="prod-docker">PROD (Docker)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Redes (una sola vez)</span>
+docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>ecom-prod-net
 
-<span class="c1"># 4. Desarrollo local (IDE): levantar PostgreSQL dev, luego:</span>
-<span class="nb">cd</span><span class="w"> </span>services/auth-ms<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w"> </span>-Dspring-boot.run.profiles<span class="o">=</span>dev
+<span class="c1"># 2. Infraestructura</span>
+<span class="nb">cd</span><span class="w"> </span>infra<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="c1">#   http://localhost:8099 — Config Server</span>
+<span class="c1">#   http://localhost:8761  — Eureka Dashboard</span>
+<span class="c1">#   http://localhost:8090  — API Gateway</span>
+
+<span class="c1"># 3. Servicios</span>
+<span class="nb">cd</span><span class="w"> </span>services/auth-ms<span class="w">      </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="nb">cd</span><span class="w"> </span>services/catalogo-ms<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="nb">cd</span><span class="w"> </span>services/producto-ms<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="nb">cd</span><span class="w"> </span>services/orden-ms<span class="w">     </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="nb">cd</span><span class="w"> </span>services/pago-ms<span class="w">      </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </code></pre></div>
 <h2 id="puertos-de-desarrollo-postgresql">Puertos de desarrollo (PostgreSQL)</h2>
 <table>
