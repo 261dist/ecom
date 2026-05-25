@@ -1344,7 +1344,7 @@
   -&gt; localStorage
   -&gt; Authorization: Bearer &lt;token&gt;
 </code></pre></div>
-<p>El backend <code>services/auth</code> usa Spring Security y JJWT para emitir tokens. Eso es suficiente para esta etapa didáctica, pero no equivale a Keycloak ni a un Authorization Server OAuth2.</p>
+<p>El backend <code>services/auth-ms</code> usa Spring Security y JJWT para emitir tokens. Eso es suficiente para esta etapa didáctica, pero no equivale a Keycloak ni a un Authorization Server OAuth2.</p>
 <p>La futura migración a Keycloak debe concentrarse principalmente en:</p>
 <div class="highlight"><pre><span></span><code>src/app/core/auth/auth.service.ts
 src/app/core/auth/auth.interceptor.ts
@@ -1352,14 +1352,14 @@ src/app/core/auth/auth.guard.ts
 </code></pre></div>
 <h2 id="contexto">Contexto</h2>
 <p>Los microservicios están registrados en Eureka:</p>
-<div class="highlight"><pre><span></span><code>AUTH      auth:8041
-CATALOGO  catalogo:8081
-GATEWAY   gateway:7091
-PRODUCTO  producto:9091
+<div class="highlight"><pre><span></span><code>AUTH      auth-ms:8042
+CATALOGO  catalogo-ms:8082
+GATEWAY   gateway:8090
+PRODUCTO  producto-ms:9092
 </code></pre></div>
-<p>Angular no consume directamente <code>auth:8041</code> ni <code>producto:9091</code>.
+<p>Angular no consume directamente <code>auth-ms:8042</code> ni <code>producto-ms:9092</code>.
 El frontend consume el gateway:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091
+<div class="highlight"><pre><span></span><code>http://localhost:8090
 </code></pre></div>
 <h2 id="contrato-del-backend">Contrato del Backend</h2>
 <h3 id="login">Login</h3>
@@ -1404,7 +1404,7 @@ El frontend consume el gateway:</p>
 <p>Contenido:</p>
 <div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">production</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">apiBaseUrl</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;http://localhost:7091&#39;</span>
+<span class="w">  </span><span class="nx">apiBaseUrl</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;http://localhost:8090&#39;</span>
 <span class="p">};</span>
 </code></pre></div>
 <h3 id="2-crear-un-servicio-base-para-urls">2. Crear un servicio base para URLs</h3>
@@ -1414,7 +1414,7 @@ El frontend consume el gateway:</p>
 <p>Responsabilidad:</p>
 <ul>
 <li>Centralizar la URL base.</li>
-<li>Evitar escribir <code>http://localhost:7091</code> en cada componente.</li>
+<li>Evitar escribir <code>http://localhost:8090</code> en cada componente.</li>
 </ul>
 <h3 id="3-crear-authservice">3. Crear <code>AuthService</code></h3>
 <p>Archivo:</p>
@@ -1511,7 +1511,7 @@ src/app/productos/productos.html
 <li>Botón <code>Salir</code> elimina sesión.</li>
 <li><code>/productos</code> no permite entrar sin login.</li>
 <li><code>/productos</code> carga datos usando JWT.</li>
-<li>Las llamadas pasan por <code>http://localhost:7091</code>.</li>
+<li>Las llamadas pasan por <code>http://localhost:8090</code>.</li>
 </ul>
 <h2 id="preguntas-para-el-alumno">Preguntas para el Alumno</h2>
 <ol>

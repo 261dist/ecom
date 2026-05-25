@@ -2188,8 +2188,8 @@
 <p>en:</p>
 <ul>
 <li><code>infra/gateway/pom.xml</code></li>
-<li><code>services/catalogo/pom.xml</code></li>
-<li><code>services/producto/pom.xml</code></li>
+<li><code>services/catalogo-ms/pom.xml</code></li>
+<li><code>services/producto-ms/pom.xml</code></li>
 </ul>
 <p>Y se habilito:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">management</span><span class="p">:</span>
@@ -2226,14 +2226,14 @@
 <ul>
 <li>toda la plataforma corre en Docker</li>
 <li>Prometheus usa nombres Docker como <code>gateway</code>, <code>catalogo</code> y <code>producto</code></li>
-<li><code>observability</code> usa <code>ms-net</code></li>
+<li><code>observability</code> usa <code>ecom-prod-net</code></li>
 </ul>
 <h3 id="4-centralizacion-de-logs">4. Centralizacion de logs</h3>
 <p>Promtail consume:</p>
 <ul>
 <li><code>infra/gateway/logs</code></li>
-<li><code>services/catalogo/logs</code></li>
-<li><code>services/producto/logs</code></li>
+<li><code>services/catalogo-ms/logs</code></li>
+<li><code>services/producto-ms/logs</code></li>
 </ul>
 <p>Y envia los logs a Loki con etiquetas por servicio.</p>
 <hr />
@@ -2254,16 +2254,16 @@
 <li><code>infra/config-repo/catalogo-prod.yml</code></li>
 <li><code>infra/config-repo/producto-prod.yml</code></li>
 <li><code>infra/gateway/pom.xml</code></li>
-<li><code>services/catalogo/pom.xml</code></li>
-<li><code>services/producto/pom.xml</code></li>
+<li><code>services/catalogo-ms/pom.xml</code></li>
+<li><code>services/producto-ms/pom.xml</code></li>
 </ul>
 <hr />
 <h2 id="preparacion">Preparacion</h2>
 <h3 id="dev">DEV</h3>
 <p>Levantar:</p>
 <ul>
-<li>config-server</li>
-<li>registry-server</li>
+<li>config</li>
+<li>eureka</li>
 <li>gateway</li>
 <li>mysql de <code>catalogo</code></li>
 <li>mysql de <code>producto</code></li>
@@ -2272,7 +2272,7 @@
 </ul>
 <p>Luego:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>obs
-docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
 </code></pre></div>
 <h3 id="prod">PROD</h3>
 <p>Levantar:</p>
@@ -2316,7 +2316,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> 
 <ul>
 <li>en <code>dev</code>, Prometheus usa <code>host.docker.internal</code></li>
 <li>esos links son validos para el contenedor</li>
-<li>desde el navegador del host, las URLs equivalentes son <code>localhost:7091</code>, <code>localhost:8081</code> y <code>localhost:9091</code></li>
+<li>desde el navegador del host, las URLs equivalentes son <code>localhost:8090</code>, <code>localhost:8082</code> y <code>localhost:9092</code></li>
 </ul>
 <hr />
 <h2 id="paso-2-ver-trafico-http">Paso 2. Ver trafico HTTP</h2>
@@ -2324,9 +2324,9 @@ docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> 
 <p>Pasar de "esta vivo" a "esta recibiendo requests".</p>
 <h3 id="generar-trafico">Generar trafico</h3>
 <p>Probar:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/api/v1/catalogo/instancia
-http://localhost:7091/api/v1/producto/instancia
-http://localhost:9091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/catalogo/instancia
+http://localhost:8090/api/v1/producto/instancia
+http://localhost:9092/api/v1/productos/detalle/1
 </code></pre></div>
 <h3 id="consulta-recomendada">Consulta recomendada</h3>
 <div class="highlight"><pre><span></span><code><span class="k">sum</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="o">(</span><span class="nv">job</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_server_requests_seconds_count</span><span class="p">[</span><span class="s">1m</span><span class="p">]</span><span class="o">))</span>
@@ -2398,7 +2398,7 @@ http://localhost:9091/api/v1/productos/detalle/1
 <h3 id="objetivo_5">Objetivo</h3>
 <p>Seguir una peticion real a traves de varios servicios.</p>
 <h3 id="peticion-sugerida">Peticion sugerida</h3>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/productos/detalle/1
 </code></pre></div>
 <h3 id="que-observar">Que observar</h3>
 <p>En Prometheus o Grafana:</p>
@@ -2465,7 +2465,7 @@ http://localhost:9091/api/v1/productos/detalle/1
 <h3 id="accion-sugerida">Accion sugerida</h3>
 <p>Detener <code>catalogo</code>.</p>
 <p>Luego repetir:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:9091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:9092/api/v1/productos/detalle/1
 </code></pre></div>
 <h3 id="que-observar_1">Que observar</h3>
 <p>En metricas:</p>
@@ -2500,13 +2500,13 @@ http://localhost:9091/api/v1/productos/detalle/1
 <p>sin requerir todavia una herramienta de tracing distribuido como Tempo o Jaeger.</p>
 <h3 id="caso-1-peticion-exitosa-end-to-end">Caso 1. Peticion exitosa end-to-end</h3>
 <p>Ejecutar:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/productos/detalle/1
 </code></pre></div>
 <p>Luego revisar logs en:</p>
 <ul>
 <li><code>infra/gateway/logs/gateway.log</code></li>
-<li><code>services/producto/logs/producto.log</code></li>
-<li><code>services/catalogo/logs/catalogo.log</code></li>
+<li><code>services/producto-ms/logs/producto.log</code></li>
+<li><code>services/catalogo-ms/logs/catalogo.log</code></li>
 </ul>
 <p>O en Loki con:</p>
 <div class="highlight"><pre><span></span><code>{service=~&quot;gateway|producto|catalogo&quot;}
@@ -2579,7 +2579,7 @@ http://localhost:9091/api/v1/productos/detalle/1
 <li>Detener <code>catalogo</code>.</li>
 <li>Ejecutar:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>http://localhost:9091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:9092/api/v1/productos/detalle/1
 </code></pre></div>
 <p>Luego revisar:</p>
 <ul>

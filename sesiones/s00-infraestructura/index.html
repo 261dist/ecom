@@ -1287,7 +1287,7 @@
 <li>Registry Server/Eureka</li>
 <li>Gateway</li>
 <li><code>config-repo</code></li>
-<li>red compartida <code>ms-net</code></li>
+<li>red compartida <code>ecom-prod-net</code></li>
 </ul>
 <p>Kafka, observabilidad y microservicios viven en modulos separados, pero se integran con esta infraestructura.</p>
 <h2 id="componentes">Componentes</h2>
@@ -1300,11 +1300,11 @@
 </thead>
 <tbody>
 <tr>
-<td><code>config-server</code></td>
+<td><code>config</code></td>
 <td>Sirve configuracion centralizada desde <code>infra/config-repo</code></td>
 </tr>
 <tr>
-<td><code>registry-server</code></td>
+<td><code>eureka</code></td>
 <td>Eureka para registro y descubrimiento</td>
 </tr>
 <tr>
@@ -1316,7 +1316,7 @@
 <td>Configuracion por servicio y perfil</td>
 </tr>
 <tr>
-<td><code>ms-net</code></td>
+<td><code>ecom-prod-net</code></td>
 <td>Red Docker compartida de produccion</td>
 </tr>
 </tbody>
@@ -1326,48 +1326,48 @@
 <thead>
 <tr>
 <th>Servicio</th>
-<th style="text-align: right;">DEV</th>
-<th style="text-align: right;">PROD</th>
+<th style="text-align: right;">DEV (Maven)</th>
+<th style="text-align: right;">PROD (Docker)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Config Server</td>
-<td style="text-align: right;">7071</td>
-<td style="text-align: right;">7072</td>
+<td>Config</td>
+<td style="text-align: right;">8888</td>
+<td style="text-align: right;">8888</td>
 </tr>
 <tr>
-<td>Registry Server</td>
-<td style="text-align: right;">7081</td>
-<td style="text-align: right;">7082</td>
+<td>Eureka</td>
+<td style="text-align: right;">8761</td>
+<td style="text-align: right;">8761</td>
 </tr>
 <tr>
 <td>Gateway</td>
-<td style="text-align: right;">7091</td>
-<td style="text-align: right;">7092</td>
+<td style="text-align: right;">8080</td>
+<td style="text-align: right;">8090</td>
 </tr>
 </tbody>
 </table>
 <p>En Docker prod, los servicios se comunican por nombre interno:</p>
-<div class="highlight"><pre><span></span><code>config-server:7071
-registry-server:7081
-gateway:7091
+<div class="highlight"><pre><span></span><code>ecom-config:8888
+eureka:8761
+gateway:8080
 </code></pre></div>
 <h2 id="red-compartida">Red Compartida</h2>
-<p><code>infra/docker-compose.yml</code> crea la red:</p>
-<div class="highlight"><pre><span></span><code>ms-net
+<p><code>infra/compose.yml</code> crea la red:</p>
+<div class="highlight"><pre><span></span><code>ecom-prod-net
 </code></pre></div>
 <p>La consumen como red externa:</p>
 <ul>
-<li><code>auth</code></li>
-<li><code>catalogo</code></li>
-<li><code>producto</code></li>
+<li><code>auth-ms</code></li>
+<li><code>catalogo-ms</code></li>
+<li><code>producto-ms</code></li>
 <li><code>orden-ms</code></li>
 <li><code>pago-ms</code></li>
 <li><code>kafka</code></li>
-<li><code>observability</code></li>
+<li><code>obs</code></li>
 </ul>
-<p><code>infra</code> debe levantarse primero en prod para crear <code>ms-net</code>.</p>
+<p><code>infra</code> debe levantarse primero en prod para crear <code>ecom-prod-net</code>.</p>
 <h2 id="arquitectura">Arquitectura</h2>
 <p>Diagrama general de la plataforma:</p>
 <pre class="mermaid"><code>graph TB
@@ -1426,13 +1426,13 @@ pago-ms-dev.yml
 pago-ms-prod.yml
 gateway-dev.yml
 gateway-prod.yml
-registry-server-dev.yml
-registry-server-prod.yml
+eureka-dev.yml
+eureka-prod.yml
 </code></pre></div>
 <p>Los microservicios importan Config Server desde su <code>application.yml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spring</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">import</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;optional:configserver:${CONFIG_SERVER_URL:http://localhost:7071}&quot;</span>
+<span class="w">    </span><span class="nt">import</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}&quot;</span>
 </code></pre></div>
 <h2 id="servicios-integrados">Servicios Integrados</h2>
 <table>
@@ -1525,62 +1525,62 @@ registry-server-prod.yml
 <li>El resto de rutas requiere JWT.</li>
 </ul>
 <p>Esto significa que <code>/ordenes/**</code> y <code>/pagos/**</code> quedan protegidos cuando se accede por Gateway.</p>
-<p>Nota: los puertos directos de los microservicios se mantienen para laboratorio y pruebas. Para una produccion mas estricta, se pueden dejar sin publicar y consumirlos solo por <code>ms-net</code>.</p>
+<p>Nota: los puertos directos de los microservicios se mantienen para laboratorio y pruebas. Para una produccion mas estricta, se pueden dejar sin publicar y consumirlos solo por <code>ecom-prod-net</code>.</p>
 <h2 id="levantar-dev">Levantar DEV</h2>
 <p>En dev normalmente se ejecutan los componentes Java con Maven.</p>
 <p>Config Server:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">infra</span><span class="p">\</span><span class="n">config-server</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">infra</span><span class="p">/</span><span class="n">config</span>
 <span class="n">mvn</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
 </code></pre></div>
 <p>Registry Server:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">infra</span><span class="p">\</span><span class="n">registry-server</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">infra</span><span class="p">/</span><span class="n">eureka</span>
 <span class="p">.\</span><span class="n">mvnw</span><span class="p">.</span><span class="n">cmd</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
 </code></pre></div>
 <p>Gateway:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">infra</span><span class="p">\</span><span class="n">gateway</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">infra</span><span class="p">/</span><span class="n">gateway</span>
 <span class="p">.\</span><span class="n">mvnw</span><span class="p">.</span><span class="n">cmd</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
 </code></pre></div>
 <p>Validaciones:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7071/catalogo/dev
-http://localhost:7071/orden-ms/dev
-http://localhost:7071/pago-ms/dev
-http://localhost:7081
-http://localhost:7091/actuator/health
+<div class="highlight"><pre><span></span><code>http://localhost:8888/catalogo/dev
+http://localhost:8888/orden-ms/dev
+http://localhost:8888/pago-ms/dev
+http://localhost:8761
+http://localhost:8090/actuator/health
 </code></pre></div>
 <h2 id="levantar-prod">Levantar PROD</h2>
 <p>Primero infra:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">infra</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">infra</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 </code></pre></div>
 <p>Luego Kafka:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">kafka</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">kafka</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 </code></pre></div>
 <p>Luego microservicios, por ejemplo:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">services</span><span class="p">\</span><span class="n">auth</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">services</span><span class="p">/</span><span class="n">auth-ms</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 
-<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">services</span><span class="p">\</span><span class="n">catalogo</span>
+<span class="nb">cd </span><span class="n">services</span><span class="p">/</span><span class="n">catalogo-ms</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 
-<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">services</span><span class="p">\</span><span class="n">producto</span>
+<span class="nb">cd </span><span class="n">services</span><span class="p">/</span><span class="n">producto-ms</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 
-<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">services</span><span class="p">\</span><span class="n">orden-ms</span>
+<span class="nb">cd </span><span class="n">services</span><span class="p">/</span><span class="n">orden-ms</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 
-<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">services</span><span class="p">\</span><span class="n">pago-ms</span>
+<span class="nb">cd </span><span class="n">services</span><span class="p">/</span><span class="n">pago-ms</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 </code></pre></div>
 <p>Finalmente observability:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">obs</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">obs</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 </code></pre></div>
 <p>Validaciones:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7072/orden-ms/prod
-http://localhost:7072/pago-ms/prod
-http://localhost:7082
-http://localhost:7092/actuator/health
+<div class="highlight"><pre><span></span><code>http://localhost:8888/orden-ms/prod
+http://localhost:8888/pago-ms/prod
+http://localhost:8761
+http://localhost:8090/actuator/health
 </code></pre></div>
 <h2 id="observabilidad">Observabilidad</h2>
 <p><code>infra</code> no levanta Prometheus, Loki ni Grafana. Eso vive en <code>observability</code>.</p>
@@ -1604,14 +1604,14 @@ http://localhost:7092/actuator/health
 <p>Revisar:</p>
 <ul>
 <li>que Config Server este arriba</li>
-<li>que <code>CONFIG_SERVER_URL</code> apunte a <code>http://config-server:7071</code> en Docker</li>
+<li>que <code>CONFIG_SERVER_URL</code> apunte a <code>http://ecom-config:8888</code> en Docker</li>
 <li>que exista el archivo <code>{spring.application.name}-{profile}.yml</code> en <code>config-repo</code></li>
 </ul>
 <h3 id="servicio-no-aparece-en-eureka">Servicio no aparece en Eureka</h3>
 <p>Revisar:</p>
 <ul>
-<li>dev: <code>http://localhost:7081/eureka</code></li>
-<li>prod: <code>http://registry-server:7081/eureka</code></li>
+<li>dev: <code>http://localhost:8761/eureka</code></li>
+<li>prod: <code>http://eureka:8761/eureka</code></li>
 <li>que el servicio tenga dependencia Eureka Client</li>
 </ul>
 <h3 id="gateway-no-enruta">Gateway no enruta</h3>
@@ -1625,10 +1625,10 @@ http://localhost:7092/actuator/health
 <p>Dentro de Docker no usar <code>localhost</code> para otros contenedores.</p>
 <p>Usar:</p>
 <ul>
-<li><code>config-server</code></li>
-<li><code>registry-server</code></li>
+<li><code>config</code></li>
+<li><code>eureka</code></li>
 <li><code>kafka</code></li>
-<li>nombre del servicio en <code>ms-net</code></li>
+<li>nombre del servicio en <code>ecom-prod-net</code></li>
 </ul>
 <h2 id="estado-actual">Estado Actual</h2>
 <ul>
@@ -1636,7 +1636,7 @@ http://localhost:7092/actuator/health
 <li>[x] Registry Server/Eureka</li>
 <li>[x] Gateway con <code>lb://</code></li>
 <li>[x] Config centralizada para <code>auth</code>, <code>catalogo</code>, <code>producto</code>, <code>orden-ms</code>, <code>pago-ms</code></li>
-<li>[x] Red compartida <code>ms-net</code></li>
+<li>[x] Red compartida <code>ecom-prod-net</code></li>
 <li>[x] Seguridad JWT en Gateway</li>
 <li>[x] Integracion Kafka para <code>orden-ms</code> y <code>pago-ms</code></li>
 <li>[x] Configuracion Eureka dev con <code>localhost</code> estable</li>

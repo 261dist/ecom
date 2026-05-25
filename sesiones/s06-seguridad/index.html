@@ -1840,7 +1840,7 @@ Cliente -&gt; Gateway -&gt; Producto / Catalogo
 <h3 id="1-creacion-de-auth-service">1. Creacion de auth-service</h3>
 <p>Se creo el modulo:</p>
 <ul>
-<li><code>services/auth</code></li>
+<li><code>services/auth-ms</code></li>
 </ul>
 <p>Con base alineada al resto de microservicios:</p>
 <ul>
@@ -1927,27 +1927,27 @@ Cliente -&gt; Gateway -&gt; Producto / Catalogo
 <hr />
 <h2 id="archivos-trabajados">Archivos trabajados</h2>
 <ul>
-<li><code>services/auth/pom.xml</code></li>
-<li><code>services/auth/src/main/resources/application.yml</code></li>
-<li><code>services/auth/src/main/resources/logback-spring.xml</code></li>
-<li><code>services/auth/src/main/resources/db/migration/V1__create_users_roles_tables.sql</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/AuthApplication.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/config/JwtProperties.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/config/PasswordConfig.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/config/SecurityConfig.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/config/DataInitializer.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/entity/AuthUser.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/entity/Role.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/repository/AuthUserRepository.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/repository/RoleRepository.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/dto/AuthLoginRequest.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/dto/AuthLoginResponse.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/service/CustomUserDetailsService.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/service/JwtService.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/service/AuthService.java</code></li>
-<li><code>services/auth/src/main/java/com/upeu/auth/controller/AuthController.java</code></li>
-<li><code>services/auth/docker-compose-dev.yml</code></li>
-<li><code>services/auth/docker-compose.yml</code></li>
+<li><code>services/auth-ms/pom.xml</code></li>
+<li><code>services/auth-ms/src/main/resources/application.yml</code></li>
+<li><code>services/auth-ms/src/main/resources/logback-spring.xml</code></li>
+<li><code>services/auth-ms/src/main/resources/db/migration/V1__create_users_roles_tables.sql</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/AuthApplication.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/config/JwtProperties.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/config/PasswordConfig.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/config/SecurityConfig.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/config/DataInitializer.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/entity/AuthUser.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/entity/Role.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/repository/AuthUserRepository.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/repository/RoleRepository.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/dto/AuthLoginRequest.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/dto/AuthLoginResponse.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/service/CustomUserDetailsService.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/service/JwtService.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/service/AuthService.java</code></li>
+<li><code>services/auth-ms/src/main/java/com/upeu/auth/controller/AuthController.java</code></li>
+<li><code>services/auth-ms/compose-dev.yml</code></li>
+<li><code>services/auth-ms/compose.yml</code></li>
 <li><code>infra/config-repo/auth-dev.yml</code></li>
 <li><code>infra/config-repo/auth-prod.yml</code></li>
 </ul>
@@ -1956,8 +1956,8 @@ Cliente -&gt; Gateway -&gt; Producto / Catalogo
 <h3 id="dev">DEV</h3>
 <p>Levantar:</p>
 <ul>
-<li>config-server</li>
-<li>registry-server</li>
+<li>config</li>
+<li>eureka</li>
 <li>mysql de <code>auth</code></li>
 <li>auth</li>
 </ul>
@@ -1971,16 +1971,16 @@ Cliente -&gt; Gateway -&gt; Producto / Catalogo
 <hr />
 <h2 id="paso-1-levantar-auth-service-en-dev">Paso 1. Levantar auth-service en DEV</h2>
 <h3 id="1-config-server">1. Config Server</h3>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/config-server
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/config
 ./mvnw<span class="w"> </span>spring-boot:run
 </code></pre></div>
 <h3 id="2-registry-server">2. Registry Server</h3>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/registry-server
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/eureka
 ./mvnw<span class="w"> </span>spring-boot:run
 </code></pre></div>
 <h3 id="3-mysql-auth-dev">3. MySQL auth dev</h3>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/auth
-docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
 </code></pre></div>
 <h3 id="4-auth-dev">4. Auth dev</h3>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/auth
@@ -1989,9 +1989,9 @@ docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> 
 <hr />
 <h2 id="paso-2-verificar-salud-y-observabilidad-base">Paso 2. Verificar salud y observabilidad base</h2>
 <p>Probar:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:8041/actuator/health
-http://localhost:8041/actuator/metrics
-http://localhost:8041/actuator/prometheus
+<div class="highlight"><pre><span></span><code>http://localhost:8042/actuator/health
+http://localhost:8042/actuator/metrics
+http://localhost:8042/actuator/prometheus
 </code></pre></div>
 <p>Que debe aprender el alumno:</p>
 <ul>
@@ -2019,7 +2019,7 @@ http://localhost:8041/actuator/prometheus
 <hr />
 <h2 id="paso-4-probar-login">Paso 4. Probar login</h2>
 <h3 id="request">Request</h3>
-<div class="highlight"><pre><span></span><code>POST http://localhost:8041/auth/login
+<div class="highlight"><pre><span></span><code>POST http://localhost:8042/auth/login
 </code></pre></div>
 <p>Payload:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
@@ -2130,8 +2130,8 @@ http://localhost:8041/actuator/prometheus
 <h3 id="1-reiniciar-servicios-clave-en-dev">1. Reiniciar servicios clave en DEV</h3>
 <p>Levantar o reiniciar:</p>
 <ul>
-<li><code>config-server</code></li>
-<li><code>registry-server</code></li>
+<li><code>config</code></li>
+<li><code>eureka</code></li>
 <li><code>auth</code></li>
 <li><code>gateway</code></li>
 </ul>
@@ -2143,7 +2143,7 @@ http://localhost:8041/actuator/prometheus
 
 <span class="nv">$response</span> <span class="p">=</span> <span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
   <span class="n">-Method</span> <span class="n">Post</span> <span class="p">`</span>
-  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:8041/auth/login&quot;</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:8042/auth/login&quot;</span> <span class="p">`</span>
   <span class="n">-ContentType</span> <span class="s2">&quot;application/json&quot;</span> <span class="p">`</span>
   <span class="n">-Body</span> <span class="nv">$body</span>
 
@@ -2157,7 +2157,7 @@ http://localhost:8041/actuator/prometheus
 </ul>
 <h3 id="3-probar-una-ruta-privada-sin-token">3. Probar una ruta privada sin token</h3>
 <div class="highlight"><pre><span></span><code><span class="nb">Invoke-WebRequest</span> <span class="p">`</span>
-  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7091/api/v1/productos/detalle/1&quot;</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:8090/api/v1/productos/detalle/1&quot;</span>
 </code></pre></div>
 <p>Resultado esperado:</p>
 <ul>
@@ -2166,7 +2166,7 @@ http://localhost:8041/actuator/prometheus
 <h3 id="4-probar-la-misma-ruta-con-token">4. Probar la misma ruta con token</h3>
 <div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
   <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
-  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7091/api/v1/productos/detalle/1&quot;</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:8090/api/v1/productos/detalle/1&quot;</span> <span class="p">`</span>
   <span class="n">-Headers</span> <span class="p">@{</span> <span class="n">Authorization</span> <span class="p">=</span> <span class="s2">&quot;Bearer $token&quot;</span> <span class="p">}</span>
 </code></pre></div>
 <p>Resultado esperado:</p>
@@ -2175,7 +2175,7 @@ http://localhost:8041/actuator/prometheus
 <li>respuesta del flujo normal del sistema</li>
 </ul>
 <h3 id="5-probar-una-ruta-publica">5. Probar una ruta publica</h3>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/actuator/health
+<div class="highlight"><pre><span></span><code>http://localhost:8090/actuator/health
 </code></pre></div>
 <p>Resultado esperado:</p>
 <ul>

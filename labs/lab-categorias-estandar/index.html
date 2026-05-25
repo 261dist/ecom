@@ -1160,7 +1160,7 @@
 <div class="highlight"><pre><span></span><code><span class="kr">constructor</span><span class="p">(</span><span class="k">private</span><span class="w"> </span><span class="nx">http</span><span class="o">:</span><span class="w"> </span><span class="kt">HttpClient</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
 
 <span class="nx">cargarCategorias</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="o">&lt;</span><span class="nx">any</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="s1">&#39;http://localhost:7091/api/v1/categorias&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="o">&lt;</span><span class="nx">any</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="s1">&#39;http://localhost:8090/api/v1/categorias&#39;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">categorias</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1196,7 +1196,7 @@
 </code></pre></div>
 <h2 id="paso-2-usar-el-gateway-desde-apiservice">Paso 2: Usar el Gateway Desde <code>ApiService</code></h2>
 <p>En vez de escribir la URL completa:</p>
-<div class="highlight"><pre><span></span><code><span class="nx">http</span><span class="o">:</span><span class="c1">//localhost:7091/api/v1/categorias</span>
+<div class="highlight"><pre><span></span><code><span class="nx">http</span><span class="o">:</span><span class="c1">//localhost:8090/api/v1/categorias</span>
 </code></pre></div>
 <p>se usa:</p>
 <div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="nx">buildUrl</span><span class="p">(</span><span class="s1">&#39;/api/v1/categorias&#39;</span><span class="p">)</span>
@@ -1350,7 +1350,7 @@ SCSS       -&gt; mantiene estilo consistente
 <ul>
 <li>Recurso público: categorías.</li>
 <li>Recurso protegido: productos.</li>
-<li>Autenticación actual: JWT propio emitido por <code>services/auth</code>.</li>
+<li>Autenticación actual: JWT propio emitido por <code>services/auth-ms</code>.</li>
 <li>Evolución futura: Keycloak/OAuth2/OIDC.</li>
 </ul>
 

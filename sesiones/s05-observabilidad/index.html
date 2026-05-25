@@ -1454,21 +1454,21 @@
 <li><code>infra/config-repo/gateway-dev.yml</code></li>
 <li><code>infra/gateway/src/main/resources/logback-spring.xml</code></li>
 <li><code>infra/gateway/src/main/java/com/upeu/gateway/filter/TraceIdGlobalFilter.java</code></li>
-<li><code>services/producto/src/main/resources/logback-spring.xml</code></li>
-<li><code>services/catalogo/src/main/resources/logback-spring.xml</code></li>
-<li><code>services/producto/src/main/java/com/upeu/producto/config/FeignTraceConfig.java</code></li>
-<li><code>services/producto/src/main/java/com/upeu/producto/controller/GatewayInstanciasController.java</code></li>
-<li><code>services/catalogo/src/main/java/com/upeu/catalogo/controller/GatewayInstanciasController.java</code></li>
-<li><code>services/producto/src/main/java/com/upeu/producto/service/impl/ProductoServiceImpl.java</code></li>
-<li><code>services/catalogo/src/main/java/com/upeu/catalogo/service/impl/CategoriaServiceImpl.java</code></li>
+<li><code>services/producto-ms/src/main/resources/logback-spring.xml</code></li>
+<li><code>services/catalogo-ms/src/main/resources/logback-spring.xml</code></li>
+<li><code>services/producto-ms/src/main/java/com/upeu/producto/config/FeignTraceConfig.java</code></li>
+<li><code>services/producto-ms/src/main/java/com/upeu/producto/controller/GatewayInstanciasController.java</code></li>
+<li><code>services/catalogo-ms/src/main/java/com/upeu/catalogo/controller/GatewayInstanciasController.java</code></li>
+<li><code>services/producto-ms/src/main/java/com/upeu/producto/service/impl/ProductoServiceImpl.java</code></li>
+<li><code>services/catalogo-ms/src/main/java/com/upeu/catalogo/service/impl/CategoriaServiceImpl.java</code></li>
 </ul>
 <hr />
 <h2 id="practica-guiada-para-alumnos">Practica guiada para alumnos</h2>
 <h3 id="paso-1-levantar-infraestructura">Paso 1. Levantar infraestructura</h3>
 <p>Levantar:</p>
 <ul>
-<li>config-server</li>
-<li>registry-server</li>
+<li>config</li>
+<li>eureka</li>
 <li>gateway</li>
 </ul>
 <h3 id="paso-2-levantar-microservicios">Paso 2. Levantar microservicios</h3>
@@ -1479,22 +1479,22 @@
 </ul>
 <h3 id="paso-3-verificar-salud-del-sistema">Paso 3. Verificar salud del sistema</h3>
 <p>Probar:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/actuator/health
-http://localhost:9091/actuator/health
-http://localhost:8081/actuator/health
+<div class="highlight"><pre><span></span><code>http://localhost:8090/actuator/health
+http://localhost:9092/actuator/health
+http://localhost:8082/actuator/health
 </code></pre></div>
 <h3 id="paso-31-verificar-metricas-base">Paso 3.1. Verificar metricas base</h3>
 <p>Primero listar metricas disponibles:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/actuator/metrics
-http://localhost:9091/actuator/metrics
-http://localhost:8081/actuator/metrics
+<div class="highlight"><pre><span></span><code>http://localhost:8090/actuator/metrics
+http://localhost:9092/actuator/metrics
+http://localhost:8082/actuator/metrics
 </code></pre></div>
 <p>Luego consultar metricas especificas:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/actuator/metrics/http.server.requests
-http://localhost:9091/actuator/metrics/http.server.requests
-http://localhost:8081/actuator/metrics/http.server.requests
-http://localhost:9091/actuator/metrics/system.cpu.usage
-http://localhost:9091/actuator/metrics/jvm.memory.used
+<div class="highlight"><pre><span></span><code>http://localhost:8090/actuator/metrics/http.server.requests
+http://localhost:9092/actuator/metrics/http.server.requests
+http://localhost:8082/actuator/metrics/http.server.requests
+http://localhost:9092/actuator/metrics/system.cpu.usage
+http://localhost:9092/actuator/metrics/jvm.memory.used
 </code></pre></div>
 <p>Interpretacion basica:</p>
 <ul>
@@ -1504,15 +1504,15 @@ http://localhost:9091/actuator/metrics/jvm.memory.used
 </ul>
 <h3 id="paso-4-verificar-instancia-de-cada-servicio">Paso 4. Verificar instancia de cada servicio</h3>
 <p>Probar:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:9091/api/v1/producto/instancia
-http://localhost:8081/api/v1/catalogo/instancia
-http://localhost:7091/api/v1/producto/instancia
-http://localhost:7091/api/v1/catalogo/instancia
+<div class="highlight"><pre><span></span><code>http://localhost:9092/api/v1/producto/instancia
+http://localhost:8082/api/v1/catalogo/instancia
+http://localhost:8090/api/v1/producto/instancia
+http://localhost:8090/api/v1/catalogo/instancia
 </code></pre></div>
 <h3 id="paso-5-verificar-detalle-con-feign">Paso 5. Verificar detalle con Feign</h3>
 <p>Probar:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:9091/api/v1/productos/detalle/1
-http://localhost:7091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:9092/api/v1/productos/detalle/1
+http://localhost:8090/api/v1/productos/detalle/1
 </code></pre></div>
 <p>El alumno debe revisar los logs y confirmar:</p>
 <ul>
@@ -1525,15 +1525,15 @@ http://localhost:7091/api/v1/productos/detalle/1
 <li>en la consola donde se ejecuto cada servicio con <code>mvn spring-boot:run</code></li>
 <li>en archivos locales generados por cada servicio:</li>
 <li><code>infra/gateway/logs/gateway.log</code></li>
-<li><code>services/producto/logs/producto.log</code></li>
-<li><code>services/catalogo/logs/catalogo.log</code></li>
+<li><code>services/producto-ms/logs/producto.log</code></li>
+<li><code>services/catalogo-ms/logs/catalogo.log</code></li>
 </ul>
 <h3 id="paso-6-verificar-circuit-breaker">Paso 6. Verificar Circuit Breaker</h3>
 <ol>
 <li>Detener <code>catalogo</code>.</li>
 <li>Repetir:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>http://localhost:9091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:9092/api/v1/productos/detalle/1
 </code></pre></div>
 <ol>
 <li>
@@ -1547,11 +1547,11 @@ http://localhost:7091/api/v1/productos/detalle/1
 <li>endpoint <code>/actuator/circuitbreakerevents</code></li>
 </ol>
 <p>Endpoints utiles para esta validacion:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:9091/actuator/circuitbreakers
-http://localhost:9091/actuator/circuitbreakerevents
-http://localhost:9091/actuator/metrics/http.server.requests
-http://localhost:9091/actuator/metrics/system.cpu.usage
-http://localhost:9091/actuator/metrics/jvm.memory.used
+<div class="highlight"><pre><span></span><code>http://localhost:9092/actuator/circuitbreakers
+http://localhost:9092/actuator/circuitbreakerevents
+http://localhost:9092/actuator/metrics/http.server.requests
+http://localhost:9092/actuator/metrics/system.cpu.usage
+http://localhost:9092/actuator/metrics/jvm.memory.used
 </code></pre></div>
 <hr />
 <h2 id="preguntas-para-el-alumno">Preguntas para el alumno</h2>

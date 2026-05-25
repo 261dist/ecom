@@ -1069,8 +1069,8 @@
 <p>Prometheus y Grafana viven en <code>observability</code>, no en este modulo.</p>
 <h2 id="archivos">Archivos</h2>
 <ul>
-<li><code>docker-compose-dev.yml</code>: Kafka para desarrollo</li>
-<li><code>docker-compose.yml</code>: Kafka para produccion</li>
+<li><code>compose-dev.yml</code>: Kafka para desarrollo</li>
+<li><code>compose.yml</code>: Kafka para produccion</li>
 </ul>
 <h2 id="puertos">Puertos</h2>
 <table>
@@ -1111,16 +1111,16 @@
 <div class="highlight"><pre><span></span><code>kafka:9092
 </code></pre></div>
 <p>En <code>prod</code>, <code>infra</code> crea la red compartida:</p>
-<div class="highlight"><pre><span></span><code>ms-net
+<div class="highlight"><pre><span></span><code>ecom-prod-net
 </code></pre></div>
-<p>El broker <code>kafka</code> y <code>kafka-exporter</code> se conectan a <code>ms-net</code>. Los microservicios prod usan:</p>
+<p>El broker <code>kafka</code> y <code>kafka-exporter</code> se conectan a <code>ecom-prod-net</code>. Los microservicios prod usan:</p>
 <div class="highlight"><pre><span></span><code>kafka:9092
 </code></pre></div>
 <p>Kafka UI queda en la red interna <code>kafka-prod-net</code>.</p>
 <h2 id="levantar-dev">Levantar DEV</h2>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">kafka</span>
-<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">docker-compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">up</span> <span class="n">-d</span>
-<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">docker-compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="nb">ps</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">kafka</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">up</span> <span class="n">-d</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="nb">ps</span>
 </code></pre></div>
 <p>Accesos:</p>
 <ul>
@@ -1130,12 +1130,12 @@
 <li>Exporter: <code>http://localhost:41308/metrics</code></li>
 </ul>
 <h2 id="levantar-prod">Levantar PROD</h2>
-<p>Primero debe existir <code>ms-net</code>, creada por <code>infra</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">infra</span>
+<p>Primero debe existir <code>ecom-prod-net</code>, creada por <code>infra</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">infra</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 </code></pre></div>
 <p>Luego Kafka:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">kafka</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">kafka</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="nb">ps</span>
 </code></pre></div>
@@ -1149,7 +1149,7 @@
 <h2 id="operacion-basica">Operacion basica</h2>
 <p>Entrar al broker:</p>
 <div class="highlight"><pre><span></span><code><span class="c"># dev</span>
-<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">docker-compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">exec</span> <span class="n">kafka</span> <span class="n">bash</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">exec</span> <span class="n">kafka</span> <span class="n">bash</span>
 
 <span class="c"># prod</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">exec</span> <span class="n">kafka</span> <span class="n">bash</span>
@@ -1180,11 +1180,11 @@
 <p>Las metricas salen de <code>kafka-exporter</code>.</p>
 <ul>
 <li>En dev, Prometheus de <code>observability</code> scrapea <code>host.docker.internal:41308</code></li>
-<li>En prod, Prometheus de <code>observability</code> scrapea <code>kafka-exporter:9308</code> por <code>ms-net</code></li>
+<li>En prod, Prometheus de <code>observability</code> scrapea <code>kafka-exporter:9308</code> por <code>ecom-prod-net</code></li>
 </ul>
 <h2 id="detener">Detener</h2>
 <div class="highlight"><pre><span></span><code><span class="c"># dev</span>
-<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">docker-compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">down</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">down</span>
 
 <span class="c"># prod</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">down</span>
@@ -1196,7 +1196,7 @@
 <li>[x] Kafka UI en dev/prod</li>
 <li>[x] Kafka Exporter para Prometheus</li>
 <li>[x] Red dev dedicada <code>kafka-ms-dev-net</code></li>
-<li>[x] Red prod compartida <code>ms-net</code></li>
+<li>[x] Red prod compartida <code>ecom-prod-net</code></li>
 <li>[x] Puertos dev separados de BigData y BI/Debezium</li>
 <li>[x] Topics de practica <code>orden-eventos</code> y <code>pago-eventos</code></li>
 <li>[ ] Hardening de seguridad Kafka</li>

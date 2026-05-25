@@ -1114,10 +1114,10 @@
 <p>Este modulo no levanta Kafka ni microservicios. Solo observa servicios que ya estan disponibles.</p>
 <h2 id="archivos">Archivos</h2>
 <ul>
-<li><code>docker-compose-dev.yml</code>: observabilidad para <code>dev</code></li>
-<li><code>docker-compose.yml</code>: observabilidad para <code>prod</code></li>
+<li><code>compose-dev.yml</code>: observabilidad para <code>dev</code></li>
+<li><code>compose.yml</code>: observabilidad para <code>prod</code></li>
 <li><code>prometheus/prometheus-dev.yml</code>: targets dev por <code>host.docker.internal</code></li>
-<li><code>prometheus/prometheus.yml</code>: targets prod por nombres Docker en <code>ms-net</code></li>
+<li><code>prometheus/prometheus.yml</code>: targets prod por nombres Docker en <code>ecom-prod-net</code></li>
 <li><code>grafana/provisioning</code>: datasources de Grafana</li>
 </ul>
 <h2 id="puertos">Puertos</h2>
@@ -1156,15 +1156,15 @@
 </code></pre></div>
 <p>Los servicios dev suelen correr en el host con Maven, por eso Prometheus usa <code>host.docker.internal</code>.</p>
 <p>En <code>prod</code>, observability usa la red externa:</p>
-<div class="highlight"><pre><span></span><code>ms-net
+<div class="highlight"><pre><span></span><code>ecom-prod-net
 </code></pre></div>
 <p>Esa red la crea <code>infra</code>.</p>
 <h2 id="targets-dev">Targets DEV</h2>
 <p>Prometheus dev scrapea:</p>
 <ul>
-<li>Gateway: <code>host.docker.internal:7091</code></li>
-<li>Producto: <code>host.docker.internal:9091</code></li>
-<li>Catalogo: <code>host.docker.internal:8081</code></li>
+<li>Gateway: <code>host.docker.internal:8090</code></li>
+<li>Producto: <code>host.docker.internal:9092</code></li>
+<li>Catalogo: <code>host.docker.internal:8082</code></li>
 <li>Kafka exporter: <code>host.docker.internal:41308</code></li>
 <li>Orden MS: <code>host.docker.internal:19051</code></li>
 <li>Pago MS: <code>host.docker.internal:19061</code></li>
@@ -1172,7 +1172,7 @@
 <h2 id="targets-prod">Targets PROD</h2>
 <p>Prometheus prod scrapea:</p>
 <ul>
-<li>Gateway: <code>gateway:7091</code></li>
+<li>Gateway: <code>gateway:8090</code></li>
 <li>Producto: <code>producto:9092</code></li>
 <li>Catalogo: <code>catalogo:8082</code></li>
 <li>Kafka exporter: <code>kafka-exporter:9308</code></li>
@@ -1183,15 +1183,15 @@
 <p>Promtail lee estas carpetas y envia los logs a Loki con etiqueta <code>service</code>:</p>
 <ul>
 <li><code>infra/gateway/logs</code> -&gt; <code>gateway</code></li>
-<li><code>services/catalogo/logs</code> -&gt; <code>catalogo</code></li>
-<li><code>services/producto/logs</code> -&gt; <code>producto</code></li>
+<li><code>services/catalogo-ms/logs</code> -&gt; <code>catalogo</code></li>
+<li><code>services/producto-ms/logs</code> -&gt; <code>producto</code></li>
 <li><code>services/orden-ms/logs</code> -&gt; <code>orden-ms</code></li>
 <li><code>services/pago-ms/logs</code> -&gt; <code>pago-ms</code></li>
 </ul>
 <h2 id="levantar-dev">Levantar DEV</h2>
 <p>Puedes levantar observability antes o despues de Kafka y los microservicios. Si un target aun no existe, Prometheus lo marcara <code>DOWN</code> hasta que aparezca.</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">obs</span>
-<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">docker-compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">up</span> <span class="n">-d</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">obs</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">up</span> <span class="n">-d</span>
 </code></pre></div>
 <p>Accesos:</p>
 <ul>
@@ -1200,12 +1200,12 @@
 <li>Loki: <code>http://localhost:13100</code></li>
 </ul>
 <h2 id="levantar-prod">Levantar PROD</h2>
-<p>Primero debe existir <code>ms-net</code>, creada por <code>infra</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">infra</span>
+<p>Primero debe existir <code>ecom-prod-net</code>, creada por <code>infra</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">infra</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 </code></pre></div>
 <p>Luego Kafka y microservicios, si quieres ver sus metricas. Finalmente:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">obs</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">obs</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 </code></pre></div>
 <p>Accesos:</p>
@@ -1226,8 +1226,8 @@
 <p>Si aparece <code>UP</code>, Grafana ya puede consultar esas metricas desde Prometheus.</p>
 <h2 id="logs">Logs</h2>
 <div class="highlight"><pre><span></span><code><span class="c"># dev</span>
-<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">docker-compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">logs</span> <span class="o">-f</span> <span class="n">prometheus</span>
-<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">docker-compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">logs</span> <span class="o">-f</span> <span class="n">grafana</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">logs</span> <span class="o">-f</span> <span class="n">prometheus</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">compose-dev</span><span class="p">.</span><span class="n">yml</span> <span class="n">logs</span> <span class="o">-f</span> <span class="n">grafana</span>
 
 <span class="c"># prod</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">logs</span> <span class="o">-f</span> <span class="n">prometheus</span>

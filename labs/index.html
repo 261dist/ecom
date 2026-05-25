@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#erpng" class="md-skip">
+        <a href="#ecom-ng" class="md-skip">
           Skip to content
         </a>
       
@@ -1036,8 +1036,8 @@
 
 
 
-<h1 id="erpng">erpng</h1>
-<p>Frontend ERP de práctica construido con Angular 21 standalone para consumir microservicios mediante gateway.</p>
+<h1 id="ecom-ng">ecom-ng</h1>
+<p>Frontend Angular del proyecto ecom, construido con Angular 21 standalone para consumir microservicios mediante gateway.</p>
 <h2 id="estado-actual">Estado Actual</h2>
 <p>La aplicación ya tiene una primera integración funcional con:</p>
 <ul>
@@ -1055,7 +1055,7 @@
 <h2 id="modelo-de-autenticacion-actual">Modelo de Autenticación Actual</h2>
 <p>Esta etapa usa un modelo simple y didáctico:</p>
 <div class="highlight"><pre><span></span><code>Angular /auth
-  -&gt; POST http://localhost:7091/auth/login
+  -&gt; POST http://localhost:8090/auth/login
   -&gt; recibe accessToken
   -&gt; guarda JWT en localStorage
   -&gt; consume endpoints protegidos con Bearer token
@@ -1081,37 +1081,37 @@ jjwt-jackson
 <tbody>
 <tr>
 <td>Gateway</td>
-<td style="text-align: right;"><code>7091</code></td>
+<td style="text-align: right;"><code>8090</code></td>
 <td>Sí</td>
 </tr>
 <tr>
 <td>Auth</td>
-<td style="text-align: right;"><code>8041</code></td>
+<td style="text-align: right;"><code>8042</code></td>
 <td>No directo</td>
 </tr>
 <tr>
 <td>Producto</td>
-<td style="text-align: right;"><code>9091</code></td>
+<td style="text-align: right;"><code>9092</code></td>
 <td>No directo</td>
 </tr>
 <tr>
 <td>Catalogo</td>
-<td style="text-align: right;"><code>8081</code></td>
+<td style="text-align: right;"><code>8082</code></td>
 <td>No directo</td>
 </tr>
 </tbody>
 </table>
 <p>El frontend consume siempre el gateway:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091
+<div class="highlight"><pre><span></span><code>http://localhost:8090
 </code></pre></div>
 <p>Endpoints usados:</p>
-<div class="highlight"><pre><span></span><code>POST http://localhost:7091/auth/login
-GET  http://localhost:7091/api/v1/productos
-GET  http://localhost:7091/api/v1/categorias
+<div class="highlight"><pre><span></span><code>POST http://localhost:8090/auth/login
+GET  http://localhost:8090/api/v1/productos
+GET  http://localhost:8090/api/v1/categorias
 </code></pre></div>
 <h2 id="ejecutar">Ejecutar</h2>
 <p>Desde la carpeta del proyecto:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">erpng</span>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">clients</span><span class="p">\</span><span class="n">ecom-ng</span>
 <span class="n">ng</span> <span class="n">serve</span>
 </code></pre></div>
 <p>Abrir:</p>

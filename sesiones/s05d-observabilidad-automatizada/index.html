@@ -1487,7 +1487,7 @@
 <h2 id="preparacion-rapida-en-dev">Preparacion rapida en DEV</h2>
 <p>La plataforma base debe estar levantada:</p>
 <ul>
-<li>config-server</li>
+<li>config</li>
 <li>registry-server</li>
 <li>gateway</li>
 <li>mysql de <code>catalogo</code></li>
@@ -1497,18 +1497,18 @@
 </ul>
 <p>Luego levantar observabilidad:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>obs
-docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
 </code></pre></div>
 <p>Como explicar el comando:</p>
 <div class="highlight"><pre><span></span><code>cd obs
 </code></pre></div>
 <p>entra a la carpeta donde esta el stack de observabilidad.</p>
-<div class="highlight"><pre><span></span><code>docker compose -f docker-compose-dev.yml up -d
+<div class="highlight"><pre><span></span><code>docker compose -f compose-dev.yml up -d
 </code></pre></div>
 <p>significa:</p>
 <ul>
 <li><code>docker compose</code> ejecuta los servicios definidos en un archivo compose</li>
-<li><code>-f docker-compose-dev.yml</code> indica que se usara el archivo de desarrollo</li>
+<li><code>-f compose-dev.yml</code> indica que se usara el archivo de desarrollo</li>
 <li><code>up</code> crea y levanta los contenedores</li>
 <li><code>-d</code> los deja corriendo en segundo plano</li>
 </ul>
@@ -1576,14 +1576,14 @@ up solo dice si Prometheus pudo consultar las metricas.
 <hr />
 <h3 id="12-generar-trafico">1.2 Generar trafico</h3>
 <p>Ejecutar varias veces:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/productos/detalle/1
 </code></pre></div>
 <p>Tambien se puede probar:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/api/v1/catalogo/instancia
-http://localhost:7091/api/v1/producto/instancia
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/catalogo/instancia
+http://localhost:8090/api/v1/producto/instancia
 </code></pre></div>
 <p>Como explicar estas URLs:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091
+<div class="highlight"><pre><span></span><code>http://localhost:8090
 </code></pre></div>
 <p>es el <code>gateway</code> en ambiente local.</p>
 <div class="highlight"><pre><span></span><code>/api/v1/productos/detalle/1
@@ -1820,7 +1820,7 @@ y dentro de esos logs quedate solo con las lineas que contienen [PRODUCTO].
 <li>Cambiar el rango a <code>Last 15 minutes</code> o <code>Last 1 hour</code>.</li>
 <li>Generar trafico otra vez:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/productos/detalle/1
 </code></pre></div>
 <ol>
 <li>Probar una consulta sin filtro de texto:</li>
@@ -1841,7 +1841,7 @@ y dentro de esos logs quedate solo con las lineas que contienen [PRODUCTO].
 <h3 id="31-provocar-la-falla">3.1 Provocar la falla</h3>
 <p>Detener <code>catalogo</code>.</p>
 <p>Luego ejecutar:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/productos/detalle/1
 </code></pre></div>
 <p>Como explicar la prueba:</p>
 <div class="highlight"><pre><span></span><code>Detener catalogo
@@ -1854,7 +1854,7 @@ La idea es detener la aplicacion catalogo, no su base de datos.
 </code></pre></div>
 <p>Si se estuviera trabajando en PROD con Docker, ahi si se detendria el contenedor de la aplicacion <code>catalogo</code>.</p>
 <p>Despues se vuelve a ejecutar:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:7091/api/v1/productos/detalle/1
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/productos/detalle/1
 </code></pre></div>
 <p>porque ese flujo permite observar si <code>producto</code> falla, responde con fallback o registra un error al intentar comunicarse con <code>catalogo</code>.</p>
 <h3 id="32-mirar-metricas">3.2 Mirar metricas</h3>
