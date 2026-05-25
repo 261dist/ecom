@@ -13,15 +13,42 @@ Java 17, Spring Boot 3.5, Spring Security, JWT (jjwt), PostgreSQL, Flyway, Eurek
 | App | 0 (dinámico) | 8080 (int) / 8042 (host) |
 | PostgreSQL | 5401 | 5402 |
 
-## Ejecutar local
+---
+
+## DEV (Maven local)
 
 ```bash
-# 1. Levantar infraestructura
+# 1. Infraestructura
 cd infra && docker compose up -d
+# http://localhost:8099 — Config Server
+# http://localhost:8761 — Eureka Dashboard
 
-# 2. Desde services/auth-ms/
+# 2. PostgreSQL dev (si no usas Docker para BD)
+# docker compose -f compose-dev.yml up -d
+
+# 3. Desde services/auth-ms/
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
+
+**Link útil:** http://localhost:8761 (verificar que `AUTH-MS` aparezca en Eureka)
+
+---
+
+## PROD (Docker)
+
+```bash
+# 1. Infraestructura
+cd infra && docker compose up -d
+
+# 2. auth-ms + su BD
+cd services/auth-ms && docker compose up -d
+```
+
+**Links:**
+- API Gateway: http://localhost:8090
+- Eureka Dashboard: http://localhost:8761
+
+---
 
 ## Endpoints
 

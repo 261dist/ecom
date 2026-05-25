@@ -13,15 +13,42 @@ Java 17, Spring Boot 3.5, PostgreSQL, Flyway, Eureka Client, Config Client, Spri
 | App | 0 (dinámico) | 8080 (int) / 8082 (host) |
 | PostgreSQL | 5404 | 5405 |
 
-## Ejecutar local
+---
+
+## DEV (Maven local)
 
 ```bash
-# 1. Levantar infraestructura
+# 1. Infraestructura
 cd infra && docker compose up -d
+# http://localhost:8099 — Config Server
+# http://localhost:8761 — Eureka Dashboard
 
-# 2. Desde services/catalogo-ms/
+# 2. PostgreSQL dev (si no usas Docker para BD)
+# docker compose -f compose-dev.yml up -d
+
+# 3. Desde services/catalogo-ms/
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
+
+**Link útil:** http://localhost:8761 (verificar que `CATALOGO-MS` aparezca en Eureka)
+
+---
+
+## PROD (Docker)
+
+```bash
+# 1. Infraestructura
+cd infra && docker compose up -d
+
+# 2. catalogo-ms + su BD
+cd services/catalogo-ms && docker compose up -d
+```
+
+**Links:**
+- API Gateway: http://localhost:8090
+- Eureka Dashboard: http://localhost:8761
+
+---
 
 ## Endpoints
 

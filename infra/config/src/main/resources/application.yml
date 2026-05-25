@@ -9,5 +9,5 @@ spring:
     config:
       server:
         native: 
-          search-locations: ${CONFIG_REPO_LOCATION:file:/config-repo}
+          search-locations: ${CONFIG_REPO_LOCATION:file:./config-repo}
 

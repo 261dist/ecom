@@ -10,7 +10,7 @@ Java 17, Spring Boot 3.5, PostgreSQL, Kafka, Eureka Client, Config Client
 
 | Recurso | DEV | PROD |
 |---|---|---:|
-| App | 19051 | 29051 |
+| App | 19051 (int) / dinámico | 29051 |
 | PostgreSQL | 19050 | 29050 |
 | Kafka | localhost:41092 | kafka:9092 |
 
@@ -19,16 +19,45 @@ Java 17, Spring Boot 3.5, PostgreSQL, Kafka, Eureka Client, Config Client
 - **Publica:** `orden-eventos` (orden.creada)
 - **Consume:** `pago-eventos` (resultado del pago)
 
-## Ejecutar local
+---
+
+## DEV (Maven local)
 
 ```bash
-# 1. Levantar infra + kafka
+# 1. Infraestructura
 cd infra && docker compose up -d
-cd ../kafka && docker compose -f compose-dev.yml up -d
+# http://localhost:8099 — Config Server
+# http://localhost:8761 — Eureka Dashboard
 
-# 2. Desde services/orden-ms/
+# 2. Kafka dev
+cd kafka && docker compose -f compose-dev.yml up -d
+
+# 3. Desde services/orden-ms/
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
+
+**Link útil:** http://localhost:8761 (verificar que `ORDEN-MS` aparezca en Eureka)
+
+---
+
+## PROD (Docker)
+
+```bash
+# 1. Infraestructura
+cd infra && docker compose up -d
+
+# 2. Kafka prod
+cd kafka && docker compose up -d
+
+# 3. orden-ms + su BD
+cd services/orden-ms && docker compose up -d
+```
+
+**Links:**
+- API Gateway: http://localhost:8090
+- Eureka Dashboard: http://localhost:8761
+
+---
 
 ## Variables de entorno
 

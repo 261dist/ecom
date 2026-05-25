@@ -42,22 +42,42 @@ ecom/                      ← raíz del monorepositorio
 
 ## Inicio rápido
 
+### DEV (Maven local)
+
 ```bash
-# 1. Crear redes Docker (una sola vez)
+# 1. Crear redes Docker (una sola vez, si no existen)
 docker network create ecom-prod-net
 docker network create ecom-dev-net
 
-# 2. Infraestructura (Config:8099, Eureka:8761, Gateway:8090)
-cd infra
-docker compose up -d
+# 2. Infraestructura (Config, Eureka)
+cd infra && docker compose up -d
+#   http://localhost:8099 — Config Server
+#   http://localhost:8761  — Eureka Dashboard
 
-# 3. Servicios (cada uno en su terminal, o todos con -d)
-cd services/auth-ms && docker compose up -d
-cd services/catalogo-ms && docker compose up -d
-cd services/producto-ms && docker compose up -d
+# 3. Servicios (cada uno en su terminal)
+cd services/auth-ms      && mvn spring-boot:run -Dspring-boot.run.profiles=dev
+cd services/catalogo-ms  && mvn spring-boot:run -Dspring-boot.run.profiles=dev
+cd services/producto-ms  && mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
 
-# 4. Desarrollo local (IDE): levantar PostgreSQL dev, luego:
-cd services/auth-ms && mvn spring-boot:run -Dspring-boot.run.profiles=dev
+### PROD (Docker)
+
+```bash
+# 1. Redes (una sola vez)
+docker network create ecom-prod-net
+
+# 2. Infraestructura
+cd infra && docker compose up -d
+#   http://localhost:8099 — Config Server
+#   http://localhost:8761  — Eureka Dashboard
+#   http://localhost:8090  — API Gateway
+
+# 3. Servicios
+cd services/auth-ms      && docker compose up -d
+cd services/catalogo-ms  && docker compose up -d
+cd services/producto-ms  && docker compose up -d
+cd services/orden-ms     && docker compose up -d
+cd services/pago-ms      && docker compose up -d
 ```
 
 ## Puertos de desarrollo (PostgreSQL)

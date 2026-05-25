@@ -205,7 +205,7 @@ cd infra/gateway
 Validaciones:
 
 ```text
-http://localhost:8099/catalogo/dev
+http://localhost:8099/catalogo-ms/dev
 http://localhost:8099/orden-ms/dev
 http://localhost:8099/pago-ms/dev
 http://localhost:8761

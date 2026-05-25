@@ -60,7 +60,7 @@ Credenciales dev: `ecom` / `ecom`
 | image | `ecom/auth:latest` | `ecom/auth-ms:latest` |
 | Red externa | `ecom-prod-net` | `ecom-prod-net`, `ecom-dev-net` |
 | Red interna | `catalogo-int` | `ecom-catalogo-int` |
-| Config repo path | ruta absoluta Windows | `file:/config-repo` |
+| Config repo path | ruta absoluta Windows | Maven: `file:./config-repo`; Docker: `file:/config-repo` |
 | Carpetas infra | `config/`, `eureka/` | `config/`, `eureka/` |
 | Carpetas servicios | `auth/`, `catalogo/`, `producto/` | `auth-ms/`, `catalogo-ms/`, `producto-ms/` |
 
