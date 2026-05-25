@@ -12,8 +12,8 @@ Prometheus y Grafana viven en `observability`, no en este modulo.
 
 ## Archivos
 
-- `docker-compose-dev.yml`: Kafka para desarrollo
-- `docker-compose.yml`: Kafka para produccion
+- `compose-dev.yml`: Kafka para desarrollo
+- `compose.yml`: Kafka para produccion
 
 ## Puertos
 
@@ -40,10 +40,10 @@ kafka:9092
 En `prod`, `infra` crea la red compartida:
 
 ```text
-ms-net
+ecom-prod-net
 ```
 
-El broker `kafka` y `kafka-exporter` se conectan a `ms-net`. Los microservicios prod usan:
+El broker `kafka` y `kafka-exporter` se conectan a `ecom-prod-net`. Los microservicios prod usan:
 
 ```text
 kafka:9092
@@ -54,9 +54,9 @@ Kafka UI queda en la red interna `kafka-prod-net`.
 ## Levantar DEV
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\kafka
-docker compose -f docker-compose-dev.yml up -d
-docker compose -f docker-compose-dev.yml ps
+cd kafka
+docker compose -f compose-dev.yml up -d
+docker compose -f compose-dev.yml ps
 ```
 
 Accesos:
@@ -68,17 +68,17 @@ Accesos:
 
 ## Levantar PROD
 
-Primero debe existir `ms-net`, creada por `infra`:
+Primero debe existir `ecom-prod-net`, creada por `infra`:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\infra
+cd infra
 docker compose up -d
 ```
 
 Luego Kafka:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\kafka
+cd kafka
 docker compose up -d
 docker compose ps
 ```
@@ -96,7 +96,7 @@ Entrar al broker:
 
 ```powershell
 # dev
-docker compose -f docker-compose-dev.yml exec kafka bash
+docker compose -f compose-dev.yml exec kafka bash
 
 # prod
 docker compose exec kafka bash
@@ -141,13 +141,13 @@ Consumer manual:
 Las metricas salen de `kafka-exporter`.
 
 - En dev, Prometheus de `observability` scrapea `host.docker.internal:41308`
-- En prod, Prometheus de `observability` scrapea `kafka-exporter:9308` por `ms-net`
+- En prod, Prometheus de `observability` scrapea `kafka-exporter:9308` por `ecom-prod-net`
 
 ## Detener
 
 ```powershell
 # dev
-docker compose -f docker-compose-dev.yml down
+docker compose -f compose-dev.yml down
 
 # prod
 docker compose down
@@ -160,7 +160,7 @@ docker compose down
 - [x] Kafka UI en dev/prod
 - [x] Kafka Exporter para Prometheus
 - [x] Red dev dedicada `kafka-ms-dev-net`
-- [x] Red prod compartida `ms-net`
+- [x] Red prod compartida `ecom-prod-net`
 - [x] Puertos dev separados de BigData y BI/Debezium
 - [x] Topics de practica `orden-eventos` y `pago-eventos`
 - [ ] Hardening de seguridad Kafka

@@ -15,7 +15,7 @@
 | **4. Docker Compose** | MySQL→postgres:16-alpine, naming `ecom-*` en containers/images/volumes/networks |
 | **5. .env** | Variables genéricas `DB_HOST`/`DB_PORT`/`DB_NAME`/`DB_USER`/`DB_PASS` |
 | **6. Puertos** | Dev `server.port: 0` (dinámico), Prod `server.port: 8080`; Config:8888, Eureka:8761, Gateway:8090 |
-| **7. Renombrar carpetas infra** | `config-server/`→`config/`, `registry-server/`→`eureka/`, `config-repo/` movido a `config/config-repo/` |
+| **7. Renombrar carpetas infra** | `config/`→`config/`, `eureka/`→`eureka/`, `config-repo/` movido a `config/config-repo/` |
 | **8. Renombrar servicios** | `auth/`→`auth-ms/`, `catalogo/`→`catalogo-ms/`, `producto/`→`producto-ms/` |
 | **9. `spring.application.name`** | `auth-ms`, `catalogo-ms`, `producto-ms` |
 | **10. Gateway routes** | `lb://catalogo`→`lb://catalogo-ms`, etc. |
@@ -58,10 +58,10 @@ Credenciales dev: `ecom` / `ecom`
 | spring.application.name | `auth`, `catalogo`, `producto` | `auth-ms`, `catalogo-ms`, `producto-ms` |
 | container_name compose | `ecom-auth`, `ecom-catalogo` | `ecom-auth-ms`, `ecom-catalogo-ms` |
 | image | `ecom/auth:latest` | `ecom/auth-ms:latest` |
-| Red externa | `ms-net` | `ecom-prod-net`, `ecom-dev-net` |
+| Red externa | `ecom-prod-net` | `ecom-prod-net`, `ecom-dev-net` |
 | Red interna | `catalogo-int` | `ecom-catalogo-int` |
 | Config repo path | ruta absoluta Windows | `file:/config-repo` |
-| Carpetas infra | `config-server/`, `registry-server/` | `config/`, `eureka/` |
+| Carpetas infra | `config/`, `eureka/` | `config/`, `eureka/` |
 | Carpetas servicios | `auth/`, `catalogo/`, `producto/` | `auth-ms/`, `catalogo-ms/`, `producto-ms/` |
 
 ## Documentación

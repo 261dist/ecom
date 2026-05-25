@@ -8,7 +8,7 @@ La carpeta se llama `orden-py-del` porque es un proyecto temporal.
 
 - `app/producer_ordenes.py`: publica eventos en `orden-eventos`
 - `app/consumer_ordenes.py`: consume eventos de `orden-eventos`
-- `docker-compose-dev.yml`: contenedor Python conectado a Kafka dev
+- `compose-dev.yml`: contenedor Python conectado a Kafka dev
 - `Dockerfile`: imagen base del laboratorio
 
 ## Requisitos
@@ -16,8 +16,8 @@ La carpeta se llama `orden-py-del` porque es un proyecto temporal.
 Kafka dev debe estar levantado:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\kafka
-docker compose -f docker-compose-dev.yml up -d
+cd kafka
+docker compose -f compose-dev.yml up -d
 ```
 
 El contenedor Python usa:
@@ -28,14 +28,14 @@ El contenedor Python usa:
 ## Levantar el laboratorio
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\orden-py-del
-docker compose -f docker-compose-dev.yml up -d
+cd extras/orden-py-del
+docker compose -f compose-dev.yml up -d
 ```
 
 Validar:
 
 ```powershell
-docker compose -f docker-compose-dev.yml ps
+docker compose -f compose-dev.yml ps
 ```
 
 ## Hot reload
@@ -51,7 +51,7 @@ Puedes editar los scripts localmente y volver a ejecutarlos dentro del contenedo
 ## Ejecutar producer
 
 ```powershell
-docker compose -f docker-compose-dev.yml exec orden-py python /app/producer_ordenes.py
+docker compose -f compose-dev.yml exec orden-py python /app/producer_ordenes.py
 ```
 
 Publica un evento cada 2 segundos con este formato:
@@ -72,7 +72,7 @@ Publica un evento cada 2 segundos con este formato:
 En otra terminal:
 
 ```powershell
-docker compose -f docker-compose-dev.yml exec orden-py python /app/consumer_ordenes.py
+docker compose -f compose-dev.yml exec orden-py python /app/consumer_ordenes.py
 ```
 
 El consumer usa:
@@ -90,7 +90,7 @@ service=orden-py
 ## Detener
 
 ```powershell
-docker compose -f docker-compose-dev.yml down
+docker compose -f compose-dev.yml down
 ```
 
 ## Estado de avance

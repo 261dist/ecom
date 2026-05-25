@@ -63,7 +63,7 @@ En `P1`:
 
 Se creo el modulo:
 
-- `services/auth`
+- `services/auth-ms`
 
 Con base alineada al resto de microservicios:
 
@@ -155,27 +155,27 @@ Significado de los claims:
 
 ## Archivos trabajados
 
-- `services/auth/pom.xml`
-- `services/auth/src/main/resources/application.yml`
-- `services/auth/src/main/resources/logback-spring.xml`
-- `services/auth/src/main/resources/db/migration/V1__create_users_roles_tables.sql`
-- `services/auth/src/main/java/com/upeu/auth/AuthApplication.java`
-- `services/auth/src/main/java/com/upeu/auth/config/JwtProperties.java`
-- `services/auth/src/main/java/com/upeu/auth/config/PasswordConfig.java`
-- `services/auth/src/main/java/com/upeu/auth/config/SecurityConfig.java`
-- `services/auth/src/main/java/com/upeu/auth/config/DataInitializer.java`
-- `services/auth/src/main/java/com/upeu/auth/entity/AuthUser.java`
-- `services/auth/src/main/java/com/upeu/auth/entity/Role.java`
-- `services/auth/src/main/java/com/upeu/auth/repository/AuthUserRepository.java`
-- `services/auth/src/main/java/com/upeu/auth/repository/RoleRepository.java`
-- `services/auth/src/main/java/com/upeu/auth/dto/AuthLoginRequest.java`
-- `services/auth/src/main/java/com/upeu/auth/dto/AuthLoginResponse.java`
-- `services/auth/src/main/java/com/upeu/auth/service/CustomUserDetailsService.java`
-- `services/auth/src/main/java/com/upeu/auth/service/JwtService.java`
-- `services/auth/src/main/java/com/upeu/auth/service/AuthService.java`
-- `services/auth/src/main/java/com/upeu/auth/controller/AuthController.java`
-- `services/auth/docker-compose-dev.yml`
-- `services/auth/docker-compose.yml`
+- `services/auth-ms/pom.xml`
+- `services/auth-ms/src/main/resources/application.yml`
+- `services/auth-ms/src/main/resources/logback-spring.xml`
+- `services/auth-ms/src/main/resources/db/migration/V1__create_users_roles_tables.sql`
+- `services/auth-ms/src/main/java/com/upeu/auth/AuthApplication.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/config/JwtProperties.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/config/PasswordConfig.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/config/SecurityConfig.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/config/DataInitializer.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/entity/AuthUser.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/entity/Role.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/repository/AuthUserRepository.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/repository/RoleRepository.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/dto/AuthLoginRequest.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/dto/AuthLoginResponse.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/service/CustomUserDetailsService.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/service/JwtService.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/service/AuthService.java`
+- `services/auth-ms/src/main/java/com/upeu/auth/controller/AuthController.java`
+- `services/auth-ms/compose-dev.yml`
+- `services/auth-ms/compose.yml`
 - `infra/config-repo/auth-dev.yml`
 - `infra/config-repo/auth-prod.yml`
 
@@ -187,8 +187,8 @@ Significado de los claims:
 
 Levantar:
 
-- config-server
-- registry-server
+- config
+- eureka
 - mysql de `auth`
 - auth
 
@@ -207,14 +207,14 @@ Levantar:
 ### 1. Config Server
 
 ```bash
-cd infra/config-server
+cd infra/config
 ./mvnw spring-boot:run
 ```
 
 ### 2. Registry Server
 
 ```bash
-cd infra/registry-server
+cd infra/eureka
 ./mvnw spring-boot:run
 ```
 
@@ -222,7 +222,7 @@ cd infra/registry-server
 
 ```bash
 cd services/auth
-docker compose -f docker-compose-dev.yml up -d
+docker compose -f compose-dev.yml up -d
 ```
 
 ### 4. Auth dev
@@ -239,9 +239,9 @@ cd services/auth
 Probar:
 
 ```text
-http://localhost:8041/actuator/health
-http://localhost:8041/actuator/metrics
-http://localhost:8041/actuator/prometheus
+http://localhost:8042/actuator/health
+http://localhost:8042/actuator/metrics
+http://localhost:8042/actuator/prometheus
 ```
 
 Que debe aprender el alumno:
@@ -277,7 +277,7 @@ Que debe aprender el alumno:
 ### Request
 
 ```text
-POST http://localhost:8041/auth/login
+POST http://localhost:8042/auth/login
 ```
 
 Payload:
@@ -414,8 +414,8 @@ Que debe aprender el alumno:
 
 Levantar o reiniciar:
 
-- `config-server`
-- `registry-server`
+- `config`
+- `eureka`
 - `auth`
 - `gateway`
 
@@ -429,7 +429,7 @@ $body = @{
 
 $response = Invoke-RestMethod `
   -Method Post `
-  -Uri "http://localhost:8041/auth/login" `
+  -Uri "http://localhost:8042/auth/login" `
   -ContentType "application/json" `
   -Body $body
 
@@ -446,7 +446,7 @@ Guardar el valor de:
 
 ```powershell
 Invoke-WebRequest `
-  -Uri "http://localhost:7091/api/v1/productos/detalle/1"
+  -Uri "http://localhost:8090/api/v1/productos/detalle/1"
 ```
 
 Resultado esperado:
@@ -458,7 +458,7 @@ Resultado esperado:
 ```powershell
 Invoke-RestMethod `
   -Method Get `
-  -Uri "http://localhost:7091/api/v1/productos/detalle/1" `
+  -Uri "http://localhost:8090/api/v1/productos/detalle/1" `
   -Headers @{ Authorization = "Bearer $token" }
 ```
 
@@ -470,7 +470,7 @@ Resultado esperado:
 ### 5. Probar una ruta publica
 
 ```text
-http://localhost:7091/actuator/health
+http://localhost:8090/actuator/health
 ```
 
 Resultado esperado:

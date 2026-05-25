@@ -53,7 +53,7 @@ observability -> vs07-obs-tools
 Para continuar el desarrollo desde cero:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026
+cd .
 
 git clone --branch vs08-auth https://github.com/261dist/infra.git
 git clone --branch vs08-auth https://github.com/261dist/auth.git
@@ -147,19 +147,19 @@ Secuencia recomendada para la clase:
 Ubícate en:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\kafka
+cd kafka
 ```
 
 Levanta el stack `dev`:
 
 ```powershell
-docker compose -f docker-compose-dev.yml up -d
+docker compose -f compose-dev.yml up -d
 ```
 
 Verifica contenedores:
 
 ```powershell
-docker compose -f docker-compose-dev.yml ps
+docker compose -f compose-dev.yml ps
 ```
 
 Debes tener disponibles al menos:
@@ -174,16 +174,16 @@ Prometheus y Grafana se levantan desde el modulo `observability`, no desde Kafka
 
 Ingresa al broker:
 
-> Ejecuta este comando desde `PS C:\ms1\ProyectosMS2026\kafka>`. Docker Compose necesita encontrar el archivo `docker-compose-dev.yml` en la carpeta actual.
+> Ejecuta este comando desde `PS kafka>`. Docker Compose necesita encontrar el archivo `compose-dev.yml` en la carpeta actual.
 
 ```powershell
-docker compose -f docker-compose-dev.yml exec kafka bash
+docker compose -f compose-dev.yml exec kafka bash
 ```
 
 Si estas en otra ruta, primero entra a la carpeta:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\kafka
+cd kafka
 ```
 
 Luego ejecuta el comando anterior.
@@ -247,25 +247,25 @@ Usa el proyecto `orden-py` para reforzar el patrón producer/consumer con menos 
 Ubícate en:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\orden-py-del
+cd extras/orden-py-del
 ```
 
 Levanta el contenedor base:
 
 ```powershell
-docker compose -f docker-compose-dev.yml up -d --build
+docker compose -f compose-dev.yml up -d --build
 ```
 
 Forma rápida para ejecutar el producer:
 
 ```powershell
-docker compose -f docker-compose-dev.yml exec orden-py python /app/producer_ordenes.py
+docker compose -f compose-dev.yml exec orden-py python /app/producer_ordenes.py
 ```
 
 Forma rápida para ejecutar el consumer:
 
 ```powershell
-docker compose -f docker-compose-dev.yml exec orden-py python /app/consumer_ordenes.py
+docker compose -f compose-dev.yml exec orden-py python /app/consumer_ordenes.py
 ```
 
 Ejemplo de evento emitido:
@@ -294,14 +294,14 @@ Antes de ejecutar `orden-ms` y `pago-ms`, levanta la infraestructura base en `de
 Terminal para Config Server:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\infra\config-server
+cd infra/config
 .\mvnw.cmd spring-boot:run
 ```
 
 Terminal para Registry Server:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\infra\registry-server
+cd infra/eureka
 .\mvnw.cmd spring-boot:run
 ```
 
@@ -310,13 +310,13 @@ cd C:\ms1\ProyectosMS2026\infra\registry-server
 Ubícate en:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\services\orden-ms
+cd services/orden-ms
 ```
 
 Levanta MySQL de desarrollo:
 
 ```powershell
-docker compose -f docker-compose-dev.yml up -d
+docker compose -f compose-dev.yml up -d
 ```
 
 Ejecuta la aplicación:
@@ -346,13 +346,13 @@ Evento esperado en Kafka:
 Ubícate en:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\services\pago-ms
+cd services/pago-ms
 ```
 
 Levanta MySQL de desarrollo:
 
 ```powershell
-docker compose -f docker-compose-dev.yml up -d
+docker compose -f compose-dev.yml up -d
 ```
 
 Ejecuta la aplicación:
@@ -395,7 +395,7 @@ Al finalizar la sesión, el alumno debe comprender:
 
 Adjunta como evidencia:
 
-- captura del `docker compose -f docker-compose-dev.yml ps` del entorno Kafka
+- captura del `docker compose -f compose-dev.yml ps` del entorno Kafka
 - captura de Kafka UI con el tópico `orden-eventos`
 - captura del producer y consumer manual en consola
 - captura de ejecución del producer y consumer en `orden-py`

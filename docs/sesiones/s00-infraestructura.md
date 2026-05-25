@@ -6,7 +6,7 @@ Este modulo contiene la infraestructura base de la plataforma:
 - Registry Server/Eureka
 - Gateway
 - `config-repo`
-- red compartida `ms-net`
+- red compartida `ecom-prod-net`
 
 Kafka, observabilidad y microservicios viven en modulos separados, pero se integran con esta infraestructura.
 
@@ -14,47 +14,47 @@ Kafka, observabilidad y microservicios viven en modulos separados, pero se integ
 
 | Componente | Rol |
 |---|---|
-| `config-server` | Sirve configuracion centralizada desde `infra/config-repo` |
-| `registry-server` | Eureka para registro y descubrimiento |
+| `config` | Sirve configuracion centralizada desde `infra/config-repo` |
+| `eureka` | Eureka para registro y descubrimiento |
 | `gateway` | Punto unico de entrada HTTP y validacion JWT en el borde |
 | `config-repo` | Configuracion por servicio y perfil |
-| `ms-net` | Red Docker compartida de produccion |
+| `ecom-prod-net` | Red Docker compartida de produccion |
 
 ## Puertos
 
-| Servicio | DEV | PROD |
+| Servicio | DEV (Maven) | PROD (Docker) |
 |---|---:|---:|
-| Config Server | 7071 | 7072 |
-| Registry Server | 7081 | 7082 |
-| Gateway | 7091 | 7092 |
+| Config | 8888 | 8888 |
+| Eureka | 8761 | 8761 |
+| Gateway | 8080 | 8090 |
 
 En Docker prod, los servicios se comunican por nombre interno:
 
 ```text
-config-server:7071
-registry-server:7081
-gateway:7091
+ecom-config:8888
+eureka:8761
+gateway:8080
 ```
 
 ## Red Compartida
 
-`infra/docker-compose.yml` crea la red:
+`infra/compose.yml` crea la red:
 
 ```text
-ms-net
+ecom-prod-net
 ```
 
 La consumen como red externa:
 
-- `auth`
-- `catalogo`
-- `producto`
+- `auth-ms`
+- `catalogo-ms`
+- `producto-ms`
 - `orden-ms`
 - `pago-ms`
 - `kafka`
-- `observability`
+- `obs`
 
-`infra` debe levantarse primero en prod para crear `ms-net`.
+`infra` debe levantarse primero en prod para crear `ecom-prod-net`.
 
 ## Arquitectura
 
@@ -128,8 +128,8 @@ pago-ms-dev.yml
 pago-ms-prod.yml
 gateway-dev.yml
 gateway-prod.yml
-registry-server-dev.yml
-registry-server-prod.yml
+eureka-dev.yml
+eureka-prod.yml
 ```
 
 Los microservicios importan Config Server desde su `application.yml`:
@@ -137,7 +137,7 @@ Los microservicios importan Config Server desde su `application.yml`:
 ```yaml
 spring:
   config:
-    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:7071}"
+    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}"
 ```
 
 ## Servicios Integrados
@@ -175,7 +175,7 @@ La seguridad principal esta centralizada en Gateway:
 
 Esto significa que `/ordenes/**` y `/pagos/**` quedan protegidos cuando se accede por Gateway.
 
-Nota: los puertos directos de los microservicios se mantienen para laboratorio y pruebas. Para una produccion mas estricta, se pueden dejar sin publicar y consumirlos solo por `ms-net`.
+Nota: los puertos directos de los microservicios se mantienen para laboratorio y pruebas. Para una produccion mas estricta, se pueden dejar sin publicar y consumirlos solo por `ecom-prod-net`.
 
 ## Levantar DEV
 
@@ -184,32 +184,32 @@ En dev normalmente se ejecutan los componentes Java con Maven.
 Config Server:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\infra\config-server
+cd infra/config
 mvn spring-boot:run
 ```
 
 Registry Server:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\infra\registry-server
+cd infra/eureka
 .\mvnw.cmd spring-boot:run
 ```
 
 Gateway:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\infra\gateway
+cd infra/gateway
 .\mvnw.cmd spring-boot:run
 ```
 
 Validaciones:
 
 ```text
-http://localhost:7071/catalogo/dev
-http://localhost:7071/orden-ms/dev
-http://localhost:7071/pago-ms/dev
-http://localhost:7081
-http://localhost:7091/actuator/health
+http://localhost:8888/catalogo/dev
+http://localhost:8888/orden-ms/dev
+http://localhost:8888/pago-ms/dev
+http://localhost:8761
+http://localhost:8090/actuator/health
 ```
 
 ## Levantar PROD
@@ -217,50 +217,50 @@ http://localhost:7091/actuator/health
 Primero infra:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\infra
+cd infra
 docker compose up -d
 ```
 
 Luego Kafka:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\kafka
+cd kafka
 docker compose up -d
 ```
 
 Luego microservicios, por ejemplo:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\services\auth
+cd services/auth-ms
 docker compose up -d
 
-cd C:\ms1\ProyectosMS2026\services\catalogo
+cd services/catalogo-ms
 docker compose up -d
 
-cd C:\ms1\ProyectosMS2026\services\producto
+cd services/producto-ms
 docker compose up -d
 
-cd C:\ms1\ProyectosMS2026\services\orden-ms
+cd services/orden-ms
 docker compose up -d
 
-cd C:\ms1\ProyectosMS2026\services\pago-ms
+cd services/pago-ms
 docker compose up -d
 ```
 
 Finalmente observability:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\obs
+cd obs
 docker compose up -d
 ```
 
 Validaciones:
 
 ```text
-http://localhost:7072/orden-ms/prod
-http://localhost:7072/pago-ms/prod
-http://localhost:7082
-http://localhost:7092/actuator/health
+http://localhost:8888/orden-ms/prod
+http://localhost:8888/pago-ms/prod
+http://localhost:8761
+http://localhost:8090/actuator/health
 ```
 
 ## Observabilidad
@@ -289,15 +289,15 @@ La plataforma expone:
 Revisar:
 
 - que Config Server este arriba
-- que `CONFIG_SERVER_URL` apunte a `http://config-server:7071` en Docker
+- que `CONFIG_SERVER_URL` apunte a `http://ecom-config:8888` en Docker
 - que exista el archivo `{spring.application.name}-{profile}.yml` en `config-repo`
 
 ### Servicio no aparece en Eureka
 
 Revisar:
 
-- dev: `http://localhost:7081/eureka`
-- prod: `http://registry-server:7081/eureka`
+- dev: `http://localhost:8761/eureka`
+- prod: `http://eureka:8761/eureka`
 - que el servicio tenga dependencia Eureka Client
 
 ### Gateway no enruta
@@ -314,10 +314,10 @@ Dentro de Docker no usar `localhost` para otros contenedores.
 
 Usar:
 
-- `config-server`
-- `registry-server`
+- `config`
+- `eureka`
 - `kafka`
-- nombre del servicio en `ms-net`
+- nombre del servicio en `ecom-prod-net`
 
 ## Estado Actual
 
@@ -325,7 +325,7 @@ Usar:
 - [x] Registry Server/Eureka
 - [x] Gateway con `lb://`
 - [x] Config centralizada para `auth`, `catalogo`, `producto`, `orden-ms`, `pago-ms`
-- [x] Red compartida `ms-net`
+- [x] Red compartida `ecom-prod-net`
 - [x] Seguridad JWT en Gateway
 - [x] Integracion Kafka para `orden-ms` y `pago-ms`
 - [x] Configuracion Eureka dev con `localhost` estable

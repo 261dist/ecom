@@ -61,7 +61,7 @@ Trabaja sobre el entorno `dev` del proyecto `kafka` usando:
 - Grafana: `http://localhost:13000`
 - Topic sugerido: `orden-eventos`
 
-Kafka se levanta desde `kafka/docker-compose-dev.yml`. Prometheus y Grafana se levantan desde `obs/compose-dev.yml`.
+Kafka se levanta desde `kafka/compose-dev.yml`. Prometheus y Grafana se levantan desde `obs/compose-dev.yml`.
 
 Para esta practica se usa un notebook nuevo, empezando desde cero:
 

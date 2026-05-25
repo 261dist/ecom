@@ -6,7 +6,7 @@ Este documento deja una foto rapida del estado actual del proyecto antes de inic
 
 ## Estado del workspace
 
-- Carpeta revisada: `C:\ms1\ProyectosMS2026`
+- Carpeta revisada: `.`
 - No se detecto repositorio Git en esta carpeta: `git status` devuelve `fatal: not a git repository`.
 - No se hicieron cambios funcionales en codigo ni configuracion durante esta foto.
 - No hay integracion Kafka activa en el codigo. La unica mencion encontrada es documental, en observabilidad.
@@ -15,11 +15,11 @@ Este documento deja una foto rapida del estado actual del proyecto antes de inic
 
 ### Infraestructura
 
-- `infra/config-server`: servidor de configuracion Spring Cloud Config.
-- `infra/registry-server`: registro Eureka.
+- `infra/config`: servidor de configuracion Spring Cloud Config.
+- `infra/eureka`: registro Eureka.
 - `infra/gateway`: Spring Cloud Gateway con seguridad JWT reactiva.
 - `infra/config-repo`: configuracion centralizada por servicio y perfil.
-- `infra/docker-compose.yml`: levanta config-server, registry-server y gateway en la red `ms-net`.
+- `infra/compose.yml`: levanta config, eureka y gateway en la red `ecom-prod-net`.
 
 ### Servicios de negocio
 

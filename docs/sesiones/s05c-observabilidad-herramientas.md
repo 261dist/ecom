@@ -65,8 +65,8 @@ Se agrego la dependencia:
 en:
 
 - `infra/gateway/pom.xml`
-- `services/catalogo/pom.xml`
-- `services/producto/pom.xml`
+- `services/catalogo-ms/pom.xml`
+- `services/producto-ms/pom.xml`
 
 Y se habilito:
 
@@ -109,15 +109,15 @@ En `prod`:
 
 - toda la plataforma corre en Docker
 - Prometheus usa nombres Docker como `gateway`, `catalogo` y `producto`
-- `observability` usa `ms-net`
+- `observability` usa `ecom-prod-net`
 
 ### 4. Centralizacion de logs
 
 Promtail consume:
 
 - `infra/gateway/logs`
-- `services/catalogo/logs`
-- `services/producto/logs`
+- `services/catalogo-ms/logs`
+- `services/producto-ms/logs`
 
 Y envia los logs a Loki con etiquetas por servicio.
 
@@ -140,8 +140,8 @@ Y envia los logs a Loki con etiquetas por servicio.
 - `infra/config-repo/catalogo-prod.yml`
 - `infra/config-repo/producto-prod.yml`
 - `infra/gateway/pom.xml`
-- `services/catalogo/pom.xml`
-- `services/producto/pom.xml`
+- `services/catalogo-ms/pom.xml`
+- `services/producto-ms/pom.xml`
 
 ---
 
@@ -151,8 +151,8 @@ Y envia los logs a Loki con etiquetas por servicio.
 
 Levantar:
 
-- config-server
-- registry-server
+- config
+- eureka
 - gateway
 - mysql de `catalogo`
 - mysql de `producto`
@@ -163,7 +163,7 @@ Luego:
 
 ```bash
 cd obs
-docker compose -f docker-compose-dev.yml up -d
+docker compose -f compose-dev.yml up -d
 ```
 
 ### PROD
@@ -223,7 +223,7 @@ Nota:
 
 - en `dev`, Prometheus usa `host.docker.internal`
 - esos links son validos para el contenedor
-- desde el navegador del host, las URLs equivalentes son `localhost:7091`, `localhost:8081` y `localhost:9091`
+- desde el navegador del host, las URLs equivalentes son `localhost:8090`, `localhost:8082` y `localhost:9092`
 
 ---
 
@@ -238,9 +238,9 @@ Pasar de "esta vivo" a "esta recibiendo requests".
 Probar:
 
 ```text
-http://localhost:7091/api/v1/catalogo/instancia
-http://localhost:7091/api/v1/producto/instancia
-http://localhost:9091/api/v1/productos/detalle/1
+http://localhost:8090/api/v1/catalogo/instancia
+http://localhost:8090/api/v1/producto/instancia
+http://localhost:9092/api/v1/productos/detalle/1
 ```
 
 ### Consulta recomendada
@@ -352,7 +352,7 @@ Seguir una peticion real a traves de varios servicios.
 ### Peticion sugerida
 
 ```text
-http://localhost:7091/api/v1/productos/detalle/1
+http://localhost:8090/api/v1/productos/detalle/1
 ```
 
 ### Que observar
@@ -455,7 +455,7 @@ Detener `catalogo`.
 Luego repetir:
 
 ```text
-http://localhost:9091/api/v1/productos/detalle/1
+http://localhost:9092/api/v1/productos/detalle/1
 ```
 
 ### Que observar
@@ -508,14 +508,14 @@ sin requerir todavia una herramienta de tracing distribuido como Tempo o Jaeger.
 Ejecutar:
 
 ```text
-http://localhost:7091/api/v1/productos/detalle/1
+http://localhost:8090/api/v1/productos/detalle/1
 ```
 
 Luego revisar logs en:
 
 - `infra/gateway/logs/gateway.log`
-- `services/producto/logs/producto.log`
-- `services/catalogo/logs/catalogo.log`
+- `services/producto-ms/logs/producto.log`
+- `services/catalogo-ms/logs/catalogo.log`
 
 O en Loki con:
 
@@ -595,7 +595,7 @@ Evidencia esperada:
 2. Ejecutar:
 
 ```text
-http://localhost:9091/api/v1/productos/detalle/1
+http://localhost:9092/api/v1/productos/detalle/1
 ```
 
 Luego revisar:

@@ -195,13 +195,13 @@ Esto permite relacionar logs de varios servicios sobre una misma peticion.
 - `infra/config-repo/gateway-dev.yml`
 - `infra/gateway/src/main/resources/logback-spring.xml`
 - `infra/gateway/src/main/java/com/upeu/gateway/filter/TraceIdGlobalFilter.java`
-- `services/producto/src/main/resources/logback-spring.xml`
-- `services/catalogo/src/main/resources/logback-spring.xml`
-- `services/producto/src/main/java/com/upeu/producto/config/FeignTraceConfig.java`
-- `services/producto/src/main/java/com/upeu/producto/controller/GatewayInstanciasController.java`
-- `services/catalogo/src/main/java/com/upeu/catalogo/controller/GatewayInstanciasController.java`
-- `services/producto/src/main/java/com/upeu/producto/service/impl/ProductoServiceImpl.java`
-- `services/catalogo/src/main/java/com/upeu/catalogo/service/impl/CategoriaServiceImpl.java`
+- `services/producto-ms/src/main/resources/logback-spring.xml`
+- `services/catalogo-ms/src/main/resources/logback-spring.xml`
+- `services/producto-ms/src/main/java/com/upeu/producto/config/FeignTraceConfig.java`
+- `services/producto-ms/src/main/java/com/upeu/producto/controller/GatewayInstanciasController.java`
+- `services/catalogo-ms/src/main/java/com/upeu/catalogo/controller/GatewayInstanciasController.java`
+- `services/producto-ms/src/main/java/com/upeu/producto/service/impl/ProductoServiceImpl.java`
+- `services/catalogo-ms/src/main/java/com/upeu/catalogo/service/impl/CategoriaServiceImpl.java`
 
 ---
 
@@ -211,8 +211,8 @@ Esto permite relacionar logs de varios servicios sobre una misma peticion.
 
 Levantar:
 
-- config-server
-- registry-server
+- config
+- eureka
 - gateway
 
 ### Paso 2. Levantar microservicios
@@ -227,9 +227,9 @@ Levantar:
 Probar:
 
 ```text
-http://localhost:7091/actuator/health
-http://localhost:9091/actuator/health
-http://localhost:8081/actuator/health
+http://localhost:8090/actuator/health
+http://localhost:9092/actuator/health
+http://localhost:8082/actuator/health
 ```
 
 ### Paso 3.1. Verificar metricas base
@@ -237,19 +237,19 @@ http://localhost:8081/actuator/health
 Primero listar metricas disponibles:
 
 ```text
-http://localhost:7091/actuator/metrics
-http://localhost:9091/actuator/metrics
-http://localhost:8081/actuator/metrics
+http://localhost:8090/actuator/metrics
+http://localhost:9092/actuator/metrics
+http://localhost:8082/actuator/metrics
 ```
 
 Luego consultar metricas especificas:
 
 ```text
-http://localhost:7091/actuator/metrics/http.server.requests
-http://localhost:9091/actuator/metrics/http.server.requests
-http://localhost:8081/actuator/metrics/http.server.requests
-http://localhost:9091/actuator/metrics/system.cpu.usage
-http://localhost:9091/actuator/metrics/jvm.memory.used
+http://localhost:8090/actuator/metrics/http.server.requests
+http://localhost:9092/actuator/metrics/http.server.requests
+http://localhost:8082/actuator/metrics/http.server.requests
+http://localhost:9092/actuator/metrics/system.cpu.usage
+http://localhost:9092/actuator/metrics/jvm.memory.used
 ```
 
 Interpretacion basica:
@@ -263,10 +263,10 @@ Interpretacion basica:
 Probar:
 
 ```text
-http://localhost:9091/api/v1/producto/instancia
-http://localhost:8081/api/v1/catalogo/instancia
-http://localhost:7091/api/v1/producto/instancia
-http://localhost:7091/api/v1/catalogo/instancia
+http://localhost:9092/api/v1/producto/instancia
+http://localhost:8082/api/v1/catalogo/instancia
+http://localhost:8090/api/v1/producto/instancia
+http://localhost:8090/api/v1/catalogo/instancia
 ```
 
 ### Paso 5. Verificar detalle con Feign
@@ -274,8 +274,8 @@ http://localhost:7091/api/v1/catalogo/instancia
 Probar:
 
 ```text
-http://localhost:9091/api/v1/productos/detalle/1
-http://localhost:7091/api/v1/productos/detalle/1
+http://localhost:9092/api/v1/productos/detalle/1
+http://localhost:8090/api/v1/productos/detalle/1
 ```
 
 El alumno debe revisar los logs y confirmar:
@@ -289,8 +289,8 @@ Donde ver los logs en DEV:
 - en la consola donde se ejecuto cada servicio con `mvn spring-boot:run`
 - en archivos locales generados por cada servicio:
   - `infra/gateway/logs/gateway.log`
-  - `services/producto/logs/producto.log`
-  - `services/catalogo/logs/catalogo.log`
+  - `services/producto-ms/logs/producto.log`
+  - `services/catalogo-ms/logs/catalogo.log`
 
 ### Paso 6. Verificar Circuit Breaker
 
@@ -298,7 +298,7 @@ Donde ver los logs en DEV:
 2. Repetir:
 
 ```text
-http://localhost:9091/api/v1/productos/detalle/1
+http://localhost:9092/api/v1/productos/detalle/1
 ```
 
 3. Revisar:
@@ -311,11 +311,11 @@ http://localhost:9091/api/v1/productos/detalle/1
 Endpoints utiles para esta validacion:
 
 ```text
-http://localhost:9091/actuator/circuitbreakers
-http://localhost:9091/actuator/circuitbreakerevents
-http://localhost:9091/actuator/metrics/http.server.requests
-http://localhost:9091/actuator/metrics/system.cpu.usage
-http://localhost:9091/actuator/metrics/jvm.memory.used
+http://localhost:9092/actuator/circuitbreakers
+http://localhost:9092/actuator/circuitbreakerevents
+http://localhost:9092/actuator/metrics/http.server.requests
+http://localhost:9092/actuator/metrics/system.cpu.usage
+http://localhost:9092/actuator/metrics/jvm.memory.used
 ```
 
 ---

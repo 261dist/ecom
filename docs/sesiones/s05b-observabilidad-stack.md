@@ -13,10 +13,10 @@ Este modulo no levanta Kafka ni microservicios. Solo observa servicios que ya es
 
 ## Archivos
 
-- `docker-compose-dev.yml`: observabilidad para `dev`
-- `docker-compose.yml`: observabilidad para `prod`
+- `compose-dev.yml`: observabilidad para `dev`
+- `compose.yml`: observabilidad para `prod`
 - `prometheus/prometheus-dev.yml`: targets dev por `host.docker.internal`
-- `prometheus/prometheus.yml`: targets prod por nombres Docker en `ms-net`
+- `prometheus/prometheus.yml`: targets prod por nombres Docker en `ecom-prod-net`
 - `grafana/provisioning`: datasources de Grafana
 
 ## Puertos
@@ -46,7 +46,7 @@ Los servicios dev suelen correr en el host con Maven, por eso Prometheus usa `ho
 En `prod`, observability usa la red externa:
 
 ```text
-ms-net
+ecom-prod-net
 ```
 
 Esa red la crea `infra`.
@@ -55,9 +55,9 @@ Esa red la crea `infra`.
 
 Prometheus dev scrapea:
 
-- Gateway: `host.docker.internal:7091`
-- Producto: `host.docker.internal:9091`
-- Catalogo: `host.docker.internal:8081`
+- Gateway: `host.docker.internal:8090`
+- Producto: `host.docker.internal:9092`
+- Catalogo: `host.docker.internal:8082`
 - Kafka exporter: `host.docker.internal:41308`
 - Orden MS: `host.docker.internal:19051`
 - Pago MS: `host.docker.internal:19061`
@@ -66,7 +66,7 @@ Prometheus dev scrapea:
 
 Prometheus prod scrapea:
 
-- Gateway: `gateway:7091`
+- Gateway: `gateway:8090`
 - Producto: `producto:9092`
 - Catalogo: `catalogo:8082`
 - Kafka exporter: `kafka-exporter:9308`
@@ -78,8 +78,8 @@ Prometheus prod scrapea:
 Promtail lee estas carpetas y envia los logs a Loki con etiqueta `service`:
 
 - `infra/gateway/logs` -> `gateway`
-- `services/catalogo/logs` -> `catalogo`
-- `services/producto/logs` -> `producto`
+- `services/catalogo-ms/logs` -> `catalogo`
+- `services/producto-ms/logs` -> `producto`
 - `services/orden-ms/logs` -> `orden-ms`
 - `services/pago-ms/logs` -> `pago-ms`
 
@@ -88,8 +88,8 @@ Promtail lee estas carpetas y envia los logs a Loki con etiqueta `service`:
 Puedes levantar observability antes o despues de Kafka y los microservicios. Si un target aun no existe, Prometheus lo marcara `DOWN` hasta que aparezca.
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\obs
-docker compose -f docker-compose-dev.yml up -d
+cd obs
+docker compose -f compose-dev.yml up -d
 ```
 
 Accesos:
@@ -100,17 +100,17 @@ Accesos:
 
 ## Levantar PROD
 
-Primero debe existir `ms-net`, creada por `infra`:
+Primero debe existir `ecom-prod-net`, creada por `infra`:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\infra
+cd infra
 docker compose up -d
 ```
 
 Luego Kafka y microservicios, si quieres ver sus metricas. Finalmente:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\obs
+cd obs
 docker compose up -d
 ```
 
@@ -139,8 +139,8 @@ Si aparece `UP`, Grafana ya puede consultar esas metricas desde Prometheus.
 
 ```powershell
 # dev
-docker compose -f docker-compose-dev.yml logs -f prometheus
-docker compose -f docker-compose-dev.yml logs -f grafana
+docker compose -f compose-dev.yml logs -f prometheus
+docker compose -f compose-dev.yml logs -f grafana
 
 # prod
 docker compose logs -f prometheus

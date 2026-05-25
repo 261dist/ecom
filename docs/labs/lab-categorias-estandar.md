@@ -20,7 +20,7 @@ El componente `Categorias` inicialmente hacía llamadas HTTP directas:
 constructor(private http: HttpClient) {}
 
 cargarCategorias() {
-  this.http.get<any[]>('http://localhost:7091/api/v1/categorias')
+  this.http.get<any[]>('http://localhost:8090/api/v1/categorias')
     .subscribe(data => this.categorias.set(data));
 }
 ```
@@ -71,7 +71,7 @@ eliminar(id: number): Observable<void>
 En vez de escribir la URL completa:
 
 ```ts
-http://localhost:7091/api/v1/categorias
+http://localhost:8090/api/v1/categorias
 ```
 
 se usa:
@@ -273,5 +273,5 @@ Esta separación permite explicar claramente:
 
 - Recurso público: categorías.
 - Recurso protegido: productos.
-- Autenticación actual: JWT propio emitido por `services/auth`.
+- Autenticación actual: JWT propio emitido por `services/auth-ms`.
 - Evolución futura: Keycloak/OAuth2/OIDC.

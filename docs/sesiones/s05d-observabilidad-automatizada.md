@@ -53,7 +53,7 @@ Cliente -> Gateway -> Producto -> Catalogo
 
 La plataforma base debe estar levantada:
 
-- config-server
+- config
 - registry-server
 - gateway
 - mysql de `catalogo`
@@ -65,7 +65,7 @@ Luego levantar observabilidad:
 
 ```bash
 cd obs
-docker compose -f docker-compose-dev.yml up -d
+docker compose -f compose-dev.yml up -d
 ```
 
 Como explicar el comando:
@@ -77,13 +77,13 @@ cd obs
 entra a la carpeta donde esta el stack de observabilidad.
 
 ```text
-docker compose -f docker-compose-dev.yml up -d
+docker compose -f compose-dev.yml up -d
 ```
 
 significa:
 
 - `docker compose` ejecuta los servicios definidos en un archivo compose
-- `-f docker-compose-dev.yml` indica que se usara el archivo de desarrollo
+- `-f compose-dev.yml` indica que se usara el archivo de desarrollo
 - `up` crea y levanta los contenedores
 - `-d` los deja corriendo en segundo plano
 
@@ -185,20 +185,20 @@ Panel recomendado en Grafana:
 Ejecutar varias veces:
 
 ```text
-http://localhost:7091/api/v1/productos/detalle/1
+http://localhost:8090/api/v1/productos/detalle/1
 ```
 
 Tambien se puede probar:
 
 ```text
-http://localhost:7091/api/v1/catalogo/instancia
-http://localhost:7091/api/v1/producto/instancia
+http://localhost:8090/api/v1/catalogo/instancia
+http://localhost:8090/api/v1/producto/instancia
 ```
 
 Como explicar estas URLs:
 
 ```text
-http://localhost:7091
+http://localhost:8090
 ```
 
 es el `gateway` en ambiente local.
@@ -579,7 +579,7 @@ Revisar en este orden:
 4. Generar trafico otra vez:
 
 ```text
-http://localhost:7091/api/v1/productos/detalle/1
+http://localhost:8090/api/v1/productos/detalle/1
 ```
 
 5. Probar una consulta sin filtro de texto:
@@ -613,7 +613,7 @@ Detener `catalogo`.
 Luego ejecutar:
 
 ```text
-http://localhost:7091/api/v1/productos/detalle/1
+http://localhost:8090/api/v1/productos/detalle/1
 ```
 
 Como explicar la prueba:
@@ -638,7 +638,7 @@ Si se estuviera trabajando en PROD con Docker, ahi si se detendria el contenedor
 Despues se vuelve a ejecutar:
 
 ```text
-http://localhost:7091/api/v1/productos/detalle/1
+http://localhost:8090/api/v1/productos/detalle/1
 ```
 
 porque ese flujo permite observar si `producto` falla, responde con fallback o registra un error al intentar comunicarse con `catalogo`.

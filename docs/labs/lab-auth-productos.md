@@ -26,7 +26,7 @@ Formulario Angular
   -> Authorization: Bearer <token>
 ```
 
-El backend `services/auth` usa Spring Security y JJWT para emitir tokens. Eso es suficiente para esta etapa didáctica, pero no equivale a Keycloak ni a un Authorization Server OAuth2.
+El backend `services/auth-ms` usa Spring Security y JJWT para emitir tokens. Eso es suficiente para esta etapa didáctica, pero no equivale a Keycloak ni a un Authorization Server OAuth2.
 
 La futura migración a Keycloak debe concentrarse principalmente en:
 
@@ -41,17 +41,17 @@ src/app/core/auth/auth.guard.ts
 Los microservicios están registrados en Eureka:
 
 ```text
-AUTH      auth:8041
-CATALOGO  catalogo:8081
-GATEWAY   gateway:7091
-PRODUCTO  producto:9091
+AUTH      auth-ms:8042
+CATALOGO  catalogo-ms:8082
+GATEWAY   gateway:8090
+PRODUCTO  producto-ms:9092
 ```
 
-Angular no consume directamente `auth:8041` ni `producto:9091`.
+Angular no consume directamente `auth-ms:8042` ni `producto-ms:9092`.
 El frontend consume el gateway:
 
 ```text
-http://localhost:7091
+http://localhost:8090
 ```
 
 ## Contrato del Backend
@@ -130,7 +130,7 @@ Contenido:
 ```ts
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:7091'
+  apiBaseUrl: 'http://localhost:8090'
 };
 ```
 
@@ -145,7 +145,7 @@ src/app/core/services/api.service.ts
 Responsabilidad:
 
 - Centralizar la URL base.
-- Evitar escribir `http://localhost:7091` en cada componente.
+- Evitar escribir `http://localhost:8090` en cada componente.
 
 ### 3. Crear `AuthService`
 
@@ -280,7 +280,7 @@ La pantalla debe:
 - Botón `Salir` elimina sesión.
 - `/productos` no permite entrar sin login.
 - `/productos` carga datos usando JWT.
-- Las llamadas pasan por `http://localhost:7091`.
+- Las llamadas pasan por `http://localhost:8090`.
 
 ## Preguntas para el Alumno
 

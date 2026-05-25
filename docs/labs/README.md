@@ -1,6 +1,6 @@
-# erpng
+# ecom-ng
 
-Frontend ERP de práctica construido con Angular 21 standalone para consumir microservicios mediante gateway.
+Frontend Angular del proyecto ecom, construido con Angular 21 standalone para consumir microservicios mediante gateway.
 
 ## Estado Actual
 
@@ -23,7 +23,7 @@ Esta etapa usa un modelo simple y didáctico:
 
 ```text
 Angular /auth
-  -> POST http://localhost:7091/auth/login
+  -> POST http://localhost:8090/auth/login
   -> recibe accessToken
   -> guarda JWT en localStorage
   -> consume endpoints protegidos con Bearer token
@@ -48,23 +48,23 @@ Antes de probar el frontend, deben estar levantados los servicios necesarios:
 
 | Servicio | Puerto directo | Uso desde Angular |
 | --- | ---: | --- |
-| Gateway | `7091` | Sí |
-| Auth | `8041` | No directo |
-| Producto | `9091` | No directo |
-| Catalogo | `8081` | No directo |
+| Gateway | `8090` | Sí |
+| Auth | `8042` | No directo |
+| Producto | `9092` | No directo |
+| Catalogo | `8082` | No directo |
 
 El frontend consume siempre el gateway:
 
 ```text
-http://localhost:7091
+http://localhost:8090
 ```
 
 Endpoints usados:
 
 ```text
-POST http://localhost:7091/auth/login
-GET  http://localhost:7091/api/v1/productos
-GET  http://localhost:7091/api/v1/categorias
+POST http://localhost:8090/auth/login
+GET  http://localhost:8090/api/v1/productos
+GET  http://localhost:8090/api/v1/categorias
 ```
 
 ## Ejecutar
@@ -72,7 +72,7 @@ GET  http://localhost:7091/api/v1/categorias
 Desde la carpeta del proyecto:
 
 ```powershell
-cd C:\ms1\ProyectosMS2026\erpng
+cd clients\ecom-ng
 ng serve
 ```
 
