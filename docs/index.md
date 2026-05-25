@@ -19,7 +19,7 @@ ecom/                      ← raíz del monorepositorio
 
 | Componente | Dentro de | Rol | Puerto host PROD | Puerto container |
 |---|---|---|---:|---:|
-| **Config Server** | `infra/config/` | Configuración centralizada | 8888 | 8888 |
+| **Config Server** | `infra/config/` | Configuración centralizada | 8099 | 8099 |
 | **Eureka Server** | `infra/eureka/` | Service discovery | 8761 | 8761 |
 | **API Gateway** | `infra/gateway/` | Punto único de entrada + JWT | 8090 | 8080 |
 | **auth-ms** | `services/auth-ms/` | Autenticación y emisión JWT | 8042 | 8080 |
@@ -47,7 +47,7 @@ ecom/                      ← raíz del monorepositorio
 docker network create ecom-prod-net
 docker network create ecom-dev-net
 
-# 2. Infraestructura (Config:8888, Eureka:8761, Gateway:8090)
+# 2. Infraestructura (Config:8099, Eureka:8761, Gateway:8090)
 cd infra
 docker compose up -d
 

@@ -24,14 +24,14 @@ Kafka, observabilidad y microservicios viven en modulos separados, pero se integ
 
 | Servicio | DEV (Maven) | PROD (Docker) |
 |---|---:|---:|
-| Config | 8888 | 8888 |
+| Config | 8099 | 8099 |
 | Eureka | 8761 | 8761 |
 | Gateway | 8080 | 8090 |
 
 En Docker prod, los servicios se comunican por nombre interno:
 
 ```text
-ecom-config:8888
+ecom-config:8099
 eureka:8761
 gateway:8080
 ```
@@ -71,7 +71,7 @@ graph TB
 
     Producto -->|"Feign / Circuit Breaker"| Catalogo
 
-    Auth --> Config["Config Server<br/>(ecom-config:8888)"]
+    Auth --> Config["Config Server<br/>(ecom-config:8099)"]
     Catalogo --> Config
     Producto --> Config
     Orden --> Config
@@ -137,7 +137,7 @@ Los microservicios importan Config Server desde su `application.yml`:
 ```yaml
 spring:
   config:
-    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}"
+    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:8099}"
 ```
 
 ## Servicios Integrados
@@ -205,9 +205,9 @@ cd infra/gateway
 Validaciones:
 
 ```text
-http://localhost:8888/catalogo/dev
-http://localhost:8888/orden-ms/dev
-http://localhost:8888/pago-ms/dev
+http://localhost:8099/catalogo/dev
+http://localhost:8099/orden-ms/dev
+http://localhost:8099/pago-ms/dev
 http://localhost:8761
 http://localhost:8090/actuator/health
 ```
@@ -257,8 +257,8 @@ docker compose up -d
 Validaciones:
 
 ```text
-http://localhost:8888/orden-ms/prod
-http://localhost:8888/pago-ms/prod
+http://localhost:8099/orden-ms/prod
+http://localhost:8099/pago-ms/prod
 http://localhost:8761
 http://localhost:8090/actuator/health
 ```
@@ -289,7 +289,7 @@ La plataforma expone:
 Revisar:
 
 - que Config Server este arriba
-- que `CONFIG_SERVER_URL` apunte a `http://ecom-config:8888` en Docker
+- que `CONFIG_SERVER_URL` apunte a `http://ecom-config:8099` en Docker
 - que exista el archivo `{spring.application.name}-{profile}.yml` en `config-repo`
 
 ### Servicio no aparece en Eureka

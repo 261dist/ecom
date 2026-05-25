@@ -9,7 +9,7 @@ services:
     image: ecom/config:latest
     restart: unless-stopped
     ports:
-      - "8888:8888"
+      - "8099:8099"
     volumes:
       - ./config/config-repo:/config-repo
     environment:
@@ -29,7 +29,7 @@ services:
       - "8761:8761"
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      CONFIG_SERVER_URL: http://ecom-config:8888
+      CONFIG_SERVER_URL: http://ecom-config:8099
     depends_on:
       - config
     networks:
@@ -48,7 +48,7 @@ services:
       - ./gateway/logs:/app/logs
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      CONFIG_SERVER_URL: http://ecom-config:8888
+      CONFIG_SERVER_URL: http://ecom-config:8099
     depends_on:
       - config
       - eureka

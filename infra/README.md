@@ -6,7 +6,7 @@ Infraestructura base del sistema distribuido: Config Server, Eureka Server y API
 
 | Directorio | Puerto PROD | Rol |
 |---|---|---:|
-| `config/` | 8888 | Configuración centralizada |
+| `config/` | 8099 | Configuración centralizada |
 | `eureka/` | 8761 | Service discovery |
 | `gateway/` | 8090 | Punto único de entrada HTTP + JWT |
 
@@ -17,7 +17,7 @@ Infraestructura base del sistema distribuido: Config Server, Eureka Server y API
 docker compose up -d
 
 # O individualmente con Maven (dev)
-cd config    && mvn spring-boot:run   # :8888
+cd config    && mvn spring-boot:run   # :8099
 cd ../eureka && mvn spring-boot:run   # :8761
 cd ../gateway && mvn spring-boot:run  # :8080 local
 ```

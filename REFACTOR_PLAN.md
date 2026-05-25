@@ -14,7 +14,7 @@
 | **3. config-repo** | JDBC `postgresql://`, driver `org.postgresql.Driver`, credenciales `ecom`/`ecom` |
 | **4. Docker Compose** | MySQL→postgres:16-alpine, naming `ecom-*` en containers/images/volumes/networks |
 | **5. .env** | Variables genéricas `DB_HOST`/`DB_PORT`/`DB_NAME`/`DB_USER`/`DB_PASS` |
-| **6. Puertos** | Dev `server.port: 0` (dinámico), Prod `server.port: 8080`; Config:8888, Eureka:8761, Gateway:8090 |
+| **6. Puertos** | Dev `server.port: 0` (dinámico), Prod `server.port: 8080`; Config:8099, Eureka:8761, Gateway:8090 |
 | **7. Renombrar carpetas infra** | `config/`→`config/`, `eureka/`→`eureka/`, `config-repo/` movido a `config/config-repo/` |
 | **8. Renombrar servicios** | `auth/`→`auth-ms/`, `catalogo/`→`catalogo-ms/`, `producto/`→`producto-ms/` |
 | **9. `spring.application.name`** | `auth-ms`, `catalogo-ms`, `producto-ms` |
