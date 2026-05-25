@@ -1443,8 +1443,8 @@
 <tbody>
 <tr>
 <td>Config</td>
-<td style="text-align: right;">8888</td>
-<td style="text-align: right;">8888</td>
+<td style="text-align: right;">8099</td>
+<td style="text-align: right;">8099</td>
 </tr>
 <tr>
 <td>Eureka</td>
@@ -1459,7 +1459,7 @@
 </tbody>
 </table>
 <p>En Docker prod, los servicios se comunican por nombre interno:</p>
-<div class="highlight"><pre><span></span><code>ecom-config:8888
+<div class="highlight"><pre><span></span><code>ecom-config:8099
 eureka:8761
 gateway:8080
 </code></pre></div>
@@ -1490,7 +1490,7 @@ gateway:8080
 
     Producto --&gt;|"Feign / Circuit Breaker"| Catalogo
 
-    Auth --&gt; Config["Config Server&lt;br/&gt;(ecom-config:8888)"]
+    Auth --&gt; Config["Config Server&lt;br/&gt;(ecom-config:8099)"]
     Catalogo --&gt; Config
     Producto --&gt; Config
     Orden --&gt; Config
@@ -1542,7 +1542,7 @@ eureka-prod.yml
 <p>Los microservicios importan Config Server desde su <code>application.yml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spring</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">import</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}&quot;</span>
+<span class="w">    </span><span class="nt">import</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;optional:configserver:${CONFIG_SERVER_URL:http://localhost:8099}&quot;</span>
 </code></pre></div>
 <h2 id="servicios-integrados">Servicios Integrados</h2>
 <table>
@@ -1651,9 +1651,9 @@ eureka-prod.yml
 <span class="p">.\</span><span class="n">mvnw</span><span class="p">.</span><span class="n">cmd</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
 </code></pre></div>
 <p>Validaciones:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:8888/catalogo/dev
-http://localhost:8888/orden-ms/dev
-http://localhost:8888/pago-ms/dev
+<div class="highlight"><pre><span></span><code>http://localhost:8099/catalogo/dev
+http://localhost:8099/orden-ms/dev
+http://localhost:8099/pago-ms/dev
 http://localhost:8761
 http://localhost:8090/actuator/health
 </code></pre></div>
@@ -1687,8 +1687,8 @@ http://localhost:8090/actuator/health
 <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
 </code></pre></div>
 <p>Validaciones:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:8888/orden-ms/prod
-http://localhost:8888/pago-ms/prod
+<div class="highlight"><pre><span></span><code>http://localhost:8099/orden-ms/prod
+http://localhost:8099/pago-ms/prod
 http://localhost:8761
 http://localhost:8090/actuator/health
 </code></pre></div>
@@ -1714,7 +1714,7 @@ http://localhost:8090/actuator/health
 <p>Revisar:</p>
 <ul>
 <li>que Config Server este arriba</li>
-<li>que <code>CONFIG_SERVER_URL</code> apunte a <code>http://ecom-config:8888</code> en Docker</li>
+<li>que <code>CONFIG_SERVER_URL</code> apunte a <code>http://ecom-config:8099</code> en Docker</li>
 <li>que exista el archivo <code>{spring.application.name}-{profile}.yml</code> en <code>config-repo</code></li>
 </ul>
 <h3 id="servicio-no-aparece-en-eureka">Servicio no aparece en Eureka</h3>
