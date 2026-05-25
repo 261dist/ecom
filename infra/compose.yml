@@ -1,0 +1,60 @@
+name: ecom-infra
+
+services:
+  config:
+    build:
+      context: ./config
+      dockerfile: Dockerfile
+    container_name: ecom-config
+    image: ecom/config:latest
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./config/config-repo:/config-repo
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+      CONFIG_REPO_LOCATION: file:/config-repo
+    networks:
+      - ecom-prod-net
+
+  eureka:
+    build:
+      context: ./eureka
+      dockerfile: Dockerfile
+    container_name: ecom-eureka
+    image: ecom/eureka:latest
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      CONFIG_SERVER_URL: http://ecom-config:8888
+    depends_on:
+      - config
+    networks:
+      - ecom-prod-net
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: ecom-gateway
+    image: ecom/gateway:latest
+    restart: unless-stopped
+    ports:
+      - "8090:8080"
+    volumes:
+      - ./gateway/logs:/app/logs
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      CONFIG_SERVER_URL: http://ecom-config:8888
+    depends_on:
+      - config
+      - eureka
+    networks:
+      - ecom-prod-net
+
+networks:
+  ecom-prod-net:
+    name: ecom-prod-net
