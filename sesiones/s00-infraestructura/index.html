@@ -1,0 +1,1721 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación del proyecto de microservicios ecom">
+      
+      
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../s04-gateway/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>s00-infraestructura - ecom — Microservicios 2026</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#infraestructura-de-microservicios" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ecom — Microservicios 2026" class="md-header__button md-logo" aria-label="ecom — Microservicios 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ecom — Microservicios 2026
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              s00-infraestructura
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ecom — Microservicios 2026" class="md-nav__button md-logo" aria-label="ecom — Microservicios 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ecom — Microservicios 2026
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesiones
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesiones
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s00-infraestructura
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s00-infraestructura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Componentes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puertos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#red-compartida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Red Compartida
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arquitectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arquitectura
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arquitectura">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registro-y-descubrimiento-con-eureka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registro y descubrimiento con Eureka
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config-repo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config-repo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicios-integrados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Servicios Integrados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rutas-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rutas Gateway
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguridad
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#levantar-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Levantar DEV
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#levantar-prod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Levantar PROD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#observabilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observabilidad
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#problemas-comunes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problemas Comunes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problemas Comunes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config-no-carga" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config no carga
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servicio-no-aparece-en-eureka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Servicio no aparece en Eureka
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gateway-no-enruta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway no enruta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-usando-localhost-dentro-de-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error usando localhost dentro de Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estado-actual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estado Actual
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag-sugerido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tag sugerido
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s04-gateway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s04-gateway
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s05-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s05-observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s05b-observabilidad-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s05b-stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s05c-observabilidad-herramientas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s05c-herramientas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s05d-observabilidad-automatizada/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s05d-automatizada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s06-seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s06-seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s07-kafka-ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s07-kafka-ingesta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s07b-kafka-arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s07b-arquitectura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s08-kafka-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s08-kafka-observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s09-convencion-puertos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s09-convencion-puertos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/lab-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lab-observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/lab-auth-productos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lab-auth-productos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/lab-categorias-estandar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lab-categorias-estandar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Componentes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puertos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#red-compartida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Red Compartida
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arquitectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arquitectura
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arquitectura">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registro-y-descubrimiento-con-eureka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registro y descubrimiento con Eureka
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config-repo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config-repo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicios-integrados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Servicios Integrados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rutas-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rutas Gateway
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguridad
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#levantar-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Levantar DEV
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#levantar-prod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Levantar PROD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#observabilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observabilidad
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#problemas-comunes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problemas Comunes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problemas Comunes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config-no-carga" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config no carga
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#servicio-no-aparece-en-eureka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Servicio no aparece en Eureka
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gateway-no-enruta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway no enruta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-usando-localhost-dentro-de-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error usando localhost dentro de Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estado-actual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estado Actual
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag-sugerido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tag sugerido
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="infraestructura-de-microservicios">Infraestructura de Microservicios</h1>
+<p>Este modulo contiene la infraestructura base de la plataforma:</p>
+<ul>
+<li>Config Server</li>
+<li>Registry Server/Eureka</li>
+<li>Gateway</li>
+<li><code>config-repo</code></li>
+<li>red compartida <code>ms-net</code></li>
+</ul>
+<p>Kafka, observabilidad y microservicios viven en modulos separados, pero se integran con esta infraestructura.</p>
+<h2 id="componentes">Componentes</h2>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th>Rol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config-server</code></td>
+<td>Sirve configuracion centralizada desde <code>infra/config-repo</code></td>
+</tr>
+<tr>
+<td><code>registry-server</code></td>
+<td>Eureka para registro y descubrimiento</td>
+</tr>
+<tr>
+<td><code>gateway</code></td>
+<td>Punto unico de entrada HTTP y validacion JWT en el borde</td>
+</tr>
+<tr>
+<td><code>config-repo</code></td>
+<td>Configuracion por servicio y perfil</td>
+</tr>
+<tr>
+<td><code>ms-net</code></td>
+<td>Red Docker compartida de produccion</td>
+</tr>
+</tbody>
+</table>
+<h2 id="puertos">Puertos</h2>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th style="text-align: right;">DEV</th>
+<th style="text-align: right;">PROD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Config Server</td>
+<td style="text-align: right;">7071</td>
+<td style="text-align: right;">7072</td>
+</tr>
+<tr>
+<td>Registry Server</td>
+<td style="text-align: right;">7081</td>
+<td style="text-align: right;">7082</td>
+</tr>
+<tr>
+<td>Gateway</td>
+<td style="text-align: right;">7091</td>
+<td style="text-align: right;">7092</td>
+</tr>
+</tbody>
+</table>
+<p>En Docker prod, los servicios se comunican por nombre interno:</p>
+<div class="highlight"><pre><span></span><code>config-server:7071
+registry-server:7081
+gateway:7091
+</code></pre></div>
+<h2 id="red-compartida">Red Compartida</h2>
+<p><code>infra/docker-compose.yml</code> crea la red:</p>
+<div class="highlight"><pre><span></span><code>ms-net
+</code></pre></div>
+<p>La consumen como red externa:</p>
+<ul>
+<li><code>auth</code></li>
+<li><code>catalogo</code></li>
+<li><code>producto</code></li>
+<li><code>orden-ms</code></li>
+<li><code>pago-ms</code></li>
+<li><code>kafka</code></li>
+<li><code>observability</code></li>
+</ul>
+<p><code>infra</code> debe levantarse primero en prod para crear <code>ms-net</code>.</p>
+<h2 id="arquitectura">Arquitectura</h2>
+<p>Diagrama general de la plataforma:</p>
+<pre class="mermaid"><code>graph TB
+    Client["Cliente"] --&gt; Gateway["API Gateway&lt;br/&gt;(ecom-gateway:8090)"]
+    Gateway --&gt; Auth["auth-ms"]
+    Gateway --&gt; Catalogo["catalogo-ms"]
+    Gateway --&gt; Producto["producto-ms"]
+    Gateway --&gt; Orden["orden-ms"]
+    Gateway --&gt; Pago["pago-ms"]
+
+    Producto --&gt;|"Feign / Circuit Breaker"| Catalogo
+
+    Auth --&gt; Config["Config Server&lt;br/&gt;(ecom-config:8888)"]
+    Catalogo --&gt; Config
+    Producto --&gt; Config
+    Orden --&gt; Config
+    Pago --&gt; Config
+
+    Auth --&gt; Eureka["Eureka Server&lt;br/&gt;(ecom-eureka:8761)"]
+    Catalogo --&gt; Eureka
+    Producto --&gt; Eureka
+    Orden --&gt; Eureka
+    Pago --&gt; Eureka
+
+    Orden --&gt;|"publica"| Kafka["Kafka&lt;br/&gt;(orden-eventos)"]
+    Kafka --&gt;|"consume"| Pago
+    Pago --&gt;|"publica"| Kafka2["Kafka&lt;br/&gt;(pago-eventos)"]</code></pre>
+<h3 id="registro-y-descubrimiento-con-eureka">Registro y descubrimiento con Eureka</h3>
+<p>Cada microservicio se registra en Eureka al arrancar y el gateway descubre las instancias para enrutar peticiones:</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant S as Microservicio
+    participant E as Eureka Server
+    participant C as Config Server
+    participant G as API Gateway
+
+    S-&gt;&gt;C: Obtener config (arranque)
+    C--&gt;&gt;S: Config remota
+    S-&gt;&gt;E: Register (con health check)
+    E--&gt;&gt;S: OK
+    Note over S,E: Heartbeat cada 30s
+    G-&gt;&gt;E: Descubrir servicios
+    E--&gt;&gt;G: Lista de instancias
+    G-&gt;&gt;S: lb://service-name</code></pre>
+<h2 id="config-repo">config-repo</h2>
+<p>Contiene la configuracion externa por servicio y perfil.</p>
+<p>Archivos principales:</p>
+<div class="highlight"><pre><span></span><code>auth-dev.yml
+auth-prod.yml
+catalogo-dev.yml
+catalogo-prod.yml
+producto-dev.yml
+producto-prod.yml
+orden-ms-dev.yml
+orden-ms-prod.yml
+pago-ms-dev.yml
+pago-ms-prod.yml
+gateway-dev.yml
+gateway-prod.yml
+registry-server-dev.yml
+registry-server-prod.yml
+</code></pre></div>
+<p>Los microservicios importan Config Server desde su <code>application.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">import</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;optional:configserver:${CONFIG_SERVER_URL:http://localhost:7071}&quot;</span>
+</code></pre></div>
+<h2 id="servicios-integrados">Servicios Integrados</h2>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th>Config centralizada</th>
+<th>Eureka</th>
+<th>Gateway</th>
+<th>Observability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auth</code></td>
+<td>si</td>
+<td>si</td>
+<td>si</td>
+<td>si</td>
+</tr>
+<tr>
+<td><code>catalogo</code></td>
+<td>si</td>
+<td>si</td>
+<td>si</td>
+<td>si</td>
+</tr>
+<tr>
+<td><code>producto</code></td>
+<td>si</td>
+<td>si</td>
+<td>si</td>
+<td>si</td>
+</tr>
+<tr>
+<td><code>orden-ms</code></td>
+<td>si</td>
+<td>si</td>
+<td>si</td>
+<td>si</td>
+</tr>
+<tr>
+<td><code>pago-ms</code></td>
+<td>si</td>
+<td>si</td>
+<td>si</td>
+<td>si</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rutas-gateway">Rutas Gateway</h2>
+<p>Rutas principales:</p>
+<table>
+<thead>
+<tr>
+<th>Ruta</th>
+<th>Servicio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/auth/**</code></td>
+<td><code>auth</code></td>
+</tr>
+<tr>
+<td><code>/api/v1/categorias/**</code></td>
+<td><code>catalogo</code></td>
+</tr>
+<tr>
+<td><code>/api/v1/productos/**</code></td>
+<td><code>producto</code></td>
+</tr>
+<tr>
+<td><code>/ordenes/**</code></td>
+<td><code>orden-ms</code></td>
+</tr>
+<tr>
+<td><code>/pagos/**</code></td>
+<td><code>pago-ms</code></td>
+</tr>
+</tbody>
+</table>
+<p>En dev tambien se exponen rutas Swagger para los servicios que lo tienen habilitado.</p>
+<h2 id="seguridad">Seguridad</h2>
+<p>La seguridad principal esta centralizada en Gateway:</p>
+<ul>
+<li><code>/auth/**</code> es publico.</li>
+<li>Actuator basico del Gateway queda publico para health/info/prometheus.</li>
+<li>Swagger dev queda publico.</li>
+<li>El resto de rutas requiere JWT.</li>
+</ul>
+<p>Esto significa que <code>/ordenes/**</code> y <code>/pagos/**</code> quedan protegidos cuando se accede por Gateway.</p>
+<p>Nota: los puertos directos de los microservicios se mantienen para laboratorio y pruebas. Para una produccion mas estricta, se pueden dejar sin publicar y consumirlos solo por <code>ms-net</code>.</p>
+<h2 id="levantar-dev">Levantar DEV</h2>
+<p>En dev normalmente se ejecutan los componentes Java con Maven.</p>
+<p>Config Server:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">infra</span><span class="p">\</span><span class="n">config-server</span>
+<span class="n">mvn</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
+</code></pre></div>
+<p>Registry Server:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">infra</span><span class="p">\</span><span class="n">registry-server</span>
+<span class="p">.\</span><span class="n">mvnw</span><span class="p">.</span><span class="n">cmd</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
+</code></pre></div>
+<p>Gateway:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">infra</span><span class="p">\</span><span class="n">gateway</span>
+<span class="p">.\</span><span class="n">mvnw</span><span class="p">.</span><span class="n">cmd</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
+</code></pre></div>
+<p>Validaciones:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:7071/catalogo/dev
+http://localhost:7071/orden-ms/dev
+http://localhost:7071/pago-ms/dev
+http://localhost:7081
+http://localhost:7091/actuator/health
+</code></pre></div>
+<h2 id="levantar-prod">Levantar PROD</h2>
+<p>Primero infra:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">infra</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
+</code></pre></div>
+<p>Luego Kafka:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">kafka</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
+</code></pre></div>
+<p>Luego microservicios, por ejemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">services</span><span class="p">\</span><span class="n">auth</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
+
+<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">services</span><span class="p">\</span><span class="n">catalogo</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
+
+<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">services</span><span class="p">\</span><span class="n">producto</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
+
+<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">services</span><span class="p">\</span><span class="n">orden-ms</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
+
+<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">services</span><span class="p">\</span><span class="n">pago-ms</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
+</code></pre></div>
+<p>Finalmente observability:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">ms1</span><span class="p">\</span><span class="n">ProyectosMS2026</span><span class="p">\</span><span class="n">obs</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
+</code></pre></div>
+<p>Validaciones:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:7072/orden-ms/prod
+http://localhost:7072/pago-ms/prod
+http://localhost:7082
+http://localhost:7092/actuator/health
+</code></pre></div>
+<h2 id="observabilidad">Observabilidad</h2>
+<p><code>infra</code> no levanta Prometheus, Loki ni Grafana. Eso vive en <code>observability</code>.</p>
+<p>La plataforma expone:</p>
+<ul>
+<li>Actuator en Gateway.</li>
+<li>Actuator/Prometheus en microservicios.</li>
+<li>Logs de Gateway en <code>infra/gateway/logs</code>.</li>
+</ul>
+<p><code>observability</code> consume metricas y logs desde:</p>
+<ul>
+<li><code>gateway</code></li>
+<li><code>catalogo</code></li>
+<li><code>producto</code></li>
+<li><code>orden-ms</code></li>
+<li><code>pago-ms</code></li>
+<li><code>kafka-exporter</code></li>
+</ul>
+<h2 id="problemas-comunes">Problemas Comunes</h2>
+<h3 id="config-no-carga">Config no carga</h3>
+<p>Revisar:</p>
+<ul>
+<li>que Config Server este arriba</li>
+<li>que <code>CONFIG_SERVER_URL</code> apunte a <code>http://config-server:7071</code> en Docker</li>
+<li>que exista el archivo <code>{spring.application.name}-{profile}.yml</code> en <code>config-repo</code></li>
+</ul>
+<h3 id="servicio-no-aparece-en-eureka">Servicio no aparece en Eureka</h3>
+<p>Revisar:</p>
+<ul>
+<li>dev: <code>http://localhost:7081/eureka</code></li>
+<li>prod: <code>http://registry-server:7081/eureka</code></li>
+<li>que el servicio tenga dependencia Eureka Client</li>
+</ul>
+<h3 id="gateway-no-enruta">Gateway no enruta</h3>
+<p>Revisar:</p>
+<ul>
+<li>que el servicio aparezca en Eureka</li>
+<li>que la ruta exista en <code>gateway-dev.yml</code> o <code>gateway-prod.yml</code></li>
+<li>que el JWT sea valido si la ruta no es publica</li>
+</ul>
+<h3 id="error-usando-localhost-dentro-de-docker">Error usando localhost dentro de Docker</h3>
+<p>Dentro de Docker no usar <code>localhost</code> para otros contenedores.</p>
+<p>Usar:</p>
+<ul>
+<li><code>config-server</code></li>
+<li><code>registry-server</code></li>
+<li><code>kafka</code></li>
+<li>nombre del servicio en <code>ms-net</code></li>
+</ul>
+<h2 id="estado-actual">Estado Actual</h2>
+<ul>
+<li>[x] Config Server</li>
+<li>[x] Registry Server/Eureka</li>
+<li>[x] Gateway con <code>lb://</code></li>
+<li>[x] Config centralizada para <code>auth</code>, <code>catalogo</code>, <code>producto</code>, <code>orden-ms</code>, <code>pago-ms</code></li>
+<li>[x] Red compartida <code>ms-net</code></li>
+<li>[x] Seguridad JWT en Gateway</li>
+<li>[x] Integracion Kafka para <code>orden-ms</code> y <code>pago-ms</code></li>
+<li>[x] Configuracion Eureka dev con <code>localhost</code> estable</li>
+<li>[x] Rutas Gateway para <code>/api/v1/ordenes/**</code> y <code>/api/v1/pagos/**</code></li>
+<li>[x] Actuator/Prometheus en servicios integrados</li>
+<li>[x] Logs centralizados consumibles por observability</li>
+<li>[ ] Politicas avanzadas de trafico en Gateway</li>
+<li>[ ] Seguridad por microservicio como defensa en profundidad</li>
+<li>[ ] Integracion con frontend</li>
+</ul>
+<hr />
+<h2 id="tag-sugerido">Tag sugerido</h2>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span>vs09-kafka<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;eda con vs09-kafka&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>vs09-kafka
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid.js"></script>
+      
+    
+  </body>
+</html>

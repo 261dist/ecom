@@ -1,0 +1,1688 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación del proyecto de microservicios ecom">
+      
+      
+      
+      
+        <link rel="prev" href="../s04-gateway/">
+      
+      
+        <link rel="next" href="../s05b-observabilidad-stack/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>s05-observabilidad - ecom — Microservicios 2026</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sesion-6-p2-observabilidad-basica" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ecom — Microservicios 2026" class="md-header__button md-logo" aria-label="ecom — Microservicios 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ecom — Microservicios 2026
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              s05-observabilidad
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ecom — Microservicios 2026" class="md-nav__button md-logo" aria-label="ecom — Microservicios 2026" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ecom — Microservicios 2026
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sesiones
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sesiones
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s00-infraestructura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s00-infraestructura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s04-gateway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s04-gateway
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s05-observabilidad
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s05-observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidencias-esperadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencias esperadas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cambios-implementados-en-esta-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cambios implementados en esta sesion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cambios implementados en esta sesion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-actuator-estandarizado-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Actuator estandarizado en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-endpoint-instancia-estandarizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Endpoint /instancia estandarizado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-logs-de-trazabilidad-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Logs de trazabilidad simple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-propagacion-de-x-trace-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Propagacion de X-Trace-ID
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#archivos-trabajados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archivos trabajados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practica-guiada-para-alumnos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practica guiada para alumnos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practica guiada para alumnos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-levantar-infraestructura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1. Levantar infraestructura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-levantar-microservicios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2. Levantar microservicios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-verificar-salud-del-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3. Verificar salud del sistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-31-verificar-metricas-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.1. Verificar metricas base
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-verificar-instancia-de-cada-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4. Verificar instancia de cada servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-5-verificar-detalle-con-feign" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5. Verificar detalle con Feign
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-6-verificar-circuit-breaker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6. Verificar Circuit Breaker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preguntas-para-el-alumno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preguntas para el alumno
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cierre-de-la-fase-manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cierre de la fase manual
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist de evaluacion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#siguiente-paso-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Siguiente paso recomendado
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s05b-observabilidad-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s05b-stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s05c-observabilidad-herramientas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s05c-herramientas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s05d-observabilidad-automatizada/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s05d-automatizada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s06-seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s06-seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s07-kafka-ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s07-kafka-ingesta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s07b-kafka-arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s07b-arquitectura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s08-kafka-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s08-kafka-observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s09-convencion-puertos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    s09-convencion-puertos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/lab-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lab-observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/lab-auth-productos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lab-auth-productos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/lab-categorias-estandar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    lab-categorias-estandar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidencias-esperadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencias esperadas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cambios-implementados-en-esta-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cambios implementados en esta sesion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cambios implementados en esta sesion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-actuator-estandarizado-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Actuator estandarizado en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-endpoint-instancia-estandarizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Endpoint /instancia estandarizado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-logs-de-trazabilidad-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Logs de trazabilidad simple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-propagacion-de-x-trace-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Propagacion de X-Trace-ID
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#archivos-trabajados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archivos trabajados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practica-guiada-para-alumnos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practica guiada para alumnos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practica guiada para alumnos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-levantar-infraestructura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1. Levantar infraestructura
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-levantar-microservicios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2. Levantar microservicios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-verificar-salud-del-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3. Verificar salud del sistema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-31-verificar-metricas-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3.1. Verificar metricas base
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-verificar-instancia-de-cada-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4. Verificar instancia de cada servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-5-verificar-detalle-con-feign" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 5. Verificar detalle con Feign
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-6-verificar-circuit-breaker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 6. Verificar Circuit Breaker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preguntas-para-el-alumno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preguntas para el alumno
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cierre-de-la-fase-manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cierre de la fase manual
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist de evaluacion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#siguiente-paso-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Siguiente paso recomendado
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="sesion-6-p2-observabilidad-basica">Sesion 6 P2 - Observabilidad Basica</h1>
+<p>Este documento sirve como guia de trabajo para alumnos sobre la sesion de observabilidad basica en una arquitectura de microservicios.</p>
+<p>No reemplaza los <code>README</code> de cada modulo. Se usa como apoyo practico para esta fase del curso.</p>
+<hr />
+<h2 id="objetivo">Objetivo</h2>
+<p>Poder responder preguntas como:</p>
+<ul>
+<li>que servicio recibio la peticion</li>
+<li>que servicio llamo a otro servicio</li>
+<li>que request fallo</li>
+<li>cuando entro en accion el Circuit Breaker</li>
+<li>que instancia respondio</li>
+</ul>
+<p>Flujo esperado:</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Servicios
+        G["gateway:8080"]
+        A["auth-ms:8080"]
+        C["catalogo-ms:8080"]
+        P["producto-ms:8080"]
+    end
+
+    subgraph Recolección
+        Pro["Prometheus"]
+        Pt["Promtail"]
+    end
+
+    subgraph Almacenamiento
+        L["Loki"]
+    end
+
+    subgraph Visualización
+        Gr["Grafana"]
+    end
+
+    G --&gt;|"/actuator/prometheus"| Pro
+    A --&gt;|"/actuator/prometheus"| Pro
+    C --&gt;|"/actuator/prometheus"| Pro
+    P --&gt;|"/actuator/prometheus"| Pro
+
+    G --&gt;|"logs"| Pt
+    A --&gt;|"logs"| Pt
+    C --&gt;|"logs"| Pt
+    P --&gt;|"logs"| Pt
+
+    Pro --&gt; L
+    Pt --&gt; L
+    L --&gt; Gr
+    Pro --&gt; Gr</code></pre>
+<hr />
+<h2 id="evidencias-esperadas">Evidencias esperadas</h2>
+<p>Al finalizar, el alumno debe poder mostrar:</p>
+<ul>
+<li><code>GET /actuator/health</code></li>
+<li><code>GET /actuator/metrics</code></li>
+<li><code>GET /actuator/metrics/http.server.requests</code></li>
+<li><code>GET /actuator/metrics/system.cpu.usage</code></li>
+<li><code>GET /actuator/metrics/jvm.memory.used</code></li>
+<li><code>GET /actuator/circuitbreakers</code></li>
+<li><code>GET /actuator/circuitbreakerevents</code></li>
+<li><code>GET /api/v1/producto/instancia</code></li>
+<li><code>GET /api/v1/catalogo/instancia</code></li>
+<li><code>GET /api/v1/productos/detalle/1</code></li>
+</ul>
+<hr />
+<h2 id="cambios-implementados-en-esta-sesion">Cambios implementados en esta sesion</h2>
+<h3 id="1-actuator-estandarizado-en-dev">1. Actuator estandarizado en DEV</h3>
+<p>Se configuraron estos endpoints en:</p>
+<ul>
+<li><code>infra/config-repo/producto-dev.yml</code></li>
+<li><code>infra/config-repo/catalogo-dev.yml</code></li>
+<li><code>infra/config-repo/gateway-dev.yml</code></li>
+</ul>
+<p>Configuracion usada:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">management</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">endpoints</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">web</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">exposure</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health,info,metrics,circuitbreakers,circuitbreakerevents</span>
+<span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">health</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">show-details</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+</code></pre></div>
+<p>Nota:</p>
+<ul>
+<li><code>circuitbreakers</code> y <code>circuitbreakerevents</code> tienen mas sentido en <code>producto</code>, porque ahi esta Resilience4j.</li>
+<li>En <code>gateway</code> y <code>catalogo</code>, lo importante para clase es <code>health</code>, <code>info</code> y <code>metrics</code>.</li>
+</ul>
+<hr />
+<h3 id="2-endpoint-instancia-estandarizado">2. Endpoint <code>/instancia</code> estandarizado</h3>
+<p>Se ajustaron los endpoints de:</p>
+<ul>
+<li><code>producto</code></li>
+<li><code>catalogo</code></li>
+</ul>
+<p>Respuesta esperada:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;servicio&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;producto&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;instancia&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9091&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DESKTOP-01&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;traceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0f4d3f7e-7c1e-4bdb-9f18-2d6e615d9d43&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Y para <code>catalogo</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;servicio&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;catalogo&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;instancia&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8081&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DESKTOP-01&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;traceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0f4d3f7e-7c1e-4bdb-9f18-2d6e615d9d43&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Esto ayuda a validar:</p>
+<ul>
+<li>registro en Eureka</li>
+<li>ruteo por Gateway</li>
+<li>balanceo entre instancias</li>
+<li>reconocimiento real de quien respondio</li>
+<li>correlacion de la peticion actual con logs</li>
+</ul>
+<hr />
+<h3 id="3-logs-de-trazabilidad-simple">3. Logs de trazabilidad simple</h3>
+<p>Se agregaron logs didacticos para que el alumno vea el recorrido entre servicios.</p>
+<p>En <code>producto</code>:</p>
+<div class="highlight"><pre><span></span><code>[PRODUCTO] Buscando detalle de producto con ID: 1
+[PRODUCTO] Consultando categoriaId=1 en catalogo
+</code></pre></div>
+<p>En <code>catalogo</code>:</p>
+<div class="highlight"><pre><span></span><code>[CATALOGO] Buscando categoria id=1
+</code></pre></div>
+<p>Cuando el Circuit Breaker activa fallback en <code>producto</code>:</p>
+<div class="highlight"><pre><span></span><code>[PRODUCTO] Fallback activado para producto ID 1. Motivo: ...
+</code></pre></div>
+<hr />
+<h3 id="4-propagacion-de-x-trace-id">4. Propagacion de <code>X-Trace-ID</code></h3>
+<p>Ya existian filtros de correlacion en <code>producto</code> y <code>catalogo</code>.</p>
+<p>En esta sesion se completo la trazabilidad agregando:</p>
+<ul>
+<li>un filtro global en <code>gateway</code> para crear o reutilizar <code>X-Trace-ID</code></li>
+<li>una configuracion Feign en <code>producto</code> para reenviar <code>X-Trace-ID</code> hacia <code>catalogo</code></li>
+</ul>
+<p>Con eso, el mismo identificador puede viajar en la ruta:</p>
+<div class="highlight"><pre><span></span><code>Cliente -&gt; Gateway -&gt; Producto -&gt; Catalogo
+</code></pre></div>
+<p>Esto permite relacionar logs de varios servicios sobre una misma peticion.</p>
+<hr />
+<h2 id="archivos-trabajados">Archivos trabajados</h2>
+<ul>
+<li><code>infra/config-repo/producto-dev.yml</code></li>
+<li><code>infra/config-repo/catalogo-dev.yml</code></li>
+<li><code>infra/config-repo/gateway-dev.yml</code></li>
+<li><code>infra/gateway/src/main/resources/logback-spring.xml</code></li>
+<li><code>infra/gateway/src/main/java/com/upeu/gateway/filter/TraceIdGlobalFilter.java</code></li>
+<li><code>services/producto/src/main/resources/logback-spring.xml</code></li>
+<li><code>services/catalogo/src/main/resources/logback-spring.xml</code></li>
+<li><code>services/producto/src/main/java/com/upeu/producto/config/FeignTraceConfig.java</code></li>
+<li><code>services/producto/src/main/java/com/upeu/producto/controller/GatewayInstanciasController.java</code></li>
+<li><code>services/catalogo/src/main/java/com/upeu/catalogo/controller/GatewayInstanciasController.java</code></li>
+<li><code>services/producto/src/main/java/com/upeu/producto/service/impl/ProductoServiceImpl.java</code></li>
+<li><code>services/catalogo/src/main/java/com/upeu/catalogo/service/impl/CategoriaServiceImpl.java</code></li>
+</ul>
+<hr />
+<h2 id="practica-guiada-para-alumnos">Practica guiada para alumnos</h2>
+<h3 id="paso-1-levantar-infraestructura">Paso 1. Levantar infraestructura</h3>
+<p>Levantar:</p>
+<ul>
+<li>config-server</li>
+<li>registry-server</li>
+<li>gateway</li>
+</ul>
+<h3 id="paso-2-levantar-microservicios">Paso 2. Levantar microservicios</h3>
+<p>Levantar:</p>
+<ul>
+<li>catalogo</li>
+<li>producto</li>
+</ul>
+<h3 id="paso-3-verificar-salud-del-sistema">Paso 3. Verificar salud del sistema</h3>
+<p>Probar:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:7091/actuator/health
+http://localhost:9091/actuator/health
+http://localhost:8081/actuator/health
+</code></pre></div>
+<h3 id="paso-31-verificar-metricas-base">Paso 3.1. Verificar metricas base</h3>
+<p>Primero listar metricas disponibles:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:7091/actuator/metrics
+http://localhost:9091/actuator/metrics
+http://localhost:8081/actuator/metrics
+</code></pre></div>
+<p>Luego consultar metricas especificas:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:7091/actuator/metrics/http.server.requests
+http://localhost:9091/actuator/metrics/http.server.requests
+http://localhost:8081/actuator/metrics/http.server.requests
+http://localhost:9091/actuator/metrics/system.cpu.usage
+http://localhost:9091/actuator/metrics/jvm.memory.used
+</code></pre></div>
+<p>Interpretacion basica:</p>
+<ul>
+<li><code>http.server.requests</code>: cantidad y comportamiento de requests HTTP</li>
+<li><code>system.cpu.usage</code>: uso actual de CPU del proceso/sistema</li>
+<li><code>jvm.memory.used</code>: memoria usada por la JVM</li>
+</ul>
+<h3 id="paso-4-verificar-instancia-de-cada-servicio">Paso 4. Verificar instancia de cada servicio</h3>
+<p>Probar:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:9091/api/v1/producto/instancia
+http://localhost:8081/api/v1/catalogo/instancia
+http://localhost:7091/api/v1/producto/instancia
+http://localhost:7091/api/v1/catalogo/instancia
+</code></pre></div>
+<h3 id="paso-5-verificar-detalle-con-feign">Paso 5. Verificar detalle con Feign</h3>
+<p>Probar:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:9091/api/v1/productos/detalle/1
+http://localhost:7091/api/v1/productos/detalle/1
+</code></pre></div>
+<p>El alumno debe revisar los logs y confirmar:</p>
+<ul>
+<li><code>producto</code> recibio la peticion</li>
+<li><code>producto</code> llamo a <code>catalogo</code></li>
+<li><code>catalogo</code> atendio la consulta</li>
+</ul>
+<p>Donde ver los logs en DEV:</p>
+<ul>
+<li>en la consola donde se ejecuto cada servicio con <code>mvn spring-boot:run</code></li>
+<li>en archivos locales generados por cada servicio:</li>
+<li><code>infra/gateway/logs/gateway.log</code></li>
+<li><code>services/producto/logs/producto.log</code></li>
+<li><code>services/catalogo/logs/catalogo.log</code></li>
+</ul>
+<h3 id="paso-6-verificar-circuit-breaker">Paso 6. Verificar Circuit Breaker</h3>
+<ol>
+<li>Detener <code>catalogo</code>.</li>
+<li>Repetir:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>http://localhost:9091/api/v1/productos/detalle/1
+</code></pre></div>
+<ol>
+<li>
+<p>Revisar:</p>
+</li>
+<li>
+<p>respuesta con <code>categoria: null</code></p>
+</li>
+<li>logs de fallback</li>
+<li>endpoint <code>/actuator/circuitbreakers</code></li>
+<li>endpoint <code>/actuator/circuitbreakerevents</code></li>
+</ol>
+<p>Endpoints utiles para esta validacion:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:9091/actuator/circuitbreakers
+http://localhost:9091/actuator/circuitbreakerevents
+http://localhost:9091/actuator/metrics/http.server.requests
+http://localhost:9091/actuator/metrics/system.cpu.usage
+http://localhost:9091/actuator/metrics/jvm.memory.used
+</code></pre></div>
+<hr />
+<h2 id="preguntas-para-el-alumno">Preguntas para el alumno</h2>
+<ol>
+<li>Que diferencia hay entre <code>health</code> y <code>metrics</code>?</li>
+<li>Que evidencia muestra que <code>producto</code> llamo a <code>catalogo</code>?</li>
+<li>Para que sirve <code>X-Trace-ID</code>?</li>
+<li>Que cambia en la respuesta cuando falla <code>catalogo</code>?</li>
+<li>Como sabes que se activo el fallback?</li>
+<li>Que metrica consultarias para verificar invocaciones HTTP del endpoint?</li>
+</ol>
+<hr />
+<h2 id="cierre-de-la-fase-manual">Cierre de la fase manual</h2>
+<p>La fase manual de observabilidad se considera cerrada cuando el alumno puede demostrar, sin herramientas externas de centralizacion, estas capacidades:</p>
+<ul>
+<li>revisar salud del servicio con <code>health</code></li>
+<li>consultar metricas base con <code>metrics</code></li>
+<li>seguir una peticion entre <code>gateway</code>, <code>producto</code> y <code>catalogo</code></li>
+<li>identificar <code>traceId</code>, <code>servicio</code>, <code>instancia</code> y <code>host</code></li>
+<li>detectar visualmente cuando entra el fallback del Circuit Breaker</li>
+<li>recuperar logs desde consola o archivo en entorno <code>dev</code></li>
+</ul>
+<p>En esta etapa, la observabilidad es:</p>
+<ul>
+<li>manual</li>
+<li>humana</li>
+<li>basada en Actuator, logs y archivos locales</li>
+</ul>
+<p>Todavia no incluye:</p>
+<ul>
+<li>dashboards centralizados</li>
+<li>consulta unificada de logs</li>
+<li>alertas</li>
+<li>trazas distribuidas completas</li>
+</ul>
+<hr />
+<h2 id="checklist-de-evaluacion">Checklist de evaluacion</h2>
+<p>Para cerrar esta fase, el alumno debe presentar evidencia de:</p>
+<ul>
+<li><code>GET /actuator/health</code> en <code>gateway</code>, <code>producto</code> y <code>catalogo</code></li>
+<li><code>GET /actuator/metrics</code> y al menos una metrica especifica como <code>http.server.requests</code></li>
+<li><code>GET /api/v1/producto/instancia</code> y <code>GET /api/v1/catalogo/instancia</code></li>
+<li>una peticion <code>GET /api/v1/productos/detalle/1</code> con logs correlacionados</li>
+<li>recuperacion de logs desde consola o desde archivo local</li>
+</ul>
+<p>Si se desea evaluacion completa de resiliencia, adicionalmente debe presentar:</p>
+<ul>
+<li>evidencia del fallback cuando <code>catalogo</code> no esta disponible</li>
+<li>consulta de <code>GET /actuator/circuitbreakers</code></li>
+<li>consulta de <code>GET /actuator/circuitbreakerevents</code></li>
+</ul>
+<hr />
+<h2 id="siguiente-paso-recomendado">Siguiente paso recomendado</h2>
+<p>Despues de esta sesion, el siguiente bloque natural es:</p>
+<ul>
+<li>observabilidad con herramientas</li>
+<li>centralizacion de metricas con Prometheus</li>
+<li>centralizacion de logs con Loki</li>
+<li>visualizacion unificada con Grafana</li>
+<li>multiples instancias para demostrar balanceo con evidencia visual</li>
+</ul>
+<p>Si el curso prioriza seguridad, entonces el siguiente salto puede ser:</p>
+<ul>
+<li>Spring Security</li>
+<li>JWT</li>
+<li>proteccion del Gateway</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid.js"></script>
+      
+    
+  </body>
+</html>
