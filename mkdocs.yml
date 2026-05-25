@@ -21,6 +21,9 @@ nav:
       - lab-observabilidad: labs/lab-observabilidad.md
       - lab-auth-productos: labs/lab-auth-productos.md
       - lab-categorias-estandar: labs/lab-categorias-estandar.md
+  - Guias:
+      - Plantilla de Informe: informe-template.md
+      - Rubrica de Evaluacion: rubrica-evaluacion.md
 
 
 theme:
