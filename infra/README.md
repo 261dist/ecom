@@ -8,7 +8,7 @@ Infraestructura base del sistema distribuido: Config Server, Eureka Server y API
 |---|---:|---:|---:|---|
 | `config/` | 18888 | 28888 | 8888 | Configuración centralizada |
 | `eureka/` | 18761 | 28761 | 8761 | Service discovery |
-| `gateway/` | 18080 | 28080 | 8080 | Punto único de entrada HTTP + JWT |
+| `gateway/` | 18080 | 28082 | 8080 | Punto único de entrada HTTP + JWT |
 
 ---
 
@@ -28,7 +28,7 @@ cd ../gateway && mvn spring-boot:run  # http://localhost:18080
 - Gateway: http://localhost:18080
 
 > Los servicios backend Maven se conectan a estos puertos (18888, 18761, 18080).
-> El Docker compose de infra usa puertos distintos (28888, 28761, 28080) para no pisarlos.
+> El Docker compose de infra usa puertos distintos (28888, 28761, 28082) para no pisarlos.
 
 ---
 
@@ -44,7 +44,7 @@ Gateway espera a que Eureka esté saludable; Eureka espera a Config. Cada health
 **Links:**
 - Config Server: http://localhost:28888/catalogo-ms/prod
 - Eureka Dashboard: http://localhost:28761
-- Gateway health: http://localhost:28080/actuator/health
+- Gateway health: http://localhost:28082/actuator/health
 
 > `config` no se registra en Eureka. `eureka` y `gateway` aparecen en el dashboard.
 

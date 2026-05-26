@@ -7,7 +7,7 @@ API Gateway de la plataforma. Expone el punto de entrada HTTP, aplica seguridad 
 | Modo | URL |
 |---|---|
 | DEV Maven | http://localhost:18080 |
-| PROD Docker | http://localhost:28080 |
+| PROD Docker | http://localhost:28082 |
 
 ## Requisitos de seguridad
 
@@ -40,7 +40,7 @@ docker compose logs -f gateway
 Verificar:
 
 ```text
-http://localhost:28080/actuator/health
+http://localhost:28082/actuator/health
 http://localhost:28761
 ```
 
@@ -52,7 +52,7 @@ El alta de usuarios y login no los hace Gateway directamente. Gateway solo enrut
 
 | Operacion | Endpoint por Gateway |
 |---|---|
-| Registrar usuario | `POST http://localhost:28080/auth/register` |
-| Login | `POST http://localhost:28080/auth/login` |
+| Registrar usuario | `POST http://localhost:28082/auth/register` |
+| Login | `POST http://localhost:28082/auth/login` |
 
 Para que funcione, primero debe estar levantado `auth-ms` y registrado en Eureka como `AUTH-MS`.
