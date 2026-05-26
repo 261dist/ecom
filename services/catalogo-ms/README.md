@@ -23,7 +23,14 @@ Ver en Eureka DEV: http://localhost:18761
 
 ```bash
 cd services/catalogo-ms
-docker compose up -d --build
+docker compose up -d --build --scale catalogo-ms=3
+```
+
+Para cambiar la cantidad de réplicas sin reconstruir:
+
+```bash
+docker compose up -d --scale catalogo-ms=2
+docker compose up -d --scale catalogo-ms=3
 ```
 
 Links:

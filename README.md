@@ -45,7 +45,7 @@ cd infra && docker compose up -d --build
 
 # 3. Servicios (Docker compila cada imagen)
 cd ../services/auth-ms      && docker compose up -d --build
-cd ../catalogo-ms           && docker compose up -d --build
+cd ../catalogo-ms           && docker compose up -d --build --scale catalogo-ms=3
 cd ../producto-ms           && docker compose up -d --build
 cd ../orden-ms              && docker compose up -d --build
 cd ../pago-ms               && docker compose up -d --build
