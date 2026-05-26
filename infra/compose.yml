@@ -6,15 +6,20 @@ services:
       context: ./config
       dockerfile: Dockerfile
     container_name: ecom-config
-    image: ecom/config:latest
     restart: unless-stopped
     ports:
-      - "8099:8099"
+      - "28888:8888"
     volumes:
       - ./config/config-repo:/config-repo
     environment:
       SPRING_PROFILES_ACTIVE: native
       CONFIG_REPO_LOCATION: file:/config-repo
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 40s
     networks:
       - ecom-prod-net
 
@@ -23,15 +28,22 @@ services:
       context: ./eureka
       dockerfile: Dockerfile
     container_name: ecom-eureka
-    image: ecom/eureka:latest
     restart: unless-stopped
     ports:
-      - "8761:8761"
+      - "28761:8761"
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      CONFIG_SERVER_URL: http://ecom-config:8099
+      CONFIG_SERVER_URL: http://ecom-config:8888
+      JWT_SECRET: ${JWT_SECRET}
     depends_on:
-      - config
+      config:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 40s
     networks:
       - ecom-prod-net
 
@@ -40,18 +52,19 @@ services:
       context: ./gateway
       dockerfile: Dockerfile
     container_name: ecom-gateway
-    image: ecom/gateway:latest
     restart: unless-stopped
     ports:
-      - "8090:8080"
+      - "28080:8080"
     volumes:
       - ./gateway/logs:/app/logs
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      CONFIG_SERVER_URL: http://ecom-config:8099
+      CONFIG_SERVER_URL: http://ecom-config:8888
     depends_on:
-      - config
-      - eureka
+      config:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
     networks:
       - ecom-prod-net
 

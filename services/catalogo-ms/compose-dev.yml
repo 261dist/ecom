@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: ecom
       POSTGRES_PASSWORD: ecom
     ports:
-      - "5404:5432"
+      - "15432:5432"
     volumes:
       - ecom_catalogo_dev_data:/var/lib/postgresql/data
 

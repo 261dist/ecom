@@ -17,13 +17,14 @@ services:
       start_period: 20s
     volumes:
       - ecom_pago_data:/var/lib/postgresql/data
+    ports:
+      - "25435:5432"
     networks:
       - ecom-pago-int
 
   pago-ms:
     build: .
     container_name: ecom-pago-ms
-    image: ecom/pago-ms:latest
     restart: unless-stopped
     depends_on:
       postgres-pago:

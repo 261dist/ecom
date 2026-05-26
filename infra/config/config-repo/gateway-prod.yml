@@ -54,5 +54,5 @@ management:
         enabled: true
 
 jwt:
-  secret: ${JWT_SECRET}
-  issuer: auth-ms
+  secret: ${JWT_SECRET:1s3alJJATsWK91vf5zrODYlQa+LauM/9udaLZlQhHlpu46g/KzmSS5c3CGy6xF9kzAqBhvjmKBuZO/pSL7tfOg==}
+  issuer: auth

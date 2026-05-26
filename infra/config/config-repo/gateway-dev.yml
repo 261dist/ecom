@@ -60,7 +60,9 @@ eureka:
   instance:
     hostname: localhost
     prefer-ip-address: false
-    instance-id: ${spring.application.name}:${server.port}
+    instance-id: ${spring.application.name}:${local.server.port:${server.port}}
+    metadata-map:
+      instance-port: ${local.server.port:${server.port}}
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
@@ -80,4 +82,4 @@ management:
 
 jwt:
   secret: 1s3alJJATsWK91vf5zrODYlQa+LauM/9udaLZlQhHlpu46g/KzmSS5c3CGy6xF9kzAqBhvjmKBuZO/pSL7tfOg==
-  issuer: auth-ms
+  issuer: auth

@@ -1,79 +1,54 @@
 # auth-ms
 
-Microservicio de autenticación. Emite JWT con roles para el control de acceso distribuido.
-
-## Stack
-
-Java 17, Spring Boot 3.5, Spring Security, JWT (jjwt), PostgreSQL, Flyway, Eureka Client, Config Client
+Microservicio de autenticación. Registra usuarios, realiza login y emite JWT.
 
 ## Puertos
 
-| Recurso | DEV | PROD |
-|---|---|---:|
-| App | 0 (dinámico) | 8080 (int) / 8042 (host) |
-| PostgreSQL | 5401 | 5402 |
+| Recurso | DEV | PROD Docker |
+|---|---:|---:|
+| App | dinámico (`server.port: 0`) | 8042 -> 8080 |
+| PostgreSQL | 15431 | 25431 -> 5432 |
 
----
-
-## DEV (Maven local)
+## DEV (Maven)
 
 ```bash
-# 1. Infraestructura
-cd infra && docker compose up -d
-# http://localhost:8099 — Config Server
-# http://localhost:8761 — Eureka Dashboard
-
-# 2. PostgreSQL dev (si no usas Docker para BD)
-# docker compose -f compose-dev.yml up -d
-
-# 3. Desde services/auth-ms/
+cd services/auth-ms
+docker compose -f compose-dev.yml up -d
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-**Link útil:** http://localhost:8761 (verificar que `AUTH-MS` aparezca en Eureka)
-
----
+Ver en Eureka DEV: http://localhost:8761
 
 ## PROD (Docker)
 
 ```bash
-# 1. Infraestructura
-cd infra && docker compose up -d
-
-# 2. auth-ms + su BD
-cd services/auth-ms && docker compose up -d
+cd services/auth-ms
+docker compose up -d --build
 ```
 
-**Links:**
-- API Gateway: http://localhost:8090
-- Eureka Dashboard: http://localhost:8761
+Links:
+- Eureka PROD: http://localhost:28761
+- Gateway PROD: http://localhost:28080
+- Directo al servicio: http://localhost:8042/actuator/health
+- Base de datos: `localhost:25431`
 
----
+## Ver la BD desde un IDE
+
+| Campo | Valor |
+|---|---|
+| Motor | PostgreSQL |
+| Host | `localhost` |
+| Puerto | `25431` |
+| Database | `ecom_auth_db` |
+| User | `ecom` |
+| Password | `ecom` |
 
 ## Endpoints
 
-- `POST /auth/login` — login, devuelve JWT
-- `POST /auth/register` — registrar usuario
+- `POST /auth/register`
+- `POST /auth/login`
 - `GET /actuator/health`
 
-## Variables de entorno
+## JWT
 
-| Variable | Descripción |
-|---|---|
-| `DB_HOST` | Host PostgreSQL |
-| `DB_PORT` | Puerto PostgreSQL |
-| `DB_NAME` | Base de datos |
-| `DB_USER` | Usuario BD |
-| `DB_PASS` | Contraseña BD |
-| `CONFIG_SERVER_URL` | URL del Config Server |
-| `JWT_SECRET` | Clave secreta JWT (solo prod) |
-
-## Seguridad
-
-- `gateway` valida JWT en el borde
-- `producto` valida JWT como resource server
-- `catalogo` se protege solo desde gateway
-
-## Documentación
-
-Ver [`docs/sesiones/s06-seguridad.md`](../docs/sesiones/s06-seguridad.md).
+`JWT_SECRET` debe coincidir con `infra/.env` para que Gateway valide los tokens emitidos por Auth.

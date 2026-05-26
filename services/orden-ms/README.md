@@ -1,76 +1,49 @@
 # orden-ms
 
-Microservicio de órdenes. Publica eventos `orden.creada` en Kafka (topic `orden-eventos`).
-
-## Stack
-
-Java 17, Spring Boot 3.5, PostgreSQL, Kafka, Eureka Client, Config Client
+Microservicio de órdenes. Publica eventos `orden.creada` en Kafka.
 
 ## Puertos
 
-| Recurso | DEV | PROD |
-|---|---|---:|
-| App | 19051 (int) / dinámico | 29051 |
-| PostgreSQL | 19050 | 29050 |
-| Kafka | localhost:41092 | kafka:9092 |
+| Recurso | DEV | PROD Docker |
+|---|---:|---:|
+| App | 19051 | 29051 -> 8080 |
+| PostgreSQL | 15434 | 25434 -> 5432 |
+| Kafka | 41092 | 29092 |
 
-## Eventos
-
-- **Publica:** `orden-eventos` (orden.creada)
-- **Consume:** `pago-eventos` (resultado del pago)
-
----
-
-## DEV (Maven local)
+## DEV (Maven)
 
 ```bash
-# 1. Infraestructura
-cd infra && docker compose up -d
-# http://localhost:8099 — Config Server
-# http://localhost:8761 — Eureka Dashboard
-
-# 2. Kafka dev
 cd kafka && docker compose -f compose-dev.yml up -d
-
-# 3. Desde services/orden-ms/
+cd ../services/orden-ms
+docker compose -f compose-dev.yml up -d
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
-
-**Link útil:** http://localhost:8761 (verificar que `ORDEN-MS` aparezca en Eureka)
-
----
 
 ## PROD (Docker)
 
 ```bash
-# 1. Infraestructura
-cd infra && docker compose up -d
-
-# 2. Kafka prod
-cd kafka && docker compose up -d
-
-# 3. orden-ms + su BD
-cd services/orden-ms && docker compose up -d
+cd services/orden-ms
+docker compose up -d --build
 ```
 
-**Links:**
-- API Gateway: http://localhost:8090
-- Eureka Dashboard: http://localhost:8761
+Links:
+- Eureka PROD: http://localhost:28761
+- Gateway PROD: http://localhost:28080
+- Directo al servicio: http://localhost:29051/actuator/health
+- Base de datos: `localhost:25434`
 
----
+## Ver la BD desde un IDE
 
-## Variables de entorno
-
-| Variable | Descripción |
+| Campo | Valor |
 |---|---|
-| `DB_HOST` | Host PostgreSQL |
-| `DB_PORT` | Puerto PostgreSQL |
-| `DB_NAME` | Base de datos |
-| `DB_USER` | Usuario BD |
-| `DB_PASS` | Contraseña BD |
-| `CONFIG_SERVER_URL` | URL del Config Server |
-| `KAFKA_BOOTSTRAP_SERVERS` | Brokers Kafka |
+| Motor | PostgreSQL |
+| Host | `localhost` |
+| Puerto | `25434` |
+| Database | `ecom_orden_db` |
+| User | `ecom` |
+| Password | `ecom` |
 
-## Documentación
+## Eventos
 
-Ver [`docs/sesiones/s07-kafka-ingesta.md`](../docs/sesiones/s07-kafka-ingesta.md) y [`docs/sesiones/s08-kafka-observabilidad.md`](../docs/sesiones/s08-kafka-observabilidad.md).
+- Publica: `orden-eventos`
+- Consume: `pago-eventos`

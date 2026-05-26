@@ -19,9 +19,9 @@ ecom/                      ← raíz del monorepositorio
 
 | Componente | Dentro de | Rol | Puerto host PROD | Puerto container |
 |---|---|---|---:|---:|
-| **Config Server** | `infra/config/` | Configuración centralizada | 8099 | 8099 |
-| **Eureka Server** | `infra/eureka/` | Service discovery | 8761 | 8761 |
-| **API Gateway** | `infra/gateway/` | Punto único de entrada + JWT | 8090 | 8080 |
+| **Config Server** | `infra/config/` | Configuración centralizada | 18099 | 8099 |
+| **Eureka Server** | `infra/eureka/` | Service discovery | 18761 | 8761 |
+| **API Gateway** | `infra/gateway/` | Punto único de entrada + JWT | 18080 | 8080 |
 | **auth-ms** | `services/auth-ms/` | Autenticación y emisión JWT | 8042 | 8080 |
 | **catalogo-ms** | `services/catalogo-ms/` | Gestión de categorías | 8082 | 8080 |
 | **producto-ms** | `services/producto-ms/` | Gestión de productos + Feign + CB | 9092 | 8080 |
@@ -49,12 +49,17 @@ ecom/                      ← raíz del monorepositorio
 docker network create ecom-prod-net
 docker network create ecom-dev-net
 
-# 2. Infraestructura (Config, Eureka)
-cd infra && docker compose up -d
-#   http://localhost:8099 — Config Server
-#   http://localhost:8761  — Eureka Dashboard
+# 2. Infraestructura (Maven, cada uno en su terminal)
+cd infra/config    && mvn spring-boot:run   # http://localhost:8099
+cd infra/eureka    && mvn spring-boot:run   # http://localhost:8761
+cd infra/gateway   && mvn spring-boot:run   # http://localhost:8080
 
-# 3. Servicios (cada uno en su terminal)
+# 3. PostgreSQL para cada servicio
+cd services/auth-ms     && docker compose -f compose-dev.yml up -d   # :5401
+cd services/catalogo-ms && docker compose -f compose-dev.yml up -d   # :5404
+cd services/producto-ms && docker compose -f compose-dev.yml up -d   # :5407
+
+# 4. Microservicios (cada uno en su terminal)
 cd services/auth-ms      && mvn spring-boot:run -Dspring-boot.run.profiles=dev
 cd services/catalogo-ms  && mvn spring-boot:run -Dspring-boot.run.profiles=dev
 cd services/producto-ms  && mvn spring-boot:run -Dspring-boot.run.profiles=dev
@@ -66,11 +71,11 @@ cd services/producto-ms  && mvn spring-boot:run -Dspring-boot.run.profiles=dev
 # 1. Redes (una sola vez)
 docker network create ecom-prod-net
 
-# 2. Infraestructura
-cd infra && docker compose up -d
-#   http://localhost:8099 — Config Server
-#   http://localhost:8761  — Eureka Dashboard
-#   http://localhost:8090  — API Gateway
+# 2. Infraestructura (healthchecks: gateway espera a eureka, eureka a config)
+cd infra && docker compose up -d --build
+#   http://localhost:18099 — Config Server
+#   http://localhost:18761  — Eureka Dashboard
+#   http://localhost:18080  — API Gateway
 
 # 3. Servicios
 cd services/auth-ms      && docker compose up -d

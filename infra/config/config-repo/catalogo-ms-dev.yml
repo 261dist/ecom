@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5404/ecom_catalogo_db
+    url: jdbc:postgresql://localhost:15432/ecom_catalogo_db
     username: ecom
     password: ecom
     driver-class-name: org.postgresql.Driver
@@ -21,7 +21,9 @@ eureka:
   instance:
     hostname: localhost
     prefer-ip-address: false
-    instance-id: ${spring.application.name}:${server.port}
+    instance-id: ${spring.application.name}:${local.server.port:${random.value}}
+    metadata-map:
+      instance-port: ${local.server.port:${server.port}}
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
