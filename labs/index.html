@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ecom-ng" class="md-skip">
+        <a href="#laboratorios" class="md-skip">
           Skip to content
         </a>
       
@@ -696,10 +696,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#estado-actual" class="md-nav__link">
+  <a href="#laboratorios-disponibles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Estado Actual
+        Laboratorios disponibles
       
     </span>
   </a>
@@ -707,87 +707,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#modelo-de-autenticacion-actual" class="md-nav__link">
+  <a href="#plantillas" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Modelo de Autenticación Actual
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#backend-esperado" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Backend Esperado
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ejecutar" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Ejecutar
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flujo-de-prueba" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Flujo de Prueba
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#archivos-clave" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Archivos Clave
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rutas" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rutas
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validacion-manual" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Validación Manual
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#material-de-practica" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Material de Práctica
+        Plantillas
       
     </span>
   </a>
@@ -1031,10 +954,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#estado-actual" class="md-nav__link">
+  <a href="#laboratorios-disponibles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Estado Actual
+        Laboratorios disponibles
       
     </span>
   </a>
@@ -1042,87 +965,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#modelo-de-autenticacion-actual" class="md-nav__link">
+  <a href="#plantillas" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Modelo de Autenticación Actual
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#backend-esperado" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Backend Esperado
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ejecutar" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Ejecutar
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flujo-de-prueba" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Flujo de Prueba
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#archivos-clave" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Archivos Clave
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rutas" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rutas
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validacion-manual" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Validación Manual
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#material-de-practica" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Material de Práctica
+        Plantillas
       
     </span>
   </a>
@@ -1146,167 +992,50 @@
 
 
 
-<h1 id="ecom-ng">ecom-ng</h1>
-<p>Frontend Angular del proyecto ecom, construido con Angular 21 standalone para consumir microservicios mediante gateway.</p>
-<h2 id="estado-actual">Estado Actual</h2>
-<p>La aplicación ya tiene una primera integración funcional con:</p>
-<ul>
-<li>Rutas standalone.</li>
-<li>Consumo HTTP mediante <code>provideHttpClient()</code>.</li>
-<li>Gateway centralizado en <code>environment.ts</code>.</li>
-<li>Login contra el microservicio <code>auth</code>.</li>
-<li>Persistencia básica del token JWT en <code>localStorage</code>.</li>
-<li>Interceptor HTTP para enviar <code>Authorization: Bearer &lt;token&gt;</code>.</li>
-<li>Guard para proteger la ruta <code>/productos</code>.</li>
-<li>CRUD de productos desde el microservicio <code>producto</code>.</li>
-<li>CRUD de categorías como práctica base, estandarizado con servicio propio.</li>
-<li>Selector de categorías en el formulario de productos.</li>
-</ul>
-<h2 id="modelo-de-autenticacion-actual">Modelo de Autenticación Actual</h2>
-<p>Esta etapa usa un modelo simple y didáctico:</p>
-<div class="highlight"><pre><span></span><code>Angular /auth
-  -&gt; POST http://localhost:8090/auth/login
-  -&gt; recibe accessToken
-  -&gt; guarda JWT en localStorage
-  -&gt; consume endpoints protegidos con Bearer token
-</code></pre></div>
-<p>Importante: el microservicio <code>auth</code> actual no es un servidor OAuth2/OIDC. Es un servicio propio con Spring Security que valida usuario/contraseña y genera un JWT.</p>
-<p>Librerías relevantes del backend actual:</p>
-<div class="highlight"><pre><span></span><code>spring-boot-starter-security
-jjwt-api
-jjwt-impl
-jjwt-jackson
-</code></pre></div>
-<p>Para una etapa futura con OAuth2/OIDC se recomienda usar Keycloak. En ese caso Angular ya no mostraría este formulario propio como flujo principal, sino que redirigiría al proveedor de identidad y volvería a la SPA mediante Authorization Code + PKCE.</p>
-<h2 id="backend-esperado">Backend Esperado</h2>
-<p>Antes de probar el frontend, deben estar levantados los servicios necesarios:</p>
+<h1 id="laboratorios">Laboratorios</h1>
+<p>Guías prácticas para construir y extender la plataforma ecom.</p>
+<h2 id="laboratorios-disponibles">Laboratorios disponibles</h2>
 <table>
 <thead>
 <tr>
-<th>Servicio</th>
-<th style="text-align: right;">Puerto directo</th>
-<th>Uso desde Angular</th>
+<th>Lab</th>
+<th>Tema</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Gateway</td>
-<td style="text-align: right;"><code>8090</code></td>
-<td>Sí</td>
+<td><a href="lab-auth-productos/">lab-auth-productos</a></td>
+<td>Login JWT, guard, interceptor, CRUD de productos</td>
 </tr>
 <tr>
-<td>Auth</td>
-<td style="text-align: right;"><code>8042</code></td>
-<td>No directo</td>
+<td><a href="lab-categorias-estandar/">lab-categorias-estandar</a></td>
+<td>Refactor de categorías al estándar de servicios</td>
 </tr>
 <tr>
-<td>Producto</td>
-<td style="text-align: right;"><code>9092</code></td>
-<td>No directo</td>
-</tr>
-<tr>
-<td>Catalogo</td>
-<td style="text-align: right;"><code>8082</code></td>
-<td>No directo</td>
+<td><a href="lab-observabilidad/">lab-observabilidad</a></td>
+<td>Rúbrica de observabilidad para proyecto final</td>
 </tr>
 </tbody>
 </table>
-<p>El frontend consume siempre el gateway:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:8090
-</code></pre></div>
-<p>Endpoints usados:</p>
-<div class="highlight"><pre><span></span><code>POST http://localhost:8090/auth/login
-GET  http://localhost:8090/api/v1/productos
-GET  http://localhost:8090/api/v1/categorias
-</code></pre></div>
-<h2 id="ejecutar">Ejecutar</h2>
-<p>Desde la carpeta del proyecto:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">clients</span><span class="p">\</span><span class="n">ecom-ng</span>
-<span class="n">ng</span> <span class="n">serve</span>
-</code></pre></div>
-<p>Abrir:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:4200
-</code></pre></div>
-<p>También se puede usar:</p>
-<div class="highlight"><pre><span></span><code><span class="n">npm</span> <span class="nb">start</span>
-</code></pre></div>
-<p>porque en <code>package.json</code> el script <code>start</code> ejecuta <code>ng serve</code>.</p>
-<h2 id="flujo-de-prueba">Flujo de Prueba</h2>
-<ol>
-<li>Entrar a <code>/productos</code>.</li>
-<li>La app redirige a <code>/auth</code> si no hay sesión.</li>
-<li>Iniciar sesión con un usuario válido del microservicio <code>auth</code>.</li>
-<li>Angular guarda el <code>accessToken</code>.</li>
-<li>Volver a <code>/productos</code>.</li>
-<li>El interceptor agrega el JWT al request.</li>
-<li>El gateway permite consumir <code>/api/v1/productos</code>.</li>
-</ol>
-<h2 id="archivos-clave">Archivos Clave</h2>
+<h2 id="plantillas">Plantillas</h2>
 <table>
 <thead>
 <tr>
-<th>Archivo</th>
-<th>Responsabilidad</th>
+<th>Guía</th>
+<th>Uso</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>src/environments/environment.ts</code></td>
-<td>URL base del gateway</td>
+<td><a href="../informe-template/">Plantilla de Informe</a></td>
+<td>Estructura para el informe final del proyecto</td>
 </tr>
 <tr>
-<td><code>src/app/core/services/api.service.ts</code></td>
-<td>Construcción de URLs hacia el gateway</td>
-</tr>
-<tr>
-<td><code>src/app/core/auth/auth.service.ts</code></td>
-<td>Login, sesión, token, roles y logout</td>
-</tr>
-<tr>
-<td><code>src/app/core/auth/auth.interceptor.ts</code></td>
-<td>Agrega el header <code>Authorization</code></td>
-</tr>
-<tr>
-<td><code>src/app/core/auth/auth.guard.ts</code></td>
-<td>Protege rutas que requieren login</td>
-</tr>
-<tr>
-<td><code>src/app/auth/auth.ts</code></td>
-<td>Pantalla de login</td>
-</tr>
-<tr>
-<td><code>src/app/productos/productos.service.ts</code></td>
-<td>Consumo de productos</td>
-</tr>
-<tr>
-<td><code>src/app/productos/productos.ts</code></td>
-<td>Listado de productos</td>
-</tr>
-<tr>
-<td><code>src/app/app.routes.ts</code></td>
-<td>Rutas públicas y protegidas</td>
-</tr>
-<tr>
-<td><code>src/app/app.config.ts</code></td>
-<td>Providers globales de router y HTTP</td>
+<td><a href="../rubrica-evaluacion/">Rúbrica de Evaluación</a></td>
+<td>Criterios de calificación (escala 0–20)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="rutas">Rutas</h2>
-<div class="highlight"><pre><span></span><code>/auth        Login
-/categorias  Práctica base de CRUD
-/productos   Ruta protegida con JWT
-</code></pre></div>
-<h2 id="validacion-manual">Validación Manual</h2>
-<p>Comandos sugeridos cuando quieras verificar:</p>
-<div class="highlight"><pre><span></span><code><span class="n">npm</span> <span class="n">run</span> <span class="n">build</span>
-<span class="n">npm</span> <span class="n">test</span> <span class="p">--</span> <span class="p">-</span><span class="n">-watch</span><span class="p">=</span><span class="n">false</span>
-</code></pre></div>
-<h2 id="material-de-practica">Material de Práctica</h2>
-<ul>
-<li><code>ACTIVIDAD_AUTH_PRODUCTOS.md</code>: login, JWT, guard, interceptor y CRUD de productos.</li>
-<li><code>ACTIVIDAD_CATEGORIAS_ESTANDAR.md</code>: refactor de categorías al estándar de servicios.</li>
-</ul>
 
 
 
