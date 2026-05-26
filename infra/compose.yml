@@ -56,7 +56,7 @@ services:
     container_name: ecom-gateway
     restart: unless-stopped
     ports:
-      - "28080:8080"
+      - "28082:8080"
     volumes:
       - ./gateway/logs:/app/logs
     environment:
