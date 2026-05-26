@@ -6,7 +6,7 @@ Microservicio de catálogo. Gestiona categorías y es consumido por `producto-ms
 
 | Recurso | DEV | PROD Docker |
 |---|---:|---:|
-| App | dinámico (`server.port: 0`) | 8082 -> 8080 |
+| App | dinámico (`server.port: 0`) | sin puerto host (vía Gateway) |
 | PostgreSQL | 15432 | 25432 -> 5432 |
 
 ## DEV (Maven)

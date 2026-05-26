@@ -65,10 +65,10 @@ eureka.client.service-url.defaultZone=http://localhost:28761/eureka
 | Eureka | 18761 | 28761 |
 | Gateway | 18080 | 28080 |
 | auth-ms | dinámico | 8042 |
-| catalogo-ms | dinámico | 8082 |
+| catalogo-ms | dinámico | vía Gateway |
 | producto-ms | dinámico | 9092 |
-| orden-ms | 19051 | 29051 |
-| pago-ms | 19061 | 29061 |
+| orden-ms | dinámico | 29051 |
+| pago-ms | dinámico | 29061 |
 
 ## Estructura
 

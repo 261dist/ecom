@@ -4,11 +4,11 @@ Stack de observabilidad: Prometheus, Loki, Promtail y Grafana.
 
 ## Servicios
 
-| Servicio | Puerto host DEV | Puerto host PROD |
-|---|---:|---:|
-| Prometheus | 19090 | 29090 |
-| Loki | 13100 | 23100 |
-| Grafana | 13000 | 23000 |
+| Servicio | Puerto host DEV | Puerto host PROD | Puerto container |
+|---|---:|---:|---:|
+| Prometheus | 19090 | 29090 | 9090 |
+| Loki | 13100 | 23100 | 3100 |
+| Grafana | 13000 | 23000 | 3000 |
 
 ## Inicio rápido
 

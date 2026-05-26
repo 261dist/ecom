@@ -6,7 +6,7 @@ Microservicio de pagos. Consume `orden-eventos` y publica `pago-eventos`.
 
 | Recurso | DEV | PROD Docker |
 |---|---:|---:|
-| App | 19061 | 29061 -> 8080 |
+| App | dinámico (`server.port: 0`) | 29061 -> 8080 |
 | PostgreSQL | 15435 | 25435 -> 5432 |
 | Kafka | 41092 | 29092 |
 

@@ -4,11 +4,11 @@ Cluster Kafka en modo KRaft (sin Zookeeper) con exporter y UI.
 
 ## Servicios
 
-| Servicio | Puerto host DEV | Puerto host PROD |
-|---|---:|---:|
-| Kafka broker | 41092 | 28092 |
-| Kafka UI | 41085 | 28085 |
-| Kafka Exporter | 41308 | 29308 |
+| Servicio | Puerto host DEV | Puerto host PROD | Puerto container |
+|---|---:|---:|---:|
+| Kafka broker | 41092 | 28092 | 9092 |
+| Kafka UI | 41085 | 28085 | 8080 |
+| Kafka Exporter | 41308 | 29308 | 9308 |
 
 ## Inicio rápido
 

@@ -4,11 +4,11 @@ Infraestructura base del sistema distribuido: Config Server, Eureka Server y API
 
 ## Componentes
 
-| Directorio | Puerto host PROD | Puerto container | Rol |
-|---|---:|---:|---|
-| `config/` | 28888 | 8888 | Configuración centralizada |
-| `eureka/` | 28761 | 8761 | Service discovery |
-| `gateway/` | 28080 | 8080 | Punto único de entrada HTTP + JWT |
+| Directorio | Puerto host DEV | Puerto host PROD | Puerto container | Rol |
+|---|---:|---:|---:|---|
+| `config/` | 18888 | 28888 | 8888 | Configuración centralizada |
+| `eureka/` | 18761 | 28761 | 8761 | Service discovery |
+| `gateway/` | 18080 | 28080 | 8080 | Punto único de entrada HTTP + JWT |
 
 ---
 

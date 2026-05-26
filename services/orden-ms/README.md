@@ -6,7 +6,7 @@ Microservicio de órdenes. Publica eventos `orden.creada` en Kafka.
 
 | Recurso | DEV | PROD Docker |
 |---|---:|---:|
-| App | 19051 | 29051 -> 8080 |
+| App | dinámico (`server.port: 0`) | 29051 -> 8080 |
 | PostgreSQL | 15434 | 25434 -> 5432 |
 | Kafka | 41092 | 29092 |
 
