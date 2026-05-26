@@ -17,17 +17,17 @@ Infraestructura base del sistema distribuido: Config Server, Eureka Server y API
 Levantar cada servicio en su propia terminal, en este orden:
 
 ```bash
-cd config    && mvn spring-boot:run   # http://localhost:8888
-cd ../eureka && mvn spring-boot:run   # http://localhost:8761
-cd ../gateway && mvn spring-boot:run  # http://localhost:8080
+cd config    && mvn spring-boot:run   # http://localhost:18888
+cd ../eureka && mvn spring-boot:run   # http://localhost:18761
+cd ../gateway && mvn spring-boot:run  # http://localhost:18080
 ```
 
 **Links:**
-- Config Server: http://localhost:8888/catalogo-ms/dev
-- Eureka Dashboard: http://localhost:8761
-- Gateway: http://localhost:8080
+- Config Server: http://localhost:18888/catalogo-ms/dev
+- Eureka Dashboard: http://localhost:18761
+- Gateway: http://localhost:18080
 
-> Los servicios backend Maven se conectan a estos puertos (8888, 8761, 8080).
+> Los servicios backend Maven se conectan a estos puertos (18888, 18761, 18080).
 > El Docker compose de infra usa puertos distintos (28888, 28761, 28080) para no pisarlos.
 
 ---

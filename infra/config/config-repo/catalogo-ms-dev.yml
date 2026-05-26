@@ -26,7 +26,7 @@ eureka:
       instance-port: ${local.server.port:${server.port}}
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://localhost:18761/eureka
 
   devtools:
     restart:

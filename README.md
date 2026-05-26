@@ -16,9 +16,9 @@ docker network create ecom-prod-net
 docker network create ecom-dev-net
 
 # 2. Infraestructura (Maven, cada uno en su terminal)
-cd infra/config    && mvn spring-boot:run   # http://localhost:8888
-cd infra/eureka    && mvn spring-boot:run   # http://localhost:8761
-cd infra/gateway   && mvn spring-boot:run   # http://localhost:8080
+cd infra/config    && mvn spring-boot:run   # http://localhost:18888
+cd infra/eureka    && mvn spring-boot:run   # http://localhost:18761
+cd infra/gateway   && mvn spring-boot:run   # http://localhost:18080
 
 # 3. PostgreSQL para cada servicio que vayas a levantar
 cd services/auth-ms     && docker compose -f compose-dev.yml up -d   # :15431
@@ -61,9 +61,9 @@ eureka.client.service-url.defaultZone=http://localhost:28761/eureka
 
 | Componente | Puerto host DEV (Maven) | Puerto host PROD (Docker) |
 |---|---:|---:|
-| Config Server | 8888 | 28888 |
-| Eureka | 8761 | 28761 |
-| Gateway | 8080 | 28080 |
+| Config Server | 18888 | 28888 |
+| Eureka | 18761 | 28761 |
+| Gateway | 18080 | 28080 |
 | auth-ms | dinámico | 8042 |
 | catalogo-ms | dinámico | 8082 |
 | producto-ms | dinámico | 9092 |

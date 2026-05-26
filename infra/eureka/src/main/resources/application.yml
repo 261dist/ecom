@@ -1,5 +1,5 @@
 server:
-  port: 8761
+  port: 18761
 
 spring:
   application:
@@ -8,10 +8,10 @@ spring:
     active: dev
 
   config:
-    #import: "optional:configserver:http://localhost:8888"
+    #import: "optional:configserver:http://localhost:18888"
     #import: "optional:configserver:http://config-server:8888"
-    #import: "optional:configserver:http://host.docker.internal:8888"
-    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}"
+    #import: "optional:configserver:http://host.docker.internal:18888"
+    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:18888}"
 
 management:
   endpoints:

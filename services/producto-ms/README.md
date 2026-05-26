@@ -17,7 +17,7 @@ docker compose -f compose-dev.yml up -d
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-Ver en Eureka DEV: http://localhost:8761
+Ver en Eureka DEV: http://localhost:18761
 
 ## PROD (Docker)
 

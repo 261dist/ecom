@@ -6,7 +6,7 @@ API Gateway de la plataforma. Expone el punto de entrada HTTP, aplica seguridad 
 
 | Modo | URL |
 |---|---|
-| DEV Maven | http://localhost:8080 |
+| DEV Maven | http://localhost:18080 |
 | PROD Docker | http://localhost:28080 |
 
 ## Requisitos de seguridad
