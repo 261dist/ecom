@@ -4,10 +4,10 @@ API Gateway de la plataforma. Expone el punto de entrada HTTP, aplica seguridad 
 
 ## Puertos
 
-| Modo | URL |
+| Modo | Health |
 |---|---|
-| DEV Maven | http://localhost:18080 |
-| PROD Docker | http://localhost:28082 |
+| DEV Maven | http://localhost:18080/actuator/health |
+| PROD Docker | http://localhost:28082/actuator/health |
 
 ## Requisitos de seguridad
 

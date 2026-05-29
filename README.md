@@ -18,7 +18,7 @@ docker network create ecom-dev-net
 # 2. Infraestructura (Maven, cada uno en su terminal)
 cd infra/config    && mvn spring-boot:run   # http://localhost:18888
 cd infra/eureka    && mvn spring-boot:run   # http://localhost:18761
-cd infra/gateway   && mvn spring-boot:run   # http://localhost:18080
+cd infra/gateway   && mvn spring-boot:run   # http://localhost:18080/actuator/health
 
 # 3. PostgreSQL para cada servicio que vayas a levantar
 cd services/auth-ms     && docker compose -f compose-dev.yml up -d   # :15431
@@ -26,9 +26,9 @@ cd services/catalogo-ms && docker compose -f compose-dev.yml up -d   # :15432
 cd services/producto-ms && docker compose -f compose-dev.yml up -d   # :15433
 
 # 4. Microservicios (cada uno en su terminal)
-cd services/auth-ms      && mvn spring-boot:run -Dspring-boot.run.profiles=dev
-cd services/catalogo-ms  && mvn spring-boot:run -Dspring-boot.run.profiles=dev
-cd services/producto-ms  && mvn spring-boot:run -Dspring-boot.run.profiles=dev
+cd services/auth-ms      && mvn spring-boot:run
+cd services/catalogo-ms  && mvn spring-boot:run
+cd services/producto-ms  && mvn spring-boot:run
 ```
 
 ## Inicio rápido (PROD) — Docker
@@ -41,7 +41,7 @@ docker network create ecom-prod-net
 cd infra && docker compose up -d --build
 #   http://localhost:28888 — Config Server
 #   http://localhost:28761  — Eureka Dashboard
-#   http://localhost:28080  — API Gateway
+#   http://localhost:28082/actuator/health  — API Gateway health
 
 # 3. Servicios (Docker compila cada imagen)
 cd ../services/auth-ms      && docker compose up -d --build
@@ -63,12 +63,12 @@ eureka.client.service-url.defaultZone=http://localhost:28761/eureka
 |---|---:|---:|
 | Config Server | 18888 | 28888 |
 | Eureka | 18761 | 28761 |
-| Gateway | 18080 | 28080 |
-| auth-ms | dinámico | 8042 |
+| Gateway | 18080 | 28082 |
+| auth-ms | dinámico | vía Gateway |
 | catalogo-ms | dinámico | vía Gateway |
-| producto-ms | dinámico | 9092 |
-| orden-ms | dinámico | 29051 |
-| pago-ms | dinámico | 29061 |
+| producto-ms | dinámico | vía Gateway |
+| orden-ms | dinámico | vía Gateway |
+| pago-ms | dinámico | vía Gateway |
 
 ## Estructura
 

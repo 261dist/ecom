@@ -19,15 +19,15 @@ ecom/                      ← raíz del monorepositorio
 
 | Componente | Dentro de | Rol | Puerto host PROD | Puerto container |
 |---|---|---|---:|---:|
-| **Config Server** | `infra/config/` | Configuración centralizada | 18099 | 8099 |
-| **Eureka Server** | `infra/eureka/` | Service discovery | 18761 | 8761 |
-| **API Gateway** | `infra/gateway/` | Punto único de entrada + JWT | 18080 | 8080 |
-| **auth-ms** | `services/auth-ms/` | Autenticación y emisión JWT | 8042 | 8080 |
-| **catalogo-ms** | `services/catalogo-ms/` | Gestión de categorías | 8082 | 8080 |
-| **producto-ms** | `services/producto-ms/` | Gestión de productos + Feign + CB | 9092 | 8080 |
-| **orden-ms** | `services/orden-ms/` | Órdenes + Kafka producer | 29051 | 8080 |
-| **pago-ms** | `services/pago-ms/` | Pagos + Kafka consumer | 29061 | 8080 |
-| **ecom-ng** | `clients/ecom-ng/` | SPA Angular (frontend) | — | — |
+| **Config Server** | `infra/config/` | Configuración centralizada | 28888 | 8888 |
+| **Eureka Server** | `infra/eureka/` | Service discovery | 28761 | 8761 |
+| **API Gateway** | `infra/gateway/` | Punto único de entrada + JWT | 28082 | 8080 |
+| **auth-ms** | `services/auth-ms/` | Autenticación y emisión JWT | vía Gateway | 8080 |
+| **catalogo-ms** | `services/catalogo-ms/` | Gestión de categorías | vía Gateway | 8080 |
+| **producto-ms** | `services/producto-ms/` | Gestión de productos + Feign + CB | vía Gateway | 8080 |
+| **orden-ms** | `services/orden-ms/` | Órdenes + Kafka producer | vía Gateway | 8080 |
+| **pago-ms** | `services/pago-ms/` | Pagos + Kafka consumer | vía Gateway | 8080 |
+| **ecom-ng** | `clients/ecom-ng/` | SPA Angular (frontend) | - | - |
 
 > Los servicios backend usan `server.port: 0` (aleatorio) en desarrollo local y `server.port: 8080` en Docker.
 
@@ -50,19 +50,19 @@ docker network create ecom-prod-net
 docker network create ecom-dev-net
 
 # 2. Infraestructura (Maven, cada uno en su terminal)
-cd infra/config    && mvn spring-boot:run   # http://localhost:8099
-cd infra/eureka    && mvn spring-boot:run   # http://localhost:8761
-cd infra/gateway   && mvn spring-boot:run   # http://localhost:8080
+cd infra/config    && mvn spring-boot:run   # http://localhost:18888
+cd infra/eureka    && mvn spring-boot:run   # http://localhost:18761
+cd infra/gateway   && mvn spring-boot:run   # http://localhost:18080/actuator/health
 
 # 3. PostgreSQL para cada servicio
-cd services/auth-ms     && docker compose -f compose-dev.yml up -d   # :5401
-cd services/catalogo-ms && docker compose -f compose-dev.yml up -d   # :5404
-cd services/producto-ms && docker compose -f compose-dev.yml up -d   # :5407
+cd services/auth-ms     && docker compose -f compose-dev.yml up -d   # :15431
+cd services/catalogo-ms && docker compose -f compose-dev.yml up -d   # :15432
+cd services/producto-ms && docker compose -f compose-dev.yml up -d   # :15433
 
 # 4. Microservicios (cada uno en su terminal)
-cd services/auth-ms      && mvn spring-boot:run -Dspring-boot.run.profiles=dev
-cd services/catalogo-ms  && mvn spring-boot:run -Dspring-boot.run.profiles=dev
-cd services/producto-ms  && mvn spring-boot:run -Dspring-boot.run.profiles=dev
+cd services/auth-ms      && mvn spring-boot:run
+cd services/catalogo-ms  && mvn spring-boot:run
+cd services/producto-ms  && mvn spring-boot:run
 ```
 
 ### PROD (Docker)
@@ -73,9 +73,9 @@ docker network create ecom-prod-net
 
 # 2. Infraestructura (healthchecks: gateway espera a eureka, eureka a config)
 cd infra && docker compose up -d --build
-#   http://localhost:18099 — Config Server
-#   http://localhost:18761  — Eureka Dashboard
-#   http://localhost:18080  — API Gateway
+#   http://localhost:28888 — Config Server
+#   http://localhost:28761  — Eureka Dashboard
+#   http://localhost:28082/actuator/health  — API Gateway health
 
 # 3. Servicios
 cd services/auth-ms      && docker compose up -d
@@ -89,10 +89,10 @@ cd services/pago-ms      && docker compose up -d
 
 | Servicio | DB | Puerto host dev | Puerto interno |
 |---|---|---|---:|
-| auth-ms | `ecom_auth_db` | 5401 | 5432 |
-| catalogo-ms | `ecom_catalogo_db` | 5404 | 5432 |
-| producto-ms | `ecom_producto_db` | 5407 | 5432 |
-| orden-ms | `ecom_orden_db` | 5405 | 5432 |
-| pago-ms | `ecom_pago_db` | 5406 | 5432 |
+| auth-ms | `ecom_auth_db` | 15431 | 5432 |
+| catalogo-ms | `ecom_catalogo_db` | 15432 | 5432 |
+| producto-ms | `ecom_producto_db` | 15433 | 5432 |
+| orden-ms | `ecom_orden_db` | 15434 | 5432 |
+| pago-ms | `ecom_pago_db` | 15435 | 5432 |
 
 Credenciales: `ecom` / `ecom`

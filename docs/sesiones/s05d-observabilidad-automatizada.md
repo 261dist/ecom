@@ -198,10 +198,10 @@ http://localhost:8090/api/v1/producto/instancia
 Como explicar estas URLs:
 
 ```text
-http://localhost:8090
+http://localhost:18080/actuator/health
 ```
 
-es el `gateway` en ambiente local.
+es el health del `gateway` en ambiente local.
 
 ```text
 /api/v1/productos/detalle/1

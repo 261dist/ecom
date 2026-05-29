@@ -14,7 +14,7 @@ ng serve
 
 **Abrir:** http://localhost:4200
 
-El frontend apunta a `http://localhost:28080` (Gateway). Asegúrate de tener `infra`, `auth-ms`, `catalogo-ms` y `producto-ms` funcionando.
+El frontend apunta a `http://localhost:18080` (Gateway). Para verificar que el gateway esta levantado usa `http://localhost:18080/actuator/health`.
 
 ---
 
@@ -39,7 +39,7 @@ Esta etapa usa un modelo simple y didáctico:
 
 ```text
 Angular /auth
-  -> POST http://localhost:28080/auth/login
+  -> POST http://localhost:18080/auth/login
   -> recibe accessToken
   -> guarda JWT en localStorage
   -> consume endpoints protegidos con Bearer token
@@ -64,23 +64,23 @@ Antes de probar el frontend, deben estar levantados los servicios necesarios:
 
 | Servicio | Puerto directo | Uso desde Angular |
 | --- | ---: | --- |
-| Gateway | `28080` | Sí |
-| Auth | `8042` | No directo |
-| Producto | `9092` | No directo |
+| Gateway | `18080` | Sí |
+| Auth | vía Gateway | No directo |
+| Producto | vía Gateway | No directo |
 | Catalogo | vía Eureka/Gateway | No directo |
 
-El frontend consume siempre el gateway:
+Health del gateway:
 
 ```text
-http://localhost:28080
+http://localhost:18080/actuator/health
 ```
 
 Endpoints usados:
 
 ```text
-POST http://localhost:28080/auth/login
-GET  http://localhost:28080/api/v1/productos
-GET  http://localhost:28080/api/v1/categorias
+POST http://localhost:18080/auth/login
+GET  http://localhost:18080/api/v1/productos
+GET  http://localhost:18080/api/v1/categorias
 ```
 
 ## Ejecutar

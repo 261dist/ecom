@@ -6,7 +6,7 @@ Microservicio de autenticación. Registra usuarios, realiza login y emite JWT.
 
 | Recurso | DEV | PROD Docker |
 |---|---:|---:|
-| App | dinámico (`server.port: 0`) | 8042 -> 8080 |
+| App | dinámico (`server.port: 0`) | sin puerto host (vía Gateway) |
 | PostgreSQL | 15431 | 25431 -> 5432 |
 
 ## DEV (Maven)
@@ -14,10 +14,20 @@ Microservicio de autenticación. Registra usuarios, realiza login y emite JWT.
 ```bash
 cd services/auth-ms
 docker compose -f compose-dev.yml up -d
-mvn spring-boot:run -Dspring-boot.run.profiles=dev
+mvn spring-boot:run
 ```
 
-Ver en Eureka DEV: http://localhost:18761
+Para levantar una segunda instancia, abre otra terminal en `services/auth-ms` y ejecuta:
+
+```bash
+mvn spring-boot:run
+```
+
+Links DEV:
+- Config DEV: http://localhost:18888/auth-ms/dev
+- Eureka DEV: http://localhost:18761
+- Gateway DEV health: http://localhost:18080/actuator/health
+- Base de datos DEV: `localhost:15431`
 
 ## PROD (Docker)
 
@@ -26,11 +36,11 @@ cd services/auth-ms
 docker compose up -d --build
 ```
 
-Links:
+Links PROD:
+- Config PROD: http://localhost:28888/auth-ms/prod
 - Eureka PROD: http://localhost:28761
-- Gateway PROD: http://localhost:28080
-- Directo al servicio: http://localhost:8042/actuator/health
-- Base de datos: `localhost:25431`
+- Gateway PROD health: http://localhost:28082/actuator/health
+- Base de datos PROD: `localhost:25431`
 
 ## Ver la BD desde un IDE
 
@@ -43,11 +53,62 @@ Links:
 | User | `ecom` |
 | Password | `ecom` |
 
+## Ver la BD desde PowerShell
+
+Comandos para inspeccionar la BD DEV sin abrir un IDE:
+
+```powershell
+docker exec -it ecom-postgres-auth-dev psql -U ecom -d ecom_auth_db
+
+docker exec -it ecom-postgres-auth-dev psql -U ecom -d ecom_auth_db -c "\dt"
+docker exec -it ecom-postgres-auth-dev psql -U ecom -d ecom_auth_db -c "\d users"
+docker exec -it ecom-postgres-auth-dev psql -U ecom -d ecom_auth_db -c "SELECT id, username, enabled, created_at FROM users;"
+docker exec -it ecom-postgres-auth-dev psql -U ecom -d ecom_auth_db -c "SELECT * FROM roles;"
+docker exec -it ecom-postgres-auth-dev psql -U ecom -d ecom_auth_db -c "SELECT * FROM user_roles;"
+```
+
+En PROD usa el contenedor `ecom-postgres-auth`.
+
 ## Endpoints
 
-- `POST /auth/register`
 - `POST /auth/login`
 - `GET /actuator/health`
+
+## Prueba rapida con PowerShell
+
+Este flujo permite iniciar sesion con el usuario inicial `admin` y obtener un JWT.
+
+```powershell
+$body = @{
+  username = "admin"
+  password = "admin123"
+} | ConvertTo-Json
+
+$response = Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:18080/auth/login" `
+  -ContentType "application/json" `
+  -Body $body
+
+$response
+$token = $response.accessToken
+$token
+```
+
+## Prueba rapida con bash macOS/Linux
+
+Este flujo usa `curl` y `jq` para iniciar sesion y extraer el JWT.
+
+```bash
+response=$(curl -s -X POST "http://localhost:18080/auth/login" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}')
+
+echo "$response"
+
+token=$(echo "$response" | jq -r '.accessToken')
+echo "$token"
+```
 
 ## JWT
 

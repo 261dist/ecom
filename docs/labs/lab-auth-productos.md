@@ -48,10 +48,10 @@ PRODUCTO  producto-ms:9092
 ```
 
 Angular no consume directamente `auth-ms:8042` ni `producto-ms:9092`.
-El frontend consume el gateway:
+El frontend consume endpoints del gateway local. Para verificar que el gateway esta levantado:
 
 ```text
-http://localhost:8090
+http://localhost:18080/actuator/health
 ```
 
 ## Contrato del Backend

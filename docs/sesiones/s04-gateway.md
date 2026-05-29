@@ -60,8 +60,9 @@ flowchart LR
     end
 
     subgraph Swagger
-        G -->|"/auth/swagger-ui/**"| AS["auth-ms docs"]
-        G -->|"/catalogo-ms/swagger-ui/**"| CS["catalogo-ms docs"]
-        G -->|"/producto-ms/swagger-ui/**"| PS["producto-ms docs"]
+        CS["catalogo-ms<br/>http://localhost:puerto/swagger-ui/index.html"]
+        PS["producto-ms<br/>http://localhost:puerto/swagger-ui/index.html"]
     end
 ```
+
+Swagger se consulta directo en el puerto asignado a cada microservicio. Para las pruebas de API del curso se usa PowerShell o shell contra el Gateway, no Postman ni Swagger por Gateway.
