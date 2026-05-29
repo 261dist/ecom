@@ -1693,9 +1693,9 @@ up solo dice si Prometheus pudo consultar las metricas.
 http://localhost:8090/api/v1/producto/instancia
 </code></pre></div>
 <p>Como explicar estas URLs:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:8090
+<div class="highlight"><pre><span></span><code>http://localhost:18080/actuator/health
 </code></pre></div>
-<p>es el <code>gateway</code> en ambiente local.</p>
+<p>es el health del <code>gateway</code> en ambiente local.</p>
 <div class="highlight"><pre><span></span><code>/api/v1/productos/detalle/1
 </code></pre></div>
 <p>representa una peticion de negocio mas completa: entra por gateway, llega a producto y puede consultar catalogo.</p>

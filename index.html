@@ -1138,64 +1138,64 @@
 <td><strong>Config Server</strong></td>
 <td><code>infra/config/</code></td>
 <td>Configuración centralizada</td>
-<td style="text-align: right;">18099</td>
-<td style="text-align: right;">8099</td>
+<td style="text-align: right;">28888</td>
+<td style="text-align: right;">8888</td>
 </tr>
 <tr>
 <td><strong>Eureka Server</strong></td>
 <td><code>infra/eureka/</code></td>
 <td>Service discovery</td>
-<td style="text-align: right;">18761</td>
+<td style="text-align: right;">28761</td>
 <td style="text-align: right;">8761</td>
 </tr>
 <tr>
 <td><strong>API Gateway</strong></td>
 <td><code>infra/gateway/</code></td>
 <td>Punto único de entrada + JWT</td>
-<td style="text-align: right;">18080</td>
+<td style="text-align: right;">28082</td>
 <td style="text-align: right;">8080</td>
 </tr>
 <tr>
 <td><strong>auth-ms</strong></td>
 <td><code>services/auth-ms/</code></td>
 <td>Autenticación y emisión JWT</td>
-<td style="text-align: right;">8042</td>
+<td style="text-align: right;">vía Gateway</td>
 <td style="text-align: right;">8080</td>
 </tr>
 <tr>
 <td><strong>catalogo-ms</strong></td>
 <td><code>services/catalogo-ms/</code></td>
 <td>Gestión de categorías</td>
-<td style="text-align: right;">8082</td>
+<td style="text-align: right;">vía Gateway</td>
 <td style="text-align: right;">8080</td>
 </tr>
 <tr>
 <td><strong>producto-ms</strong></td>
 <td><code>services/producto-ms/</code></td>
 <td>Gestión de productos + Feign + CB</td>
-<td style="text-align: right;">9092</td>
+<td style="text-align: right;">vía Gateway</td>
 <td style="text-align: right;">8080</td>
 </tr>
 <tr>
 <td><strong>orden-ms</strong></td>
 <td><code>services/orden-ms/</code></td>
 <td>Órdenes + Kafka producer</td>
-<td style="text-align: right;">29051</td>
+<td style="text-align: right;">vía Gateway</td>
 <td style="text-align: right;">8080</td>
 </tr>
 <tr>
 <td><strong>pago-ms</strong></td>
 <td><code>services/pago-ms/</code></td>
 <td>Pagos + Kafka consumer</td>
-<td style="text-align: right;">29061</td>
+<td style="text-align: right;">vía Gateway</td>
 <td style="text-align: right;">8080</td>
 </tr>
 <tr>
 <td><strong>ecom-ng</strong></td>
 <td><code>clients/ecom-ng/</code></td>
 <td>SPA Angular (frontend)</td>
-<td style="text-align: right;">—</td>
-<td style="text-align: right;">—</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">-</td>
 </tr>
 </tbody>
 </table>
@@ -1218,19 +1218,19 @@ docker<span class="w"> </span>network<span class="w"> </span>create<span class="
 docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>ecom-dev-net
 
 <span class="c1"># 2. Infraestructura (Maven, cada uno en su terminal)</span>
-<span class="nb">cd</span><span class="w"> </span>infra/config<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w">   </span><span class="c1"># http://localhost:8099</span>
-<span class="nb">cd</span><span class="w"> </span>infra/eureka<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w">   </span><span class="c1"># http://localhost:8761</span>
-<span class="nb">cd</span><span class="w"> </span>infra/gateway<span class="w">   </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w">   </span><span class="c1"># http://localhost:8080</span>
+<span class="nb">cd</span><span class="w"> </span>infra/config<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w">   </span><span class="c1"># http://localhost:18888</span>
+<span class="nb">cd</span><span class="w"> </span>infra/eureka<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w">   </span><span class="c1"># http://localhost:18761</span>
+<span class="nb">cd</span><span class="w"> </span>infra/gateway<span class="w">   </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w">   </span><span class="c1"># http://localhost:18080/actuator/health</span>
 
 <span class="c1"># 3. PostgreSQL para cada servicio</span>
-<span class="nb">cd</span><span class="w"> </span>services/auth-ms<span class="w">     </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w">   </span><span class="c1"># :5401</span>
-<span class="nb">cd</span><span class="w"> </span>services/catalogo-ms<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w">   </span><span class="c1"># :5404</span>
-<span class="nb">cd</span><span class="w"> </span>services/producto-ms<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w">   </span><span class="c1"># :5407</span>
+<span class="nb">cd</span><span class="w"> </span>services/auth-ms<span class="w">     </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w">   </span><span class="c1"># :15431</span>
+<span class="nb">cd</span><span class="w"> </span>services/catalogo-ms<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w">   </span><span class="c1"># :15432</span>
+<span class="nb">cd</span><span class="w"> </span>services/producto-ms<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w">   </span><span class="c1"># :15433</span>
 
 <span class="c1"># 4. Microservicios (cada uno en su terminal)</span>
-<span class="nb">cd</span><span class="w"> </span>services/auth-ms<span class="w">      </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w"> </span>-Dspring-boot.run.profiles<span class="o">=</span>dev
-<span class="nb">cd</span><span class="w"> </span>services/catalogo-ms<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w"> </span>-Dspring-boot.run.profiles<span class="o">=</span>dev
-<span class="nb">cd</span><span class="w"> </span>services/producto-ms<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run<span class="w"> </span>-Dspring-boot.run.profiles<span class="o">=</span>dev
+<span class="nb">cd</span><span class="w"> </span>services/auth-ms<span class="w">      </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run
+<span class="nb">cd</span><span class="w"> </span>services/catalogo-ms<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run
+<span class="nb">cd</span><span class="w"> </span>services/producto-ms<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run
 </code></pre></div>
 <h3 id="prod-docker">PROD (Docker)</h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># 1. Redes (una sola vez)</span>
@@ -1238,9 +1238,9 @@ docker<span class="w"> </span>network<span class="w"> </span>create<span class="
 
 <span class="c1"># 2. Infraestructura (healthchecks: gateway espera a eureka, eureka a config)</span>
 <span class="nb">cd</span><span class="w"> </span>infra<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
-<span class="c1">#   http://localhost:18099 — Config Server</span>
-<span class="c1">#   http://localhost:18761  — Eureka Dashboard</span>
-<span class="c1">#   http://localhost:18080  — API Gateway</span>
+<span class="c1">#   http://localhost:28888 — Config Server</span>
+<span class="c1">#   http://localhost:28761  — Eureka Dashboard</span>
+<span class="c1">#   http://localhost:28082/actuator/health  — API Gateway health</span>
 
 <span class="c1"># 3. Servicios</span>
 <span class="nb">cd</span><span class="w"> </span>services/auth-ms<span class="w">      </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
@@ -1263,31 +1263,31 @@ docker<span class="w"> </span>network<span class="w"> </span>create<span class="
 <tr>
 <td>auth-ms</td>
 <td><code>ecom_auth_db</code></td>
-<td>5401</td>
+<td>15431</td>
 <td style="text-align: right;">5432</td>
 </tr>
 <tr>
 <td>catalogo-ms</td>
 <td><code>ecom_catalogo_db</code></td>
-<td>5404</td>
+<td>15432</td>
 <td style="text-align: right;">5432</td>
 </tr>
 <tr>
 <td>producto-ms</td>
 <td><code>ecom_producto_db</code></td>
-<td>5407</td>
+<td>15433</td>
 <td style="text-align: right;">5432</td>
 </tr>
 <tr>
 <td>orden-ms</td>
 <td><code>ecom_orden_db</code></td>
-<td>5405</td>
+<td>15434</td>
 <td style="text-align: right;">5432</td>
 </tr>
 <tr>
 <td>pago-ms</td>
 <td><code>ecom_pago_db</code></td>
-<td>5406</td>
+<td>15435</td>
 <td style="text-align: right;">5432</td>
 </tr>
 </tbody>

@@ -1468,8 +1468,8 @@ GATEWAY   gateway:8090
 PRODUCTO  producto-ms:9092
 </code></pre></div>
 <p>Angular no consume directamente <code>auth-ms:8042</code> ni <code>producto-ms:9092</code>.
-El frontend consume el gateway:</p>
-<div class="highlight"><pre><span></span><code>http://localhost:8090
+El frontend consume endpoints del gateway local. Para verificar que el gateway esta levantado:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:18080/actuator/health
 </code></pre></div>
 <h2 id="contrato-del-backend">Contrato del Backend</h2>
 <h3 id="login">Login</h3>

@@ -1115,10 +1115,10 @@
     end
 
     subgraph Swagger
-        G --&gt;|"/auth/swagger-ui/**"| AS["auth-ms docs"]
-        G --&gt;|"/catalogo-ms/swagger-ui/**"| CS["catalogo-ms docs"]
-        G --&gt;|"/producto-ms/swagger-ui/**"| PS["producto-ms docs"]
+        CS["catalogo-ms&lt;br/&gt;http://localhost:puerto/swagger-ui/index.html"]
+        PS["producto-ms&lt;br/&gt;http://localhost:puerto/swagger-ui/index.html"]
     end</code></pre>
+<p>Swagger se consulta directo en el puerto asignado a cada microservicio. Para las pruebas de API del curso se usa PowerShell o shell contra el Gateway, no Postman ni Swagger por Gateway.</p>
 
 
 
