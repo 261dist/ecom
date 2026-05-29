@@ -52,3 +52,50 @@ Links:
 - `DELETE /api/v1/productos/{id}`
 - `GET /api/v1/producto/instancia`
 - `GET /actuator/health`
+
+## Prueba rapida con PowerShell
+
+Este flujo permite crear una categoria, iniciar sesion, crear un producto con JWT y consultar el detalle del producto.
+
+```powershell
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:28082/api/v1/categorias" `
+  -ContentType "application/json" `
+  -Body '{"nombre":"Electro","descripcion":"domestico"}'
+
+$body = @{
+  username = "admin"
+  password = "admin123"
+} | ConvertTo-Json
+
+$response = Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:18080/auth/login" `
+  -ContentType "application/json" `
+  -Body $body
+
+$response
+$token = $response.accessToken
+
+$body = @{
+  nombre = "Lavadora"
+  descripcion = "Samsum"
+  idCategoria = 1
+} | ConvertTo-Json
+
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:18080/api/v1/productos" `
+  -Headers @{
+    Authorization = "Bearer $token"
+    Accept = "application/json"
+  } `
+  -ContentType "application/json" `
+  -Body $body
+
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:18080/api/v1/productos/detalle/1" `
+  -Headers @{ Authorization = "Bearer $token" }
+```
