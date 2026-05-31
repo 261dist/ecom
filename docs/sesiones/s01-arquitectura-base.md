@@ -1102,33 +1102,9 @@ Al terminar la evidencia, baja el entorno para liberar CPU, memoria, red y conte
 docker compose down
 ```
 
-### 3.7 Cerrar la sesion: comparar DEV Maven y PROD Docker
+### 3.7 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
-**Producto del paso:** estudiante distingue el modo de desarrollo con Maven del modo de produccion local con Docker y registra evidencias para defender su avance.
-
-Completa el cierre comparando ambos modos de ejecucion:
-
-| Aspecto | DEV Maven | PROD Docker |
-|---|---|---|
-| Aplicacion | Ejecuta en host con `mvn spring-boot:run` | Ejecuta dentro de contenedor |
-| Base de datos | PostgreSQL en Docker DEV | PostgreSQL en Docker PROD |
-| Puerto del microservicio | Dinamico con `server.port: 0` | Interno `8080` dentro de Docker |
-| Acceso externo | Directo al puerto asignado | Por red Docker; luego por Gateway |
-| Proposito | Desarrollo, depuracion y cambios rapidos | Ejecucion reproducible y cercana a produccion |
-
-Registra en el README o en tu evidencia individual:
-
-- Comandos usados en DEV.
-- Puerto asignado a la instancia Maven.
-- Evidencia de CRUD por shell.
-- Evidencia de tabla `categorias`.
-- Evidencia de PROD local con Docker.
-- Evidencia de dos instancias como maximo.
-- Breve explicacion de tu aporte individual.
-
-### 3.8 Referencia rapida para ejecutar la sesion
-
-Esta seccion sirve si ya clonaste el repositorio o un tag congelado de la sesion y solo quieres levantar, probar y revisar evidencias sin repetir toda la construccion paso a paso.
+Esta seccion sirve si quieres partir del tag final de la sesion y solo levantar, probar y revisar evidencias sin repetir toda la construccion paso a paso.
 
 | Necesidad | Referencia |
 |---|---|
@@ -1137,7 +1113,6 @@ Esta seccion sirve si ya clonaste el repositorio o un tag congelado de la sesion
 | Revisar health y metrics | [Ver paso 3.4.5](#345-verificar-health-y-metrics) |
 | Probar CRUD por shell | [Ver paso 3.4.6](#346-probar-crud-por-shell) |
 | Levantar y escalar PROD local | [Ver paso 3.6](#36-probar-produccion-local-con-docker) |
-| Comparar DEV y PROD | [Ver paso 3.7](#37-cerrar-la-sesion-comparar-dev-maven-y-prod-docker) |
 
 Comandos minimos DEV:
 
@@ -1157,7 +1132,7 @@ docker compose up -d --build --scale catalogo-ms=2
 docker compose ps
 ```
 
-### 3.8.1 Archivos clave por modo de ejecucion
+### 3.7.1 Archivos clave por modo de ejecucion
 
 DEV:
 
@@ -1186,7 +1161,7 @@ Comunes:
 | `services/catalogo-ms/src/main/resources/db/migration` | Migraciones Flyway |
 | `services/catalogo-ms/README.md` | Operacion y evidencias |
 
-### 3.8.2 Verificacion rapida de base de datos
+### 3.7.2 Verificacion rapida de base de datos
 
 DEV:
 
@@ -1250,6 +1225,16 @@ Las evidencias deben mostrar el producto declarado en la seccion 1.3:
 - Salida de `docker compose ps` en PROD local.
 - Salida de dos instancias como maximo.
 - Breve descripcion del aporte individual.
+
+Comparacion minima que debe defender:
+
+| Aspecto | DEV Maven | PROD Docker |
+|---|---|---|
+| Aplicacion | Ejecuta en host con `mvn spring-boot:run` | Ejecuta dentro de contenedor |
+| Base de datos | PostgreSQL en Docker DEV | PostgreSQL en Docker PROD |
+| Puerto del microservicio | Dinamico con `server.port: 0` | Interno `8080` dentro de Docker |
+| Acceso externo | Directo al puerto asignado | Por red Docker; luego por Gateway |
+| Proposito | Desarrollo, depuracion y cambios rapidos | Ejecucion reproducible y cercana a produccion |
 
 ### 5.3 Preguntas de defensa
 
