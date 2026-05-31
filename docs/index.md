@@ -1,98 +1,61 @@
-# ecom — Plataforma de Microservicios 2026
+# DISTribuidas 2026
 
-Proyecto educativo de arquitectura distribuida con Spring Boot, Spring Cloud, PostgreSQL, Kafka y observabilidad.
+Curso de sistemas distribuidos basado en la construccion incremental de un sistema de microservicios con Spring Cloud.
 
-## Estructura del proyecto
+El proyecto del curso es `ecom`: una plataforma distribuida con Config Server, Eureka, Gateway, microservicios Spring Boot, PostgreSQL, Kafka, observabilidad y frontend Angular.
 
-```
-ecom/                      ← raíz del monorepositorio
-├── infra/                 ← infraestructura base (config, eureka, gateway)
-├── services/              ← microservicios backend (-ms)
-├── clients/               ← frontends (-ng)
-├── kafka/                 ← plataforma de eventos (EDA)
-├── obs/                   ← observabilidad (Prometheus, Loki, Grafana)
-├── docs/                  ← libro digital (MkDocs Material)
-└── extras/                ← aprendizaje y experimentos
-```
+## Producto del curso
 
-## Componentes
+Sistema distribuido basado en microservicios con Spring Cloud, seguro, configurable, resiliente, observable, orientado a eventos, integrado con frontend y defendido tecnicamente.
 
-| Componente | Dentro de | Rol | Puerto host PROD | Puerto container |
-|---|---|---|---:|---:|
-| **Config Server** | `infra/config/` | Configuración centralizada | 28888 | 8888 |
-| **Eureka Server** | `infra/eureka/` | Service discovery | 28761 | 8761 |
-| **API Gateway** | `infra/gateway/` | Punto único de entrada + JWT | 28082 | 8080 |
-| **auth-ms** | `services/auth-ms/` | Autenticación y emisión JWT | vía Gateway | 8080 |
-| **catalogo-ms** | `services/catalogo-ms/` | Gestión de categorías | vía Gateway | 8080 |
-| **producto-ms** | `services/producto-ms/` | Gestión de productos + Feign + CB | vía Gateway | 8080 |
-| **orden-ms** | `services/orden-ms/` | Órdenes + Kafka producer | vía Gateway | 8080 |
-| **pago-ms** | `services/pago-ms/` | Pagos + Kafka consumer | vía Gateway | 8080 |
-| **ecom-ng** | `clients/ecom-ng/` | SPA Angular (frontend) | - | - |
+## Unidades
 
-> Los servicios backend usan `server.port: 0` (aleatorio) en desarrollo local y `server.port: 8080` en Docker.
+| Unidad | Producto |
+|---|---|
+| U1 | Sistema distribuido base con Spring Cloud |
+| U2 | Sistema distribuido robusto e integrado |
+| U3 | Producto final del curso validado, documentado y defendido |
 
-## Stack
+## Sesiones
 
-- Java 17, Spring Boot 3.5, Spring Cloud 2025
-- PostgreSQL 16, Flyway
-- Kafka (KRaft mode, sin Zookeeper)
-- Prometheus, Loki, Grafana
-- Docker Compose
-- Angular 19 (cliente web)
+| Sesion | Tema | Producto de sesion |
+|---|---|---|
+| S1 | Arquitectura base de microservicios | Estructura base del sistema y primeros microservicios ejecutables |
+| S2 | Configuracion centralizada | Config Server con perfiles `dev` y `prod` |
+| S3 | Eureka y escalado | Servicios registrados y multiples instancias operativas |
+| S4 | Gateway y balanceo | Punto unico de acceso con rutas y load balancing |
+| S5 | Evaluacion U1 | Sistema base integrado funcionando como un todo |
+| S6 | OpenFeign | Comunicacion entre microservicios |
+| S7 | Circuit Breaker | Resiliencia y fallback ante fallos |
+| S8 | Seguridad JWT | Login, token y rutas protegidas |
+| S9 | Kafka | Arquitectura orientada a eventos |
+| S10 | Observabilidad consolidada | Logs, health, metricas y paneles de diagnostico |
+| S11 | Angular + Gateway | Frontend integrado con CORS, login y CRUD |
+| S12 | Evaluacion U2 | Sistema robusto validado en condiciones reales |
+| S13 | Validacion integral | Producto del curso probado end-to-end |
+| S14 | Cierre tecnico | Documentacion, evidencias y estabilizacion |
+| S15 | Defensa tecnica | Sustentacion grupal del producto |
+| S16 | Evaluacion final | Demostracion individual de competencias pendientes |
 
-## Inicio rápido
+## Regla del curso
 
-### DEV (Maven local)
+Cada sesion produce un avance verificable del producto de unidad.
 
-```bash
-# 1. Crear redes Docker (una sola vez, si no existen)
-docker network create ecom-prod-net
-docker network create ecom-dev-net
+No basta con que compile. El estudiante debe poder levantar, probar, inspeccionar, diagnosticar y defender el sistema.
 
-# 2. Infraestructura (Maven, cada uno en su terminal)
-cd infra/config    && mvn spring-boot:run   # http://localhost:18888
-cd infra/eureka    && mvn spring-boot:run   # http://localhost:18761
-cd infra/gateway   && mvn spring-boot:run   # http://localhost:18080/actuator/health
+## Convencion de trabajo
 
-# 3. PostgreSQL para cada servicio
-cd services/auth-ms     && docker compose -f compose-dev.yml up -d   # :15431
-cd services/catalogo-ms && docker compose -f compose-dev.yml up -d   # :15432
-cd services/producto-ms && docker compose -f compose-dev.yml up -d   # :15433
+- Windows: PowerShell.
+- macOS/Linux: bash con `curl`.
+- Pruebas de API: shell contra el Gateway, no Postman como dependencia obligatoria.
+- Swagger: solo directo al puerto asignado de cada microservicio.
+- Observabilidad: eje transversal desde S2, consolidado en S10.
 
-# 4. Microservicios (cada uno en su terminal)
-cd services/auth-ms      && mvn spring-boot:run
-cd services/catalogo-ms  && mvn spring-boot:run
-cd services/producto-ms  && mvn spring-boot:run
-```
+## Primeros enlaces
 
-### PROD (Docker)
-
-```bash
-# 1. Redes (una sola vez)
-docker network create ecom-prod-net
-
-# 2. Infraestructura (healthchecks: gateway espera a eureka, eureka a config)
-cd infra && docker compose up -d --build
-#   http://localhost:28888 — Config Server
-#   http://localhost:28761  — Eureka Dashboard
-#   http://localhost:28082/actuator/health  — API Gateway health
-
-# 3. Servicios
-cd services/auth-ms      && docker compose up -d
-cd services/catalogo-ms  && docker compose up -d
-cd services/producto-ms  && docker compose up -d
-cd services/orden-ms     && docker compose up -d
-cd services/pago-ms      && docker compose up -d
-```
-
-## Puertos de desarrollo (PostgreSQL)
-
-| Servicio | DB | Puerto host dev | Puerto interno |
-|---|---|---|---:|
-| auth-ms | `ecom_auth_db` | 15431 | 5432 |
-| catalogo-ms | `ecom_catalogo_db` | 15432 | 5432 |
-| producto-ms | `ecom_producto_db` | 15433 | 5432 |
-| orden-ms | `ecom_orden_db` | 15434 | 5432 |
-| pago-ms | `ecom_pago_db` | 15435 | 5432 |
-
-Credenciales: `ecom` / `ecom`
+- [Guia del curso](guia-curso.md)
+- [Puertos y accesos](referencias/puertos.md)
+- [Comandos PowerShell](referencias/comandos-powershell.md)
+- [Comandos bash macOS/Linux](referencias/comandos-bash.md)
+- [Troubleshooting](referencias/troubleshooting.md)
+- [Rubrica](referencias/rubrica.md)
