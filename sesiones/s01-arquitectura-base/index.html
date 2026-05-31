@@ -1039,10 +1039,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#37-cerrar-la-sesion-comparar-dev-maven-y-prod-docker" class="md-nav__link">
+  <a href="#37-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.7 Cerrar la sesion: comparar DEV Maven y PROD Docker
+        3.7 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
       
     </span>
   </a>
@@ -1050,10 +1050,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#38-referencia-rapida-para-ejecutar-la-sesion" class="md-nav__link">
+  <a href="#371-archivos-clave-por-modo-de-ejecucion" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.8 Referencia rapida para ejecutar la sesion
+        3.7.1 Archivos clave por modo de ejecucion
       
     </span>
   </a>
@@ -1061,21 +1061,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#381-archivos-clave-por-modo-de-ejecucion" class="md-nav__link">
+  <a href="#372-verificacion-rapida-de-base-de-datos" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.8.1 Archivos clave por modo de ejecucion
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#382-verificacion-rapida-de-base-de-datos" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.8.2 Verificacion rapida de base de datos
+        3.7.2 Verificacion rapida de base de datos
       
     </span>
   </a>
@@ -2435,10 +2424,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#37-cerrar-la-sesion-comparar-dev-maven-y-prod-docker" class="md-nav__link">
+  <a href="#37-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.7 Cerrar la sesion: comparar DEV Maven y PROD Docker
+        3.7 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
       
     </span>
   </a>
@@ -2446,10 +2435,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#38-referencia-rapida-para-ejecutar-la-sesion" class="md-nav__link">
+  <a href="#371-archivos-clave-por-modo-de-ejecucion" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.8 Referencia rapida para ejecutar la sesion
+        3.7.1 Archivos clave por modo de ejecucion
       
     </span>
   </a>
@@ -2457,21 +2446,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#381-archivos-clave-por-modo-de-ejecucion" class="md-nav__link">
+  <a href="#372-verificacion-rapida-de-base-de-datos" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.8.1 Archivos clave por modo de ejecucion
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#382-verificacion-rapida-de-base-de-datos" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.8.2 Verificacion rapida de base de datos
+        3.7.2 Verificacion rapida de base de datos
       
     </span>
   </a>
@@ -3417,57 +3395,8 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <p>Al terminar la evidencia, baja el entorno para liberar CPU, memoria, red y contenedores:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>down
 </code></pre></div>
-<h3 id="37-cerrar-la-sesion-comparar-dev-maven-y-prod-docker">3.7 Cerrar la sesion: comparar DEV Maven y PROD Docker</h3>
-<p><strong>Producto del paso:</strong> estudiante distingue el modo de desarrollo con Maven del modo de produccion local con Docker y registra evidencias para defender su avance.</p>
-<p>Completa el cierre comparando ambos modos de ejecucion:</p>
-<table>
-<thead>
-<tr>
-<th>Aspecto</th>
-<th>DEV Maven</th>
-<th>PROD Docker</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Aplicacion</td>
-<td>Ejecuta en host con <code>mvn spring-boot:run</code></td>
-<td>Ejecuta dentro de contenedor</td>
-</tr>
-<tr>
-<td>Base de datos</td>
-<td>PostgreSQL en Docker DEV</td>
-<td>PostgreSQL en Docker PROD</td>
-</tr>
-<tr>
-<td>Puerto del microservicio</td>
-<td>Dinamico con <code>server.port: 0</code></td>
-<td>Interno <code>8080</code> dentro de Docker</td>
-</tr>
-<tr>
-<td>Acceso externo</td>
-<td>Directo al puerto asignado</td>
-<td>Por red Docker; luego por Gateway</td>
-</tr>
-<tr>
-<td>Proposito</td>
-<td>Desarrollo, depuracion y cambios rapidos</td>
-<td>Ejecucion reproducible y cercana a produccion</td>
-</tr>
-</tbody>
-</table>
-<p>Registra en el README o en tu evidencia individual:</p>
-<ul>
-<li>Comandos usados en DEV.</li>
-<li>Puerto asignado a la instancia Maven.</li>
-<li>Evidencia de CRUD por shell.</li>
-<li>Evidencia de tabla <code>categorias</code>.</li>
-<li>Evidencia de PROD local con Docker.</li>
-<li>Evidencia de dos instancias como maximo.</li>
-<li>Breve explicacion de tu aporte individual.</li>
-</ul>
-<h3 id="38-referencia-rapida-para-ejecutar-la-sesion">3.8 Referencia rapida para ejecutar la sesion</h3>
-<p>Esta seccion sirve si ya clonaste el repositorio o un tag congelado de la sesion y solo quieres levantar, probar y revisar evidencias sin repetir toda la construccion paso a paso.</p>
+<h3 id="37-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion">3.7 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion</h3>
+<p>Esta seccion sirve si quieres partir del tag final de la sesion y solo levantar, probar y revisar evidencias sin repetir toda la construccion paso a paso.</p>
 <table>
 <thead>
 <tr>
@@ -3496,10 +3425,6 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <td>Levantar y escalar PROD local</td>
 <td><a href="#36-probar-produccion-local-con-docker">Ver paso 3.6</a></td>
 </tr>
-<tr>
-<td>Comparar DEV y PROD</td>
-<td><a href="#37-cerrar-la-sesion-comparar-dev-maven-y-prod-docker">Ver paso 3.7</a></td>
-</tr>
 </tbody>
 </table>
 <p>Comandos minimos DEV:</p>
@@ -3513,7 +3438,7 @@ mvn<span class="w"> </span>spring-boot:run
 docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>--scale<span class="w"> </span>catalogo-ms<span class="o">=</span><span class="m">2</span>
 docker<span class="w"> </span>compose<span class="w"> </span>ps
 </code></pre></div>
-<h3 id="381-archivos-clave-por-modo-de-ejecucion">3.8.1 Archivos clave por modo de ejecucion</h3>
+<h3 id="371-archivos-clave-por-modo-de-ejecucion">3.7.1 Archivos clave por modo de ejecucion</h3>
 <p>DEV:</p>
 <table>
 <thead>
@@ -3595,7 +3520,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>ps
 </tr>
 </tbody>
 </table>
-<h3 id="382-verificacion-rapida-de-base-de-datos">3.8.2 Verificacion rapida de base de datos</h3>
+<h3 id="372-verificacion-rapida-de-base-de-datos">3.7.2 Verificacion rapida de base de datos</h3>
 <p>DEV:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ecom-postgres-catalogo-dev<span class="w"> </span>psql<span class="w"> </span>-U<span class="w"> </span>ecom<span class="w"> </span>-d<span class="w"> </span>ecom_catalogo_db
 </code></pre></div>
@@ -3644,6 +3569,43 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <li>Salida de dos instancias como maximo.</li>
 <li>Breve descripcion del aporte individual.</li>
 </ul>
+<p>Comparacion minima que debe defender:</p>
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>DEV Maven</th>
+<th>PROD Docker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aplicacion</td>
+<td>Ejecuta en host con <code>mvn spring-boot:run</code></td>
+<td>Ejecuta dentro de contenedor</td>
+</tr>
+<tr>
+<td>Base de datos</td>
+<td>PostgreSQL en Docker DEV</td>
+<td>PostgreSQL en Docker PROD</td>
+</tr>
+<tr>
+<td>Puerto del microservicio</td>
+<td>Dinamico con <code>server.port: 0</code></td>
+<td>Interno <code>8080</code> dentro de Docker</td>
+</tr>
+<tr>
+<td>Acceso externo</td>
+<td>Directo al puerto asignado</td>
+<td>Por red Docker; luego por Gateway</td>
+</tr>
+<tr>
+<td>Proposito</td>
+<td>Desarrollo, depuracion y cambios rapidos</td>
+<td>Ejecucion reproducible y cercana a produccion</td>
+</tr>
+</tbody>
+</table>
 <h3 id="53-preguntas-de-defensa">5.3 Preguntas de defensa</h3>
 <ol>
 <li>Por que un microservicio debe ser stateless?</li>
