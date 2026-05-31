@@ -25,7 +25,7 @@
     
     
       
-        <title>S3 - Eureka y escalado - ecom - DISTribuidas 2026</title>
+        <title>S3 - Registro y descubrimiento - ecom - DISTribuidas 2026</title>
       
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#s3-registro-descubrimiento-y-escalado" class="md-skip">
+        <a href="#s3-registro-descubrimiento-y-ejecucion-concurrente-de-servicios" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              S3 - Eureka y escalado
+              S3 - Registro y descubrimiento
             
           </span>
         </div>
@@ -225,6 +225,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../../silabo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Silabo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../guia-curso/" class="md-nav__link">
         
   
@@ -262,10 +289,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   
@@ -283,8 +310,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -308,7 +335,7 @@
   <span class="md-ellipsis">
     
   
-    S1 - Arquitectura base
+    S1 - Servicio base
   
 
     
@@ -336,7 +363,7 @@
   <span class="md-ellipsis">
     
   
-    S2 - Configuracion centralizada
+    S2 - Configuracion y ambientes
   
 
     
@@ -373,7 +400,7 @@
   <span class="md-ellipsis">
     
   
-    S3 - Eureka y escalado
+    S3 - Registro y descubrimiento
   
 
     
@@ -391,7 +418,7 @@
   <span class="md-ellipsis">
     
   
-    S3 - Eureka y escalado
+    S3 - Registro y descubrimiento
   
 
     
@@ -483,6 +510,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#distribucion-de-carga" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distribucion de carga
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pasos-para-construir-el-producto-de-sesion" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -513,33 +551,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Comandos de ejecucion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#powershell" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cierre-en-produccion-local-con-docker" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PowerShell
+        Cierre en produccion local con Docker
       
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bash-macoslinux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        bash macOS/Linux
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -643,7 +664,7 @@
   <span class="md-ellipsis">
     
   
-    S4 - Gateway y balanceo
+    S4 - Acceso unico y trafico
   
 
     
@@ -707,10 +728,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   
@@ -728,8 +749,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -746,14 +767,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../s06-feign/" class="md-nav__link">
+      <a href="../s06-feign-circuit-breaker/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    S6 - OpenFeign
+    S6 - Comunicacion sincronica resiliente
   
 
     
@@ -774,14 +795,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../s07-circuit-breaker/" class="md-nav__link">
+      <a href="../s07-seguridad-jwt/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    S7 - Circuit Breaker
+    S7 - Seguridad distribuida
   
 
     
@@ -802,14 +823,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../s08-seguridad-jwt/" class="md-nav__link">
+      <a href="../s08-angular-cors-jwt/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    S8 - Seguridad JWT
+    S8 - Mensajeria asincrona
   
 
     
@@ -837,7 +858,7 @@
   <span class="md-ellipsis">
     
   
-    S9 - Kafka
+    S9 - Consistencia distribuida
   
 
     
@@ -865,7 +886,7 @@
   <span class="md-ellipsis">
     
   
-    S10 - Observabilidad
+    S10 - Observabilidad y diagnostico
   
 
     
@@ -886,14 +907,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../s11-angular-gateway/" class="md-nav__link">
+      <a href="../s11-integracion-fullstack/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    S11 - Angular Gateway
+    S11 - Integracion frontend
   
 
     
@@ -957,10 +978,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -978,8 +999,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1003,7 +1024,7 @@
   <span class="md-ellipsis">
     
   
-    S13 - Validacion integral
+    S13 - Validacion end-to-end
   
 
     
@@ -1031,7 +1052,7 @@
   <span class="md-ellipsis">
     
   
-    S14 - Cierre tecnico
+    S14 - Revision tecnica
   
 
     
@@ -1123,10 +1144,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1144,8 +1165,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1395,6 +1416,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#distribucion-de-carga" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distribucion de carga
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pasos-para-construir-el-producto-de-sesion" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1425,33 +1457,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Comandos de ejecucion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#powershell" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cierre-en-produccion-local-con-docker" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PowerShell
+        Cierre en produccion local con Docker
       
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bash-macoslinux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        bash macOS/Linux
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1549,37 +1564,52 @@
 
 
 
-<h1 id="s3-registro-descubrimiento-y-escalado">S3 - Registro, descubrimiento y escalado</h1>
+<h1 id="s3-registro-descubrimiento-y-ejecucion-concurrente-de-servicios">S3 - Registro, descubrimiento y ejecucion concurrente de servicios</h1>
 <h2 id="ubicacion-en-el-curso">Ubicacion en el curso</h2>
 <ul>
-<li>Unidad: U1 - Sistema distribuido base con Spring Cloud.</li>
-<li>Producto de unidad: Sistema distribuido base configurable, registrado, accesible por Gateway y preparado para multiples instancias.</li>
-<li>Avance del producto en esta sesion: servicios registrados dinamicamente y multiples instancias activas.</li>
+<li>Unidad: U1 - Sistema distribuido base orientado a produccion.</li>
+<li>Producto de unidad: servicios configurables, registrados y preparados para multiples instancias.</li>
+<li>Avance del producto en esta sesion: servicios registrados dinamicamente y ejecutados en paralelo.</li>
 </ul>
 <h2 id="proposito">Proposito</h2>
-<p>Incorporar service discovery para que los servicios no dependan de direcciones fijas y puedan escalar en multiples instancias.</p>
+<p>Resolver el problema de ubicar servicios que cambian de instancia, puerto o ubicacion durante la ejecucion.</p>
 <h2 id="resultado-de-aprendizaje">Resultado de aprendizaje</h2>
-<p>El estudiante registra microservicios en Eureka y ejecuta mas de una instancia del mismo servicio.</p>
+<p>El estudiante registra microservicios en un servidor de descubrimiento, levanta multiples instancias y verifica su presencia dinamica.</p>
 <h2 id="producto-de-sesion">Producto de sesion</h2>
-<ul>
-<li>Eureka Server operativo.</li>
-<li>Servicios registrados.</li>
-<li>Dos instancias de un microservicio visibles en Eureka.</li>
-</ul>
+<p>Eureka Server operativo con <code>catalogo-ms</code>, <code>producto-ms</code> y otros servicios registrados con puertos dinamicos.</p>
 <h2 id="concepto-distribuido-clave">Concepto distribuido clave</h2>
-<p>Service discovery permite localizar servicios por nombre logico, no por IP o puerto. Es clave para escalado y tolerancia a cambios de instancia.</p>
+<p>El descubrimiento de servicios permite que los componentes se encuentren por nombre logico y no por host/puerto fijo.</p>
 <h2 id="implementacion-en-el-proyecto">Implementacion en el proyecto</h2>
-<p>Eureka vive en <code>infra/eureka</code>. Los microservicios usan <code>eureka.client.service-url.defaultZone</code> desde Config Server.</p>
+<p>En <code>ecom</code>, se usa Spring Cloud Netflix Eureka en <code>infra/eureka</code>. Los microservicios usan <code>server.port: 0</code> y se registran con su nombre <code>*-ms</code>.</p>
+<h2 id="distribucion-de-carga">Distribucion de carga</h2>
+<p>Laboratorio 4h:</p>
+<ul>
+<li>Levantar Config Server y Eureka.</li>
+<li>Registrar un microservicio.</li>
+<li>Levantar segunda instancia.</li>
+<li>Verificar dashboard y logs.</li>
+<li>Cerrar con infraestructura en produccion local con Docker.</li>
+</ul>
+<p>Trabajo fuera del aula 4h:</p>
+<ul>
+<li>Registrar otro microservicio.</li>
+<li>Documentar evidencia de multiples instancias.</li>
+<li>Explicar por que no se usa puerto host fijo.</li>
+<li>Preparar preguntas de defensa.</li>
+</ul>
 <h2 id="pasos-para-construir-el-producto-de-sesion">Pasos para construir el producto de sesion</h2>
 <ol>
-<li>Crear el proyecto <code>infra/eureka</code> con Spring Cloud Netflix Eureka Server.</li>
-<li>Habilitar Eureka Server en la clase principal.</li>
-<li>Configurar el puerto DEV de Eureka.</li>
-<li>Agregar dependencias de Eureka Client en los microservicios.</li>
-<li>Definir <code>spring.application.name</code> para cada microservicio.</li>
-<li>Configurar <code>eureka.client.service-url.defaultZone</code> desde Config Server.</li>
-<li>Configurar <code>server.port: 0</code> en DEV para permitir multiples instancias.</li>
-<li>Levantar dos instancias del mismo microservicio y validar ambas en Eureka.</li>
+<li>Levantar Config Server.</li>
+<li>Crear o revisar <code>infra/eureka</code>.</li>
+<li>Habilitar Eureka Server.</li>
+<li>Configurar URL de Eureka desde Config Server.</li>
+<li>Agregar cliente Eureka a microservicios.</li>
+<li>Configurar nombre logico del servicio.</li>
+<li>Ejecutar <code>catalogo-ms</code>.</li>
+<li>Ejecutar una segunda instancia de <code>catalogo-ms</code>.</li>
+<li>Verificar ambas instancias en Eureka.</li>
+<li>Ejecutar infraestructura en produccion local con Docker.</li>
+<li>Revisar logs de registro y renovacion.</li>
 </ol>
 <h2 id="archivos-involucrados">Archivos involucrados</h2>
 <table>
@@ -1591,54 +1621,70 @@
 </thead>
 <tbody>
 <tr>
+<td><code>infra/eureka/pom.xml</code></td>
+<td>Dependencias Eureka Server</td>
+</tr>
+<tr>
 <td><code>infra/eureka/src/main/resources/application.yml</code></td>
-<td>Configuracion Eureka</td>
+<td>Configuracion base</td>
 </tr>
 <tr>
-<td><code>infra/config/config-repo/*-dev.yml</code></td>
-<td>Registro de servicios en DEV</td>
+<td><code>infra/config/config-repo/eureka-*.yml</code></td>
+<td>Configuracion por ambiente</td>
 </tr>
 <tr>
-<td><code>services/*/src/main/resources/application.yml</code></td>
-<td>Nombre de aplicacion</td>
+<td><code>infra/config/config-repo/*-ms-dev.yml</code></td>
+<td>Registro de clientes</td>
+</tr>
+<tr>
+<td><code>services/*/pom.xml</code></td>
+<td>Dependencias cliente</td>
 </tr>
 </tbody>
 </table>
 <h2 id="comandos-de-ejecucion">Comandos de ejecucion</h2>
-<h3 id="powershell">PowerShell</h3>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">infra</span><span class="p">/</span><span class="n">eureka</span>
-<span class="n">mvn</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
-
-<span class="nb">cd </span><span class="n">services</span><span class="p">/</span><span class="n">catalogo-ms</span>
-<span class="n">mvn</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
-</code></pre></div>
-<p>Segunda instancia:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">services</span><span class="p">/</span><span class="n">catalogo-ms</span>
-<span class="n">mvn</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
-</code></pre></div>
-<h3 id="bash-macoslinux">bash macOS/Linux</h3>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/eureka
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/config
 mvn<span class="w"> </span>spring-boot:run
 
-<span class="nb">cd</span><span class="w"> </span>services/catalogo-ms
+<span class="nb">cd</span><span class="w"> </span>../eureka
+mvn<span class="w"> </span>spring-boot:run
+
+<span class="nb">cd</span><span class="w"> </span>../../services/catalogo-ms
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
 mvn<span class="w"> </span>spring-boot:run
 </code></pre></div>
+<p>Segunda instancia, PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/catalogo-ms
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<h2 id="cierre-en-produccion-local-con-docker">Cierre en produccion local con Docker</h2>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</code></pre></div>
+<p>En produccion local, Config Server, Eureka y Gateway comparten una red Docker. Eureka publica el dashboard en <code>http://localhost:28761</code> y recibe registros de servicios ejecutados como contenedores.</p>
 <h2 id="verificacion-funcional">Verificacion funcional</h2>
-<div class="highlight"><pre><span></span><code>http://localhost:18761
-</code></pre></div>
-<p>Debe aparecer <code>CATALOGO-MS</code> con una o mas instancias.</p>
+<ul>
+<li>Eureka DEV: <code>http://localhost:18761</code>.</li>
+<li>Eureka PROD: <code>http://localhost:28761</code>.</li>
+<li>Ver <code>CATALOGO-MS</code> con mas de una instancia.</li>
+<li>Ver puertos dinamicos distintos.</li>
+</ul>
 <h2 id="observabilidad-y-diagnostico">Observabilidad y diagnostico</h2>
 <ul>
-<li>Revisar dashboard Eureka.</li>
-<li>Revisar logs de registro del cliente.</li>
-<li>Verificar <code>instance-id</code> y puerto dinamico.</li>
+<li>Revisar dashboard de Eureka.</li>
+<li>Revisar logs de <code>registration</code>.</li>
+<li>Verificar heartbeats.</li>
+<li>Confirmar que Config Server este activo antes de Eureka.</li>
 </ul>
 <h2 id="verificacion-de-base-de-datos">Verificacion de base de datos</h2>
-<p>No aplica, salvo que el microservicio requiera BD para arrancar.</p>
+<p>No es el foco. Solo se confirma que la BD del microservicio sigue disponible mientras se levantan instancias.</p>
 <h2 id="evidencia-esperada">Evidencia esperada</h2>
 <ul>
-<li>Captura de Eureka con servicios registrados.</li>
+<li>Captura o salida de Eureka con servicios registrados.</li>
 <li>Dos instancias del mismo servicio.</li>
+<li>Explicacion de nombre logico vs puerto fisico.</li>
+<li>Evidencia individual del servicio registrado.</li>
 </ul>
 <h2 id="errores-frecuentes">Errores frecuentes</h2>
 <table>
@@ -1652,28 +1698,35 @@ mvn<span class="w"> </span>spring-boot:run
 <tbody>
 <tr>
 <td>Servicio no aparece</td>
-<td>Eureka apagado</td>
-<td>Levantar <code>infra/eureka</code></td>
+<td>Eureka apagado o URL incorrecta</td>
+<td>Revisar Config Server</td>
 </tr>
 <tr>
 <td>Solo aparece una instancia</td>
-<td>Se ejecuto una sola terminal</td>
-<td>Abrir segunda terminal</td>
+<td>Segunda terminal no levantada</td>
+<td>Ejecutar otra instancia Maven</td>
+</tr>
+<tr>
+<td>Nombre raro en Eureka</td>
+<td><code>spring.application.name</code> incorrecto</td>
+<td>Revisar config externa</td>
 </tr>
 </tbody>
 </table>
 <h2 id="preguntas-de-defensa">Preguntas de defensa</h2>
 <ol>
-<li>Por que Eureka mejora el desacoplamiento?</li>
-<li>Que cambia al ejecutar dos instancias?</li>
-<li>Que informacion muestra Eureka de cada instancia?</li>
+<li>Por que un servicio usa puerto dinamico?</li>
+<li>Que ventaja tiene registrar por nombre logico?</li>
+<li>Como demuestras que hay dos instancias?</li>
+<li>Que pasa si Eureka no esta disponible al arrancar?</li>
 </ol>
 <h2 id="checklist-de-cierre">Checklist de cierre</h2>
 <ul>
-<li>[ ] Eureka esta activo.</li>
-<li>[ ] Un microservicio aparece registrado.</li>
-<li>[ ] Una segunda instancia aparece registrada.</li>
-<li>[ ] Explico service discovery.</li>
+<li>[ ] Config Server activo.</li>
+<li>[ ] Eureka activo.</li>
+<li>[ ] Servicio registrado.</li>
+<li>[ ] Segunda instancia registrada.</li>
+<li>[ ] Evidencia individual registrada.</li>
 </ul>
 
 

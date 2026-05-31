@@ -11,10 +11,10 @@
       
       
       
-        <link rel="prev" href="../s06-feign/">
+        <link rel="prev" href="../s05-evaluacion-u1/">
       
       
-        <link rel="next" href="../s08-seguridad-jwt/">
+        <link rel="next" href="../s07-seguridad-jwt/">
       
       
         
@@ -25,7 +25,7 @@
     
     
       
-        <title>S7 - Circuit Breaker - ecom - DISTribuidas 2026</title>
+        <title>S6 - Comunicacion sincronica resiliente - ecom - DISTribuidas 2026</title>
       
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#s7-resiliencia-con-circuit-breaker" class="md-skip">
+        <a href="#s6-comunicacion-sincronica-resiliente-entre-servicios" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              S7 - Circuit Breaker
+              S6 - Comunicacion sincronica resiliente
             
           </span>
         </div>
@@ -225,6 +225,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../../silabo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Silabo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../guia-curso/" class="md-nav__link">
         
   
@@ -260,10 +287,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   
@@ -281,8 +308,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -306,7 +333,7 @@
   <span class="md-ellipsis">
     
   
-    S1 - Arquitectura base
+    S1 - Servicio base
   
 
     
@@ -334,7 +361,7 @@
   <span class="md-ellipsis">
     
   
-    S2 - Configuracion centralizada
+    S2 - Configuracion y ambientes
   
 
     
@@ -362,7 +389,7 @@
   <span class="md-ellipsis">
     
   
-    S3 - Eureka y escalado
+    S3 - Registro y descubrimiento
   
 
     
@@ -390,7 +417,7 @@
   <span class="md-ellipsis">
     
   
-    S4 - Gateway y balanceo
+    S4 - Acceso unico y trafico
   
 
     
@@ -456,10 +483,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   
@@ -477,8 +504,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -487,34 +514,6 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../s06-feign/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    S6 - OpenFeign
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -539,7 +538,7 @@
   <span class="md-ellipsis">
     
   
-    S7 - Circuit Breaker
+    S6 - Comunicacion sincronica resiliente
   
 
     
@@ -557,7 +556,7 @@
   <span class="md-ellipsis">
     
   
-    S7 - Circuit Breaker
+    S6 - Comunicacion sincronica resiliente
   
 
     
@@ -649,6 +648,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#distribucion-de-carga" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distribucion de carga
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pasos-para-construir-el-producto-de-sesion" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -679,33 +689,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Comandos de ejecucion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#powershell" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cierre-en-produccion-local-con-docker" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PowerShell
+        Cierre en produccion local con Docker
       
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bash-macoslinux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        bash macOS/Linux
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -802,14 +795,42 @@
   
   
     <li class="md-nav__item">
-      <a href="../s08-seguridad-jwt/" class="md-nav__link">
+      <a href="../s07-seguridad-jwt/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    S8 - Seguridad JWT
+    S7 - Seguridad distribuida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s08-angular-cors-jwt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S8 - Mensajeria asincrona
   
 
     
@@ -837,7 +858,7 @@
   <span class="md-ellipsis">
     
   
-    S9 - Kafka
+    S9 - Consistencia distribuida
   
 
     
@@ -865,7 +886,7 @@
   <span class="md-ellipsis">
     
   
-    S10 - Observabilidad
+    S10 - Observabilidad y diagnostico
   
 
     
@@ -886,14 +907,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../s11-angular-gateway/" class="md-nav__link">
+      <a href="../s11-integracion-fullstack/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    S11 - Angular Gateway
+    S11 - Integracion frontend
   
 
     
@@ -957,10 +978,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -978,8 +999,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1003,7 +1024,7 @@
   <span class="md-ellipsis">
     
   
-    S13 - Validacion integral
+    S13 - Validacion end-to-end
   
 
     
@@ -1031,7 +1052,7 @@
   <span class="md-ellipsis">
     
   
-    S14 - Cierre tecnico
+    S14 - Revision tecnica
   
 
     
@@ -1123,10 +1144,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1144,8 +1165,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1395,6 +1416,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#distribucion-de-carga" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distribucion de carga
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pasos-para-construir-el-producto-de-sesion" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1425,33 +1457,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Comandos de ejecucion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#powershell" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cierre-en-produccion-local-con-docker" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PowerShell
+        Cierre en produccion local con Docker
       
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bash-macoslinux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        bash macOS/Linux
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1549,33 +1564,54 @@
 
 
 
-<h1 id="s7-resiliencia-con-circuit-breaker">S7 - Resiliencia con Circuit Breaker</h1>
+<h1 id="s6-comunicacion-sincronica-resiliente-entre-servicios">S6 - Comunicacion sincronica resiliente entre servicios</h1>
 <h2 id="ubicacion-en-el-curso">Ubicacion en el curso</h2>
 <ul>
-<li>Unidad: U2 - Sistema distribuido robusto e integrado.</li>
-<li>Producto de unidad: Sistema distribuido seguro, resiliente, observable, orientado a eventos e integrado con frontend.</li>
-<li>Avance del producto en esta sesion: tolerancia a fallos en comunicacion entre servicios.</li>
+<li>Unidad: U2 - Sistema distribuido robusto.</li>
+<li>Producto de unidad: sistema seguro, resiliente, consistente, observable e integrado.</li>
+<li>Avance del producto en esta sesion: operacion distribuida con comunicacion sincronica y respuesta controlada ante fallos.</li>
 </ul>
 <h2 id="proposito">Proposito</h2>
-<p>Evitar que una falla de <code>catalogo-ms</code> degrade completamente a <code>producto-ms</code>.</p>
+<p>Construir una operacion donde un microservicio requiere informacion de otro y controlar el impacto cuando el servicio remoto falla.</p>
 <h2 id="resultado-de-aprendizaje">Resultado de aprendizaje</h2>
-<p>El estudiante prueba un fallo controlado y explica fallback, degradacion y estados del circuito.</p>
+<p>El estudiante implementa comunicacion entre servicios, simula fallos y aplica una respuesta degradada defendible.</p>
 <h2 id="producto-de-sesion">Producto de sesion</h2>
-<p>Circuit Breaker aplicado al flujo de detalle de producto.</p>
+<p><code>producto-ms</code> consulta <code>catalogo-ms</code> para mostrar detalle de producto con categoria y controla fallos con Circuit Breaker/fallback.</p>
 <h2 id="concepto-distribuido-clave">Concepto distribuido clave</h2>
-<p>Un Circuit Breaker corta llamadas repetidamente fallidas para proteger al sistema y responder de forma degradada.</p>
+<p>La comunicacion sincronica es simple de razonar, pero acopla temporalmente a los servicios. La resiliencia evita que una falla local se propague a todo el sistema.</p>
 <h2 id="implementacion-en-el-proyecto">Implementacion en el proyecto</h2>
-<p>Se aplica resiliencia sobre la llamada de <code>producto-ms</code> hacia <code>catalogo-ms</code>.</p>
+<p>En <code>ecom</code>, la comunicacion se implementa con Spring Cloud OpenFeign y la resiliencia con Circuit Breaker sobre la llamada de <code>producto-ms</code> a <code>catalogo-ms</code>.</p>
+<h2 id="distribucion-de-carga">Distribucion de carga</h2>
+<p>Laboratorio 4h:</p>
+<ul>
+<li>Crear cliente de comunicacion entre servicios.</li>
+<li>Integrar DTO de respuesta.</li>
+<li>Probar flujo con ambos servicios activos.</li>
+<li>Simular caida de <code>catalogo-ms</code> y validar fallback.</li>
+<li>Cerrar con los servicios en produccion local con Docker.</li>
+</ul>
+<p>Trabajo fuera del aula 4h:</p>
+<ul>
+<li>Mejorar mensaje de respuesta degradada.</li>
+<li>Documentar pruebas y logs.</li>
+<li>Explicar trade-offs de comunicacion sincronica.</li>
+<li>Registrar evidencia individual.</li>
+</ul>
 <h2 id="pasos-para-construir-el-producto-de-sesion">Pasos para construir el producto de sesion</h2>
 <ol>
-<li>Identificar la llamada remota que puede fallar.</li>
-<li>Agregar dependencia de Resilience4j o Circuit Breaker usada por el proyecto.</li>
-<li>Definir la politica del circuito: umbral, ventana, timeout y tiempo de espera.</li>
-<li>Crear un metodo fallback con respuesta controlada.</li>
-<li>Aplicar el Circuit Breaker al metodo que usa Feign.</li>
-<li>Probar el flujo con el servicio destino activo.</li>
-<li>Apagar el servicio destino y repetir la prueba.</li>
-<li>Registrar evidencia de respuesta degradada y logs del fallo.</li>
+<li>Identificar la operacion que cruza servicios.</li>
+<li>Agregar dependencia de comunicacion sincronica al consumidor.</li>
+<li>Habilitar clientes declarativos.</li>
+<li>Crear DTOs de categoria.</li>
+<li>Crear cliente hacia <code>catalogo-ms</code> usando nombre logico.</li>
+<li>Consumir el cliente desde el servicio de productos.</li>
+<li>Exponer endpoint de detalle.</li>
+<li>Agregar Circuit Breaker.</li>
+<li>Implementar fallback.</li>
+<li>Probar con <code>catalogo-ms</code> activo.</li>
+<li>Apagar <code>catalogo-ms</code> y repetir la prueba.</li>
+<li>Ejecutar cierre en produccion local con Docker.</li>
+<li>Revisar logs y respuesta.</li>
 </ol>
 <h2 id="archivos-involucrados">Archivos involucrados</h2>
 <table>
@@ -1588,43 +1624,72 @@
 <tbody>
 <tr>
 <td><code>services/producto-ms/pom.xml</code></td>
-<td>Dependencias de resiliencia</td>
+<td>Dependencias de comunicacion/resiliencia</td>
 </tr>
 <tr>
-<td><code>services/producto-ms/src/main/java/.../ProductoServiceImpl.java</code></td>
-<td>Fallback</td>
+<td><code>services/producto-ms/src/main/java/...</code></td>
+<td>Cliente, servicio y controlador</td>
 </tr>
 <tr>
 <td><code>infra/config/config-repo/producto-ms-dev.yml</code></td>
-<td>Parametros del circuito</td>
+<td>Configuracion de resiliencia</td>
+</tr>
+<tr>
+<td><code>services/catalogo-ms</code></td>
+<td>Servicio remoto</td>
 </tr>
 </tbody>
 </table>
 <h2 id="comandos-de-ejecucion">Comandos de ejecucion</h2>
-<h3 id="powershell">PowerShell</h3>
-<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/api/v1/productos/detalle/1&quot;</span>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">services</span><span class="p">/</span><span class="n">producto-ms</span>
+<span class="n">mvn</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
+
+<span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/api/v1/productos/detalle/1&quot;</span> <span class="p">`</span>
+  <span class="n">-Headers</span> <span class="p">@{</span> <span class="n">Authorization</span> <span class="p">=</span> <span class="s2">&quot;Bearer $token&quot;</span> <span class="p">}</span>
 </code></pre></div>
-<p>Apagar <code>catalogo-ms</code> y repetir la prueba.</p>
-<h3 id="bash-macoslinux">bash macOS/Linux</h3>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18080/api/v1/productos/detalle/1
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/producto-ms
+mvn<span class="w"> </span>spring-boot:run
+
+curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;http://localhost:18080/api/v1/productos/detalle/1&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$token</span><span class="s2">&quot;</span>
 </code></pre></div>
+<h2 id="cierre-en-produccion-local-con-docker">Cierre en produccion local con Docker</h2>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/catalogo-ms
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+
+<span class="nb">cd</span><span class="w"> </span>../producto-ms
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</code></pre></div>
+<p>En produccion local, <code>producto-ms</code> consume <code>catalogo-ms</code> dentro de la red Docker usando descubrimiento y Gateway. El acceso desde fuera se mantiene por Gateway PROD, no por puertos host de cada microservicio.</p>
 <h2 id="verificacion-funcional">Verificacion funcional</h2>
-<p>Con <code>catalogo-ms</code> apagado, el sistema no debe caer completamente. Debe responder error controlado o fallback definido.</p>
+<ul>
+<li>Producto creado.</li>
+<li>Categoria creada.</li>
+<li>Detalle devuelve datos de producto y categoria.</li>
+<li>Al apagar <code>catalogo-ms</code>, la respuesta es controlada y no rompe todo el flujo.</li>
+</ul>
 <h2 id="observabilidad-y-diagnostico">Observabilidad y diagnostico</h2>
 <ul>
-<li>Revisar logs de fallback.</li>
-<li>Revisar metricas actuator si estan expuestas.</li>
-<li>Comparar comportamiento con servicio arriba y servicio abajo.</li>
+<li>Logs de <code>producto-ms</code>.</li>
+<li>Logs de <code>catalogo-ms</code>.</li>
+<li>Estado de servicios en Eureka.</li>
+<li>Respuesta HTTP del endpoint de detalle.</li>
 </ul>
 <h2 id="verificacion-de-base-de-datos">Verificacion de base de datos</h2>
-<p>Verificar que el producto exista antes de probar resiliencia.</p>
 <div class="highlight"><pre><span></span><code><span class="n">docker</span> <span class="n">exec</span> <span class="n">-it</span> <span class="n">ecom-postgres-producto-dev</span> <span class="n">psql</span> <span class="n">-U</span> <span class="n">ecom</span> <span class="n">-d</span> <span class="n">ecom_producto_db</span> <span class="n">-c</span> <span class="s2">&quot;SELECT * FROM productos;&quot;</span>
+<span class="n">docker</span> <span class="n">exec</span> <span class="n">-it</span> <span class="n">ecom-postgres-catalogo-dev</span> <span class="n">psql</span> <span class="n">-U</span> <span class="n">ecom</span> <span class="n">-d</span> <span class="n">ecom_catalogo_db</span> <span class="n">-c</span> <span class="s2">&quot;SELECT * FROM categorias;&quot;</span>
 </code></pre></div>
 <h2 id="evidencia-esperada">Evidencia esperada</h2>
 <ul>
-<li>Respuesta normal.</li>
-<li>Respuesta degradada.</li>
-<li>Log del fallo.</li>
+<li>Endpoint de detalle funcionando.</li>
+<li>Fallback probado.</li>
+<li>Logs del fallo.</li>
+<li>Explicacion del impacto de la dependencia remota.</li>
+<li>Evidencia individual.</li>
 </ul>
 <h2 id="errores-frecuentes">Errores frecuentes</h2>
 <table>
@@ -1637,28 +1702,36 @@
 </thead>
 <tbody>
 <tr>
-<td>No se activa fallback</td>
-<td>Configuracion incompleta</td>
-<td>Revisar anotacion/configuracion</td>
+<td>503</td>
+<td>Servicio remoto no registrado</td>
+<td>Revisar Eureka</td>
 </tr>
 <tr>
-<td>Error no controlado</td>
-<td>Excepcion no cubierta</td>
-<td>Ajustar fallback</td>
+<td>401</td>
+<td>Falta token en ruta protegida</td>
+<td>Iniciar sesion</td>
+</tr>
+<tr>
+<td>Fallback no ejecuta</td>
+<td>Circuit Breaker mal configurado</td>
+<td>Revisar anotacion/config</td>
 </tr>
 </tbody>
 </table>
 <h2 id="preguntas-de-defensa">Preguntas de defensa</h2>
 <ol>
-<li>Que diferencia hay entre timeout y Circuit Breaker?</li>
-<li>Que significa estado OPEN?</li>
-<li>Por que resiliencia no equivale a ocultar errores?</li>
+<li>Que diferencia hay entre comunicacion sincronica y asincrona?</li>
+<li>Por que la llamada a <code>catalogo-ms</code> puede afectar a <code>producto-ms</code>?</li>
+<li>Que aporta el Circuit Breaker?</li>
+<li>Como demuestras que el fallback funciona?</li>
 </ol>
 <h2 id="checklist-de-cierre">Checklist de cierre</h2>
 <ul>
+<li>[ ] Comunicacion entre servicios implementada.</li>
+<li>[ ] Endpoint de detalle probado.</li>
 <li>[ ] Fallo simulado.</li>
-<li>[ ] Fallback observado.</li>
-<li>[ ] Evidencia de logs presentada.</li>
+<li>[ ] Fallback evidenciado.</li>
+<li>[ ] Evidencia individual registrada.</li>
 </ul>
 
 

@@ -14,7 +14,7 @@
         <link rel="prev" href="../s04-gateway-load-balancer/">
       
       
-        <link rel="next" href="../s06-feign/">
+        <link rel="next" href="../s06-feign-circuit-breaker/">
       
       
         
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#s5-evaluacion-unidad-1" class="md-skip">
+        <a href="#s5-evaluacion-integradora-de-sistema-base" class="md-skip">
           Skip to content
         </a>
       
@@ -225,6 +225,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../../silabo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Silabo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../guia-curso/" class="md-nav__link">
         
   
@@ -262,10 +289,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   
@@ -283,8 +310,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -308,7 +335,7 @@
   <span class="md-ellipsis">
     
   
-    S1 - Arquitectura base
+    S1 - Servicio base
   
 
     
@@ -336,7 +363,7 @@
   <span class="md-ellipsis">
     
   
-    S2 - Configuracion centralizada
+    S2 - Configuracion y ambientes
   
 
     
@@ -364,7 +391,7 @@
   <span class="md-ellipsis">
     
   
-    S3 - Eureka y escalado
+    S3 - Registro y descubrimiento
   
 
     
@@ -392,7 +419,7 @@
   <span class="md-ellipsis">
     
   
-    S4 - Gateway y balanceo
+    S4 - Acceso unico y trafico
   
 
     
@@ -539,6 +566,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#distribucion-de-carga" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distribucion de carga
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pasos-para-construir-el-producto-de-sesion" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -569,33 +607,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Comandos de ejecucion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#powershell" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cierre-en-produccion-local-con-docker" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PowerShell
+        Cierre en produccion local con Docker
       
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bash-macoslinux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        bash macOS/Linux
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -707,10 +728,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   
@@ -728,8 +749,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -746,14 +767,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../s06-feign/" class="md-nav__link">
+      <a href="../s06-feign-circuit-breaker/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    S6 - OpenFeign
+    S6 - Comunicacion sincronica resiliente
   
 
     
@@ -774,14 +795,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../s07-circuit-breaker/" class="md-nav__link">
+      <a href="../s07-seguridad-jwt/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    S7 - Circuit Breaker
+    S7 - Seguridad distribuida
   
 
     
@@ -802,14 +823,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../s08-seguridad-jwt/" class="md-nav__link">
+      <a href="../s08-angular-cors-jwt/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    S8 - Seguridad JWT
+    S8 - Mensajeria asincrona
   
 
     
@@ -837,7 +858,7 @@
   <span class="md-ellipsis">
     
   
-    S9 - Kafka
+    S9 - Consistencia distribuida
   
 
     
@@ -865,7 +886,7 @@
   <span class="md-ellipsis">
     
   
-    S10 - Observabilidad
+    S10 - Observabilidad y diagnostico
   
 
     
@@ -886,14 +907,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../s11-angular-gateway/" class="md-nav__link">
+      <a href="../s11-integracion-fullstack/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    S11 - Angular Gateway
+    S11 - Integracion frontend
   
 
     
@@ -957,10 +978,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -978,8 +999,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1003,7 +1024,7 @@
   <span class="md-ellipsis">
     
   
-    S13 - Validacion integral
+    S13 - Validacion end-to-end
   
 
     
@@ -1031,7 +1052,7 @@
   <span class="md-ellipsis">
     
   
-    S14 - Cierre tecnico
+    S14 - Revision tecnica
   
 
     
@@ -1123,10 +1144,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1144,8 +1165,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1395,6 +1416,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#distribucion-de-carga" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distribucion de carga
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pasos-para-construir-el-producto-de-sesion" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1425,33 +1457,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Comandos de ejecucion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#powershell" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cierre-en-produccion-local-con-docker" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PowerShell
+        Cierre en produccion local con Docker
       
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bash-macoslinux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        bash macOS/Linux
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1549,90 +1564,102 @@
 
 
 
-<h1 id="s5-evaluacion-unidad-1">S5 - Evaluacion Unidad 1</h1>
+<h1 id="s5-evaluacion-integradora-de-sistema-base">S5 - Evaluacion integradora de sistema base</h1>
 <h2 id="ubicacion-en-el-curso">Ubicacion en el curso</h2>
 <ul>
-<li>Unidad: U1 - Sistema distribuido base con Spring Cloud.</li>
-<li>Producto de unidad: Sistema distribuido base configurable, registrado, accesible por Gateway y preparado para multiples instancias.</li>
-<li>Avance del producto en esta sesion: evaluacion integrada del producto U1.</li>
+<li>Unidad: U1 - Sistema distribuido base orientado a produccion.</li>
+<li>Producto de unidad: sistema distribuido base funcional, configurable y preparado para multiples instancias.</li>
+<li>Avance del producto en esta sesion: evaluacion del producto U1.</li>
 </ul>
 <h2 id="proposito">Proposito</h2>
-<p>Verificar que el estudiante puede levantar y explicar la base distribuida del sistema.</p>
+<p>Validar que los componentes base funcionan como sistema y que cada integrante puede sustentar su aporte.</p>
 <h2 id="resultado-de-aprendizaje">Resultado de aprendizaje</h2>
-<p>El estudiante demuestra un sistema base funcional con Config Server, Eureka, Gateway, microservicios y bases de datos.</p>
+<p>El estudiante demuestra ejecucion, prueba, diagnostico y defensa tecnica del sistema base.</p>
 <h2 id="producto-de-sesion">Producto de sesion</h2>
-<p>Producto U1 funcionando como un todo.</p>
+<p>Producto U1 integrado: Config Server, Eureka, Gateway, microservicio de negocio, BD y multiples instancias.</p>
 <h2 id="concepto-distribuido-clave">Concepto distribuido clave</h2>
-<p>La arquitectura base se valida como composicion de servicios independientes que cooperan por red.</p>
+<p>Un sistema distribuido base no se valida por servicios aislados, sino por su comportamiento integrado.</p>
 <h2 id="implementacion-en-el-proyecto">Implementacion en el proyecto</h2>
-<p>No se agrega tecnologia nueva. Se integra lo construido en S1-S4.</p>
+<p>Se evalua <code>ecom</code> en modo DEV Maven y, si corresponde, una demostracion PROD Docker.</p>
+<h2 id="distribucion-de-carga">Distribucion de carga</h2>
+<p>Laboratorio 4h:</p>
+<ul>
+<li>Levantar sistema base.</li>
+<li>Ejecutar pruebas por Gateway.</li>
+<li>Mostrar registro en Eureka y configuracion.</li>
+<li>Defender por equipo con preguntas individuales.</li>
+</ul>
+<p>Trabajo fuera del aula 4h:</p>
+<ul>
+<li>Ordenar evidencias.</li>
+<li>Corregir errores detectados.</li>
+<li>Completar README del servicio asignado.</li>
+<li>Preparar defensa individual.</li>
+</ul>
 <h2 id="pasos-para-construir-el-producto-de-sesion">Pasos para construir el producto de sesion</h2>
 <ol>
-<li>Preparar una lista de arranque del sistema base.</li>
-<li>Levantar Config Server y validar configuraciones.</li>
-<li>Levantar Eureka y validar dashboard.</li>
-<li>Levantar Gateway y validar health.</li>
-<li>Levantar microservicios con sus bases de datos.</li>
-<li>Ejecutar una segunda instancia de al menos un microservicio.</li>
-<li>Probar rutas por Gateway.</li>
-<li>Recolectar evidencias: Config, Eureka, Gateway, BD y respuesta HTTP.</li>
+<li>Preparar orden de arranque.</li>
+<li>Levantar Config Server.</li>
+<li>Levantar Eureka.</li>
+<li>Levantar Gateway.</li>
+<li>Levantar BD y microservicio.</li>
+<li>Levantar segunda instancia.</li>
+<li>Ejecutar CRUD por Gateway.</li>
+<li>Verificar registro en Eureka.</li>
+<li>Consultar configuracion por perfil.</li>
+<li>Inspeccionar BD.</li>
+<li>Registrar evidencias.</li>
+<li>Ejecutar cierre en produccion local con Docker si aplica.</li>
+<li>Defender aportes individuales.</li>
 </ol>
 <h2 id="archivos-involucrados">Archivos involucrados</h2>
-<table>
-<thead>
-<tr>
-<th>Archivo</th>
-<th>Proposito</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>infra/*</code></td>
-<td>Infraestructura Spring Cloud</td>
-</tr>
-<tr>
-<td><code>services/*</code></td>
-<td>Microservicios</td>
-</tr>
-<tr>
-<td><code>docs/sesiones/s01..s04</code></td>
-<td>Evidencias previas</td>
-</tr>
-</tbody>
-</table>
+<p>Todo lo construido en U1:</p>
+<ul>
+<li><code>infra/config</code></li>
+<li><code>infra/eureka</code></li>
+<li><code>infra/gateway</code></li>
+<li><code>services/catalogo-ms</code></li>
+<li><code>services/producto-ms</code> si fue usado como replica de aprendizaje</li>
+</ul>
 <h2 id="comandos-de-ejecucion">Comandos de ejecucion</h2>
-<h3 id="powershell">PowerShell</h3>
-<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">infra</span><span class="p">/</span><span class="n">config</span><span class="p">;</span> <span class="n">mvn</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
-<span class="nb">cd </span><span class="n">infra</span><span class="p">/</span><span class="n">eureka</span><span class="p">;</span> <span class="n">mvn</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
-<span class="nb">cd </span><span class="n">infra</span><span class="p">/</span><span class="n">gateway</span><span class="p">;</span> <span class="n">mvn</span> <span class="n">spring-boot</span><span class="p">:</span><span class="n">run</span>
+<p>Usar los comandos documentados en los README de cada modulo y en las sesiones S1-S4.</p>
+<h2 id="cierre-en-produccion-local-con-docker">Cierre en produccion local con Docker</h2>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+
+<span class="nb">cd</span><span class="w"> </span>../services/catalogo-ms
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>--scale<span class="w"> </span>catalogo-ms<span class="o">=</span><span class="m">2</span>
 </code></pre></div>
-<h3 id="bash-macoslinux">bash macOS/Linux</h3>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/config<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run
-<span class="nb">cd</span><span class="w"> </span>infra/eureka<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run
-<span class="nb">cd</span><span class="w"> </span>infra/gateway<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mvn<span class="w"> </span>spring-boot:run
-</code></pre></div>
+<p>En produccion local se valida que el sistema base tambien puede ejecutarse como contenedores: infraestructura en Docker, microservicios dentro de la red y acceso por Gateway PROD.</p>
 <h2 id="verificacion-funcional">Verificacion funcional</h2>
 <ul>
-<li>Config DEV responde.</li>
-<li>Eureka muestra servicios.</li>
-<li>Gateway responde health.</li>
-<li>Gateway enruta a microservicios.</li>
-<li>Al menos un microservicio tiene dos instancias.</li>
+<li>Config consultable.</li>
+<li>Eureka con servicios.</li>
+<li>Gateway health.</li>
+<li>CRUD por Gateway.</li>
+<li>Balanceo evidenciado.</li>
+<li>BD con registros.</li>
 </ul>
 <h2 id="observabilidad-y-diagnostico">Observabilidad y diagnostico</h2>
+<p>El estudiante debe explicar que revisa ante:</p>
 <ul>
-<li>Config Server health.</li>
-<li>Eureka dashboard.</li>
-<li>Gateway health y logs.</li>
-<li>Logs de microservicios.</li>
+<li>Config Server apagado.</li>
+<li>Servicio no registrado.</li>
+<li>Gateway con 503.</li>
+<li>Error de conexion a BD.</li>
+<li>Puerto dinamico no identificado.</li>
 </ul>
 <h2 id="verificacion-de-base-de-datos">Verificacion de base de datos</h2>
-<p>Cada grupo debe inspeccionar al menos una BD con <code>psql</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">docker</span> <span class="n">exec</span> <span class="n">-it</span> <span class="n">ecom-postgres-catalogo-dev</span> <span class="n">psql</span> <span class="n">-U</span> <span class="n">ecom</span> <span class="n">-d</span> <span class="n">ecom_catalogo_db</span> <span class="n">-c</span> <span class="s2">&quot;SELECT * FROM categorias;&quot;</span>
+</code></pre></div>
 <h2 id="evidencia-esperada">Evidencia esperada</h2>
 <ul>
-<li>Capturas o salidas de comandos.</li>
-<li>Explicacion del flujo Config -&gt; Eureka -&gt; Gateway -&gt; Microservicio.</li>
-<li>Prueba de multiples instancias.</li>
+<li>Comandos ejecutados.</li>
+<li>Captura o salida de Config Server.</li>
+<li>Captura o salida de Eureka.</li>
+<li>Prueba por Gateway.</li>
+<li>Registro en BD.</li>
+<li>Evidencia individual de aporte.</li>
 </ul>
 <h2 id="errores-frecuentes">Errores frecuentes</h2>
 <table>
@@ -1645,28 +1672,36 @@
 </thead>
 <tbody>
 <tr>
-<td>Gateway no enruta</td>
-<td>Falta servicio en Eureka</td>
-<td>Revisar registro</td>
+<td>Demo no reproduce</td>
+<td>Orden de arranque incompleto</td>
+<td>Usar checklist</td>
 </tr>
 <tr>
-<td>Config no responde</td>
-<td>Config Server apagado</td>
-<td>Levantar <code>infra/config</code></td>
+<td>Un integrante no sustenta</td>
+<td>Aporte no evidenciado</td>
+<td>Pedir evidencia individual</td>
+</tr>
+<tr>
+<td>Gateway falla</td>
+<td>Servicio no registrado</td>
+<td>Revisar Eureka</td>
 </tr>
 </tbody>
 </table>
 <h2 id="preguntas-de-defensa">Preguntas de defensa</h2>
 <ol>
-<li>Que componente es el punto unico de entrada?</li>
-<li>Que componente resuelve configuracion externa?</li>
-<li>Como se evidencia el escalado horizontal?</li>
+<li>Cual fue tu aporte concreto en U1?</li>
+<li>Como se levanta el sistema base?</li>
+<li>Como se prueba sin Postman?</li>
+<li>Como sabes que hay multiples instancias?</li>
+<li>Que revisas si una ruta devuelve 503?</li>
 </ol>
 <h2 id="checklist-de-cierre">Checklist de cierre</h2>
 <ul>
 <li>[ ] Producto U1 levantado.</li>
-<li>[ ] Evidencia presentada.</li>
-<li>[ ] Preguntas tecnicas respondidas.</li>
+<li>[ ] Evidencias completas.</li>
+<li>[ ] Cada integrante sustento su aporte.</li>
+<li>[ ] Errores corregidos o documentados.</li>
 </ul>
 
 
