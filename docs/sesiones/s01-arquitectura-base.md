@@ -1132,12 +1132,12 @@ Esta seccion sirve si ya clonaste el repositorio o un tag congelado de la sesion
 
 | Necesidad | Referencia |
 |---|---|
-| Levantar y probar en DEV | Ver paso 3.4 |
-| Revisar Swagger | Ver paso 3.4.4 |
-| Revisar health y metrics | Ver paso 3.4.5 |
-| Probar CRUD por shell | Ver paso 3.4.6 |
-| Levantar y escalar PROD local | Ver paso 3.6 |
-| Comparar DEV y PROD | Ver paso 3.7 |
+| Levantar y probar en DEV | [Ver paso 3.4](#34-ejecutar-y-probar-el-microservicio-en-dev) |
+| Revisar Swagger | [Ver paso 3.4.4](#344-revisar-swagger) |
+| Revisar health y metrics | [Ver paso 3.4.5](#345-verificar-health-y-metrics) |
+| Probar CRUD por shell | [Ver paso 3.4.6](#346-probar-crud-por-shell) |
+| Levantar y escalar PROD local | [Ver paso 3.6](#36-probar-produccion-local-con-docker) |
+| Comparar DEV y PROD | [Ver paso 3.7](#37-cerrar-la-sesion-comparar-dev-maven-y-prod-docker) |
 
 Comandos minimos DEV:
 

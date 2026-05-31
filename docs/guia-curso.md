@@ -1,33 +1,49 @@
-# Guia del curso
+# Guia metodologica para sesiones
 
-Esta guia define como se desarrolla cada sesion en la documentacion del proyecto `ecom`.
+Esta pagina no reemplaza al inicio ni al silabo. Su funcion es servir como criterio comun para redactar, revisar y mantener las sesiones del curso en `docs/sesiones`.
 
-El [inicio](index.md) contiene la secuencia del curso. El [silabo detallado](silabo.md) contiene metodologia, evaluacion y alcance. Esta pagina se enfoca solo en reglas operativas para construir, probar y documentar las sesiones.
+Uso principal:
 
-## Plantilla de cada sesion
+- Docente: mantener una misma secuencia metodologica en todas las sesiones.
+- Estudiante: entender como leer cada sesion.
+- Mantenimiento de la documentacion: evitar duplicaciones entre sesiones, referencias y README de servicios.
 
-Cada sesion usa la misma estructura:
+## Estructura base de una sesion
+
+Cada sesion debe seguir esta estructura:
 
 ```text
-1. Ubicacion en el curso
-2. Proposito
-3. Resultado de aprendizaje
-4. Producto de sesion
-5. Concepto distribuido clave
-6. Implementacion en el proyecto
-7. Distribucion de carga: 4h laboratorio + 4h fuera del aula
-8. Pasos para construir el producto de sesion
-9. Archivos involucrados
-10. Comandos de ejecucion
-11. Cierre en produccion local con Docker
-12. Verificacion funcional
-13. Observabilidad y diagnostico
-14. Verificacion de base de datos
-15. Evidencia esperada
-16. Errores frecuentes
-17. Preguntas de defensa
-18. Checklist de cierre
+1. Introduccion
+   1.1 Proposito
+   1.2 Resultado de aprendizaje
+   1.3 Producto de sesion
+   1.4 Motivacion de la sesion
+   1.5 Ubicacion en el curso
+
+2. Explica
+   2.1 Conceptos clave
+   2.2 Arquitectura del producto en ecom
+   2.3 Observabilidad y diagnostico
+
+3. Aplica: actividad practica guiada
+
+4. Crea: actividad autonoma
+
+5. Cierre evaluativo
 ```
+
+## Criterio didactico
+
+La sesion debe responder claramente:
+
+1. Que problema practico motiva el trabajo?
+2. Que producto se construira?
+3. Que componentes intervienen?
+4. Como se conectan?
+5. Como se ejecuta en DEV?
+6. Como se valida en PROD local cuando aplique?
+7. Como se sabe que salio bien?
+8. Que evidencia individual debe presentar cada estudiante?
 
 ## Comandos
 
@@ -39,41 +55,38 @@ PowerShell / bash macOS/Linux
 
 Solo se separan bloques cuando cambia la sintaxis, por ejemplo `Invoke-RestMethod` frente a `curl`.
 
-## Produccion local con Docker
+## DEV y PROD local
 
-Todas las sesiones se trabajan primero en DEV, normalmente con Maven y bases de datos en Docker. Al cierre de la sesion, cuando aplique, se ejecuta una validacion breve en produccion local con Docker:
+El curso prioriza ejecucion reproducible:
 
-- `docker compose up -d --build` para construir y levantar imagenes.
-- Health por Gateway o componente correspondiente.
-- Explicacion breve de que en Docker los servicios se ejecutan como contenedores, usan red interna, variables de entorno y perfiles `prod`.
+- En DEV, la aplicacion normalmente corre con Maven en el host y sus dependencias se levantan con Docker.
+- En PROD local, la aplicacion se empaqueta y ejecuta como contenedor cuando la sesion lo requiera.
+- Si la aplicacion corre fuera de Docker, se conecta a dependencias por `localhost:<puerto-expuesto>`.
+- Si la aplicacion corre dentro de Docker, se conecta a dependencias por `nombre-servicio:<puerto-interno>`.
 
 ## Observabilidad transversal
 
-La observabilidad inicia en S2, no en S10.
+La observabilidad aparece desde la primera sesion como practica de diagnostico:
 
-En cada sesion se verifica, segun aplique:
-
+- Logs de arranque.
 - Health checks.
-- Logs.
-- Config Server.
-- Eureka.
-- Gateway.
-- Base de datos.
-- Kafka UI.
-- Metricas.
-- Evidencia de errores y recuperacion.
+- Metricas cuando Actuator lo permita.
+- Estado de base de datos.
+- Registro de servicios cuando aplique.
+- Gateway y balanceo cuando aplique.
+- Eventos y trazabilidad cuando aplique.
 
 S10 consolida estos elementos en una vista operativa del sistema completo.
 
-## Criterio de cierre por sesion
+## Cierre de sesion
 
-Una sesion esta cerrada cuando el estudiante puede mostrar evidencias concretas:
+Una sesion queda cerrada cuando el estudiante puede mostrar:
 
-- Salida de comandos.
-- Servicio registrado.
-- Endpoint funcionando.
-- Registro en base de datos.
-- Evento publicado y consumido.
-- Log o metrica.
-- Pantalla frontend cuando aplique.
+- Comandos ejecutados.
+- Servicio funcionando.
+- Endpoint probado.
+- Registro en base de datos cuando aplique.
+- Health, logs o metricas.
+- Evidencia de ejecucion DEV y PROD local cuando aplique.
 - Respuesta a preguntas de defensa.
+- Aporte individual al producto.

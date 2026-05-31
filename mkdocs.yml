@@ -4,8 +4,6 @@ docs_dir: docs
 
 nav:
   - Inicio: index.md
-  - Silabo: silabo.md
-  - Guia del curso: guia-curso.md
   - Unidad 1:
       - S1 - Servicio base: sesiones/s01-arquitectura-base.md
       - S2 - Configuracion y ambientes: sesiones/s02-configuracion-centralizada.md
@@ -25,13 +23,6 @@ nav:
       - S14 - Revision tecnica: sesiones/s14-cierre-tecnico.md
       - S15 - Defensa tecnica: sesiones/s15-defensa-tecnica.md
       - S16 - Evaluacion final: sesiones/s16-evaluacion-final.md
-  - Referencias:
-      - Puertos y accesos: referencias/puertos.md
-      - PowerShell: referencias/comandos-powershell.md
-      - Bash macOS/Linux: referencias/comandos-bash.md
-      - Troubleshooting: referencias/troubleshooting.md
-      - Rubrica: referencias/rubrica.md
-
 theme:
   name: material
   features:
