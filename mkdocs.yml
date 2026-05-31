@@ -4,24 +4,25 @@ docs_dir: docs
 
 nav:
   - Inicio: index.md
+  - Silabo: silabo.md
   - Guia del curso: guia-curso.md
   - Unidad 1:
-      - S1 - Arquitectura base: sesiones/s01-arquitectura-base.md
-      - S2 - Configuracion centralizada: sesiones/s02-configuracion-centralizada.md
-      - S3 - Eureka y escalado: sesiones/s03-eureka-escalado.md
-      - S4 - Gateway y balanceo: sesiones/s04-gateway-load-balancer.md
+      - S1 - Servicio base: sesiones/s01-arquitectura-base.md
+      - S2 - Configuracion y ambientes: sesiones/s02-configuracion-centralizada.md
+      - S3 - Registro y descubrimiento: sesiones/s03-eureka-escalado.md
+      - S4 - Acceso unico y trafico: sesiones/s04-gateway-load-balancer.md
       - S5 - Evaluacion U1: sesiones/s05-evaluacion-u1.md
   - Unidad 2:
-      - S6 - OpenFeign: sesiones/s06-feign.md
-      - S7 - Circuit Breaker: sesiones/s07-circuit-breaker.md
-      - S8 - Seguridad JWT: sesiones/s08-seguridad-jwt.md
-      - S9 - Kafka: sesiones/s09-kafka-eventos.md
-      - S10 - Observabilidad: sesiones/s10-observabilidad.md
-      - S11 - Angular Gateway: sesiones/s11-angular-gateway.md
+      - S6 - Comunicacion sincronica resiliente: sesiones/s06-feign-circuit-breaker.md
+      - S7 - Seguridad distribuida: sesiones/s07-seguridad-jwt.md
+      - S8 - Mensajeria asincrona: sesiones/s08-angular-cors-jwt.md
+      - S9 - Consistencia distribuida: sesiones/s09-kafka-eventos.md
+      - S10 - Observabilidad y diagnostico: sesiones/s10-observabilidad.md
+      - S11 - Integracion frontend: sesiones/s11-integracion-fullstack.md
       - S12 - Evaluacion U2: sesiones/s12-evaluacion-u2.md
   - Unidad 3:
-      - S13 - Validacion integral: sesiones/s13-validacion-integral.md
-      - S14 - Cierre tecnico: sesiones/s14-cierre-tecnico.md
+      - S13 - Validacion end-to-end: sesiones/s13-validacion-integral.md
+      - S14 - Revision tecnica: sesiones/s14-cierre-tecnico.md
       - S15 - Defensa tecnica: sesiones/s15-defensa-tecnica.md
       - S16 - Evaluacion final: sesiones/s16-evaluacion-final.md
   - Referencias:

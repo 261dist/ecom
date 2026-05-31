@@ -1,86 +1,128 @@
-# S9 - Arquitectura orientada a eventos con Kafka
+# S9 - Consistencia distribuida en procesos de negocio
 
 ## Ubicacion en el curso
 
-- Unidad: U2 - Sistema distribuido robusto e integrado.
-- Producto de unidad: Sistema distribuido seguro, resiliente, observable, orientado a eventos e integrado con frontend.
-- Avance del producto en esta sesion: comunicacion asincrona mediante eventos.
+- Unidad: U2 - Sistema distribuido robusto.
+- Producto de unidad: sistema seguro, resiliente, consistente, observable e integrado.
+- Avance del producto en esta sesion: proceso de negocio distribuido con consistencia eventual.
 
 ## Proposito
 
-Incorporar Kafka para desacoplar procesos entre `orden-ms` y `pago-ms`.
+Abordar el problema central de los microservicios: cada servicio tiene su propia base de datos y no existe una transaccion global simple.
 
 ## Resultado de aprendizaje
 
-El estudiante crea topics, publica eventos y verifica consumo asincrono.
+El estudiante modela un flujo de negocio distribuido con estados, eventos, compensacion, idempotencia y correlacion.
 
 ## Producto de sesion
 
-Kafka operativo con topics `orden-eventos` y `pago-eventos`, producer y consumer funcionales.
+Flujo de orden y pago con consistencia eventual: la orden cambia de estado segun el resultado del pago y evita duplicados ante reintentos.
 
 ## Concepto distribuido clave
 
-La mensajeria asincrona desacopla emisor y receptor. El productor no necesita esperar a que el consumidor procese inmediatamente.
+La consistencia distribuida se logra coordinando transacciones locales mediante eventos, estados y acciones compensatorias.
 
 ## Implementacion en el proyecto
 
-`orden-ms` publica eventos de orden y `pago-ms` consume esos eventos para generar pagos.
+En `ecom`, el flujo se implementa con `orden-ms`, `pago-ms` y Kafka. Puede evolucionar hacia una pasarela externa simulada o real, como Stripe, Mercado Pago o Culqi, sin cambiar el concepto de la sesion.
+
+## Distribucion de carga
+
+Laboratorio 4h:
+
+- Identificar estados del proceso.
+- Definir eventos de exito y rechazo.
+- Implementar actualizacion de estado.
+- Probar duplicados o reintentos.
+- Cerrar el flujo de consistencia en produccion local con Docker.
+
+Trabajo fuera del aula 4h:
+
+- Documentar diagrama de saga.
+- Agregar evidencia de compensacion.
+- Explicar idempotencia y correlacion.
+- Registrar aporte individual.
 
 ## Pasos para construir el producto de sesion
 
-1. Levantar Kafka y Kafka UI.
-2. Crear los topics necesarios para el flujo de negocio.
-3. Definir el evento que publicara el productor.
-4. Implementar el producer en el microservicio origen.
-5. Publicar el evento despues de confirmar la operacion de negocio.
-6. Implementar el consumer en el microservicio destino.
-7. Persistir el resultado generado por el evento.
-8. Verificar topics, logs del producer, logs del consumer y registros en BD.
+1. Definir estados de orden: creada, pagada, rechazada o equivalente.
+2. Definir eventos del proceso.
+3. Agregar identificador de correlacion.
+4. Publicar evento al crear orden.
+5. Procesar pago en `pago-ms`.
+6. Publicar evento de pago aprobado o rechazado.
+7. Consumir respuesta en `orden-ms`.
+8. Actualizar estado de orden.
+9. Evitar pagos duplicados por evento repetido.
+10. Simular fallo de pago.
+11. Verificar estado final en BD.
+12. Ejecutar cierre en produccion local con Docker.
+13. Documentar el flujo como saga coreografica.
 
 ## Archivos involucrados
 
 | Archivo | Proposito |
 |---|---|
-| `kafka/compose-dev.yml` | Kafka DEV |
-| `services/orden-ms/src/main/java/.../ProductorOrden.java` | Producer |
-| `services/pago-ms/src/main/java/.../ConsumidorPago.java` | Consumer |
+| `services/orden-ms` | Estado de orden y eventos |
+| `services/pago-ms` | Procesamiento de pago |
+| `kafka/compose-dev.yml` | Broker de eventos |
+| `docs/` | Evidencia y diagrama del flujo |
 
 ## Comandos de ejecucion
 
-### PowerShell
+PowerShell:
 
 ```powershell
-cd kafka
-docker compose -f compose-dev.yml up -d
-docker compose -f compose-dev.yml exec kafka bash
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:18080/api/v1/ordenes" `
+  -ContentType "application/json" `
+  -Body '{"usuarioId":1,"total":159.90}'
+
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/ordenes"
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/pagos"
 ```
 
-Dentro del broker:
+bash macOS/Linux:
 
 ```bash
-/opt/kafka/bin/kafka-topics.sh --create --topic orden-eventos --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
-/opt/kafka/bin/kafka-topics.sh --create --topic pago-eventos --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
-/opt/kafka/bin/kafka-topics.sh --list --bootstrap-server kafka:9092
+curl -s -X POST "http://localhost:18080/api/v1/ordenes" \
+  -H "Content-Type: application/json" \
+  -d '{"usuarioId":1,"total":159.90}'
+
+curl -s "http://localhost:18080/api/v1/ordenes"
+curl -s "http://localhost:18080/api/v1/pagos"
 ```
 
-### bash macOS/Linux
+## Cierre en produccion local con Docker
 
 ```bash
 cd kafka
-docker compose -f compose-dev.yml up -d
-docker compose -f compose-dev.yml exec kafka bash
+docker compose up -d --build
+
+cd ../services/orden-ms
+docker compose up -d --build
+
+cd ../pago-ms
+docker compose up -d --build
 ```
+
+En produccion local se valida que el proceso distribuido funciona entre contenedores y mantiene consistencia eventual aun cuando cada microservicio conserva su propia base de datos.
 
 ## Verificacion funcional
 
-Crear una orden por Gateway y verificar que `pago-ms` registra un pago.
+- Orden creada con estado inicial.
+- Pago procesado asincronicamente.
+- Orden actualizada segun evento de pago.
+- Evento repetido no duplica pago.
+- Fallo simulado deja estado compensado o rechazado.
 
 ## Observabilidad y diagnostico
 
-- Kafka UI: `http://localhost:41085`.
-- Listar topics.
-- Revisar logs de `orden-ms` y `pago-ms`.
-- Revisar consumer groups si aplica.
+- Kafka UI.
+- Logs con `ordenId` o identificador de correlacion.
+- Tablas `ordenes` y `pagos`.
+- Evento de exito y evento de rechazo.
 
 ## Verificacion de base de datos
 
@@ -91,26 +133,33 @@ docker exec -it ecom-postgres-pago-dev psql -U ecom -d ecom_pago_db -c "SELECT *
 
 ## Evidencia esperada
 
-- Topics creados.
-- Evento publicado.
-- Pago generado por consumo de evento.
+- Diagrama simple de saga.
+- Estados antes y despues.
+- Evento de pago procesado.
+- Caso de duplicado controlado.
+- Caso de fallo o compensacion.
+- Evidencia individual.
 
 ## Errores frecuentes
 
 | Problema | Causa probable | Solucion |
 |---|---|---|
-| No aparece pago | Consumer apagado | Levantar `pago-ms` |
-| Topic no existe | No fue creado o autocreacion fallo | Crear topic manual |
+| Pago duplicado | Falta idempotencia | Validar evento/proceso existente |
+| Orden queda pendiente | No consume evento de respuesta | Revisar consumer de `orden-ms` |
+| No se entiende el flujo | Falta correlacion | Usar `ordenId` en logs/eventos |
 
 ## Preguntas de defensa
 
-1. Que diferencia hay entre Feign y Kafka?
-2. Por que Kafka desacopla servicios?
-3. Que evidencia muestra que el evento fue consumido?
+1. Por que no se usa una transaccion global?
+2. Que es consistencia eventual?
+3. Que es una accion compensatoria?
+4. Como evitas duplicar pagos?
+5. Como integrarias una pasarela externa?
 
 ## Checklist de cierre
 
-- [ ] Kafka activo.
-- [ ] Topics creados.
-- [ ] Orden creada.
-- [ ] Pago generado.
+- [ ] Flujo de estados definido.
+- [ ] Evento de respuesta procesado.
+- [ ] Idempotencia evidenciada.
+- [ ] Compensacion o rechazo probado.
+- [ ] Evidencia individual registrada.

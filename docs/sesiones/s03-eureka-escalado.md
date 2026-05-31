@@ -1,120 +1,148 @@
-# S3 - Registro, descubrimiento y escalado
+# S3 - Registro, descubrimiento y ejecucion concurrente de servicios
 
 ## Ubicacion en el curso
 
-- Unidad: U1 - Sistema distribuido base con Spring Cloud.
-- Producto de unidad: Sistema distribuido base configurable, registrado, accesible por Gateway y preparado para multiples instancias.
-- Avance del producto en esta sesion: servicios registrados dinamicamente y multiples instancias activas.
+- Unidad: U1 - Sistema distribuido base orientado a produccion.
+- Producto de unidad: servicios configurables, registrados y preparados para multiples instancias.
+- Avance del producto en esta sesion: servicios registrados dinamicamente y ejecutados en paralelo.
 
 ## Proposito
 
-Incorporar service discovery para que los servicios no dependan de direcciones fijas y puedan escalar en multiples instancias.
+Resolver el problema de ubicar servicios que cambian de instancia, puerto o ubicacion durante la ejecucion.
 
 ## Resultado de aprendizaje
 
-El estudiante registra microservicios en Eureka y ejecuta mas de una instancia del mismo servicio.
+El estudiante registra microservicios en un servidor de descubrimiento, levanta multiples instancias y verifica su presencia dinamica.
 
 ## Producto de sesion
 
-- Eureka Server operativo.
-- Servicios registrados.
-- Dos instancias de un microservicio visibles en Eureka.
+Eureka Server operativo con `catalogo-ms`, `producto-ms` y otros servicios registrados con puertos dinamicos.
 
 ## Concepto distribuido clave
 
-Service discovery permite localizar servicios por nombre logico, no por IP o puerto. Es clave para escalado y tolerancia a cambios de instancia.
+El descubrimiento de servicios permite que los componentes se encuentren por nombre logico y no por host/puerto fijo.
 
 ## Implementacion en el proyecto
 
-Eureka vive en `infra/eureka`. Los microservicios usan `eureka.client.service-url.defaultZone` desde Config Server.
+En `ecom`, se usa Spring Cloud Netflix Eureka en `infra/eureka`. Los microservicios usan `server.port: 0` y se registran con su nombre `*-ms`.
+
+## Distribucion de carga
+
+Laboratorio 4h:
+
+- Levantar Config Server y Eureka.
+- Registrar un microservicio.
+- Levantar segunda instancia.
+- Verificar dashboard y logs.
+- Cerrar con infraestructura en produccion local con Docker.
+
+Trabajo fuera del aula 4h:
+
+- Registrar otro microservicio.
+- Documentar evidencia de multiples instancias.
+- Explicar por que no se usa puerto host fijo.
+- Preparar preguntas de defensa.
 
 ## Pasos para construir el producto de sesion
 
-1. Crear el proyecto `infra/eureka` con Spring Cloud Netflix Eureka Server.
-2. Habilitar Eureka Server en la clase principal.
-3. Configurar el puerto DEV de Eureka.
-4. Agregar dependencias de Eureka Client en los microservicios.
-5. Definir `spring.application.name` para cada microservicio.
-6. Configurar `eureka.client.service-url.defaultZone` desde Config Server.
-7. Configurar `server.port: 0` en DEV para permitir multiples instancias.
-8. Levantar dos instancias del mismo microservicio y validar ambas en Eureka.
+1. Levantar Config Server.
+2. Crear o revisar `infra/eureka`.
+3. Habilitar Eureka Server.
+4. Configurar URL de Eureka desde Config Server.
+5. Agregar cliente Eureka a microservicios.
+6. Configurar nombre logico del servicio.
+7. Ejecutar `catalogo-ms`.
+8. Ejecutar una segunda instancia de `catalogo-ms`.
+9. Verificar ambas instancias en Eureka.
+10. Ejecutar infraestructura en produccion local con Docker.
+11. Revisar logs de registro y renovacion.
 
 ## Archivos involucrados
 
 | Archivo | Proposito |
 |---|---|
-| `infra/eureka/src/main/resources/application.yml` | Configuracion Eureka |
-| `infra/config/config-repo/*-dev.yml` | Registro de servicios en DEV |
-| `services/*/src/main/resources/application.yml` | Nombre de aplicacion |
+| `infra/eureka/pom.xml` | Dependencias Eureka Server |
+| `infra/eureka/src/main/resources/application.yml` | Configuracion base |
+| `infra/config/config-repo/eureka-*.yml` | Configuracion por ambiente |
+| `infra/config/config-repo/*-ms-dev.yml` | Registro de clientes |
+| `services/*/pom.xml` | Dependencias cliente |
 
 ## Comandos de ejecucion
 
-### PowerShell
-
-```powershell
-cd infra/eureka
-mvn spring-boot:run
-
-cd services/catalogo-ms
-mvn spring-boot:run
-```
-
-Segunda instancia:
-
-```powershell
-cd services/catalogo-ms
-mvn spring-boot:run
-```
-
-### bash macOS/Linux
+PowerShell / bash macOS/Linux:
 
 ```bash
-cd infra/eureka
+cd infra/config
 mvn spring-boot:run
 
+cd ../eureka
+mvn spring-boot:run
+
+cd ../../services/catalogo-ms
+docker compose -f compose-dev.yml up -d
+mvn spring-boot:run
+```
+
+Segunda instancia, PowerShell / bash macOS/Linux:
+
+```bash
 cd services/catalogo-ms
 mvn spring-boot:run
 ```
+
+## Cierre en produccion local con Docker
+
+```bash
+cd infra
+docker compose up -d --build
+```
+
+En produccion local, Config Server, Eureka y Gateway comparten una red Docker. Eureka publica el dashboard en `http://localhost:28761` y recibe registros de servicios ejecutados como contenedores.
 
 ## Verificacion funcional
 
-```text
-http://localhost:18761
-```
-
-Debe aparecer `CATALOGO-MS` con una o mas instancias.
+- Eureka DEV: `http://localhost:18761`.
+- Eureka PROD: `http://localhost:28761`.
+- Ver `CATALOGO-MS` con mas de una instancia.
+- Ver puertos dinamicos distintos.
 
 ## Observabilidad y diagnostico
 
-- Revisar dashboard Eureka.
-- Revisar logs de registro del cliente.
-- Verificar `instance-id` y puerto dinamico.
+- Revisar dashboard de Eureka.
+- Revisar logs de `registration`.
+- Verificar heartbeats.
+- Confirmar que Config Server este activo antes de Eureka.
 
 ## Verificacion de base de datos
 
-No aplica, salvo que el microservicio requiera BD para arrancar.
+No es el foco. Solo se confirma que la BD del microservicio sigue disponible mientras se levantan instancias.
 
 ## Evidencia esperada
 
-- Captura de Eureka con servicios registrados.
+- Captura o salida de Eureka con servicios registrados.
 - Dos instancias del mismo servicio.
+- Explicacion de nombre logico vs puerto fisico.
+- Evidencia individual del servicio registrado.
 
 ## Errores frecuentes
 
 | Problema | Causa probable | Solucion |
 |---|---|---|
-| Servicio no aparece | Eureka apagado | Levantar `infra/eureka` |
-| Solo aparece una instancia | Se ejecuto una sola terminal | Abrir segunda terminal |
+| Servicio no aparece | Eureka apagado o URL incorrecta | Revisar Config Server |
+| Solo aparece una instancia | Segunda terminal no levantada | Ejecutar otra instancia Maven |
+| Nombre raro en Eureka | `spring.application.name` incorrecto | Revisar config externa |
 
 ## Preguntas de defensa
 
-1. Por que Eureka mejora el desacoplamiento?
-2. Que cambia al ejecutar dos instancias?
-3. Que informacion muestra Eureka de cada instancia?
+1. Por que un servicio usa puerto dinamico?
+2. Que ventaja tiene registrar por nombre logico?
+3. Como demuestras que hay dos instancias?
+4. Que pasa si Eureka no esta disponible al arrancar?
 
 ## Checklist de cierre
 
-- [ ] Eureka esta activo.
-- [ ] Un microservicio aparece registrado.
-- [ ] Una segunda instancia aparece registrada.
-- [ ] Explico service discovery.
+- [ ] Config Server activo.
+- [ ] Eureka activo.
+- [ ] Servicio registrado.
+- [ ] Segunda instancia registrada.
+- [ ] Evidencia individual registrada.

@@ -5,18 +5,19 @@
 | Criterio | Logro esperado |
 |---|---|
 | Arquitectura | Componentes separados y responsabilidades claras |
-| Configuracion | Config Server con perfiles `dev` y `prod` |
-| Discovery | Servicios registrados en Eureka |
-| Gateway | Rutas y punto unico de acceso operativo |
+| Configuracion | Configuracion externa con perfiles `dev` y `prod` |
+| Discovery | Servicios registrados dinamicamente |
+| Gateway | Rutas, punto unico de acceso y distribucion de trafico |
 | Escalado | Multiples instancias demostradas |
-| Comunicacion | Feign funcionando entre servicios |
-| Resiliencia | Circuit Breaker o fallback probado |
-| Seguridad | Login, JWT y rutas protegidas |
-| Eventos | Kafka con producer y consumer |
+| Comunicacion | Comunicacion sincronica entre servicios |
+| Resiliencia | Respuesta controlada ante fallos |
+| Seguridad | Login, token y rutas protegidas |
+| Eventos | Mensajeria asincrona con producer y consumer |
+| Consistencia | Consistencia eventual, compensacion o idempotencia demostrada |
 | Observabilidad | Health, logs, metricas o dashboards |
-| Frontend | Angular integrado por Gateway |
+| Frontend | Cliente integrado por Gateway |
 | Evidencias | Comandos, capturas, BD y logs |
-| Defensa | Explicacion tecnica individual y grupal |
+| Defensa | Explicacion tecnica grupal con evidencia individual |
 
 ## Niveles
 
@@ -35,7 +36,8 @@
 - Gateway funcionando.
 - CRUD probado.
 - JWT probado.
-- Evento Kafka probado.
+- Evento probado.
+- Escenario de consistencia distribuida probado.
 - Registros en BD.
 - Logs o metricas.
-- Defensa tecnica.
+- Defensa tecnica individual.

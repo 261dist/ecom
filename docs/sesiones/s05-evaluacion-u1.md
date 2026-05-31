@@ -1,108 +1,142 @@
-# S5 - Evaluacion Unidad 1
+# S5 - Evaluacion integradora de sistema base
 
 ## Ubicacion en el curso
 
-- Unidad: U1 - Sistema distribuido base con Spring Cloud.
-- Producto de unidad: Sistema distribuido base configurable, registrado, accesible por Gateway y preparado para multiples instancias.
-- Avance del producto en esta sesion: evaluacion integrada del producto U1.
+- Unidad: U1 - Sistema distribuido base orientado a produccion.
+- Producto de unidad: sistema distribuido base funcional, configurable y preparado para multiples instancias.
+- Avance del producto en esta sesion: evaluacion del producto U1.
 
 ## Proposito
 
-Verificar que el estudiante puede levantar y explicar la base distribuida del sistema.
+Validar que los componentes base funcionan como sistema y que cada integrante puede sustentar su aporte.
 
 ## Resultado de aprendizaje
 
-El estudiante demuestra un sistema base funcional con Config Server, Eureka, Gateway, microservicios y bases de datos.
+El estudiante demuestra ejecucion, prueba, diagnostico y defensa tecnica del sistema base.
 
 ## Producto de sesion
 
-Producto U1 funcionando como un todo.
+Producto U1 integrado: Config Server, Eureka, Gateway, microservicio de negocio, BD y multiples instancias.
 
 ## Concepto distribuido clave
 
-La arquitectura base se valida como composicion de servicios independientes que cooperan por red.
+Un sistema distribuido base no se valida por servicios aislados, sino por su comportamiento integrado.
 
 ## Implementacion en el proyecto
 
-No se agrega tecnologia nueva. Se integra lo construido en S1-S4.
+Se evalua `ecom` en modo DEV Maven y, si corresponde, una demostracion PROD Docker.
+
+## Distribucion de carga
+
+Laboratorio 4h:
+
+- Levantar sistema base.
+- Ejecutar pruebas por Gateway.
+- Mostrar registro en Eureka y configuracion.
+- Defender por equipo con preguntas individuales.
+
+Trabajo fuera del aula 4h:
+
+- Ordenar evidencias.
+- Corregir errores detectados.
+- Completar README del servicio asignado.
+- Preparar defensa individual.
 
 ## Pasos para construir el producto de sesion
 
-1. Preparar una lista de arranque del sistema base.
-2. Levantar Config Server y validar configuraciones.
-3. Levantar Eureka y validar dashboard.
-4. Levantar Gateway y validar health.
-5. Levantar microservicios con sus bases de datos.
-6. Ejecutar una segunda instancia de al menos un microservicio.
-7. Probar rutas por Gateway.
-8. Recolectar evidencias: Config, Eureka, Gateway, BD y respuesta HTTP.
+1. Preparar orden de arranque.
+2. Levantar Config Server.
+3. Levantar Eureka.
+4. Levantar Gateway.
+5. Levantar BD y microservicio.
+6. Levantar segunda instancia.
+7. Ejecutar CRUD por Gateway.
+8. Verificar registro en Eureka.
+9. Consultar configuracion por perfil.
+10. Inspeccionar BD.
+11. Registrar evidencias.
+12. Ejecutar cierre en produccion local con Docker si aplica.
+13. Defender aportes individuales.
 
 ## Archivos involucrados
 
-| Archivo | Proposito |
-|---|---|
-| `infra/*` | Infraestructura Spring Cloud |
-| `services/*` | Microservicios |
-| `docs/sesiones/s01..s04` | Evidencias previas |
+Todo lo construido en U1:
+
+- `infra/config`
+- `infra/eureka`
+- `infra/gateway`
+- `services/catalogo-ms`
+- `services/producto-ms` si fue usado como replica de aprendizaje
 
 ## Comandos de ejecucion
 
-### PowerShell
+Usar los comandos documentados en los README de cada modulo y en las sesiones S1-S4.
 
-```powershell
-cd infra/config; mvn spring-boot:run
-cd infra/eureka; mvn spring-boot:run
-cd infra/gateway; mvn spring-boot:run
-```
-
-### bash macOS/Linux
+## Cierre en produccion local con Docker
 
 ```bash
-cd infra/config && mvn spring-boot:run
-cd infra/eureka && mvn spring-boot:run
-cd infra/gateway && mvn spring-boot:run
+cd infra
+docker compose up -d --build
+
+cd ../services/catalogo-ms
+docker compose up -d --build --scale catalogo-ms=2
 ```
+
+En produccion local se valida que el sistema base tambien puede ejecutarse como contenedores: infraestructura en Docker, microservicios dentro de la red y acceso por Gateway PROD.
 
 ## Verificacion funcional
 
-- Config DEV responde.
-- Eureka muestra servicios.
-- Gateway responde health.
-- Gateway enruta a microservicios.
-- Al menos un microservicio tiene dos instancias.
+- Config consultable.
+- Eureka con servicios.
+- Gateway health.
+- CRUD por Gateway.
+- Balanceo evidenciado.
+- BD con registros.
 
 ## Observabilidad y diagnostico
 
-- Config Server health.
-- Eureka dashboard.
-- Gateway health y logs.
-- Logs de microservicios.
+El estudiante debe explicar que revisa ante:
+
+- Config Server apagado.
+- Servicio no registrado.
+- Gateway con 503.
+- Error de conexion a BD.
+- Puerto dinamico no identificado.
 
 ## Verificacion de base de datos
 
-Cada grupo debe inspeccionar al menos una BD con `psql`.
+```powershell
+docker exec -it ecom-postgres-catalogo-dev psql -U ecom -d ecom_catalogo_db -c "SELECT * FROM categorias;"
+```
 
 ## Evidencia esperada
 
-- Capturas o salidas de comandos.
-- Explicacion del flujo Config -> Eureka -> Gateway -> Microservicio.
-- Prueba de multiples instancias.
+- Comandos ejecutados.
+- Captura o salida de Config Server.
+- Captura o salida de Eureka.
+- Prueba por Gateway.
+- Registro en BD.
+- Evidencia individual de aporte.
 
 ## Errores frecuentes
 
 | Problema | Causa probable | Solucion |
 |---|---|---|
-| Gateway no enruta | Falta servicio en Eureka | Revisar registro |
-| Config no responde | Config Server apagado | Levantar `infra/config` |
+| Demo no reproduce | Orden de arranque incompleto | Usar checklist |
+| Un integrante no sustenta | Aporte no evidenciado | Pedir evidencia individual |
+| Gateway falla | Servicio no registrado | Revisar Eureka |
 
 ## Preguntas de defensa
 
-1. Que componente es el punto unico de entrada?
-2. Que componente resuelve configuracion externa?
-3. Como se evidencia el escalado horizontal?
+1. Cual fue tu aporte concreto en U1?
+2. Como se levanta el sistema base?
+3. Como se prueba sin Postman?
+4. Como sabes que hay multiples instancias?
+5. Que revisas si una ruta devuelve 503?
 
 ## Checklist de cierre
 
 - [ ] Producto U1 levantado.
-- [ ] Evidencia presentada.
-- [ ] Preguntas tecnicas respondidas.
+- [ ] Evidencias completas.
+- [ ] Cada integrante sustento su aporte.
+- [ ] Errores corregidos o documentados.

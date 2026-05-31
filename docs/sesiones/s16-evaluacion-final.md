@@ -1,93 +1,119 @@
-# S16 - Evaluacion final de logro de competencias
+# S16 - Evaluacion final individual
 
 ## Ubicacion en el curso
 
-- Unidad: U3 - Consolidacion y validacion del producto del curso.
-- Producto de unidad: Producto final del curso validado, documentado, estabilizado y defendido.
-- Avance del producto en esta sesion: evaluacion final para demostrar competencias pendientes.
+- Unidad: U3 - Validacion y consolidacion del producto del curso.
+- Producto de unidad: producto final del curso validado, documentado, estabilizado y defendido.
+- Avance del producto en esta sesion: demostracion individual de competencias pendientes.
 
 ## Proposito
 
-Permitir que estudiantes con desempeno insuficiente demuestren el logro de competencias esenciales.
+Brindar una instancia final para que estudiantes con competencias pendientes demuestren logro tecnico de forma individual.
 
 ## Resultado de aprendizaje
 
-El estudiante levanta, prueba, diagnostica y explica partes criticas del sistema distribuido.
+El estudiante demuestra que puede implementar, ejecutar, diagnosticar o defender una parte critica del sistema sin depender del grupo.
 
 ## Producto de sesion
 
-Evaluacion individual o focalizada de competencias pendientes.
+Evidencia individual de logro de competencias pendientes.
 
 ## Concepto distribuido clave
 
-La competencia se evidencia cuando el estudiante puede operar y explicar el sistema, no solo presentar codigo.
+La competencia profesional se demuestra cuando el estudiante puede explicar y operar una parte del sistema bajo condiciones controladas.
 
 ## Implementacion en el proyecto
 
-Se evalua sobre el mismo producto del curso.
+El docente selecciona tareas sobre `ecom` o sobre el proyecto final del equipo: corregir una ruta, probar un endpoint, diagnosticar un 503, explicar un evento, revisar BD o defender un componente.
+
+## Distribucion de carga
+
+Laboratorio 4h:
+
+- Evaluacion individual.
+- Correccion o demostracion guiada por consigna.
+- Sustentacion tecnica.
+
+Trabajo fuera del aula 4h:
+
+- Preparacion previa del estudiante.
+- Revision de evidencias pendientes.
+- Reentrega documentada si el docente lo permite.
 
 ## Pasos para construir el producto de sesion
 
-1. Identificar la competencia pendiente del estudiante.
-2. Asignar una tarea tecnica puntual.
-3. Ejecutar comandos necesarios para levantar o probar el componente.
-4. Generar evidencia observable.
-5. Explicar que se hizo y por que.
-6. Diagnosticar un fallo o responder un escenario.
-7. Corregir si es necesario.
-8. Registrar resultado final de la competencia.
+1. Identificar competencia pendiente.
+2. Asignar consigna individual.
+3. Ejecutar sistema o modulo requerido.
+4. Realizar prueba solicitada.
+5. Diagnosticar si aparece un error.
+6. Explicar decisiones y resultados.
+7. Registrar evidencia final.
 
 ## Archivos involucrados
 
-Los necesarios segun la competencia pendiente.
+Segun competencia evaluada:
+
+- `infra/*`
+- `services/*`
+- `kafka/*`
+- `obs/*`
+- `clients/ecom-ng`
+- `docs/*`
 
 ## Comandos de ejecucion
 
-El docente asigna una prueba puntual:
+El estudiante usa comandos documentados y explica que hace cada uno.
 
-- Levantar infraestructura.
-- Consumir Gateway.
-- Obtener token.
-- Crear registros.
-- Inspeccionar BD.
-- Crear topics.
-- Diagnosticar un fallo.
+## Cierre en produccion local con Docker
+
+Si la competencia evaluada incluye despliegue u operacion, el estudiante debe ejecutar el componente con Docker usando `docker compose up -d --build` y explicar la diferencia frente a DEV con Maven.
 
 ## Verificacion funcional
 
-Debe existir salida de comando o evidencia visible.
+Segun consigna:
+
+- Endpoint funcionando.
+- Servicio registrado.
+- Ruta por Gateway.
+- Login/token.
+- Evento procesado.
+- Registro en BD.
+- Log o metrica revisada.
 
 ## Observabilidad y diagnostico
 
-El estudiante debe explicar que reviso y por que.
+La evaluacion puede incluir diagnosticar una falla provocada por el docente.
 
 ## Verificacion de base de datos
 
-Puede exigirse `psql` para validar registros.
+Si la consigna modifica datos, debe verificarse la tabla correspondiente.
 
 ## Evidencia esperada
 
-- Comandos ejecutados.
-- Resultado funcional.
-- Explicacion oral.
-- Correccion si algo falla.
+- Ejecucion individual.
+- Explicacion tecnica.
+- Evidencia de comando, BD, log o UI.
+- Correccion si aplica.
 
 ## Errores frecuentes
 
 | Problema | Causa probable | Solucion |
 |---|---|---|
-| Memoriza comandos sin entender | Falta defensa conceptual | Pedir explicacion de cada paso |
-| No diagnostica | No revisa logs/health | Guiar hacia observabilidad |
+| Estudiante depende del equipo | No domina su aporte | Pedir tarea individual acotada |
+| Respuesta teorica sin evidencia | Falta ejecucion | Exigir comando o log |
+| No diagnostica | No sigue ruta de revision | Guiar por sintomas |
 
 ## Preguntas de defensa
 
-1. Que componente estas probando?
-2. Como sabes que funciona?
-3. Que revisarias si falla?
-4. Que evidencia demuestra la competencia?
+1. Que competencia estas demostrando?
+2. Que comando ejecutaste y por que?
+3. Que evidencia confirma el resultado?
+4. Como corregirias el fallo presentado?
 
 ## Checklist de cierre
 
-- [ ] Competencia pendiente evaluada.
-- [ ] Evidencia generada.
-- [ ] Explicacion tecnica realizada.
+- [ ] Competencia identificada.
+- [ ] Consigna ejecutada.
+- [ ] Evidencia presentada.
+- [ ] Resultado individual registrado.

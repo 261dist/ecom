@@ -1,56 +1,74 @@
-# S4 - Gateway y balanceo de carga
+# S4 - Punto unico de acceso y distribucion de trafico
 
 ## Ubicacion en el curso
 
-- Unidad: U1 - Sistema distribuido base con Spring Cloud.
-- Producto de unidad: Sistema distribuido base configurable, registrado, accesible por Gateway y preparado para multiples instancias.
-- Avance del producto en esta sesion: Gateway operativo con rutas y balanceo entre instancias.
+- Unidad: U1 - Sistema distribuido base orientado a produccion.
+- Producto de unidad: sistema accesible por un punto unico y preparado para distribuir carga.
+- Avance del producto en esta sesion: rutas centralizadas y balanceo entre instancias.
 
 ## Proposito
 
-Exponer un punto unico de entrada al sistema y distribuir peticiones hacia servicios registrados en Eureka.
+Evitar que el cliente consuma microservicios directamente y distribuir peticiones entre instancias disponibles.
 
 ## Resultado de aprendizaje
 
-El estudiante consume servicios por Gateway, verifica rutas y demuestra balanceo entre multiples instancias.
+El estudiante configura rutas por punto unico de entrada, prueba APIs por Gateway y evidencia distribucion de trafico.
 
 ## Producto de sesion
 
-- Gateway levantado.
-- Rutas hacia microservicios.
-- Consumo por `localhost:18080`.
-- Balanceo entre instancias.
+Gateway operativo con rutas a microservicios registrados y balanceo de carga hacia multiples instancias.
 
 ## Concepto distribuido clave
 
-El Gateway centraliza acceso, politicas transversales y enrutamiento. El load balancing distribuye peticiones entre instancias disponibles.
+El punto unico de acceso concentra rutas, politicas transversales y distribucion de trafico hacia servicios internos.
 
 ## Implementacion en el proyecto
 
-Gateway vive en `infra/gateway` y lee rutas desde Config Server.
+En `ecom`, se usa Spring Cloud Gateway en `infra/gateway`, integrado con Eureka y rutas `lb://NOMBRE-SERVICIO`.
+
+## Distribucion de carga
+
+Laboratorio 4h:
+
+- Levantar Config Server, Eureka y Gateway.
+- Configurar rutas.
+- Probar endpoints por Gateway.
+- Levantar multiples instancias y observar balanceo.
+- Cerrar con infraestructura en produccion local con Docker.
+
+Trabajo fuera del aula 4h:
+
+- Agregar ruta de otro microservicio.
+- Documentar pruebas PowerShell/bash.
+- Registrar evidencia de balanceo.
+- Explicar diferencia entre Gateway y microservicio.
 
 ## Pasos para construir el producto de sesion
 
-1. Crear el proyecto `infra/gateway` con Spring Cloud Gateway.
-2. Configurar el puerto DEV del Gateway.
-3. Conectar Gateway a Config Server y Eureka.
-4. Definir rutas por prefijo, por ejemplo `/api/v1/categorias/**`.
-5. Usar `lb://nombre-servicio` para enrutar por nombre logico de Eureka.
-6. Levantar dos instancias de un microservicio destino.
-7. Enviar varias peticiones por Gateway y observar distribucion en logs.
-8. Documentar que los clientes consumen Gateway, no microservicios directos.
+1. Levantar Config Server.
+2. Levantar Eureka.
+3. Crear o revisar `infra/gateway`.
+4. Configurar rutas por nombre logico.
+5. Levantar `catalogo-ms`.
+6. Levantar dos instancias de `catalogo-ms`.
+7. Probar endpoint por Gateway.
+8. Repetir llamadas a endpoint de instancia.
+9. Verificar respuestas desde instancias distintas.
+10. Ejecutar Gateway en produccion local con Docker.
+11. Documentar rutas y comandos.
 
 ## Archivos involucrados
 
 | Archivo | Proposito |
 |---|---|
-| `infra/gateway/src/main/resources/application.yml` | Puerto local del Gateway |
+| `infra/gateway/pom.xml` | Dependencias Gateway |
 | `infra/config/config-repo/gateway-dev.yml` | Rutas DEV |
-| `infra/gateway/src/main/java/.../SecurityConfig.java` | Permisos y seguridad |
+| `infra/config/config-repo/gateway-prod.yml` | Rutas PROD |
+| `services/*/README.md` | Pruebas por Gateway |
 
 ## Comandos de ejecucion
 
-### PowerShell
+PowerShell:
 
 ```powershell
 cd infra/gateway
@@ -58,34 +76,46 @@ mvn spring-boot:run
 
 Invoke-RestMethod -Method Get -Uri "http://localhost:18080/actuator/health"
 Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/categorias"
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/catalogo/instancia"
 ```
 
-### bash macOS/Linux
+bash macOS/Linux:
 
 ```bash
 cd infra/gateway
 mvn spring-boot:run
 
-curl http://localhost:18080/actuator/health
-curl http://localhost:18080/api/v1/categorias
+curl -i "http://localhost:18080/actuator/health"
+curl -s "http://localhost:18080/api/v1/categorias"
+curl -s "http://localhost:18080/api/v1/catalogo/instancia"
 ```
+
+## Cierre en produccion local con Docker
+
+```bash
+cd infra
+docker compose up -d --build
+```
+
+En produccion local, Gateway publica el health en `http://localhost:28082/actuator/health` y enruta hacia servicios dentro de la red Docker. Las aplicaciones `*-ms` no exponen puerto host fijo; el acceso funcional pasa por Gateway.
 
 ## Verificacion funcional
 
-Consumir microservicios solo por Gateway DEV:
-
-```text
-http://localhost:18080/api/v1/categorias
-```
+- Gateway DEV health: `http://localhost:18080/actuator/health`.
+- Gateway PROD health: `http://localhost:28082/actuator/health`.
+- CRUD de categorias por Gateway.
+- Endpoint de instancia responde desde replicas distintas.
 
 ## Observabilidad y diagnostico
 
-- Gateway health: `http://localhost:18080/actuator/health`.
-- Logs de Gateway al enrutar.
-- Eureka para verificar instancias disponibles.
-- Logs de microservicios para observar distribucion.
+- Gateway health.
+- Logs de rutas.
+- Eureka con instancias disponibles.
+- Respuestas repetidas al endpoint `/instancia`.
 
 ## Verificacion de base de datos
+
+La prueba CRUD por Gateway debe reflejar registros en la BD del microservicio correspondiente.
 
 ```powershell
 docker exec -it ecom-postgres-catalogo-dev psql -U ecom -d ecom_catalogo_db -c "SELECT * FROM categorias;"
@@ -93,26 +123,31 @@ docker exec -it ecom-postgres-catalogo-dev psql -U ecom -d ecom_catalogo_db -c "
 
 ## Evidencia esperada
 
-- Gateway responde health.
-- Endpoint por Gateway responde.
-- Se observa uso de multiples instancias.
+- Gateway operativo.
+- Ruta funcionando por Gateway.
+- Balanceo demostrado.
+- Registro en BD.
+- Evidencia individual del aporte.
 
 ## Errores frecuentes
 
 | Problema | Causa probable | Solucion |
 |---|---|---|
 | 503 | Servicio no registrado | Revisar Eureka |
-| 401 | Ruta protegida | Usar token o probar ruta publica |
+| 404 | Ruta mal configurada | Revisar predicates del Gateway |
+| No balancea | Solo hay una instancia | Levantar segunda instancia |
 
 ## Preguntas de defensa
 
-1. Por que el frontend no consume microservicios directos?
-2. Como sabe Gateway a que instancia enviar una peticion?
-3. Que diferencia hay entre Gateway y Eureka?
+1. Por que el cliente no debe conocer todos los microservicios?
+2. Como funciona `lb://`?
+3. Como evidencias distribucion de carga?
+4. Que diagnosticas ante un 503 del Gateway?
 
 ## Checklist de cierre
 
 - [ ] Gateway activo.
-- [ ] Ruta publica funcionando.
-- [ ] Rutas revisadas en Config Server.
-- [ ] Balanceo demostrado.
+- [ ] Ruta probada.
+- [ ] Dos instancias disponibles.
+- [ ] Balanceo evidenciado.
+- [ ] Evidencia individual registrada.

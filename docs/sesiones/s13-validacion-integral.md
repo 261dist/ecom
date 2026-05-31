@@ -1,55 +1,90 @@
-# S13 - Validacion integral del producto del curso
+# S13 - Validacion end-to-end del producto del curso
 
 ## Ubicacion en el curso
 
-- Unidad: U3 - Consolidacion y validacion del producto del curso.
-- Producto de unidad: Producto final del curso validado, documentado, estabilizado y defendido.
-- Avance del producto en esta sesion: validacion end-to-end del sistema completo.
+- Unidad: U3 - Validacion y consolidacion del producto del curso.
+- Producto de unidad: producto final del curso validado, documentado, estabilizado y defendido.
+- Avance del producto en esta sesion: pruebas integrales desde cliente hasta servicios, eventos y base de datos.
 
 ## Proposito
 
-Probar el producto del curso como sistema completo, no como piezas aisladas.
+Probar el producto del curso como sistema completo y no como piezas aisladas.
 
 ## Resultado de aprendizaje
 
-El estudiante ejecuta flujos end-to-end y produce evidencias de integracion.
+El estudiante ejecuta flujos end-to-end, verifica datos en cada capa y produce evidencias reproducibles.
 
 ## Producto de sesion
 
-Checklist end-to-end del producto del curso.
+Checklist end-to-end del producto final del curso.
 
 ## Concepto distribuido clave
 
-La validacion integral confirma que los servicios cooperan correctamente bajo un flujo de negocio completo.
+La validacion integral confirma que los componentes cooperan correctamente bajo un flujo de negocio completo.
 
 ## Implementacion en el proyecto
 
-Se prueban flujos desde Angular o shell hasta Gateway, microservicios, Kafka y BD.
+En `ecom`, se validan flujos desde Angular o shell hacia Gateway, seguridad, servicios, mensajeria, consistencia y BD.
+
+## Distribucion de carga
+
+Laboratorio 4h:
+
+- Ejecutar flujo completo.
+- Verificar cada salto del sistema.
+- Registrar evidencias.
+- Identificar puntos debiles.
+
+Trabajo fuera del aula 4h:
+
+- Corregir fallos.
+- Completar documentacion.
+- Preparar demo final.
+- Registrar aporte individual.
 
 ## Pasos para construir el producto de sesion
 
-1. Definir el flujo end-to-end principal del producto.
+1. Definir flujo end-to-end principal.
 2. Preparar datos base.
 3. Ejecutar login.
 4. Ejecutar operaciones CRUD.
-5. Ejecutar flujo con Feign.
-6. Ejecutar flujo con Kafka.
-7. Verificar resultados en base de datos.
-8. Guardar evidencias reproducibles.
+5. Ejecutar flujo con comunicacion entre servicios.
+6. Ejecutar flujo con mensajeria.
+7. Validar consistencia final.
+8. Verificar resultados en BD.
+9. Revisar logs y metricas.
+10. Guardar evidencias reproducibles.
+11. Ejecutar cierre en produccion local con Docker.
+12. Asignar responsables por evidencia.
 
 ## Archivos involucrados
 
-Todo el proyecto.
+Todo el proyecto `ecom`.
 
 ## Comandos de ejecucion
 
-### PowerShell
+Usar README de:
 
-Usar README de cada modulo para levantar y probar.
+- `infra/`
+- `services/*`
+- `kafka/`
+- `obs/`
+- `clients/ecom-ng`
 
-### bash macOS/Linux
+## Cierre en produccion local con Docker
 
-Usar bloques `bash macOS/Linux` de los README.
+```bash
+cd infra
+docker compose up -d --build
+
+cd ../kafka
+docker compose up -d --build
+
+cd ../obs
+docker compose up -d --build
+```
+
+La validacion end-to-end se realiza primero en DEV. Al cierre se comprueba produccion local con Docker para verificar que el producto tambien opera con contenedores y perfiles `prod`.
 
 ## Verificacion funcional
 
@@ -61,6 +96,7 @@ Flujo minimo:
 4. Consultar detalle.
 5. Crear orden.
 6. Ver pago generado.
+7. Revisar estado final.
 
 ## Observabilidad y diagnostico
 
@@ -68,6 +104,7 @@ Flujo minimo:
 - Gateway.
 - Kafka UI.
 - Logs.
+- Metricas.
 - BD.
 - Angular DevTools.
 
@@ -79,24 +116,29 @@ Debe existir evidencia en categorias, productos, ordenes y pagos.
 
 - Checklist completado.
 - Salidas de comandos.
-- Capturas de UI.
-- Registros BD.
+- Capturas o registros de cada componente.
+- Incidencias encontradas y solucionadas.
+- Evidencia individual.
 
 ## Errores frecuentes
 
 | Problema | Causa probable | Solucion |
 |---|---|---|
-| Pago no aparece | Kafka o consumer apagado | Revisar S9 |
-| Producto sin detalle | Categoria no existe | Crear categoria |
+| Flujo parcial | Falta servicio o dato base | Revisar orden de arranque |
+| Evidencia incompleta | No se verifico BD/logs | Usar checklist |
+| Demo depende de memoria | Falta README | Documentar pasos |
 
 ## Preguntas de defensa
 
-1. Donde se ve cada evidencia del flujo?
-2. Que parte es sincrona y que parte es asincrona?
-3. Que componente fallaria si se apaga Eureka?
+1. Cual es el flujo end-to-end principal?
+2. Donde se valida seguridad?
+3. Donde ocurre consistencia eventual?
+4. Como demuestras que el flujo llego a BD?
+5. Que aportaste individualmente a la validacion?
 
 ## Checklist de cierre
 
 - [ ] Flujo completo probado.
-- [ ] Evidencias guardadas.
-- [ ] Fallos diagnosticados.
+- [ ] Evidencias por capa.
+- [ ] Incidencias registradas.
+- [ ] Aporte individual documentado.
