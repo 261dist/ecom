@@ -1,73 +1,368 @@
 # S2 - Gestion centralizada de configuracion y ambientes
 
-## Ubicacion en el curso
+## 1. Introduccion
+
+### 1.1 Proposito
+
+Centralizar la configuracion del sistema para separar el codigo de los valores de ambiente y preparar a los microservicios para ejecutarse de forma consistente en DEV y PROD local.
+
+### 1.2 Resultado de aprendizaje
+
+El estudiante implementa un servidor de configuracion centralizada, publica configuraciones por servicio y perfil, consulta esas configuraciones por HTTP y verifica que un microservicio puede arrancar usando valores externos.
+
+### 1.3 Producto de sesion
+
+Config Server operativo en `infra/config`, con `config-repo` local, perfiles `dev` y `prod`, consultas HTTP verificadas y al menos un microservicio leyendo configuracion externa.
+
+### 1.4 Motivacion de la sesion
+
+#### 1.4.1 Caso: configuracion duplicada entre servicios
+
+En la sesion anterior se construyo `catalogo-ms` como microservicio base. Al crecer el sistema aparecen nuevos servicios como `producto-ms`, `orden-ms`, `pago-ms` y componentes de infraestructura.
+
+Si cada proyecto guarda sus propios puertos, credenciales, rutas, perfiles y opciones de observabilidad, aparecen problemas:
+
+- Cambios repetidos en muchos archivos.
+- Diferencias accidentales entre DEV y PROD local.
+- Credenciales o rutas hardcodeadas.
+- Dificultad para saber que configuracion usa cada servicio.
+- Mayor riesgo de errores cuando se levantan varias instancias.
+
+La pregunta que guia esta sesion es:
+
+```text
+Como hacemos que los servicios lean su configuracion desde un punto central sin recompilar ni duplicar valores?
+```
+
+### 1.5 Ubicacion en el curso
 
 - Unidad: U1 - Sistema distribuido base orientado a produccion.
-- Producto de unidad: sistema configurable, consistente entre ambientes y observable desde etapas tempranas.
-- Avance del producto en esta sesion: configuracion externa para `dev` y `prod`.
+- Producto de unidad: sistema distribuido base funcional, configurable y preparado para multiples instancias.
+- Avance del producto en esta sesion: configuracion externa por ambiente mediante Config Server.
 
-## Proposito
+Roadmap para elaborar el producto de la unidad:
 
-Evitar configuracion duplicada o embebida en cada servicio, centralizando valores por ambiente y preparando la operacion del sistema.
+```mermaid
+flowchart TB
+    Cliente["Cliente de prueba<br/>PowerShell / bash / Swagger"]
+    Gateway["Gateway<br/>punto unico de acceso<br/>balanceo de carga"]
+    Catalogo["catalogo-ms<br/>construido<br/>REST + BD + health"]
+    Producto["producto-ms<br/>trabajo aplicado"]
+    Eureka["Registro de servicios<br/>Eureka"]
+    Config["Servidor de configuracion<br/>Config Server<br/>HOY"]
+    Repo["Repositorio de configuracion<br/>catalogo-ms.yml<br/>producto-ms.yml<br/>HOY"]
 
-## Resultado de aprendizaje
+    Cliente --> Gateway
+    Gateway --> Catalogo
+    Gateway --> Producto
+    Gateway -. descubre servicios .-> Eureka
+    Catalogo -. registra instancia .-> Eureka
+    Producto -. registra instancia .-> Eureka
+    Catalogo -. carga configuracion .-> Config
+    Producto -. carga configuracion .-> Config
+    Config --> Repo
 
-El estudiante externaliza configuracion, consulta perfiles por HTTP y verifica que los microservicios arrancan con valores provistos por un servidor central.
+    classDef done fill:#e8f5e9,stroke:#2e7d32,color:#111;
+    classDef today fill:#ffe08a,stroke:#9a6b00,stroke-width:2px,color:#111;
+    class Catalogo done;
+    class Config,Repo today;
+```
 
-## Producto de sesion
+## 2. Explica
 
-Config Server operativo con perfiles `dev` y `prod` para infraestructura y microservicios.
+### 2.1 Conceptos clave
 
-## Concepto distribuido clave
+La configuracion centralizada permite que los servicios obtengan valores de ambiente desde un servidor comun. Asi el codigo queda separado de valores como puertos, URLs, credenciales, rutas, niveles de log y opciones de observabilidad.
 
-La configuracion centralizada permite consistencia, trazabilidad y cambios por ambiente sin recompilar servicios.
+Conceptos de la sesion:
 
-## Implementacion en el proyecto
+- **Config Server**: componente que entrega configuracion por HTTP.
+- **Config repo**: repositorio o carpeta donde viven los archivos `*.yml` de configuracion.
+- **Perfil**: variante de configuracion, por ejemplo `dev` o `prod`.
+- **Nombre de aplicacion**: identificador usado para buscar el archivo correcto, por ejemplo `catalogo-ms`.
+- **Config Client**: aplicacion que lee su configuracion desde Config Server.
 
-En `ecom`, se usa Spring Cloud Config Server en `infra/config`. El repositorio local de configuracion vive dentro de `infra/config/config-repo` para reducir dispersion de archivos.
+Convencion de archivos:
 
-## Distribucion de carga
+```text
+{application-name}-{profile}.yml
+```
 
-Laboratorio 4h:
+Ejemplos:
 
-- Levantar Config Server.
-- Revisar archivos `*-dev.yml` y `*-prod.yml`.
-- Conectar un microservicio al servidor de configuracion.
-- Verificar health y logs.
-- Cerrar con Config Server en produccion local con Docker.
+```text
+catalogo-ms-dev.yml
+catalogo-ms-prod.yml
+producto-ms-dev.yml
+producto-ms-prod.yml
+```
 
-Trabajo fuera del aula 4h:
+### 2.2 Arquitectura del producto en `ecom`
 
-- Completar configuracion de otro microservicio.
-- Documentar diferencias DEV/PROD.
-- Registrar evidencias de consultas Config Server.
-- Explicar que valores no deben quedar hardcodeados.
+En `ecom`, Config Server vive en:
 
-## Pasos para construir el producto de sesion
+```text
+infra/config
+```
 
-1. Crear o revisar `infra/config`.
-2. Habilitar Spring Cloud Config Server.
-3. Configurar repositorio nativo en `infra/config/config-repo`.
-4. Crear archivos por servicio y perfil.
-5. Mover puertos, credenciales, Eureka, Actuator y rutas al repositorio de configuracion.
-6. Configurar `spring.config.import` en microservicios.
-7. Levantar Config Server.
-8. Consultar perfiles por HTTP.
-9. Levantar un microservicio y verificar que lee configuracion externa.
-10. Ejecutar Config Server en produccion local con Docker.
-11. Registrar evidencia de health y logs.
+El repositorio local de configuracion vive dentro del mismo proyecto para simplificar el laboratorio:
 
-## Archivos involucrados
+```text
+infra/config/config-repo
+```
 
-| Archivo | Proposito |
+Aunque fisicamente `config-repo` esta dentro de `infra/config`, logicamente son responsabilidades distintas:
+
+- Config Server atiende peticiones HTTP.
+- Config repo almacena archivos de configuracion.
+
+#### 2.2.1 Configuracion en DEV
+
+```mermaid
+flowchart LR
+    Client["Cliente<br/>PowerShell / bash / navegador"]
+    Config["ecom-config<br/>Config Server<br/>infra/config<br/>localhost:18888"]
+    Repo["file:./config-repo<br/>catalogo-ms-dev.yml<br/>catalogo-ms-prod.yml<br/>producto-ms-dev.yml<br/>producto-ms-prod.yml"]
+    Catalogo["catalogo-ms"]
+    Producto["producto-ms"]
+
+    Client -->|"GET localhost:18888/catalogo-ms/dev"| Config
+    Client -->|"GET localhost:18888/producto-ms/dev"| Config
+    Config -->|"lee archivos"| Repo
+    Catalogo -. "spring.config.import<br/>http://localhost:18888" .-> Config
+    Producto -. "spring.config.import<br/>http://localhost:18888" .-> Config
+
+    classDef server fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef repo fill:#fff4de,stroke:#b7791f,color:#111;
+    class Config,Catalogo,Producto server;
+    class Repo repo;
+```
+
+En DEV, Config Server corre con Maven en el host:
+
+```text
+localhost:18888
+config-repo: file:./config-repo
+```
+
+#### 2.2.2 Configuracion en PROD local
+
+```mermaid
+flowchart LR
+    Client["Cliente<br/>PowerShell / bash"]
+    subgraph Docker["Docker Network: ecom-prod-net"]
+        Config["ecom-config<br/>Config Server<br/>8888 interno"]
+        Repo["file:/config-repo<br/>catalogo-ms-prod.yml<br/>producto-ms-prod.yml"]
+        Catalogo["catalogo-ms"]
+        Producto["producto-ms"]
+    end
+
+    Client -->|"GET localhost:28888/catalogo-ms/prod"| Config
+    Client -->|"GET localhost:28888/producto-ms/prod"| Config
+    Config -->|"lee archivos"| Repo
+    Catalogo -. "spring.config.import<br/>http://ecom-config:8888" .-> Config
+    Producto -. "spring.config.import<br/>http://ecom-config:8888" .-> Config
+
+    classDef server fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef repo fill:#fff4de,stroke:#b7791f,color:#111;
+    class Config,Catalogo,Producto server;
+    class Repo repo;
+```
+
+En PROD local, Config Server corre como contenedor:
+
+```text
+host: localhost:28888
+docker interno: ecom-config:8888
+CONFIG_REPO_LOCATION=file:/config-repo
+```
+
+### 2.3 Observabilidad y diagnostico
+
+En esta sesion la observabilidad se enfoca en confirmar que Config Server esta activo y que entrega la configuracion esperada.
+
+#### 2.3.1 Senales basicas a revisar
+
+- Health de Config Server.
+- Logs de arranque.
+- Ruta del `config-repo`.
+- Perfil consultado.
+- Nombre de aplicacion consultado.
+- Diferencias entre `dev` y `prod`.
+
+#### 2.3.2 Errores frecuentes y diagnostico
+
+| Problema | Causa probable | Solucion |
+|---|---|---|
+| 404 al consultar configuracion | Nombre de aplicacion o perfil incorrecto | Revisar nombre del archivo `{app}-{profile}.yml` |
+| Config Server no encuentra archivos | `search-locations` incorrecto | En DEV revisar `file:./config-repo`; en PROD revisar `CONFIG_REPO_LOCATION` |
+| Microservicio arranca con valores locales | No importa Config Server | Revisar `spring.config.import` |
+| Microservicio no arranca | Config Server apagado o URL incorrecta | Levantar Config Server y revisar `CONFIG_SERVER_URL` |
+| Se consulta `prod` pero aparecen valores de `dev` | Perfil activo incorrecto | Revisar `SPRING_PROFILES_ACTIVE` |
+
+## 3. Aplica: actividad practica guiada
+
+En el laboratorio, el docente guia la construccion del Config Server y la externalizacion de configuracion de `catalogo-ms`. Los estudiantes verifican la configuracion por HTTP y luego repiten el patron con `producto-ms`.
+
+Duracion: 4h.
+
+La ruta principal de la sesion es construir desde cero. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17 para clonar el tag final y ejecutar las pruebas.
+
+- Crear la base de infraestructura.
+- Crear el proyecto `ecom-config`.
+- Crear `config-repo` dentro de `infra/config`.
+- Mover configuraciones `dev` y `prod` al repositorio de configuracion.
+- Conectar `catalogo-ms` como Config Client.
+- Probar `catalogo-ms` en DEV y PROD local.
+- Repetir el patron con `producto-ms`.
+
+### 3.1 Crear la base `infra`
+
+**Producto del paso:** carpeta `infra` preparada para alojar componentes de infraestructura del sistema.
+
+En `ecom`, la infraestructura se trabaja dentro del monorepo. Si construyes desde cero, ubicate en la raiz del proyecto y crea la carpeta:
+
+PowerShell / bash macOS/Linux:
+
+```bash
+mkdir infra
+```
+
+En esta version del curso trabajaremos todo desde `ecom`. La opcion de clonar un avance ya terminado queda separada en la ruta alternativa del paso 3.17.
+
+Estructura esperada al iniciar la sesion:
+
+```text
+ecom
+  infra/
+  services/
+    catalogo-ms/
+    producto-ms/
+```
+
+### 3.2 Crear proyecto Config Server
+
+**Producto del paso:** proyecto Spring Boot `ecom-config` creado dentro de `infra/config`.
+
+Desde VS Code, usa Spring Initializr:
+
+```text
+Spring Initializr: Create a Maven Project
+```
+
+Configuracion del proyecto:
+
+| Campo | Valor |
 |---|---|
-| `infra/config/pom.xml` | Dependencias de Config Server |
-| `infra/config/src/main/resources/application.yml` | Configuracion del servidor |
-| `infra/config/config-repo/*-dev.yml` | Configuracion DEV |
-| `infra/config/config-repo/*-prod.yml` | Configuracion PROD |
-| `services/*/src/main/resources/application.yml` | Importacion de configuracion |
+| Project | Maven Project |
+| Spring Boot | 3.5.x |
+| Language | Java |
+| Java | 17 |
+| Group Id | `com.upeu` |
+| Artifact Id | `ecom-config` |
+| Package name | `com.upeu.configserver` |
+| Packaging | Jar |
+| Ubicacion | `infra/config` |
 
-## Comandos de ejecucion
+Dependencias Spring Boot:
+
+| Grupo | Dependencias | Proposito |
+|---|---|---|
+| Spring Cloud | Config Server | Entregar configuracion externa por HTTP |
+| Operacion | Spring Boot Actuator | Verificar health del servidor |
+| Productividad | Spring Boot DevTools | Facilitar ejecucion en desarrollo |
+
+En S2 aparece Spring Cloud por primera vez. En esta sesion solo usamos Config Server; Eureka, Gateway y Load Balancer se integran en las sesiones siguientes.
+
+En `pom.xml`, la dependencia clave es:
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-config-server</artifactId>
+</dependency>
+```
+
+### 3.3 Habilitar Config Server
+
+**Producto del paso:** aplicacion Spring Boot marcada como servidor de configuracion.
+
+En la clase principal agrega `@EnableConfigServer`:
+
+```java
+package com.upeu.configserver;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.config.server.EnableConfigServer;
+
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigServerApplication.class, args);
+    }
+}
+```
+
+### 3.4 Crear `config-repo` dentro de `infra/config`
+
+**Producto del paso:** repositorio local de configuracion creado dentro del proyecto Config Server.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+mkdir infra/config/config-repo
+```
+
+En esta version del curso, `config-repo` vive dentro de `infra/config` para reducir dispersion de archivos durante el laboratorio local.
+
+Conceptualmente siguen siendo dos responsabilidades distintas:
+
+```text
+Config Server -> entrega configuracion por HTTP
+config-repo   -> almacena archivos YAML por servicio y ambiente
+```
+
+### 3.5 Configurar Config Server para leer `config-repo`
+
+**Producto del paso:** Config Server configurado para leer archivos desde `infra/config/config-repo` en DEV.
+
+En `infra/config/src/main/resources/application.yml`:
+
+```yaml
+server:
+  port: 18888
+spring:
+  application:
+    name: ecom-config
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: ${CONFIG_REPO_LOCATION:file:./config-repo}
+```
+
+En DEV no se define variable de entorno. Se usa el valor por defecto:
+
+```text
+file:./config-repo
+```
+
+Eso significa que debes ejecutar Maven parado en:
+
+```text
+infra/config
+```
+
+En PROD local si se usara variable de entorno, porque el repositorio se monta dentro del contenedor como `/config-repo`.
+
+### 3.6 Probar Config Server en DEV
+
+**Producto del paso:** Config Server ejecutando en `localhost:18888`.
 
 PowerShell / bash macOS/Linux:
 
@@ -76,68 +371,496 @@ cd infra/config
 mvn spring-boot:run
 ```
 
-## Cierre en produccion local con Docker
+Verifica health:
+
+PowerShell:
+
+```powershell
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:18888/actuator/health"
+```
+
+bash macOS/Linux:
+
+```bash
+curl http://localhost:18888/actuator/health
+```
+
+### 3.7 Crear archivos de configuracion en `config-repo`
+
+**Producto del paso:** configuraciones `dev` y `prod` creadas para `catalogo-ms`.
+
+Crea estos archivos:
+
+```text
+infra/config/config-repo/catalogo-ms-dev.yml
+infra/config/config-repo/catalogo-ms-prod.yml
+```
+
+Regla de nombres:
+
+```text
+{spring.application.name}-{profile}.yml
+```
+
+Ejemplo para DEV:
+
+```yaml
+server:
+  port: 0
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:15432/ecom_catalogo_db
+    username: ecom
+    password: ecom
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.upeu.catalogo: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+```
+
+Ejemplo para PROD local:
+
+```yaml
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+```
+
+### 3.8 Consultar perfiles por HTTP
+
+**Producto del paso:** configuracion externa consultada sin levantar el microservicio.
+
+Con Config Server ejecutando en DEV:
+
+PowerShell / bash macOS/Linux:
+
+```bash
+curl http://localhost:18888/catalogo-ms/dev
+curl http://localhost:18888/catalogo-ms/prod
+```
+
+Si usas PowerShell y prefieres objetos:
+
+```powershell
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:18888/catalogo-ms/dev"
+```
+
+### 3.9 Conectar `catalogo-ms` como Config Client
+
+**Producto del paso:** `catalogo-ms` preparado para consumir configuracion externa en DEV.
+
+Este paso tiene dos cambios: agregar Config Client al microservicio y mover sus archivos de ambiente hacia `config-repo`.
+
+Agrega dependencias de Config Client en `services/catalogo-ms/pom.xml`:
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-config</artifactId>
+</dependency>
+```
+
+Tambien debe existir el BOM de Spring Cloud en `dependencyManagement`.
+
+Luego deja `services/catalogo-ms/src/main/resources/application.yml` solo con configuracion base e importacion del Config Server:
+
+```yaml
+spring:
+  application:
+    name: catalogo-ms
+  profiles:
+    active: dev
+  config:
+    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:18888}"
+```
+
+Mueve la configuracion que antes estaba en `application-dev.yml` y `application-prod.yml` hacia:
+
+```text
+infra/config/config-repo/catalogo-ms-dev.yml
+infra/config/config-repo/catalogo-ms-prod.yml
+```
+
+En DEV se usa `http://localhost:18888`. En PROD local se usara `CONFIG_SERVER_URL=http://ecom-config:8888`.
+
+La URL no lleva usuario ni password porque el Config Server actual no tiene seguridad habilitada. Si luego se agrega seguridad basica al Config Server, la URL cambiaria a un formato como `http://usuario:password@host:puerto`.
+
+### 3.10 Levantar `catalogo-ms` en DEV con Config Server
+
+**Producto del paso:** `catalogo-ms` ejecutando con valores entregados por Config Server.
+
+Terminal 1:
+
+```bash
+cd infra/config
+mvn spring-boot:run
+```
+
+Terminal 2:
+
+```bash
+cd services/catalogo-ms
+docker compose -f compose-dev.yml up -d
+mvn spring-boot:run
+```
+
+Verifica en logs:
+
+- Nombre de aplicacion `catalogo-ms`.
+- Perfil `dev`.
+- Puerto dinamico.
+- Conexion a PostgreSQL.
+- Configuracion recibida desde Config Server.
+
+### 3.11 Crear red compartida de produccion local
+
+**Producto del paso:** red Docker compartida creada para que infraestructura y microservicios se comuniquen en PROD local.
+
+Esta red permite que `ecom-config`, Eureka, Gateway y los microservicios se encuentren por nombre de servicio dentro de Docker.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+docker network create ecom-prod-net
+```
+
+Si la red ya existe, Docker mostrara un mensaje de error. En ese caso puedes continuar.
+
+### 3.12 Dockerizar Config Server para PROD local
+
+**Producto del paso:** Config Server preparado para ejecutarse como contenedor `ecom-config`.
+
+En `infra/config/Dockerfile` se construye el JAR y se ejecuta con Java 17:
+
+```dockerfile
+FROM maven:3.9.9-eclipse-temurin-17 AS build
+WORKDIR /app
+
+COPY pom.xml .
+RUN mvn -q -DskipTests dependency:go-offline
+
+COPY src ./src
+RUN mvn -q clean package -DskipTests
+
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /app/target/*.jar app.jar
+
+EXPOSE 8888
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+En `infra/compose.yml`, Config Server se publica en el host como `28888` y monta `config-repo` dentro del contenedor:
+
+```yaml
+services:
+  config:
+    build:
+      context: ./config
+      dockerfile: Dockerfile
+    container_name: ecom-config
+    ports:
+      - "28888:8888"
+    volumes:
+      - ./config/config-repo:/config-repo
+    environment:
+      SERVER_PORT: 8888
+      SPRING_PROFILES_ACTIVE: native
+      CONFIG_REPO_LOCATION: file:/config-repo
+    networks:
+      - ecom-prod-net
+```
+
+En PROD local, la ruta cambia porque ahora Config Server corre dentro de Docker:
+
+```text
+file:/config-repo
+```
+
+### 3.13 Probar Config Server en PROD local
+
+**Producto del paso:** Config Server ejecutando como contenedor y entregando perfiles `prod`.
+
+PowerShell / bash macOS/Linux:
 
 ```bash
 cd infra
-docker compose up -d --build
+docker compose up -d --build config
+docker compose ps
 ```
 
-En produccion local, el Config Server corre como contenedor y publica el puerto PROD `28888`. Los microservicios Docker consultan perfiles `prod` desde este servidor.
+Consulta:
 
-## Verificacion funcional
+```bash
+curl http://localhost:28888/catalogo-ms/prod
+curl http://localhost:28888/actuator/health
+```
+
+### 3.14 Actualizar `catalogo-ms` para PROD local
+
+**Producto del paso:** `catalogo-ms` preparado para consumir Config Server desde Docker.
+
+En `.env` y `.env.example` de `catalogo-ms`, agrega o verifica:
+
+```env
+SPRING_PROFILES_ACTIVE=prod
+CONFIG_SERVER_URL=http://ecom-config:8888
+
+DB_NAME=ecom_catalogo_db
+DB_USER=ecom
+DB_PASS=ecom
+```
+
+En `compose.yml`, el microservicio debe recibir esas variables:
+
+```yaml
+environment:
+  SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  CONFIG_SERVER_URL: ${CONFIG_SERVER_URL}
+  DB_HOST: ecom-postgres-catalogo
+  DB_PORT: 5432
+  DB_NAME: ${DB_NAME}
+  DB_USER: ${DB_USER}
+  DB_PASS: ${DB_PASS}
+```
+
+Y debe conectarse a la red compartida:
+
+```yaml
+networks:
+  - ecom-catalogo-int
+  - ecom-prod-net
+```
+
+### 3.15 Probar `catalogo-ms` en DEV y PROD local
+
+**Producto del paso:** `catalogo-ms` verificado consumiendo configuracion centralizada en ambos ambientes.
 
 DEV:
 
-```text
-http://localhost:18888/catalogo-ms/dev
-http://localhost:18888/producto-ms/dev
+```bash
+cd infra/config
+mvn spring-boot:run
 ```
 
-PROD:
+En otra terminal:
 
-```text
-http://localhost:28888/catalogo-ms/prod
-http://localhost:28888/producto-ms/prod
+```bash
+cd services/catalogo-ms
+docker compose -f compose-dev.yml up -d
+mvn spring-boot:run
 ```
 
-## Observabilidad y diagnostico
+PROD local:
 
-- Health DEV: `http://localhost:18888/actuator/health`.
-- Revisar logs de lectura del repositorio local.
-- Confirmar perfil activo y nombre de aplicacion.
+```bash
+cd infra
+docker compose up -d --build config
+```
 
-## Verificacion de base de datos
+En otra terminal:
 
-No se modifica la BD en esta sesion. Se verifica que las credenciales y URL de BD provienen de configuracion externa.
+```bash
+cd services/catalogo-ms
+docker compose up -d --build --scale catalogo-ms=2
+```
 
-## Evidencia esperada
+Verifica health interno del MS:
 
-- Config Server levantado.
-- Perfil `dev` consultado.
-- Perfil `prod` consultado.
-- Microservicio arrancando con configuracion externa.
-- Explicacion individual de un valor externalizado.
+```bash
+docker run --rm --network ecom-catalogo-int curlimages/curl:8.10.1 -s http://catalogo-ms:8080/actuator/health
+```
 
-## Errores frecuentes
+Al terminar:
 
-| Problema | Causa probable | Solucion |
-|---|---|---|
-| 404 al consultar perfil | Nombre de archivo incorrecto | Revisar `application-name-profile.yml` |
-| Servicio no arranca | Config Server apagado | Levantar `infra/config` primero |
-| Valores no cambian | Perfil incorrecto | Revisar `spring.profiles.active` |
+```bash
+docker compose down
+```
 
-## Preguntas de defensa
+### 3.16 Repetir el patron con `producto-ms`
+
+**Producto del paso:** `producto-ms` preparado para consumir configuracion centralizada.
+
+Repite el mismo patron:
+
+1. Crear `producto-ms-dev.yml`.
+2. Crear `producto-ms-prod.yml`.
+3. Dejar `application.yml` con `spring.application.name: producto-ms`.
+4. Agregar `spring.config.import`.
+5. Probar consulta HTTP:
+
+```bash
+curl http://localhost:18888/producto-ms/dev
+curl http://localhost:18888/producto-ms/prod
+```
+
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+
+Esta seccion sirve si quieres partir del tag final de la sesion y solo levantar, probar y revisar evidencias sin repetir toda la construccion paso a paso.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+git clone --branch vs02-configuracion-centralizada https://github.com/261dist/ecom.git ecom-s02
+cd ecom-s02
+```
+
+| Necesidad | Referencia |
+|---|---|
+| Levantar Config Server DEV | [Ver paso 3.6](#36-probar-config-server-en-dev) |
+| Consultar perfiles por HTTP | [Ver paso 3.8](#38-consultar-perfiles-por-http) |
+| Conectar `catalogo-ms` | [Ver paso 3.9](#39-conectar-catalogo-ms-como-config-client) |
+| Probar Config Server PROD local | [Ver paso 3.13](#313-probar-config-server-en-prod-local) |
+| Probar `catalogo-ms` DEV/PROD | [Ver paso 3.15](#315-probar-catalogo-ms-en-dev-y-prod-local) |
+
+Comandos minimos DEV:
+
+```bash
+cd infra/config
+mvn spring-boot:run
+```
+
+Comandos minimos PROD local:
+
+```bash
+cd infra
+docker compose up -d --build config
+docker compose ps
+```
+
+#### 3.17.1 Archivos clave
+
+| Archivo | Proposito |
+|---|---|
+| `infra/config/pom.xml` | Dependencias del Config Server |
+| `infra/config/src/main/resources/application.yml` | Configuracion del servidor |
+| `infra/config/config-repo/*-dev.yml` | Configuracion DEV por servicio |
+| `infra/config/config-repo/*-prod.yml` | Configuracion PROD por servicio |
+| `infra/config/Dockerfile` | Imagen de Config Server |
+| `infra/compose.yml` | Produccion local de infraestructura |
+| `services/*/src/main/resources/application.yml` | Importacion de Config Server desde los microservicios |
+
+## 4. Crea: actividad autonoma
+
+Fuera del aula, cada estudiante consolida el aprendizaje aplicando configuracion externa a otro componente del sistema.
+
+Duracion: 4h.
+
+- Completar configuracion externa de `producto-ms`.
+- Comparar `catalogo-ms-dev.yml` con `catalogo-ms-prod.yml`.
+- Identificar un valor que no deberia quedar hardcodeado.
+- Consultar por HTTP al menos dos perfiles.
+- Documentar evidencias individuales.
+- Explicar como Config Server separa codigo y configuracion.
+
+## 5. Cierre evaluativo
+
+Esta seccion conecta el resultado de aprendizaje con el producto que debe evidenciar cada estudiante.
+
+### 5.1 Resultados esperados
+
+Al finalizar la sesion, el estudiante debe demostrar que:
+
+- Config Server ejecuta en DEV.
+- Config Server ejecuta en PROD local con Docker.
+- `config-repo` entrega perfiles `dev` y `prod`.
+- Un microservicio lee configuracion externa.
+- Puede explicar la diferencia entre Config Server y Config repo.
+- Puede diagnosticar un perfil no encontrado.
+
+### 5.2 Evidencias del producto de sesion
+
+Las evidencias deben mostrar el producto declarado en la seccion 1.3:
+
+- Salida de `mvn spring-boot:run` en `infra/config`.
+- Respuesta de `http://localhost:18888/actuator/health`.
+- Respuesta de `http://localhost:18888/catalogo-ms/dev`.
+- Respuesta de `http://localhost:18888/catalogo-ms/prod`.
+- Logs del microservicio leyendo Config Server.
+- Salida de `docker compose ps` para Config Server en PROD local.
+- Respuesta de `http://localhost:28888/catalogo-ms/prod`.
+- Breve descripcion del aporte individual.
+
+### 5.3 Preguntas de defensa
 
 1. Que problema resuelve la configuracion centralizada?
-2. Que diferencia hay entre `dev` y `prod`?
-3. Donde vive `config-repo` en `ecom`?
-4. Como diagnosticas un perfil no encontrado?
+2. Que diferencia hay entre Config Server y Config repo?
+3. Por que `config-repo` puede estar dentro de `infra/config` y aun asi ser un componente logico separado?
+4. Como se forma la URL `/{application}/{profile}`?
+5. Que debe coincidir entre `spring.application.name` y los archivos de configuracion?
+6. Que cambia entre DEV y PROD local?
+7. Como diagnosticas un perfil no encontrado?
 
-## Checklist de cierre
+### 5.4 Checklist de cierre
 
-- [ ] Config Server activo.
-- [ ] Perfiles consultados.
-- [ ] Microservicio conectado.
-- [ ] Health revisado.
+- [ ] Config Server DEV activo.
+- [ ] Health de Config Server verificado.
+- [ ] Perfil `dev` consultado.
+- [ ] Perfil `prod` consultado.
+- [ ] Microservicio conectado como Config Client.
+- [ ] Config Server PROD local ejecutado con Docker.
 - [ ] Evidencia individual registrada.

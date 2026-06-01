@@ -46,14 +46,14 @@ En esta sesion se inicia ese redisenio construyendo el primer componente del sis
 Roadmap para elaborar el producto de la unidad:
 
 ```mermaid
-flowchart LR
+flowchart TB
     Cliente["Cliente de prueba<br/>PowerShell / bash / Swagger"]
     Gateway["Gateway<br/>punto unico de acceso<br/>balanceo de carga"]
+    Catalogo["catalogo-ms<br/>HOY<br/>REST + BD + health"]
+    Producto["producto-ms<br/>trabajo aplicado"]
     Eureka["Registro de servicios<br/>Eureka"]
     Config["Servidor de configuracion<br/>Config Server"]
     Repo["Repositorio de configuracion<br/>catalogo-ms.yml<br/>producto-ms.yml"]
-    Catalogo["catalogo-ms<br/>HOY<br/>REST + BD + health"]
-    Producto["producto-ms<br/>trabajo aplicado"]
 
     Cliente --> Gateway
     Gateway --> Catalogo
