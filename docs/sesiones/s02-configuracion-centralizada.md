@@ -177,6 +177,24 @@ docker interno: ecom-config:8888
 CONFIG_REPO_LOCATION=file:/config-repo
 ```
 
+#### 2.2.3 Estado nuevo de URLs en S2
+
+Las URLs de esta sesion corresponden al monorepo `ecom` nuevo. No se usan los puertos ni nombres del sistema anterior.
+
+| Ambiente | Componente | URL o nombre |
+|---|---|---|
+| DEV | Config Server | `http://localhost:18888` |
+| DEV | Config de catalogo | `http://localhost:18888/catalogo-ms/dev` |
+| DEV | Config de producto | `http://localhost:18888/producto-ms/dev` |
+| DEV | `catalogo-ms` | `http://localhost:<puerto-dinamico>` |
+| PROD local | Config Server desde host | `http://localhost:28888` |
+| PROD local | Config Server desde contenedores | `http://ecom-config:8888` |
+| PROD local | Config de catalogo | `http://localhost:28888/catalogo-ms/prod` |
+| PROD local | Config de producto | `http://localhost:28888/producto-ms/prod` |
+| PROD local | `catalogo-ms` dentro de Docker | `http://catalogo-ms:8080` |
+
+Ejemplos que pertenecen al sistema anterior, como `localhost:7071`, `localhost:7072`, `localhost:8081`, `localhost:8082`, `/catalogo/dev` o `/catalogo/prod`, no se usan como rutas validas del sistema nuevo.
+
 ### 2.3 Observabilidad y diagnostico
 
 En esta sesion la observabilidad se enfoca en confirmar que Config Server esta activo y que entrega la configuracion esperada.
@@ -732,19 +750,34 @@ mvn spring-boot:run
 
 Como `server.port` es dinamico (`0`), cada instancia toma un puerto libre. El comportamiento funcional debe mantenerse igual: ambas instancias leen la misma configuracion centralizada y responden el mismo CRUD.
 
-### 3.11 Crear red compartida de produccion local
+### 3.11 Respetar el orden de arranque: infraestructura primero
 
-**Producto del paso:** red Docker compartida creada para que infraestructura y microservicios se comuniquen en PROD local.
+**Producto del paso:** orden de ejecucion definido para que Config Server este disponible antes de levantar los microservicios.
 
-Esta red permite que `ecom-config`, Eureka, Gateway y los microservicios se encuentren por nombre de servicio dentro de Docker.
+En esta sesion no se crea la red de produccion manualmente. La infraestructura la prepara cuando se levanta con Docker Compose.
 
-PowerShell / bash macOS/Linux:
+La regla de trabajo es:
 
-```bash
-docker network create ecom-prod-net
+```text
+1. Levantar infraestructura
+2. Levantar microservicios
 ```
 
-Si la red ya existe, Docker mostrara un mensaje de error. En ese caso puedes continuar.
+En DEV:
+
+```text
+infra/config -> Config Server con Maven
+services/catalogo-ms -> PostgreSQL DEV con Docker Compose + app con Maven
+```
+
+En PROD local:
+
+```text
+infra -> ecom-config con Docker Compose
+services/catalogo-ms -> BD + catalogo-ms con Docker Compose
+```
+
+Este orden es importante porque los microservicios necesitan consultar Config Server al arrancar. En PROD local, `infra/compose.yml` crea la red compartida y luego `catalogo-ms` se conecta a esa red para resolver `http://ecom-config:8888`.
 
 ### 3.12 Dockerizar Config Server para PROD local
 
