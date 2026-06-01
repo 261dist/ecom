@@ -2605,14 +2605,14 @@
 <li>Avance del producto en esta sesion: primer microservicio REST funcional, persistente, observable y ejecutable fuera del IDE.</li>
 </ul>
 <p>Roadmap para elaborar el producto de la unidad:</p>
-<pre class="mermaid"><code>flowchart LR
+<pre class="mermaid"><code>flowchart TB
     Cliente["Cliente de prueba&lt;br/&gt;PowerShell / bash / Swagger"]
     Gateway["Gateway&lt;br/&gt;punto unico de acceso&lt;br/&gt;balanceo de carga"]
+    Catalogo["catalogo-ms&lt;br/&gt;HOY&lt;br/&gt;REST + BD + health"]
+    Producto["producto-ms&lt;br/&gt;trabajo aplicado"]
     Eureka["Registro de servicios&lt;br/&gt;Eureka"]
     Config["Servidor de configuracion&lt;br/&gt;Config Server"]
     Repo["Repositorio de configuracion&lt;br/&gt;catalogo-ms.yml&lt;br/&gt;producto-ms.yml"]
-    Catalogo["catalogo-ms&lt;br/&gt;HOY&lt;br/&gt;REST + BD + health"]
-    Producto["producto-ms&lt;br/&gt;trabajo aplicado"]
 
     Cliente --&gt; Gateway
     Gateway --&gt; Catalogo
