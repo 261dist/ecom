@@ -511,6 +511,10 @@ spring:
     url: jdbc:postgresql://localhost:15432/ecom_catalogo_db
     username: ecom
     password: ecom
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
   jpa:
     hibernate:
       ddl-auto: validate
@@ -518,20 +522,33 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  flyway:
-    enabled: true
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.upeu.catalogo: DEBUG
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics
   endpoint:
     health:
       show-details: always
 ```
 
 Con `server.port: 0`, Spring Boot asigna un puerto libre automaticamente. Esto permite levantar varias instancias del mismo microservicio en paralelo sin cambiar el archivo de configuracion.
+
+En DEV, Flyway queda activo y ejecuta automaticamente `V1__create_categorias_table.sql` al arrancar la aplicacion. JPA/Hibernate no crea tablas; solo valida que la entidad coincida con la estructura de la base de datos mediante `ddl-auto: validate`.
 
 En S2 esta configuracion se movera progresivamente al Config Server. En S1 se mantiene local para que el alumno entienda primero que necesita el microservicio para arrancar.
 
@@ -683,10 +700,16 @@ repository
 service
 ```
 
-Copia tambien la carpeta de migraciones:
+Copia tambien la carpeta de migraciones. En esta sesion Flyway la usa tanto en DEV como en PROD local:
 
 ```text
 src/main/resources/db
+```
+
+Y copia el archivo de configuracion de logs:
+
+```text
+src/main/resources/logback-spring.xml
 ```
 
 No copies `CatalogoApplication.java` si ya existe en tu proyecto. Ese archivo es la clase principal de arranque y debe quedar una sola version.
@@ -709,6 +732,8 @@ src/main/java/com/upeu/catalogo
   CatalogoApplication.java
 src/main/resources/db/migration
   V1__create_categorias_table.sql
+src/main/resources
+  logback-spring.xml
 ```
 
 #### 3.3.5 Revisar cada capa
@@ -727,7 +752,33 @@ filter      -> filtros HTTP cuando aplique
 config      -> configuraciones locales del servicio
 ```
 
-#### 3.3.6 Revisar validaciones
+#### 3.3.6 Revisar logs y trazabilidad interna
+
+Revisa `filter/CorrelationIdFilter.java`. Este filtro agrega un identificador de trazabilidad a cada request usando el header `X-Trace-ID`. Si el cliente no lo envia, el filtro genera un UUID.
+
+En S1 la trazabilidad es interna al microservicio:
+
+```text
+Cliente shell / Swagger -> Controller -> Service -> Repository -> BD
+```
+
+Todos los logs producidos durante esa peticion pueden compartir el mismo `traceId`.
+
+Revisa tambien `src/main/resources/logback-spring.xml`. Este archivo define el formato de logs e incluye el `traceId` en cada linea:
+
+```text
+[%X{traceId}]
+```
+
+Tambien configura salida por consola y archivo en:
+
+```text
+logs/catalogo.log
+```
+
+Mas adelante, cuando se agreguen Gateway, Feign o frontend, el mismo header `X-Trace-ID` podra propagarse entre componentes para trazabilidad distribuida.
+
+#### 3.3.7 Revisar validaciones
 
 Verifica que los DTOs tengan anotaciones de validacion y que el controlador use `@Valid` en los metodos que reciben `@RequestBody`:
 
@@ -739,7 +790,7 @@ private String nombre;
 
 La validacion evita que el microservicio acepte datos incompletos antes de llegar a la base de datos.
 
-#### 3.3.7 Revisar migracion Flyway
+#### 3.3.8 Revisar migracion Flyway
 
 Revisa tambien la migracion copiada en `src/main/resources/db/migration`:
 
@@ -758,9 +809,9 @@ CREATE TABLE IF NOT EXISTS categorias (
 );
 ```
 
-Como `application-dev.yml` usa `spring.jpa.hibernate.ddl-auto: validate`, Hibernate no crea la tabla automaticamente. Flyway debe crearla primero y luego Hibernate valida que la entidad coincida con la base de datos.
+En DEV y PROD local, Flyway ejecuta esta migracion automaticamente al arrancar la aplicacion. Luego Hibernate valida que la entidad `Categoria` coincida con la tabla mediante `ddl-auto: validate`.
 
-#### 3.3.8 Preguntas de verificacion antes de ejecutar
+#### 3.3.9 Preguntas de verificacion antes de ejecutar
 
 Antes de ejecutar, la lectura del CRUD debe responder:
 
@@ -770,6 +821,8 @@ Antes de ejecutar, la lectura del CRUD debe responder:
 4. Que archivo conversa con JPA?
 5. Que DTO se usa para recibir datos desde la API?
 6. Que excepcion se devuelve cuando no existe una categoria?
+7. Para que sirve `CorrelationIdFilter`?
+8. Como aparece el `traceId` en los logs?
 
 ### 3.4 Ejecutar y probar el microservicio en DEV
 
@@ -804,7 +857,7 @@ Tomcat started on port XXXXX
 
 #### 3.4.3 Verificar tabla creada por Flyway
 
-Luego verifica que Flyway haya creado la tabla:
+Luego verifica que Flyway haya creado la tabla en DEV:
 
 PowerShell / bash macOS/Linux:
 
@@ -982,6 +1035,13 @@ management:
   endpoint:
     health:
       show-details: never
+```
+
+La regla es la misma para DEV y PROD local: Flyway crea la estructura y JPA solo valida. Si vienes del material anterior con MySQL, el patron es el mismo, pero en `ecom` se adapta a PostgreSQL:
+
+```text
+DEV  -> flyway.enabled=true + ddl-auto=validate
+PROD -> flyway.enabled=true + ddl-auto=validate
 ```
 
 #### 3.5.4 Crear `compose.yml`
