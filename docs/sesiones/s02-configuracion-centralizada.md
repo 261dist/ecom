@@ -1155,32 +1155,28 @@ La revision se realiza con los criterios minimos de aceptacion de la seccion 4.2
 6. Que cambia entre DEV y PROD local?
 7. Como diagnosticas un perfil no encontrado?
 
-### 5.4 Rubrica de evaluacion asistida por IA
+### 5.4 Rubrica de evaluacion
 
-La IA puede usar esta rubrica para una primera revision del PDF individual. El docente valida los casos dudosos, notas bajas, evidencias incompletas o defensas seleccionadas por muestreo.
+| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+|---|---:|---|---|---|---|---:|
+| 1. Config Server operativo | 2 | Evidencia Config Server en DEV y PROD local, con health/metrics y perfiles correctos. | Evidencia Config Server en DEV con health/metrics y perfiles. | Evidencia parcial: arranca, pero sin health/metrics o perfiles claros. | No evidencia Config Server funcionando. | |
+| 2. Configuracion externa DEV/PROD | 2 | Explica y evidencia `config-repo`, perfiles, diferencias DEV/PROD y valores no hardcodeados. | Muestra perfiles `dev` y `prod` con diferencias claras. | Muestra un perfil o configuracion incompleta. | No evidencia separacion entre codigo y configuracion. | |
+| 3. Microservicio como Config Client | 2 | Evidencia Config Client, health, metrics y CRUD funcionando despues de externalizar configuracion. | Evidencia que el microservicio arranca leyendo Config Server y responde health o CRUD. | Evidencia arranque parcial o sin prueba funcional. | No demuestra conexion del microservicio con Config Server. | |
+| 4. Aporte individual verificable | 2 | Aporte claro, verificable y conectado al producto del equipo. | Aporte claro con archivo, comando o prueba realizada. | Aporte mencionado de forma general. | No se identifica aporte individual. | |
+| 5. Diagnostico de error o hallazgo | 1 | Analiza error/hallazgo, causa, solucion y aprendizaje tecnico. | Explica causa probable y solucion parcial. | Menciona un problema sin explicarlo. | No presenta error ni hallazgo. | |
+| 6. Reflexion tecnica y orden | 1 | Reflexion tecnica precisa, PDF ordenado, capturas legibles y explicaciones breves. | Reflexion clara y evidencias entendibles. | Reflexion superficial o evidencias poco legibles. | PDF desordenado o sin reflexion. | |
 
-El puntaje obtenido por criterio corresponde al valor del nivel alcanzado. Como son 6 criterios y el nivel maximo es 4, el puntaje bruto maximo es 24. La nota final se convierte a escala vigesimal.
+Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
-| Criterio | 0 - Deficiente | 2 - Basico | 3 - Bueno | 4 - Excelente | Puntaje obtenido |
-|---|---|---|---|---|---:|
-| 1. Config Server operativo | No evidencia Config Server funcionando. | Evidencia parcial: arranca, pero sin health/metrics o perfiles claros. | Evidencia Config Server en DEV con health/metrics y perfiles. | Evidencia Config Server en DEV y PROD local, con health/metrics y perfiles correctos. | |
-| 2. Configuracion externa DEV/PROD | No evidencia separacion entre codigo y configuracion. | Muestra un perfil o configuracion incompleta. | Muestra perfiles `dev` y `prod` con diferencias claras. | Explica y evidencia `config-repo`, perfiles, diferencias DEV/PROD y valores no hardcodeados. | |
-| 3. Microservicio como Config Client | No demuestra conexion del microservicio con Config Server. | Evidencia arranque parcial o sin prueba funcional. | Evidencia que el microservicio arranca leyendo Config Server y responde health o CRUD. | Evidencia Config Client, health, metrics y CRUD funcionando despues de externalizar configuracion. | |
-| 4. Aporte individual verificable | No se identifica aporte individual. | Aporte mencionado de forma general. | Aporte claro con archivo, comando o prueba realizada. | Aporte claro, verificable y conectado al producto del equipo. | |
-| 5. Diagnostico de error o hallazgo | No presenta error ni hallazgo. | Menciona un problema sin explicarlo. | Explica causa probable y solucion parcial. | Analiza error/hallazgo, causa, solucion y aprendizaje tecnico. | |
-| 6. Reflexion tecnica y orden | PDF desordenado o sin reflexion. | Reflexion superficial o evidencias poco legibles. | Reflexion clara y evidencias entendibles. | Reflexion tecnica precisa, PDF ordenado, capturas legibles y explicaciones breves. | |
-
-Puntaje obtenido = ____. (suma de la columna)
-
-Nota final = (`Puntaje obtenido` / 24) * 20 = ____.
+Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 
 Para usar la rubrica con IA, solicita:
 
 ```text
 Evalua el PDF usando la rubrica de la sesion.
-Para cada criterio selecciona el nivel alcanzado usando la escala Deficiente=0, Basico=2, Bueno=3, Excelente=4.
-Asigna el puntaje obtenido segun el valor del nivel.
-Justifica brevemente cada puntaje.
-Calcula el puntaje bruto sobre 24 y conviertelo a nota final sobre 20 con la formula: (puntaje bruto / 24) * 20.
+Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuacion.
+Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
+Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 ```
