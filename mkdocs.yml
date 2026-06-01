@@ -48,6 +48,3 @@ plugins:
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
   - javascripts/mermaid.js
-
-extra_css:
-  - stylesheets/print.css
