@@ -951,10 +951,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#54-rubrica-de-evaluacion-asistida-por-ia" class="md-nav__link">
+  <a href="#54-rubrica-de-evaluacion" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.4 Rubrica de evaluacion asistida por IA
+        5.4 Rubrica de evaluacion
       
     </span>
   </a>
@@ -2098,10 +2098,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#54-rubrica-de-evaluacion-asistida-por-ia" class="md-nav__link">
+  <a href="#54-rubrica-de-evaluacion" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.4 Rubrica de evaluacion asistida por IA
+        5.4 Rubrica de evaluacion
       
     </span>
   </a>
@@ -3150,79 +3150,84 @@ docker<span class="w"> </span>compose<span class="w"> </span>ps
 <li>Que cambia entre DEV y PROD local?</li>
 <li>Como diagnosticas un perfil no encontrado?</li>
 </ol>
-<h3 id="54-rubrica-de-evaluacion-asistida-por-ia">5.4 Rubrica de evaluacion asistida por IA</h3>
-<p>La IA puede usar esta rubrica para una primera revision del PDF individual. El docente valida los casos dudosos, notas bajas, evidencias incompletas o defensas seleccionadas por muestreo.</p>
-<p>El puntaje obtenido por criterio corresponde al valor del nivel alcanzado. Como son 6 criterios y el nivel maximo es 4, el puntaje bruto maximo es 24. La nota final se convierte a escala vigesimal.</p>
+<h3 id="54-rubrica-de-evaluacion">5.4 Rubrica de evaluacion</h3>
 <table>
 <thead>
 <tr>
-<th>Criterio</th>
-<th>0 - Deficiente</th>
-<th>2 - Basico</th>
-<th>3 - Bueno</th>
-<th>4 - Excelente</th>
-<th style="text-align: right;">Puntaje obtenido</th>
+<th>Dimension</th>
+<th style="text-align: right;">Peso</th>
+<th>3 - Logro destacado</th>
+<th>2 - Logro</th>
+<th>1 - Proceso</th>
+<th>0 - Inicio</th>
+<th style="text-align: right;">Puntuacion obtenida</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>1. Config Server operativo</td>
-<td>No evidencia Config Server funcionando.</td>
-<td>Evidencia parcial: arranca, pero sin health/metrics o perfiles claros.</td>
-<td>Evidencia Config Server en DEV con health/metrics y perfiles.</td>
+<td style="text-align: right;">2</td>
 <td>Evidencia Config Server en DEV y PROD local, con health/metrics y perfiles correctos.</td>
+<td>Evidencia Config Server en DEV con health/metrics y perfiles.</td>
+<td>Evidencia parcial: arranca, pero sin health/metrics o perfiles claros.</td>
+<td>No evidencia Config Server funcionando.</td>
 <td style="text-align: right;"></td>
 </tr>
 <tr>
 <td>2. Configuracion externa DEV/PROD</td>
-<td>No evidencia separacion entre codigo y configuracion.</td>
-<td>Muestra un perfil o configuracion incompleta.</td>
-<td>Muestra perfiles <code>dev</code> y <code>prod</code> con diferencias claras.</td>
+<td style="text-align: right;">2</td>
 <td>Explica y evidencia <code>config-repo</code>, perfiles, diferencias DEV/PROD y valores no hardcodeados.</td>
+<td>Muestra perfiles <code>dev</code> y <code>prod</code> con diferencias claras.</td>
+<td>Muestra un perfil o configuracion incompleta.</td>
+<td>No evidencia separacion entre codigo y configuracion.</td>
 <td style="text-align: right;"></td>
 </tr>
 <tr>
 <td>3. Microservicio como Config Client</td>
-<td>No demuestra conexion del microservicio con Config Server.</td>
-<td>Evidencia arranque parcial o sin prueba funcional.</td>
-<td>Evidencia que el microservicio arranca leyendo Config Server y responde health o CRUD.</td>
+<td style="text-align: right;">2</td>
 <td>Evidencia Config Client, health, metrics y CRUD funcionando despues de externalizar configuracion.</td>
+<td>Evidencia que el microservicio arranca leyendo Config Server y responde health o CRUD.</td>
+<td>Evidencia arranque parcial o sin prueba funcional.</td>
+<td>No demuestra conexion del microservicio con Config Server.</td>
 <td style="text-align: right;"></td>
 </tr>
 <tr>
 <td>4. Aporte individual verificable</td>
-<td>No se identifica aporte individual.</td>
-<td>Aporte mencionado de forma general.</td>
-<td>Aporte claro con archivo, comando o prueba realizada.</td>
+<td style="text-align: right;">2</td>
 <td>Aporte claro, verificable y conectado al producto del equipo.</td>
+<td>Aporte claro con archivo, comando o prueba realizada.</td>
+<td>Aporte mencionado de forma general.</td>
+<td>No se identifica aporte individual.</td>
 <td style="text-align: right;"></td>
 </tr>
 <tr>
 <td>5. Diagnostico de error o hallazgo</td>
-<td>No presenta error ni hallazgo.</td>
-<td>Menciona un problema sin explicarlo.</td>
-<td>Explica causa probable y solucion parcial.</td>
+<td style="text-align: right;">1</td>
 <td>Analiza error/hallazgo, causa, solucion y aprendizaje tecnico.</td>
+<td>Explica causa probable y solucion parcial.</td>
+<td>Menciona un problema sin explicarlo.</td>
+<td>No presenta error ni hallazgo.</td>
 <td style="text-align: right;"></td>
 </tr>
 <tr>
 <td>6. Reflexion tecnica y orden</td>
-<td>PDF desordenado o sin reflexion.</td>
-<td>Reflexion superficial o evidencias poco legibles.</td>
-<td>Reflexion clara y evidencias entendibles.</td>
+<td style="text-align: right;">1</td>
 <td>Reflexion tecnica precisa, PDF ordenado, capturas legibles y explicaciones breves.</td>
+<td>Reflexion clara y evidencias entendibles.</td>
+<td>Reflexion superficial o evidencias poco legibles.</td>
+<td>PDF desordenado o sin reflexion.</td>
 <td style="text-align: right;"></td>
 </tr>
 </tbody>
 </table>
-<p>Puntaje obtenido = ____. (suma de la columna)</p>
-<p>Nota final = (<code>Puntaje obtenido</code> / 24) * 20 = ____.</p>
+<p>Puntuacion acumulada = suma de (<code>Peso</code> * <code>Puntuacion obtenida</code>) = ____.</p>
+<p>Nota final = (<code>Puntuacion acumulada</code> / 30) * 20 = ____.</p>
 <p>Para usar la rubrica con IA, solicita:</p>
 <div class="highlight"><pre><span></span><code>Evalua el PDF usando la rubrica de la sesion.
-Para cada criterio selecciona el nivel alcanzado usando la escala Deficiente=0, Basico=2, Bueno=3, Excelente=4.
-Asigna el puntaje obtenido segun el valor del nivel.
-Justifica brevemente cada puntaje.
-Calcula el puntaje bruto sobre 24 y conviertelo a nota final sobre 20 con la formula: (puntaje bruto / 24) * 20.
+Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuacion.
+Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
+Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 </code></pre></div>
 
