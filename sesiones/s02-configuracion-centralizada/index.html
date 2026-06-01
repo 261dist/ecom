@@ -507,6 +507,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#223-estado-nuevo-de-urls-en-s2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.3 Estado nuevo de URLs en S2
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -696,10 +707,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#311-crear-red-compartida-de-produccion-local" class="md-nav__link">
+  <a href="#311-respetar-el-orden-de-arranque-infraestructura-primero" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.11 Crear red compartida de produccion local
+        3.11 Respetar el orden de arranque: infraestructura primero
       
     </span>
   </a>
@@ -1554,6 +1565,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#223-estado-nuevo-de-urls-en-s2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.3 Estado nuevo de URLs en S2
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1743,10 +1765,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#311-crear-red-compartida-de-produccion-local" class="md-nav__link">
+  <a href="#311-respetar-el-orden-de-arranque-infraestructura-primero" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.11 Crear red compartida de produccion local
+        3.11 Respetar el orden de arranque: infraestructura primero
       
     </span>
   </a>
@@ -2061,6 +2083,65 @@ config-repo: file:./config-repo
 docker interno: ecom-config:8888
 CONFIG_REPO_LOCATION=file:/config-repo
 </code></pre></div>
+<h4 id="223-estado-nuevo-de-urls-en-s2">2.2.3 Estado nuevo de URLs en S2</h4>
+<p>Las URLs de esta sesion corresponden al monorepo <code>ecom</code> nuevo. No se usan los puertos ni nombres del sistema anterior.</p>
+<table>
+<thead>
+<tr>
+<th>Ambiente</th>
+<th>Componente</th>
+<th>URL o nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEV</td>
+<td>Config Server</td>
+<td><code>http://localhost:18888</code></td>
+</tr>
+<tr>
+<td>DEV</td>
+<td>Config de catalogo</td>
+<td><code>http://localhost:18888/catalogo-ms/dev</code></td>
+</tr>
+<tr>
+<td>DEV</td>
+<td>Config de producto</td>
+<td><code>http://localhost:18888/producto-ms/dev</code></td>
+</tr>
+<tr>
+<td>DEV</td>
+<td><code>catalogo-ms</code></td>
+<td><code>http://localhost:&lt;puerto-dinamico&gt;</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td>Config Server desde host</td>
+<td><code>http://localhost:28888</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td>Config Server desde contenedores</td>
+<td><code>http://ecom-config:8888</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td>Config de catalogo</td>
+<td><code>http://localhost:28888/catalogo-ms/prod</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td>Config de producto</td>
+<td><code>http://localhost:28888/producto-ms/prod</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td><code>catalogo-ms</code> dentro de Docker</td>
+<td><code>http://catalogo-ms:8080</code></td>
+</tr>
+</tbody>
+</table>
+<p>Ejemplos que pertenecen al sistema anterior, como <code>localhost:7071</code>, <code>localhost:7072</code>, <code>localhost:8081</code>, <code>localhost:8082</code>, <code>/catalogo/dev</code> o <code>/catalogo/prod</code>, no se usan como rutas validas del sistema nuevo.</p>
 <h3 id="23-observabilidad-y-diagnostico">2.3 Observabilidad y diagnostico</h3>
 <p>En esta sesion la observabilidad se enfoca en confirmar que Config Server esta activo y que entrega la configuracion esperada.</p>
 <h4 id="231-senales-basicas-a-revisar">2.3.1 Senales basicas a revisar</h4>
@@ -2552,13 +2633,22 @@ curl<span class="w"> </span>http://localhost:&lt;puerto&gt;/api/v1/categorias
 mvn<span class="w"> </span>spring-boot:run
 </code></pre></div>
 <p>Como <code>server.port</code> es dinamico (<code>0</code>), cada instancia toma un puerto libre. El comportamiento funcional debe mantenerse igual: ambas instancias leen la misma configuracion centralizada y responden el mismo CRUD.</p>
-<h3 id="311-crear-red-compartida-de-produccion-local">3.11 Crear red compartida de produccion local</h3>
-<p><strong>Producto del paso:</strong> red Docker compartida creada para que infraestructura y microservicios se comuniquen en PROD local.</p>
-<p>Esta red permite que <code>ecom-config</code>, Eureka, Gateway y los microservicios se encuentren por nombre de servicio dentro de Docker.</p>
-<p>PowerShell / bash macOS/Linux:</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>ecom-prod-net
+<h3 id="311-respetar-el-orden-de-arranque-infraestructura-primero">3.11 Respetar el orden de arranque: infraestructura primero</h3>
+<p><strong>Producto del paso:</strong> orden de ejecucion definido para que Config Server este disponible antes de levantar los microservicios.</p>
+<p>En esta sesion no se crea la red de produccion manualmente. La infraestructura la prepara cuando se levanta con Docker Compose.</p>
+<p>La regla de trabajo es:</p>
+<div class="highlight"><pre><span></span><code>1. Levantar infraestructura
+2. Levantar microservicios
 </code></pre></div>
-<p>Si la red ya existe, Docker mostrara un mensaje de error. En ese caso puedes continuar.</p>
+<p>En DEV:</p>
+<div class="highlight"><pre><span></span><code>infra/config -&gt; Config Server con Maven
+services/catalogo-ms -&gt; PostgreSQL DEV con Docker Compose + app con Maven
+</code></pre></div>
+<p>En PROD local:</p>
+<div class="highlight"><pre><span></span><code>infra -&gt; ecom-config con Docker Compose
+services/catalogo-ms -&gt; BD + catalogo-ms con Docker Compose
+</code></pre></div>
+<p>Este orden es importante porque los microservicios necesitan consultar Config Server al arrancar. En PROD local, <code>infra/compose.yml</code> crea la red compartida y luego <code>catalogo-ms</code> se conecta a esa red para resolver <code>http://ecom-config:8888</code>.</p>
 <h3 id="312-dockerizar-config-server-para-prod-local">3.12 Dockerizar Config Server para PROD local</h3>
 <p><strong>Producto del paso:</strong> Config Server preparado para ejecutarse como contenedor <code>ecom-config</code>.</p>
 <p>En <code>infra/config/Dockerfile</code> se construye el JAR y se ejecuta con Java 17:</p>
