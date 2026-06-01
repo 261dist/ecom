@@ -654,6 +654,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="3.8 Consultar perfiles por HTTP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#381-probar-una-consulta-incorrecta-para-aprender-del-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8.1 Probar una consulta incorrecta para aprender del error
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1684,6 +1701,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="3.8 Consultar perfiles por HTTP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#381-probar-una-consulta-incorrecta-para-aprender-del-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8.1 Probar una consulta incorrecta para aprender del error
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -2032,6 +2066,7 @@ CONFIG_REPO_LOCATION=file:/config-repo
 <h4 id="231-senales-basicas-a-revisar">2.3.1 Senales basicas a revisar</h4>
 <ul>
 <li>Health de Config Server.</li>
+<li>Metricas basicas de Config Server.</li>
 <li>Logs de arranque.</li>
 <li>Ruta del <code>config-repo</code>.</li>
 <li>Perfil consultado.</li>
@@ -2221,6 +2256,7 @@ config-repo   -&gt; almacena archivos YAML por servicio y ambiente
 <p>En <code>infra/config/src/main/resources/application.yml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">server</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">18888</span>
+
 <span class="nt">spring</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">application</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ecom-config</span>
@@ -2231,6 +2267,15 @@ config-repo   -&gt; almacena archivos YAML por servicio y ambiente
 <span class="w">      </span><span class="nt">server</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">native</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">search-locations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${CONFIG_REPO_LOCATION:file:./config-repo}</span>
+
+<span class="nt">management</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">endpoints</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">web</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">exposure</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health,info,metrics</span>
+<span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">health</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">show-details</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
 </code></pre></div>
 <p>En DEV no se define variable de entorno. Se usa el valor por defecto:</p>
 <div class="highlight"><pre><span></span><code>file:./config-repo
@@ -2253,6 +2298,15 @@ mvn<span class="w"> </span>spring-boot:run
 </code></pre></div>
 <p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18888/actuator/health
+</code></pre></div>
+<p>Verifica metrics:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/actuator/metrics&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18888/actuator/metrics
 </code></pre></div>
 <h3 id="37-crear-archivos-de-configuracion-en-config-repo">3.7 Crear archivos de configuracion en <code>config-repo</code></h3>
 <p><strong>Producto del paso:</strong> configuraciones <code>dev</code> y <code>prod</code> creadas para <code>catalogo-ms</code>.</p>
@@ -2349,16 +2403,86 @@ curl<span class="w"> </span>http://localhost:18888/catalogo-ms/prod
   <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
   <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/catalogo-ms/dev&quot;</span>
 </code></pre></div>
+<p>Resultado esperado:</p>
+<ul>
+<li>La respuesta debe indicar <code>name: catalogo-ms</code>.</li>
+<li>La respuesta debe indicar <code>profiles: ["dev"]</code>.</li>
+<li>En <code>propertySources</code> debe aparecer un archivo parecido a <code>file:.../infra/config/config-repo/catalogo-ms-dev.yml</code>.</li>
+<li>Dentro de <code>source</code> deben verse propiedades como <code>server.port</code>, <code>spring.datasource.url</code>, <code>spring.flyway.enabled</code>, <code>spring.jpa.hibernate.ddl-auto</code>, <code>springdoc.swagger-ui.path</code> y <code>management.endpoints.web.exposure.include</code>.</li>
+</ul>
+<p>Ejemplo resumido del resultado:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;catalogo-ms&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;profiles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;dev&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;propertySources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;file:.../config-repo/catalogo-ms-dev.yml&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;server.port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;spring.datasource.url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jdbc:postgresql://localhost:15432/ecom_catalogo_db&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;spring.flyway.enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;spring.jpa.hibernate.ddl-auto&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;validate&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;springdoc.swagger-ui.path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/swagger-ui.html&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;management.endpoints.web.exposure.include&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;health,info,metrics,prometheus&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Si Config Server no muestra esas propiedades, no continues a PROD. Primero corrige el nombre del archivo, el perfil o la ubicacion de <code>config-repo</code>.</p>
+<h4 id="381-probar-una-consulta-incorrecta-para-aprender-del-error">3.8.1 Probar una consulta incorrecta para aprender del error</h4>
+<p>Ahora consulta un nombre que no coincide con <code>spring.application.name</code> ni con el archivo del <code>config-repo</code>.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18888/catalogo/dev
+</code></pre></div>
+<p>Resultado esperado:</p>
+<ul>
+<li>La consulta no debe devolver la configuracion de <code>catalogo-ms-dev.yml</code>.</li>
+<li>Puede responder sin <code>propertySources</code> utiles o con una respuesta vacia segun la configuracion del servidor.</li>
+<li>El error conceptual es que <code>catalogo</code> no coincide con <code>catalogo-ms</code>.</li>
+</ul>
+<p>La regla que debe quedar clara:</p>
+<div class="highlight"><pre><span></span><code>spring.application.name = catalogo-ms
+archivo esperado       = catalogo-ms-dev.yml
+URL correcta           = /catalogo-ms/dev
+URL incorrecta         = /catalogo/dev
+</code></pre></div>
+<p>Este error controlado ayuda a diagnosticar uno de los problemas mas comunes en Config Server: el servicio arranca o consulta una configuracion que no corresponde porque el nombre de aplicacion y el nombre del archivo no coinciden.</p>
 <h3 id="39-conectar-catalogo-ms-como-config-client">3.9 Conectar <code>catalogo-ms</code> como Config Client</h3>
 <p><strong>Producto del paso:</strong> <code>catalogo-ms</code> preparado para consumir configuracion externa en DEV.</p>
 <p>Este paso tiene dos cambios: agregar Config Client al microservicio y mover sus archivos de ambiente hacia <code>config-repo</code>.</p>
-<p>Agrega dependencias de Config Client en <code>services/catalogo-ms/pom.xml</code>:</p>
+<p>Agrega tres configuraciones en <code>services/catalogo-ms/pom.xml</code>.</p>
+<ol>
+<li>Declarar la version de Spring Cloud en <code>&lt;properties&gt;</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;properties&gt;</span>
+<span class="w">    </span><span class="nt">&lt;java.version&gt;</span>17<span class="nt">&lt;/java.version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;spring-cloud.version&gt;</span>2025.0.1<span class="nt">&lt;/spring-cloud.version&gt;</span>
+<span class="nt">&lt;/properties&gt;</span>
+</code></pre></div>
+<ol>
+<li>Agregar la dependencia de Config Client en <code>&lt;dependencies&gt;</code>:</li>
+</ol>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
 <span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
 <span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-config<span class="nt">&lt;/artifactId&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>
-<p>Tambien debe existir el BOM de Spring Cloud en <code>dependencyManagement</code>.</p>
+<ol>
+<li>Agregar el BOM de Spring Cloud en <code>&lt;dependencyManagement&gt;</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependencyManagement&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>spring-cloud-dependencies<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>${spring-cloud.version}<span class="nt">&lt;/version&gt;</span>
+<span class="w">            </span><span class="nt">&lt;type&gt;</span>pom<span class="nt">&lt;/type&gt;</span>
+<span class="w">            </span><span class="nt">&lt;scope&gt;</span>import<span class="nt">&lt;/scope&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;/dependencyManagement&gt;</span>
+</code></pre></div>
 <p>Luego deja <code>services/catalogo-ms/src/main/resources/application.yml</code> solo con configuracion base e importacion del Config Server:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spring</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">application</span><span class="p">:</span>
@@ -2393,6 +2517,41 @@ mvn<span class="w"> </span>spring-boot:run
 <li>Conexion a PostgreSQL.</li>
 <li>Configuracion recibida desde Config Server.</li>
 </ul>
+<p>Luego prueba que <code>catalogo-ms</code> sigue funcionando. Como el puerto es dinamico, toma el puerto asignado desde la consola de Spring Boot. En los ejemplos se usa <code>&lt;puerto&gt;</code>.</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:&lt;puerto&gt;/actuator/health&quot;</span>
+
+<span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:&lt;puerto&gt;/actuator/metrics&quot;</span>
+
+<span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:&lt;puerto&gt;/api/v1/categorias&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:&lt;puerto&gt;/actuator/health
+curl<span class="w"> </span>http://localhost:&lt;puerto&gt;/actuator/metrics
+curl<span class="w"> </span>http://localhost:&lt;puerto&gt;/api/v1/categorias
+</code></pre></div>
+<p>Tambien revisa Swagger desde el navegador:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:&lt;puerto&gt;/swagger-ui.html
+</code></pre></div>
+<p>Resultado esperado:</p>
+<ul>
+<li><code>/actuator/health</code> responde <code>UP</code>.</li>
+<li><code>/actuator/metrics</code> responde la lista de metricas disponibles.</li>
+<li><code>/api/v1/categorias</code> responde <code>200 OK</code>, aunque el arreglo este vacio <code>[]</code>.</li>
+<li>Swagger muestra los endpoints del controlador de categorias.</li>
+</ul>
+<p>Esta validacion cierra DEV: Config Server entrega configuracion y <code>catalogo-ms</code> mantiene su CRUD operativo. Recien despues de esto se pasa a PROD local.</p>
+<p>Tambien puedes iniciar una segunda instancia en DEV desde otra terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/catalogo-ms
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>Como <code>server.port</code> es dinamico (<code>0</code>), cada instancia toma un puerto libre. El comportamiento funcional debe mantenerse igual: ambas instancias leen la misma configuracion centralizada y responden el mismo CRUD.</p>
 <h3 id="311-crear-red-compartida-de-produccion-local">3.11 Crear red compartida de produccion local</h3>
 <p><strong>Producto del paso:</strong> red Docker compartida creada para que infraestructura y microservicios se comuniquen en PROD local.</p>
 <p>Esta red permite que <code>ecom-config</code>, Eureka, Gateway y los microservicios se encuentren por nombre de servicio dentro de Docker.</p>
@@ -2454,7 +2613,17 @@ docker<span class="w"> </span>compose<span class="w"> </span>ps
 <p>Consulta:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:28888/catalogo-ms/prod
 curl<span class="w"> </span>http://localhost:28888/actuator/health
+curl<span class="w"> </span>http://localhost:28888/actuator/metrics
 </code></pre></div>
+<p>Resultado esperado:</p>
+<ul>
+<li>La respuesta de <code>catalogo-ms/prod</code> debe indicar <code>name: catalogo-ms</code>.</li>
+<li>La respuesta debe indicar <code>profiles: ["prod"]</code>.</li>
+<li>En <code>propertySources</code> debe aparecer <code>file:/config-repo/catalogo-ms-prod.yml</code>.</li>
+<li>Deben verse valores de PROD, por ejemplo <code>server.port: 8080</code>, <code>spring.flyway.enabled: true</code>, <code>spring.jpa.hibernate.ddl-auto: validate</code>, <code>springdoc.swagger-ui.enabled: false</code> y <code>springdoc.api-docs.enabled: false</code>.</li>
+<li><code>/actuator/health</code> responde <code>UP</code>.</li>
+<li><code>/actuator/metrics</code> responde la lista de metricas disponibles de Config Server.</li>
+</ul>
 <h3 id="314-actualizar-catalogo-ms-para-prod-local">3.14 Actualizar <code>catalogo-ms</code> para PROD local</h3>
 <p><strong>Producto del paso:</strong> <code>catalogo-ms</code> preparado para consumir Config Server desde Docker.</p>
 <p>En <code>.env</code> y <code>.env.example</code> de <code>catalogo-ms</code>, agrega o verifica:</p>
@@ -2502,6 +2671,18 @@ docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> 
 <p>Verifica health interno del MS:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--network<span class="w"> </span>ecom-catalogo-int<span class="w"> </span>curlimages/curl:8.10.1<span class="w"> </span>-s<span class="w"> </span>http://catalogo-ms:8080/actuator/health
 </code></pre></div>
+<p>Verifica que el CRUD siga funcionando en PROD local:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--network<span class="w"> </span>ecom-catalogo-int<span class="w"> </span>curlimages/curl:8.10.1<span class="w"> </span>-s<span class="w"> </span>http://catalogo-ms:8080/api/v1/categorias
+</code></pre></div>
+<p>Resultado esperado:</p>
+<ul>
+<li><code>catalogo-ms</code> arranca con perfil <code>prod</code>.</li>
+<li>El microservicio obtiene su configuracion desde <code>http://ecom-config:8888</code>.</li>
+<li><code>/actuator/health</code> responde <code>UP</code>.</li>
+<li><code>/api/v1/categorias</code> responde <code>200 OK</code>, aunque el arreglo este vacio <code>[]</code>.</li>
+<li>Swagger no se prueba en PROD porque esta deshabilitado en <code>catalogo-ms-prod.yml</code>.</li>
+<li>La opcion <code>--scale catalogo-ms=2</code> levanta dos instancias del mismo microservicio. El cambio de S2 es interno: ahora ambas instancias leen configuracion desde Config Server.</li>
+</ul>
 <p>Al terminar:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>down
 </code></pre></div>
@@ -2615,6 +2796,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>ps
 </ul>
 <h2 id="5-cierre-evaluativo">5. Cierre evaluativo</h2>
 <p>Esta seccion conecta el resultado de aprendizaje con el producto que debe evidenciar cada estudiante.</p>
+<p>La idea central de la sesion es que el sistema sigue funcionando igual para el usuario y para las pruebas, pero internamente queda preparado para administrar configuracion de muchos microservicios e instancias desde un punto central.</p>
 <h3 id="51-resultados-esperados">5.1 Resultados esperados</h3>
 <p>Al finalizar la sesion, el estudiante debe demostrar que:</p>
 <ul>
@@ -2630,6 +2812,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>ps
 <ul>
 <li>Salida de <code>mvn spring-boot:run</code> en <code>infra/config</code>.</li>
 <li>Respuesta de <code>http://localhost:18888/actuator/health</code>.</li>
+<li>Respuesta de <code>http://localhost:18888/actuator/metrics</code>.</li>
 <li>Respuesta de <code>http://localhost:18888/catalogo-ms/dev</code>.</li>
 <li>Respuesta de <code>http://localhost:18888/catalogo-ms/prod</code>.</li>
 <li>Logs del microservicio leyendo Config Server.</li>
@@ -2651,6 +2834,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>ps
 <ul>
 <li>[ ] Config Server DEV activo.</li>
 <li>[ ] Health de Config Server verificado.</li>
+<li>[ ] Metrics de Config Server verificado.</li>
 <li>[ ] Perfil <code>dev</code> consultado.</li>
 <li>[ ] Perfil <code>prod</code> consultado.</li>
 <li>[ ] Microservicio conectado como Config Client.</li>
