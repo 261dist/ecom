@@ -785,10 +785,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#336-revisar-validaciones" class="md-nav__link">
+  <a href="#336-revisar-logs-y-trazabilidad-interna" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3.6 Revisar validaciones
+        3.3.6 Revisar logs y trazabilidad interna
       
     </span>
   </a>
@@ -796,10 +796,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#337-revisar-migracion-flyway" class="md-nav__link">
+  <a href="#337-revisar-validaciones" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3.7 Revisar migracion Flyway
+        3.3.7 Revisar validaciones
       
     </span>
   </a>
@@ -807,10 +807,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#338-preguntas-de-verificacion-antes-de-ejecutar" class="md-nav__link">
+  <a href="#338-revisar-migracion-flyway" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3.8 Preguntas de verificacion antes de ejecutar
+        3.3.8 Revisar migracion Flyway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#339-preguntas-de-verificacion-antes-de-ejecutar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.9 Preguntas de verificacion antes de ejecutar
       
     </span>
   </a>
@@ -2170,10 +2181,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#336-revisar-validaciones" class="md-nav__link">
+  <a href="#336-revisar-logs-y-trazabilidad-interna" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3.6 Revisar validaciones
+        3.3.6 Revisar logs y trazabilidad interna
       
     </span>
   </a>
@@ -2181,10 +2192,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#337-revisar-migracion-flyway" class="md-nav__link">
+  <a href="#337-revisar-validaciones" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3.7 Revisar migracion Flyway
+        3.3.7 Revisar validaciones
       
     </span>
   </a>
@@ -2192,10 +2203,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#338-preguntas-de-verificacion-antes-de-ejecutar" class="md-nav__link">
+  <a href="#338-revisar-migracion-flyway" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3.8 Preguntas de verificacion antes de ejecutar
+        3.3.8 Revisar migracion Flyway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#339-preguntas-de-verificacion-antes-de-ejecutar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.9 Preguntas de verificacion antes de ejecutar
       
     </span>
   </a>
@@ -2990,6 +3012,10 @@ docker<span class="w"> </span>ps
 <span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jdbc:postgresql://localhost:15432/ecom_catalogo_db</span>
 <span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ecom</span>
 <span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ecom</span>
+<span class="w">    </span><span class="nt">driver-class-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">org.postgresql.Driver</span>
+<span class="w">  </span><span class="nt">flyway</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">locations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">classpath:db/migration</span>
 <span class="w">  </span><span class="nt">jpa</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">hibernate</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">ddl-auto</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">validate</span>
@@ -2997,19 +3023,31 @@ docker<span class="w"> </span>ps
 <span class="w">    </span><span class="nt">properties</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">hibernate</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">format_sql</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">flyway</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">devtools</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">livereload</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">springdoc</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">swagger-ui</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/swagger-ui.html</span>
+
+<span class="nt">logging</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">level</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">com.upeu.catalogo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
 
 <span class="nt">management</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">endpoints</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">web</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">exposure</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health,info</span>
+<span class="w">        </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health,info,metrics</span>
 <span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">health</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">show-details</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
 </code></pre></div>
 <p>Con <code>server.port: 0</code>, Spring Boot asigna un puerto libre automaticamente. Esto permite levantar varias instancias del mismo microservicio en paralelo sin cambiar el archivo de configuracion.</p>
+<p>En DEV, Flyway queda activo y ejecuta automaticamente <code>V1__create_categorias_table.sql</code> al arrancar la aplicacion. JPA/Hibernate no crea tablas; solo valida que la entidad coincida con la estructura de la base de datos mediante <code>ddl-auto: validate</code>.</p>
 <p>En S2 esta configuracion se movera progresivamente al Config Server. En S1 se mantiene local para que el alumno entienda primero que necesita el microservicio para arrancar.</p>
 <h4 id="326-crear-un-endpoint-temporal-de-saludo">3.2.6 Crear un endpoint temporal de saludo</h4>
 <p>Antes del CRUD, crea un controlador minimo para comprobar que la aplicacion web responde.</p>
@@ -3111,8 +3149,11 @@ mapper
 repository
 service
 </code></pre></div>
-<p>Copia tambien la carpeta de migraciones:</p>
+<p>Copia tambien la carpeta de migraciones. En esta sesion Flyway la usa tanto en DEV como en PROD local:</p>
 <div class="highlight"><pre><span></span><code>src/main/resources/db
+</code></pre></div>
+<p>Y copia el archivo de configuracion de logs:</p>
+<div class="highlight"><pre><span></span><code>src/main/resources/logback-spring.xml
 </code></pre></div>
 <p>No copies <code>CatalogoApplication.java</code> si ya existe en tu proyecto. Ese archivo es la clase principal de arranque y debe quedar una sola version.</p>
 <h4 id="334-revisar-estructura-resultante">3.3.4 Revisar estructura resultante</h4>
@@ -3130,6 +3171,8 @@ service
   CatalogoApplication.java
 src/main/resources/db/migration
   V1__create_categorias_table.sql
+src/main/resources
+  logback-spring.xml
 </code></pre></div>
 <h4 id="335-revisar-cada-capa">3.3.5 Revisar cada capa</h4>
 <p>Revisa cada carpeta copiada antes de ejecutar:</p>
@@ -3143,14 +3186,27 @@ exception   -&gt; manejo de errores
 filter      -&gt; filtros HTTP cuando aplique
 config      -&gt; configuraciones locales del servicio
 </code></pre></div>
-<h4 id="336-revisar-validaciones">3.3.6 Revisar validaciones</h4>
+<h4 id="336-revisar-logs-y-trazabilidad-interna">3.3.6 Revisar logs y trazabilidad interna</h4>
+<p>Revisa <code>filter/CorrelationIdFilter.java</code>. Este filtro agrega un identificador de trazabilidad a cada request usando el header <code>X-Trace-ID</code>. Si el cliente no lo envia, el filtro genera un UUID.</p>
+<p>En S1 la trazabilidad es interna al microservicio:</p>
+<div class="highlight"><pre><span></span><code>Cliente shell / Swagger -&gt; Controller -&gt; Service -&gt; Repository -&gt; BD
+</code></pre></div>
+<p>Todos los logs producidos durante esa peticion pueden compartir el mismo <code>traceId</code>.</p>
+<p>Revisa tambien <code>src/main/resources/logback-spring.xml</code>. Este archivo define el formato de logs e incluye el <code>traceId</code> en cada linea:</p>
+<div class="highlight"><pre><span></span><code>[%X{traceId}]
+</code></pre></div>
+<p>Tambien configura salida por consola y archivo en:</p>
+<div class="highlight"><pre><span></span><code>logs/catalogo.log
+</code></pre></div>
+<p>Mas adelante, cuando se agreguen Gateway, Feign o frontend, el mismo header <code>X-Trace-ID</code> podra propagarse entre componentes para trazabilidad distribuida.</p>
+<h4 id="337-revisar-validaciones">3.3.7 Revisar validaciones</h4>
 <p>Verifica que los DTOs tengan anotaciones de validacion y que el controlador use <code>@Valid</code> en los metodos que reciben <code>@RequestBody</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@NotBlank</span>
 <span class="nd">@Size</span><span class="p">(</span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
 <span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
 </code></pre></div>
 <p>La validacion evita que el microservicio acepte datos incompletos antes de llegar a la base de datos.</p>
-<h4 id="337-revisar-migracion-flyway">3.3.7 Revisar migracion Flyway</h4>
+<h4 id="338-revisar-migracion-flyway">3.3.8 Revisar migracion Flyway</h4>
 <p>Revisa tambien la migracion copiada en <code>src/main/resources/db/migration</code>:</p>
 <div class="highlight"><pre><span></span><code>V1__create_categorias_table.sql
 </code></pre></div>
@@ -3162,8 +3218,8 @@ config      -&gt; configuraciones locales del servicio
 <span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">);</span>
 </code></pre></div>
-<p>Como <code>application-dev.yml</code> usa <code>spring.jpa.hibernate.ddl-auto: validate</code>, Hibernate no crea la tabla automaticamente. Flyway debe crearla primero y luego Hibernate valida que la entidad coincida con la base de datos.</p>
-<h4 id="338-preguntas-de-verificacion-antes-de-ejecutar">3.3.8 Preguntas de verificacion antes de ejecutar</h4>
+<p>En DEV y PROD local, Flyway ejecuta esta migracion automaticamente al arrancar la aplicacion. Luego Hibernate valida que la entidad <code>Categoria</code> coincida con la tabla mediante <code>ddl-auto: validate</code>.</p>
+<h4 id="339-preguntas-de-verificacion-antes-de-ejecutar">3.3.9 Preguntas de verificacion antes de ejecutar</h4>
 <p>Antes de ejecutar, la lectura del CRUD debe responder:</p>
 <ol>
 <li>Que clase representa la tabla <code>categorias</code>?</li>
@@ -3172,6 +3228,8 @@ config      -&gt; configuraciones locales del servicio
 <li>Que archivo conversa con JPA?</li>
 <li>Que DTO se usa para recibir datos desde la API?</li>
 <li>Que excepcion se devuelve cuando no existe una categoria?</li>
+<li>Para que sirve <code>CorrelationIdFilter</code>?</li>
+<li>Como aparece el <code>traceId</code> en los logs?</li>
 </ol>
 <h3 id="34-ejecutar-y-probar-el-microservicio-en-dev">3.4 Ejecutar y probar el microservicio en DEV</h3>
 <p><strong>Producto del paso:</strong> microservicio ejecutando en desarrollo fuera del IDE, tabla <code>categorias</code> creada por Flyway, Swagger disponible, health activo y CRUD verificado por shell.</p>
@@ -3190,7 +3248,7 @@ mvn<span class="w"> </span>spring-boot:run
 <div class="highlight"><pre><span></span><code>Tomcat started on port XXXXX
 </code></pre></div>
 <h4 id="343-verificar-tabla-creada-por-flyway">3.4.3 Verificar tabla creada por Flyway</h4>
-<p>Luego verifica que Flyway haya creado la tabla:</p>
+<p>Luego verifica que Flyway haya creado la tabla en DEV:</p>
 <p>PowerShell / bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ecom-postgres-catalogo-dev<span class="w"> </span>psql<span class="w"> </span>-U<span class="w"> </span>ecom<span class="w"> </span>-d<span class="w"> </span>ecom_catalogo_db<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;\dt&quot;</span>
 docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ecom-postgres-catalogo-dev<span class="w"> </span>psql<span class="w"> </span>-U<span class="w"> </span>ecom<span class="w"> </span>-d<span class="w"> </span>ecom_catalogo_db<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;\d categorias&quot;</span>
@@ -3310,6 +3368,10 @@ DB_PASS=ecom
 <span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">health</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">show-details</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">never</span>
+</code></pre></div>
+<p>La regla es la misma para DEV y PROD local: Flyway crea la estructura y JPA solo valida. Si vienes del material anterior con MySQL, el patron es el mismo, pero en <code>ecom</code> se adapta a PostgreSQL:</p>
+<div class="highlight"><pre><span></span><code>DEV  -&gt; flyway.enabled=true + ddl-auto=validate
+PROD -&gt; flyway.enabled=true + ddl-auto=validate
 </code></pre></div>
 <h4 id="354-crear-composeyml">3.5.4 Crear <code>compose.yml</code></h4>
 <p><code>compose.yml</code> levanta PostgreSQL y el microservicio en contenedores. La base de datos queda en una red interna del microservicio y la aplicacion queda preparada para conectarse despues a una red compartida del sistema.</p>
