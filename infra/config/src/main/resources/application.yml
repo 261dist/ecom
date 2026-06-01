@@ -11,3 +11,12 @@ spring:
         native: 
           search-locations: ${CONFIG_REPO_LOCATION:file:./config-repo}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+

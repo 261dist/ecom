@@ -184,6 +184,7 @@ En esta sesion la observabilidad se enfoca en confirmar que Config Server esta a
 #### 2.3.1 Senales basicas a revisar
 
 - Health de Config Server.
+- Metricas basicas de Config Server.
 - Logs de arranque.
 - Ruta del `config-repo`.
 - Perfil consultado.
@@ -334,6 +335,7 @@ En `infra/config/src/main/resources/application.yml`:
 ```yaml
 server:
   port: 18888
+
 spring:
   application:
     name: ecom-config
@@ -344,6 +346,15 @@ spring:
       server:
         native:
           search-locations: ${CONFIG_REPO_LOCATION:file:./config-repo}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
 ```
 
 En DEV no se define variable de entorno. Se usa el valor por defecto:
@@ -385,6 +396,22 @@ bash macOS/Linux:
 
 ```bash
 curl http://localhost:18888/actuator/health
+```
+
+Verifica metrics:
+
+PowerShell:
+
+```powershell
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:18888/actuator/metrics"
+```
+
+bash macOS/Linux:
+
+```bash
+curl http://localhost:18888/actuator/metrics
 ```
 
 ### 3.7 Crear archivos de configuracion en `config-repo`
@@ -505,13 +532,82 @@ Invoke-RestMethod `
   -Uri "http://localhost:18888/catalogo-ms/dev"
 ```
 
+Resultado esperado:
+
+- La respuesta debe indicar `name: catalogo-ms`.
+- La respuesta debe indicar `profiles: ["dev"]`.
+- En `propertySources` debe aparecer un archivo parecido a `file:.../infra/config/config-repo/catalogo-ms-dev.yml`.
+- Dentro de `source` deben verse propiedades como `server.port`, `spring.datasource.url`, `spring.flyway.enabled`, `spring.jpa.hibernate.ddl-auto`, `springdoc.swagger-ui.path` y `management.endpoints.web.exposure.include`.
+
+Ejemplo resumido del resultado:
+
+```json
+{
+  "name": "catalogo-ms",
+  "profiles": ["dev"],
+  "propertySources": [
+    {
+      "name": "file:.../config-repo/catalogo-ms-dev.yml",
+      "source": {
+        "server.port": 0,
+        "spring.datasource.url": "jdbc:postgresql://localhost:15432/ecom_catalogo_db",
+        "spring.flyway.enabled": true,
+        "spring.jpa.hibernate.ddl-auto": "validate",
+        "springdoc.swagger-ui.path": "/swagger-ui.html",
+        "management.endpoints.web.exposure.include": "health,info,metrics,prometheus"
+      }
+    }
+  ]
+}
+```
+
+Si Config Server no muestra esas propiedades, no continues a PROD. Primero corrige el nombre del archivo, el perfil o la ubicacion de `config-repo`.
+
+#### 3.8.1 Probar una consulta incorrecta para aprender del error
+
+Ahora consulta un nombre que no coincide con `spring.application.name` ni con el archivo del `config-repo`.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+curl http://localhost:18888/catalogo/dev
+```
+
+Resultado esperado:
+
+- La consulta no debe devolver la configuracion de `catalogo-ms-dev.yml`.
+- Puede responder sin `propertySources` utiles o con una respuesta vacia segun la configuracion del servidor.
+- El error conceptual es que `catalogo` no coincide con `catalogo-ms`.
+
+La regla que debe quedar clara:
+
+```text
+spring.application.name = catalogo-ms
+archivo esperado       = catalogo-ms-dev.yml
+URL correcta           = /catalogo-ms/dev
+URL incorrecta         = /catalogo/dev
+```
+
+Este error controlado ayuda a diagnosticar uno de los problemas mas comunes en Config Server: el servicio arranca o consulta una configuracion que no corresponde porque el nombre de aplicacion y el nombre del archivo no coinciden.
+
 ### 3.9 Conectar `catalogo-ms` como Config Client
 
 **Producto del paso:** `catalogo-ms` preparado para consumir configuracion externa en DEV.
 
 Este paso tiene dos cambios: agregar Config Client al microservicio y mover sus archivos de ambiente hacia `config-repo`.
 
-Agrega dependencias de Config Client en `services/catalogo-ms/pom.xml`:
+Agrega tres configuraciones en `services/catalogo-ms/pom.xml`.
+
+1. Declarar la version de Spring Cloud en `<properties>`:
+
+```xml
+<properties>
+    <java.version>17</java.version>
+    <spring-cloud.version>2025.0.1</spring-cloud.version>
+</properties>
+```
+
+2. Agregar la dependencia de Config Client en `<dependencies>`:
 
 ```xml
 <dependency>
@@ -520,7 +616,21 @@ Agrega dependencias de Config Client en `services/catalogo-ms/pom.xml`:
 </dependency>
 ```
 
-Tambien debe existir el BOM de Spring Cloud en `dependencyManagement`.
+3. Agregar el BOM de Spring Cloud en `<dependencyManagement>`:
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring-cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
 
 Luego deja `services/catalogo-ms/src/main/resources/application.yml` solo con configuracion base e importacion del Config Server:
 
@@ -571,6 +681,56 @@ Verifica en logs:
 - Puerto dinamico.
 - Conexion a PostgreSQL.
 - Configuracion recibida desde Config Server.
+
+Luego prueba que `catalogo-ms` sigue funcionando. Como el puerto es dinamico, toma el puerto asignado desde la consola de Spring Boot. En los ejemplos se usa `<puerto>`.
+
+PowerShell:
+
+```powershell
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:<puerto>/actuator/health"
+
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:<puerto>/actuator/metrics"
+
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:<puerto>/api/v1/categorias"
+```
+
+bash macOS/Linux:
+
+```bash
+curl http://localhost:<puerto>/actuator/health
+curl http://localhost:<puerto>/actuator/metrics
+curl http://localhost:<puerto>/api/v1/categorias
+```
+
+Tambien revisa Swagger desde el navegador:
+
+```text
+http://localhost:<puerto>/swagger-ui.html
+```
+
+Resultado esperado:
+
+- `/actuator/health` responde `UP`.
+- `/actuator/metrics` responde la lista de metricas disponibles.
+- `/api/v1/categorias` responde `200 OK`, aunque el arreglo este vacio `[]`.
+- Swagger muestra los endpoints del controlador de categorias.
+
+Esta validacion cierra DEV: Config Server entrega configuracion y `catalogo-ms` mantiene su CRUD operativo. Recien despues de esto se pasa a PROD local.
+
+Tambien puedes iniciar una segunda instancia en DEV desde otra terminal:
+
+```bash
+cd services/catalogo-ms
+mvn spring-boot:run
+```
+
+Como `server.port` es dinamico (`0`), cada instancia toma un puerto libre. El comportamiento funcional debe mantenerse igual: ambas instancias leen la misma configuracion centralizada y responden el mismo CRUD.
 
 ### 3.11 Crear red compartida de produccion local
 
@@ -658,7 +818,17 @@ Consulta:
 ```bash
 curl http://localhost:28888/catalogo-ms/prod
 curl http://localhost:28888/actuator/health
+curl http://localhost:28888/actuator/metrics
 ```
+
+Resultado esperado:
+
+- La respuesta de `catalogo-ms/prod` debe indicar `name: catalogo-ms`.
+- La respuesta debe indicar `profiles: ["prod"]`.
+- En `propertySources` debe aparecer `file:/config-repo/catalogo-ms-prod.yml`.
+- Deben verse valores de PROD, por ejemplo `server.port: 8080`, `spring.flyway.enabled: true`, `spring.jpa.hibernate.ddl-auto: validate`, `springdoc.swagger-ui.enabled: false` y `springdoc.api-docs.enabled: false`.
+- `/actuator/health` responde `UP`.
+- `/actuator/metrics` responde la lista de metricas disponibles de Config Server.
 
 ### 3.14 Actualizar `catalogo-ms` para PROD local
 
@@ -734,6 +904,21 @@ Verifica health interno del MS:
 ```bash
 docker run --rm --network ecom-catalogo-int curlimages/curl:8.10.1 -s http://catalogo-ms:8080/actuator/health
 ```
+
+Verifica que el CRUD siga funcionando en PROD local:
+
+```bash
+docker run --rm --network ecom-catalogo-int curlimages/curl:8.10.1 -s http://catalogo-ms:8080/api/v1/categorias
+```
+
+Resultado esperado:
+
+- `catalogo-ms` arranca con perfil `prod`.
+- El microservicio obtiene su configuracion desde `http://ecom-config:8888`.
+- `/actuator/health` responde `UP`.
+- `/api/v1/categorias` responde `200 OK`, aunque el arreglo este vacio `[]`.
+- Swagger no se prueba en PROD porque esta deshabilitado en `catalogo-ms-prod.yml`.
+- La opcion `--scale catalogo-ms=2` levanta dos instancias del mismo microservicio. El cambio de S2 es interno: ahora ambas instancias leen configuracion desde Config Server.
 
 Al terminar:
 
@@ -821,6 +1006,8 @@ Duracion: 4h.
 
 Esta seccion conecta el resultado de aprendizaje con el producto que debe evidenciar cada estudiante.
 
+La idea central de la sesion es que el sistema sigue funcionando igual para el usuario y para las pruebas, pero internamente queda preparado para administrar configuracion de muchos microservicios e instancias desde un punto central.
+
 ### 5.1 Resultados esperados
 
 Al finalizar la sesion, el estudiante debe demostrar que:
@@ -838,6 +1025,7 @@ Las evidencias deben mostrar el producto declarado en la seccion 1.3:
 
 - Salida de `mvn spring-boot:run` en `infra/config`.
 - Respuesta de `http://localhost:18888/actuator/health`.
+- Respuesta de `http://localhost:18888/actuator/metrics`.
 - Respuesta de `http://localhost:18888/catalogo-ms/dev`.
 - Respuesta de `http://localhost:18888/catalogo-ms/prod`.
 - Logs del microservicio leyendo Config Server.
@@ -859,6 +1047,7 @@ Las evidencias deben mostrar el producto declarado en la seccion 1.3:
 
 - [ ] Config Server DEV activo.
 - [ ] Health de Config Server verificado.
+- [ ] Metrics de Config Server verificado.
 - [ ] Perfil `dev` consultado.
 - [ ] Perfil `prod` consultado.
 - [ ] Microservicio conectado como Config Client.
