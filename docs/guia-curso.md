@@ -45,6 +45,29 @@ La sesion debe responder claramente:
 7. Como se sabe que salio bien?
 8. Que evidencia individual debe presentar cada estudiante?
 
+## Programacion de laboratorio
+
+Cada sesion presencial dura 4h. La actividad autonoma dura 4h fuera del aula.
+
+Distribucion sugerida para el aula:
+
+| Bloque | Tiempo | Funcion |
+|---|---:|---|
+| Enlace didactico | 40 min | En S01: socializacion del silabo y apertura del curso. Desde S02: cierre breve de evidencias anteriores, bloqueos comunes y apertura de la sesion actual. |
+| Explica | 15 min | Conceptos minimos, arquitectura y flujo de trabajo necesarios para construir. |
+| Aplica | 3h | Construccion guiada del producto de sesion, pruebas, errores controlados y verificacion tecnica. |
+| Encargo autonomo | 5 min | Recordar plantilla PDF, evidencias esperadas, criterios minimos y fecha de entrega. |
+
+Distribucion fuera del aula:
+
+| Bloque | Tiempo | Funcion |
+|---|---:|---|
+| Crea | 4h | Completar el trabajo aplicado, evidenciar aporte individual, resolver mejoras o replicar el patron en otro microservicio. |
+
+El cierre evaluativo de la sesion N se revisa al inicio de la sesion N+1 dentro del bloque de enlace didactico. No se agrega tiempo extra al laboratorio.
+
+En los documentos de cada sesion no se repite esta programacion. La estructura del archivo se mantiene limpia: introduccion, explica, aplica, crea y cierre evaluativo.
+
 ## Comandos
 
 Cuando un comando es identico en Windows, macOS y Linux, se documenta en un solo bloque:
@@ -78,9 +101,9 @@ La observabilidad aparece desde la primera sesion como practica de diagnostico:
 
 S10 consolida estos elementos en una vista operativa del sistema completo.
 
-## Cierre de sesion
+## Cierre evaluativo
 
-Una sesion queda cerrada cuando el estudiante puede mostrar:
+El cierre evaluativo se apoya en la evidencia individual entregada despues de la actividad autonoma. Una sesion queda cerrada cuando el estudiante puede mostrar:
 
 - Comandos ejecutados.
 - Servicio funcionando.

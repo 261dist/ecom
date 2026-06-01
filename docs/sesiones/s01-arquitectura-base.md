@@ -2,6 +2,8 @@
 
 ## 1. Introduccion
 
+Tiempo: 20 min.
+
 ### 1.1 Proposito
 
 Construir el primer servicio de negocio del sistema y dejarlo preparado para crecer hacia una arquitectura distribuida.
@@ -72,6 +74,8 @@ flowchart TB
 Hoy se construye el primer componente real de la U1: `catalogo-ms`. En las siguientes sesiones se agregan configuracion centralizada, registro de servicios, multiples instancias, Gateway y balanceo. La evaluacion U1 valida el sistema base integrado construido con esos componentes.
 
 ## 2. Explica
+
+Tiempo: 15 min.
 
 ### 2.1 Conceptos clave
 
@@ -169,7 +173,7 @@ La observabilidad inicia desde S1 como habito transversal. En esta sesion todavi
 
 En el laboratorio, el docente guia la construccion de `catalogo-ms` y los estudiantes verifican el resultado con comandos de consola.
 
-Duracion: 4h.
+Tiempo: 3h.
 
 En `ecom`, el docente guia `catalogo-ms` y el estudiante replica el patron en `producto-ms` como trabajo aplicado. La version actual usa monorepo, nombres con sufijo `-ms`, PostgreSQL y puertos dinamicos para los microservicios.
 
@@ -1247,16 +1251,89 @@ docker exec -it ecom-postgres-catalogo psql -U ecom -d ecom_catalogo_db -c "SELE
 
 ## 4. Crea: actividad autonoma
 
-Fuera del aula, cada estudiante consolida el aprendizaje replicando el patron y preparando evidencias individuales.
+Fuera del aula, cada estudiante consolida el aprendizaje replicando el patron y preparando una evidencia individual.
 
-Duracion: 4h.
+Tiempo: 4h fuera del aula.
 
-- Replicar el patron en otro servicio del dominio.
-- Completar pruebas PowerShell/bash.
-- Documentar evidencias individuales.
-- Preparar explicacion tecnica del flujo REST y BD.
+### 4.1 Plantilla de evidencia individual
+
+Entrega un PDF con el siguiente nombre:
+
+```text
+S01_Equipo##_ApellidoNombre.pdf
+```
+
+Ejemplo:
+
+```text
+S01_Equipo03_QuispeAna.pdf
+```
+
+El PDF debe usar esta estructura. La primera seccion define el trabajo autonomo; completa las demas con tus evidencias.
+
+#### 4.1.1 Datos del estudiante
+
+- Nombre:
+- Equipo:
+- Sesion: S01 - Construccion de un servicio base para un sistema distribuido
+- Rol o aporte realizado:
+
+#### 4.1.2 Trabajo autonomo realizado
+
+Completa y evidencia estas tareas:
+
+1. Replicar el patron de `catalogo-ms` en otro servicio del dominio, por ejemplo `producto-ms`.
+2. Ejecutar el microservicio en DEV con Maven.
+3. Probar el CRUD por PowerShell o bash.
+4. Verificar Swagger, `/actuator/health` y `/actuator/metrics` en DEV.
+5. Revisar la base de datos con comandos `psql`.
+6. Ejecutar una prueba breve en PROD local con Docker.
+7. Explicar la diferencia entre DEV Maven y PROD Docker.
+
+#### 4.1.3 Evidencia tecnica
+
+Incluye capturas o salidas de consola con una breve explicacion debajo de cada una:
+
+- Ejecucion con `mvn spring-boot:run`.
+- Prueba CRUD por shell.
+- Swagger o lista de endpoints disponible.
+- Respuesta de `/actuator/health`.
+- Respuesta de `/actuator/metrics`.
+- Consulta de tabla y registros con `psql`.
+- Ejecucion en PROD local con Docker.
+- Evidencia de maximo dos instancias, si corresponde.
+
+#### 4.1.4 Error o hallazgo
+
+Describe al menos un error, diferencia o hallazgo tecnico:
+
+- Que ocurrio.
+- Como lo diagnosticaste.
+- Como lo corregiste o que aprendiste.
+
+#### 4.1.5 Reflexion tecnica breve
+
+Responde en 5 a 8 lineas:
+
+```text
+Por que un microservicio debe poder ejecutarse en DEV y PROD local de forma reproducible?
+```
+
+### 4.2 Criterios minimos de aceptacion
+
+La evidencia individual se considera completa si:
+
+- El archivo respeta el nombre `S01_Equipo##_ApellidoNombre.pdf`.
+- Incluye evidencias tecnicas legibles.
+- Muestra el microservicio funcionando en DEV.
+- Muestra prueba de CRUD y base de datos.
+- Muestra una ejecucion breve en PROD local.
+- Explica un aporte individual verificable.
+- No contiene solo pantallazos: cada evidencia tiene una descripcion breve.
 
 ## 5. Cierre evaluativo
+
+Tiempo: 20 min.
 
 Esta seccion conecta el resultado de aprendizaje de la sesion con el producto que debe evidenciar cada estudiante.
 
@@ -1273,18 +1350,24 @@ Al finalizar la sesion, el estudiante debe demostrar que:
 - El microservicio puede levantar multiples instancias, maximo dos en laboratorio.
 - Puede explicar la diferencia entre DEV Maven y PROD Docker.
 
-### 5.2 Evidencias del producto de sesion
+### 5.2 Evidencia del producto de sesion
 
-Las evidencias deben mostrar el producto declarado en la seccion 1.3:
+Cada estudiante entrega un PDF individual siguiendo la plantilla de la seccion 4.1.
 
-- Captura o salida de consola de `mvn spring-boot:run`.
-- Salida de CRUD probado por PowerShell o bash.
-- Salida de Swagger o lista de endpoints disponible.
-- Salida de `/actuator/health`.
-- Salida de `psql` mostrando tabla `categorias` y registros.
-- Salida de `docker compose ps` en PROD local.
-- Salida de dos instancias como maximo.
-- Breve descripcion del aporte individual.
+Nombre del archivo:
+
+```text
+S01_Equipo##_ApellidoNombre.pdf
+```
+
+La evidencia debe demostrar:
+
+- Producto de sesion construido.
+- Aporte individual verificable.
+- Pruebas tecnicas realizadas.
+- Reflexion tecnica breve.
+
+La revision se realiza con los criterios minimos de aceptacion de la seccion 4.2 y la rubrica de la seccion 5.4.
 
 Comparacion minima que debe defender:
 
@@ -1296,7 +1379,7 @@ Comparacion minima que debe defender:
 | Acceso externo | Directo al puerto asignado | Por red Docker; luego por Gateway |
 | Proposito | Desarrollo, depuracion y cambios rapidos | Ejecucion reproducible y cercana a produccion |
 
-### 5.3 Preguntas de defensa
+### 5.3 Preguntas de defensa y reflexion
 
 1. Por que un microservicio debe ser stateless?
 2. Que responsabilidad tiene `catalogo-ms`?
@@ -1306,12 +1389,32 @@ Comparacion minima que debe defender:
 6. Por que en PROD local no se publica directamente el puerto del microservicio?
 7. Que parte implementaste o replicaste individualmente?
 
-### 5.4 Checklist de cierre
+### 5.4 Rubrica de evaluacion asistida por IA
 
-- [ ] Servicio ejecuta con Maven.
-- [ ] PostgreSQL DEV activo.
-- [ ] CRUD probado por shell.
-- [ ] Health y Swagger verificados.
-- [ ] Produccion local con Docker ejecutada.
-- [ ] Escalado maximo a dos instancias evidenciado.
-- [ ] Evidencia individual registrada.
+La IA puede usar esta rubrica para una primera revision del PDF individual. El docente valida los casos dudosos, notas bajas, evidencias incompletas o defensas seleccionadas por muestreo.
+
+El puntaje obtenido por criterio corresponde al valor del nivel alcanzado. Como son 6 criterios y el nivel maximo es 4, el puntaje bruto maximo es 24. La nota final se convierte a escala vigesimal.
+
+| Criterio | 0 - Deficiente | 2 - Basico | 3 - Bueno | 4 - Excelente | Puntaje obtenido |
+|---|---|---|---|---|---:|
+| 1. Microservicio funcional | No evidencia el microservicio funcionando. | Evidencia arranque parcial o sin pruebas suficientes. | Evidencia microservicio ejecutando y al menos una prueba funcional. | Evidencia microservicio ejecutando, CRUD funcionando, health/metrics y Swagger en DEV. | |
+| 2. Persistencia y base de datos | No evidencia uso de PostgreSQL ni tabla creada. | Evidencia parcial de conexion a BD. | Evidencia tabla `categorias` y consultas basicas con `psql`. | Evidencia PostgreSQL DEV/PROD, Flyway y registros consultados con `psql`. | |
+| 3. Ejecucion DEV y PROD local | No diferencia DEV y PROD local. | Muestra solo DEV o solo PROD local. | Evidencia DEV con Maven y PROD local con Docker. | Explica y evidencia DEV Maven, PROD Docker y escalado maximo a dos instancias. | |
+| 4. Aporte individual verificable | No se identifica aporte individual. | Aporte mencionado de forma general. | Aporte claro con archivo, comando o prueba realizada. | Aporte claro, verificable y conectado al producto del equipo. | |
+| 5. Diagnostico de error o hallazgo | No presenta error ni hallazgo. | Menciona un problema sin explicarlo. | Explica causa probable y solucion parcial. | Analiza error/hallazgo, causa, solucion y aprendizaje tecnico. | |
+| 6. Reflexion tecnica y orden | PDF desordenado o sin reflexion. | Reflexion superficial o evidencias poco legibles. | Reflexion clara y evidencias entendibles. | Reflexion tecnica precisa, PDF ordenado, capturas legibles y explicaciones breves. | |
+
+Puntaje obtenido = ____. (suma de la columna)
+
+Nota final = (`Puntaje obtenido` / 24) * 20 = ____.
+
+Para usar la rubrica con IA, solicita:
+
+```text
+Evalua el PDF usando la rubrica de la sesion.
+Para cada criterio selecciona el nivel alcanzado usando la escala Deficiente=0, Basico=2, Bueno=3, Excelente=4.
+Asigna el puntaje obtenido segun el valor del nivel.
+Justifica brevemente cada puntaje.
+Calcula el puntaje bruto sobre 24 y conviertelo a nota final sobre 20 con la formula: (puntaje bruto / 24) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+```

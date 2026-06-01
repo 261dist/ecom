@@ -2,6 +2,8 @@
 
 ## 1. Introduccion
 
+Tiempo: 20 min.
+
 ### 1.1 Proposito
 
 Centralizar la configuracion del sistema para separar el codigo de los valores de ambiente y preparar a los microservicios para ejecutarse de forma consistente en DEV y PROD local.
@@ -69,6 +71,8 @@ flowchart TB
 ```
 
 ## 2. Explica
+
+Tiempo: 15 min.
 
 ### 2.1 Conceptos clave
 
@@ -223,7 +227,7 @@ En esta sesion la observabilidad se enfoca en confirmar que Config Server esta a
 
 En el laboratorio, el docente guia la construccion del Config Server y la externalizacion de configuracion de `catalogo-ms`. Los estudiantes verifican la configuracion por HTTP y luego repiten el patron con `producto-ms`.
 
-Duracion: 4h.
+Tiempo: 3h.
 
 La ruta principal de la sesion es construir desde cero. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17 para clonar el tag final y ejecutar las pruebas.
 
@@ -1024,20 +1028,90 @@ docker compose ps
 
 ## 4. Crea: actividad autonoma
 
-Fuera del aula, cada estudiante consolida el aprendizaje aplicando configuracion externa a otro componente del sistema.
+Fuera del aula, cada estudiante consolida el aprendizaje aplicando configuracion externa a otro componente del sistema y entrega una evidencia individual.
 
-Duracion: 4h.
+Tiempo: 4h fuera del aula.
 
-- Completar configuracion externa de `producto-ms`.
-- Comparar `catalogo-ms-dev.yml` con `catalogo-ms-prod.yml`.
-- Identificar un valor que no deberia quedar hardcodeado.
-- Consultar por HTTP al menos dos perfiles.
-- Documentar evidencias individuales.
-- Explicar como Config Server separa codigo y configuracion.
+### 4.1 Plantilla de evidencia individual
+
+Entrega un PDF con el siguiente nombre:
+
+```text
+S02_Equipo##_ApellidoNombre.pdf
+```
+
+Ejemplo:
+
+```text
+S02_Equipo03_QuispeAna.pdf
+```
+
+El PDF debe usar esta estructura. La primera seccion ya define el trabajo autonomo; completa las demas con tus evidencias.
+
+#### 4.1.1 Datos del estudiante
+
+- Nombre:
+- Equipo:
+- Sesion: S02 - Gestion centralizada de configuracion y ambientes
+- Rol o aporte realizado:
+
+#### 4.1.2 Trabajo autonomo realizado
+
+Completa y evidencia estas tareas:
+
+1. Completar la configuracion externa de `producto-ms`.
+2. Comparar `catalogo-ms-dev.yml` con `catalogo-ms-prod.yml`.
+3. Identificar un valor que no deberia quedar hardcodeado.
+4. Consultar por HTTP al menos dos perfiles.
+5. Verificar que el microservicio sigue funcionando.
+6. Explicar como Config Server separa codigo y configuracion.
+
+#### 4.1.3 Evidencia tecnica
+
+Incluye capturas o salidas de consola con una breve explicacion debajo de cada una:
+
+- Consulta en DEV `http://localhost:18888/producto-ms/dev`.
+- Consulta en DEV del perfil PROD `http://localhost:18888/producto-ms/prod`.
+- Prueba del microservicio funcionando en DEV.
+- Prueba del microservicio funcionando en PROD local, si corresponde.
+- Comparacion entre configuracion DEV y PROD.
+
+No mezcles puertos en la evidencia DEV. Si Config Server esta corriendo con Maven, se consulta por `localhost:18888`, incluso cuando quieres revisar el perfil `prod`.
+
+Usa `http://localhost:28888/producto-ms/prod` solo si ya levantaste Config Server en PROD local con Docker Compose desde `infra`.
+
+#### 4.1.4 Error o hallazgo
+
+Describe al menos un error, diferencia o hallazgo tecnico:
+
+- Que ocurrio.
+- Como lo diagnosticaste.
+- Como lo corregiste o que aprendiste.
+
+#### 4.1.5 Reflexion tecnica breve
+
+Responde en 5 a 8 lineas:
+
+```text
+Como ayuda Config Server cuando el sistema crece a muchos microservicios e instancias?
+```
+
+### 4.2 Criterios minimos de aceptacion
+
+La evidencia individual se considera completa si:
+
+- El archivo respeta el nombre `S02_Equipo##_ApellidoNombre.pdf`.
+- Incluye evidencias tecnicas legibles.
+- Muestra configuracion externa de `producto-ms`.
+- Compara al menos un valor entre DEV y PROD.
+- Explica un aporte individual verificable.
+- No contiene solo pantallazos: cada evidencia tiene una descripcion breve.
 
 ## 5. Cierre evaluativo
 
-Esta seccion conecta el resultado de aprendizaje con el producto que debe evidenciar cada estudiante.
+Tiempo: 20 min.
+
+Esta seccion se revisa segun la programacion metodologica definida en la guia del curso. Conecta el resultado de aprendizaje con el producto que cada estudiante evidencio en la actividad autonoma.
 
 La idea central de la sesion es que el sistema sigue funcionando igual para el usuario y para las pruebas, pero internamente queda preparado para administrar configuracion de muchos microservicios e instancias desde un punto central.
 
@@ -1052,21 +1126,26 @@ Al finalizar la sesion, el estudiante debe demostrar que:
 - Puede explicar la diferencia entre Config Server y Config repo.
 - Puede diagnosticar un perfil no encontrado.
 
-### 5.2 Evidencias del producto de sesion
+### 5.2 Evidencia del producto de sesion
 
-Las evidencias deben mostrar el producto declarado en la seccion 1.3:
+Cada estudiante entrega un PDF individual siguiendo la plantilla de la seccion 4.1.
 
-- Salida de `mvn spring-boot:run` en `infra/config`.
-- Respuesta de `http://localhost:18888/actuator/health`.
-- Respuesta de `http://localhost:18888/actuator/metrics`.
-- Respuesta de `http://localhost:18888/catalogo-ms/dev`.
-- Respuesta de `http://localhost:18888/catalogo-ms/prod`.
-- Logs del microservicio leyendo Config Server.
-- Salida de `docker compose ps` para Config Server en PROD local.
-- Respuesta de `http://localhost:28888/catalogo-ms/prod`.
-- Breve descripcion del aporte individual.
+Nombre del archivo:
 
-### 5.3 Preguntas de defensa
+```text
+S02_Equipo##_ApellidoNombre.pdf
+```
+
+La evidencia debe demostrar:
+
+- Producto de sesion construido.
+- Aporte individual verificable.
+- Pruebas tecnicas realizadas.
+- Reflexion tecnica breve.
+
+La revision se realiza con los criterios minimos de aceptacion de la seccion 4.2 y la rubrica de la seccion 5.4.
+
+### 5.3 Preguntas de defensa y reflexion
 
 1. Que problema resuelve la configuracion centralizada?
 2. Que diferencia hay entre Config Server y Config repo?
@@ -1076,13 +1155,32 @@ Las evidencias deben mostrar el producto declarado en la seccion 1.3:
 6. Que cambia entre DEV y PROD local?
 7. Como diagnosticas un perfil no encontrado?
 
-### 5.4 Checklist de cierre
+### 5.4 Rubrica de evaluacion asistida por IA
 
-- [ ] Config Server DEV activo.
-- [ ] Health de Config Server verificado.
-- [ ] Metrics de Config Server verificado.
-- [ ] Perfil `dev` consultado.
-- [ ] Perfil `prod` consultado.
-- [ ] Microservicio conectado como Config Client.
-- [ ] Config Server PROD local ejecutado con Docker.
-- [ ] Evidencia individual registrada.
+La IA puede usar esta rubrica para una primera revision del PDF individual. El docente valida los casos dudosos, notas bajas, evidencias incompletas o defensas seleccionadas por muestreo.
+
+El puntaje obtenido por criterio corresponde al valor del nivel alcanzado. Como son 6 criterios y el nivel maximo es 4, el puntaje bruto maximo es 24. La nota final se convierte a escala vigesimal.
+
+| Criterio | 0 - Deficiente | 2 - Basico | 3 - Bueno | 4 - Excelente | Puntaje obtenido |
+|---|---|---|---|---|---:|
+| 1. Config Server operativo | No evidencia Config Server funcionando. | Evidencia parcial: arranca, pero sin health/metrics o perfiles claros. | Evidencia Config Server en DEV con health/metrics y perfiles. | Evidencia Config Server en DEV y PROD local, con health/metrics y perfiles correctos. | |
+| 2. Configuracion externa DEV/PROD | No evidencia separacion entre codigo y configuracion. | Muestra un perfil o configuracion incompleta. | Muestra perfiles `dev` y `prod` con diferencias claras. | Explica y evidencia `config-repo`, perfiles, diferencias DEV/PROD y valores no hardcodeados. | |
+| 3. Microservicio como Config Client | No demuestra conexion del microservicio con Config Server. | Evidencia arranque parcial o sin prueba funcional. | Evidencia que el microservicio arranca leyendo Config Server y responde health o CRUD. | Evidencia Config Client, health, metrics y CRUD funcionando despues de externalizar configuracion. | |
+| 4. Aporte individual verificable | No se identifica aporte individual. | Aporte mencionado de forma general. | Aporte claro con archivo, comando o prueba realizada. | Aporte claro, verificable y conectado al producto del equipo. | |
+| 5. Diagnostico de error o hallazgo | No presenta error ni hallazgo. | Menciona un problema sin explicarlo. | Explica causa probable y solucion parcial. | Analiza error/hallazgo, causa, solucion y aprendizaje tecnico. | |
+| 6. Reflexion tecnica y orden | PDF desordenado o sin reflexion. | Reflexion superficial o evidencias poco legibles. | Reflexion clara y evidencias entendibles. | Reflexion tecnica precisa, PDF ordenado, capturas legibles y explicaciones breves. | |
+
+Puntaje obtenido = ____. (suma de la columna)
+
+Nota final = (`Puntaje obtenido` / 24) * 20 = ____.
+
+Para usar la rubrica con IA, solicita:
+
+```text
+Evalua el PDF usando la rubrica de la sesion.
+Para cada criterio selecciona el nivel alcanzado usando la escala Deficiente=0, Basico=2, Bueno=3, Excelente=4.
+Asigna el puntaje obtenido segun el valor del nivel.
+Justifica brevemente cada puntaje.
+Calcula el puntaje bruto sobre 24 y conviertelo a nota final sobre 20 con la formula: (puntaje bruto / 24) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+```
