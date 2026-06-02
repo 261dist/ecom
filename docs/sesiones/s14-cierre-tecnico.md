@@ -1,134 +1,170 @@
 # S14 - Revision tecnica y estabilizacion del producto
 
-## Ubicacion en el curso
+## 1. Introduccion
 
-- Unidad: U3 - Validacion y consolidacion del producto del curso.
-- Producto de unidad: producto final del curso validado, documentado, estabilizado y defendido.
-- Avance del producto en esta sesion: producto listo para defensa tecnica.
+Tiempo: 20 min.
 
-## Proposito
+### 1.1 Proposito
 
 Cerrar brechas tecnicas, ordenar documentacion y asegurar que el producto sea reproducible por el docente.
 
-## Resultado de aprendizaje
+### 1.2 Resultado de aprendizaje
 
 El estudiante estabiliza el producto, corrige fallos, documenta ejecucion y prepara defensa tecnica.
 
-## Producto de sesion
+### 1.3 Producto de sesion
 
-Producto documentado, reproducible, depurado y con evidencias organizadas.
+Producto documentado, reproducible, depurado y con evidencias organizadas para defensa.
 
-## Concepto distribuido clave
+### 1.4 Motivacion de la sesion
 
-La calidad de un sistema distribuido tambien depende de su operabilidad: debe poder levantarse, probarse, diagnosticarse y explicarse.
+Un producto final no solo debe funcionar en la maquina del equipo. Debe poder levantarse, probarse, diagnosticarse y explicarse con documentos claros.
 
-## Implementacion en el proyecto
+### 1.5 Ubicacion en el curso
 
-Se revisan README, comandos, variables, perfiles, puertos, rutas, evidencias, scripts y criterios de evaluacion de `ecom`.
+- Unidad: U3 - Validacion y consolidacion del producto del curso.
+- Producto de unidad: producto final del curso validado, documentado, estabilizado y defendido.
+- Avance del producto en esta sesion: estabilizacion final antes de defensa.
 
-## Distribucion de carga
+## 2. Explica
 
-Laboratorio 4h:
+Tiempo: 15 min.
 
-- Revisar checklist tecnico.
-- Corregir errores de ejecucion.
-- Ordenar evidencias.
-- Ensayar defensa por roles.
-- Revisar produccion local con Docker y, si el curso lo permite, preparacion para Kubernetes local.
+### 2.1 Conceptos clave
 
-Trabajo fuera del aula 4h:
-
-- Completar README.
-- Grabar o preparar demo.
-- Cerrar issues.
-- Preparar defensa individual.
-
-## Pasos para construir el producto de sesion
-
-1. Revisar estado del repositorio.
-2. Revisar README principal.
-3. Revisar README por modulo.
-4. Verificar comandos PowerShell y bash.
-5. Verificar variables de entorno.
-6. Verificar perfiles DEV/PROD.
-7. Verificar puertos y health.
-8. Ejecutar prueba end-to-end.
-9. Registrar errores pendientes.
-10. Corregir fallos prioritarios.
-11. Preparar guion de defensa.
-12. Validar produccion local con Docker.
-13. Opcionalmente preparar manifiestos o checklist para Kubernetes local.
-14. Asignar evidencias por integrante.
-
-## Archivos involucrados
-
-- `README.md`
-- `infra/README.md`
-- `services/*/README.md`
-- `clients/ecom-ng/README.md`
-- `docs/`
-- `.env.example`
-
-## Comandos de ejecucion
-
-Usar los comandos documentados. La sesion verifica que otra persona pueda seguirlos sin explicaciones externas.
-
-## Cierre en produccion local con Docker
-
-```bash
-cd infra
-docker compose up -d --build
-```
-
-La revision tecnica confirma que los README permiten levantar el producto en DEV y en produccion local con Docker. Si se incorpora Kubernetes en U3, se trabaja solo en local y como extension de orquestacion, no como despliegue en nube.
-
-## Verificacion funcional
-
-- Sistema levanta desde cero.
-- Pruebas principales funcionan.
-- README coincide con el codigo.
-- Evidencias estan ordenadas.
-
-## Observabilidad y diagnostico
-
-La revision debe incluir al menos un caso de fallo documentado:
-
-- Servicio caido.
-- Token invalido.
-- Evento no procesado.
-- BD no disponible.
-
-## Verificacion de base de datos
-
-Verificar datos finales del flujo principal en las bases relevantes.
-
-## Evidencia esperada
-
-- README corregidos.
-- Checklist tecnico.
-- Lista de incidencias cerradas.
-- Evidencias por integrante.
+- Reproducibilidad.
+- Documentacion tecnica.
+- Checklist operativo.
+- Incidencias.
 - Guion de defensa.
 
-## Errores frecuentes
+### 2.2 Arquitectura del producto en `ecom`
 
-| Problema | Causa probable | Solucion |
-|---|---|---|
-| README desactualizado | Cambios no documentados | Probar comandos reales |
-| Demo fragil | Falta orden de arranque | Crear checklist |
-| Aporte individual difuso | Roles no evidenciados | Asociar evidencia a integrante |
+Revisar que la documentacion explique como levantar e integrar:
 
-## Preguntas de defensa
+- `infra`.
+- `services`.
+- `kafka`.
+- `obs`.
+- `clients/ecom-ng`.
+
+### 2.3 Observabilidad y diagnostico
+
+La revision debe incluir al menos un caso de fallo documentado y su ruta de diagnostico.
+
+## 3. Aplica: actividad practica guiada
+
+Tiempo: 3h.
+
+### 3.1 Revisar README principal y por modulo
+
+Verificar que los comandos funcionen en DEV y PROD local cuando aplique.
+
+### 3.2 Revisar variables y perfiles
+
+Confirmar `.env.example`, perfiles `dev/prod`, puertos, health y rutas.
+
+### 3.3 Ejecutar prueba principal
+
+Repetir el flujo end-to-end principal y registrar incidencias.
+
+### 3.4 Corregir fallos prioritarios
+
+Priorizar fallos que bloquean ejecucion, evidencia o defensa.
+
+### 3.5 Preparar guion de defensa
+
+Asignar a cada integrante:
+
+- Componente.
+- Evidencia.
+- Pregunta probable.
+- Riesgo tecnico.
+
+## 4. Crea: actividad autonoma
+
+Tiempo: 4h fuera del aula.
+
+### 4.1 Plantilla de evidencia individual
+
+Entrega un PDF:
+
+```text
+S14_Equipo##_ApellidoNombre.pdf
+```
+
+#### 4.1.1 Datos del estudiante
+
+- Nombre:
+- Equipo:
+- Sesion: S14 - Revision tecnica y estabilizacion del producto
+- Rol o aporte realizado:
+- Link de GitHub:
+
+#### 4.1.2 Trabajo autonomo realizado
+
+1. Corregir una incidencia o mejorar documentacion.
+2. Validar comandos reales.
+3. Preparar evidencia final.
+4. Ensayar defensa individual.
+5. Registrar riesgo tecnico pendiente, si existe.
+
+### 4.2 Criterios minimos de aceptacion
+
+- PDF con nombre correcto.
+- Evidencia de estabilizacion o documentacion.
+- Comandos validados.
+- Aporte individual verificable.
+- Defensa preparada.
+
+## 5. Cierre evaluativo
+
+Tiempo: 20 min.
+
+### 5.1 Resultados esperados
+
+- README y evidencias ordenadas.
+- Producto reproducible.
+- Incidencias prioritarias cerradas.
+- Defensa preparada por integrante.
+
+### 5.2 Evidencia del producto de sesion
+
+Entrega individual:
+
+```text
+S14_Equipo##_ApellidoNombre.pdf
+```
+
+### 5.3 Preguntas de defensa y reflexion
 
 1. Que cambio tecnico estabilizaste?
 2. Como sabe el docente que el proyecto es reproducible?
 3. Que evidencia individual presentaras?
 4. Que riesgo tecnico queda y como lo mitigarias?
 
-## Checklist de cierre
+### 5.4 Rubrica de evaluacion
 
-- [ ] README revisados.
-- [ ] Pruebas reproducibles.
-- [ ] Evidencias ordenadas.
-- [ ] Defensa ensayada.
-- [ ] Aportes individuales claros.
+| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+|---|---:|---|---|---|---|---:|
+| 1. Reproducibilidad | 2 | Comandos probados y documentados claramente. | Comandos principales validados. | Validacion parcial. | No evidencia reproducibilidad. | |
+| 2. Documentacion | 2 | README completo y alineado al codigo. | README suficiente. | Documentacion incompleta. | No evidencia documentacion. | |
+| 3. Correccion de incidencias | 2 | Incidencias cerradas con evidencia. | Incidencias principales atendidas. | Correccion parcial. | No corrige incidencias. | |
+| 4. Preparacion de defensa | 2 | Guion y evidencias por integrante claros. | Defensa preparada. | Preparacion parcial. | No evidencia preparacion. | |
+| 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
+| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+
+Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+
+Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
+
+Para usar la rubrica con IA, solicita:
+
+```text
+Evalua el PDF usando la rubrica de la sesion.
+Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuacion.
+Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
+Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+```

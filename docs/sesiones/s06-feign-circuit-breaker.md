@@ -1,157 +1,180 @@
 # S6 - Comunicacion sincronica resiliente entre servicios
 
-## Ubicacion en el curso
+## 1. Introduccion
+
+Tiempo: 20 min.
+
+### 1.1 Proposito
+
+Implementar comunicacion entre microservicios para resolver operaciones que requieren datos de otro servicio, manteniendo respuestas controladas ante errores.
+
+### 1.2 Resultado de aprendizaje
+
+El estudiante implementa una llamada interna entre microservicios, valida el flujo distribuido y evidencia una respuesta controlada ante fallos.
+
+### 1.3 Producto de sesion
+
+`producto-ms` consulta `catalogo-ms` para validar o enriquecer informacion de categorias, con trazabilidad y manejo basico de errores.
+
+### 1.4 Motivacion de la sesion
+
+En un sistema distribuido, ningun microservicio debe leer directamente la base de datos de otro. Si `producto-ms` necesita informacion de categorias, debe comunicarse con `catalogo-ms` por una API interna.
+
+### 1.5 Ubicacion en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
-- Producto de unidad: sistema seguro, resiliente, consistente, observable e integrado.
-- Avance del producto en esta sesion: operacion distribuida con comunicacion sincronica y respuesta controlada ante fallos.
+- Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
+- Avance del producto en esta sesion: comunicacion sincronica entre servicios.
 
-## Proposito
+## 2. Explica
 
-Construir una operacion donde un microservicio requiere informacion de otro y controlar el impacto cuando el servicio remoto falla.
+Tiempo: 15 min.
 
-## Resultado de aprendizaje
+### 2.1 Conceptos clave
 
-El estudiante implementa comunicacion entre servicios, simula fallos y aplica una respuesta degradada defendible.
+- Comunicacion sincronica.
+- Cliente HTTP interno.
+- DTO entre servicios.
+- Timeout y error controlado.
+- Trazabilidad de peticiones entre microservicios.
 
-## Producto de sesion
+### 2.2 Arquitectura del producto en `ecom`
 
-`producto-ms` consulta `catalogo-ms` para mostrar detalle de producto con categoria y controla fallos con Circuit Breaker/fallback.
+```mermaid
+flowchart LR
+    Gateway["Gateway"]
+    Producto["producto-ms"]
+    Catalogo["catalogo-ms"]
+    ProductoDB["producto_db"]
+    CatalogoDB["catalogo_db"]
 
-## Concepto distribuido clave
-
-La comunicacion sincronica es simple de razonar, pero acopla temporalmente a los servicios. La resiliencia evita que una falla local se propague a todo el sistema.
-
-## Implementacion en el proyecto
-
-En `ecom`, la comunicacion se implementa con Spring Cloud OpenFeign y la resiliencia con Circuit Breaker sobre la llamada de `producto-ms` a `catalogo-ms`.
-
-## Distribucion de carga
-
-Laboratorio 4h:
-
-- Crear cliente de comunicacion entre servicios.
-- Integrar DTO de respuesta.
-- Probar flujo con ambos servicios activos.
-- Simular caida de `catalogo-ms` y validar fallback.
-- Cerrar con los servicios en produccion local con Docker.
-
-Trabajo fuera del aula 4h:
-
-- Mejorar mensaje de respuesta degradada.
-- Documentar pruebas y logs.
-- Explicar trade-offs de comunicacion sincronica.
-- Registrar evidencia individual.
-
-## Pasos para construir el producto de sesion
-
-1. Identificar la operacion que cruza servicios.
-2. Agregar dependencia de comunicacion sincronica al consumidor.
-3. Habilitar clientes declarativos.
-4. Crear DTOs de categoria.
-5. Crear cliente hacia `catalogo-ms` usando nombre logico.
-6. Consumir el cliente desde el servicio de productos.
-7. Exponer endpoint de detalle.
-8. Agregar Circuit Breaker.
-9. Implementar fallback.
-10. Probar con `catalogo-ms` activo.
-11. Apagar `catalogo-ms` y repetir la prueba.
-12. Ejecutar cierre en produccion local con Docker.
-13. Revisar logs y respuesta.
-
-## Archivos involucrados
-
-| Archivo | Proposito |
-|---|---|
-| `services/producto-ms/pom.xml` | Dependencias de comunicacion/resiliencia |
-| `services/producto-ms/src/main/java/...` | Cliente, servicio y controlador |
-| `infra/config/config-repo/producto-ms-dev.yml` | Configuracion de resiliencia |
-| `services/catalogo-ms` | Servicio remoto |
-
-## Comandos de ejecucion
-
-PowerShell:
-
-```powershell
-cd services/producto-ms
-mvn spring-boot:run
-
-Invoke-RestMethod `
-  -Method Get `
-  -Uri "http://localhost:18080/api/v1/productos/detalle/1" `
-  -Headers @{ Authorization = "Bearer $token" }
+    Gateway --> Producto
+    Producto -->|"consulta categoria"| Catalogo
+    Producto --> ProductoDB
+    Catalogo --> CatalogoDB
 ```
 
-bash macOS/Linux:
+### 2.3 Observabilidad y diagnostico
+
+Revisar logs de `producto-ms`, logs de `catalogo-ms`, correlation id, health y respuesta HTTP cuando `catalogo-ms` no responde.
+
+## 3. Aplica: actividad practica guiada
+
+Tiempo: 3h.
+
+### 3.1 Preparar servicios
+
+Levantar Config Server, Eureka, Gateway, `catalogo-ms` y `producto-ms`.
+
+### 3.2 Crear cliente interno
+
+Implementar cliente para que `producto-ms` consulte `catalogo-ms` usando nombre logico del servicio.
+
+### 3.3 Integrar el flujo de producto
+
+Actualizar el flujo de creacion o consulta de producto para validar categoria mediante `catalogo-ms`.
+
+### 3.4 Probar flujo correcto
+
+PowerShell / bash macOS/Linux:
 
 ```bash
-cd services/producto-ms
-mvn spring-boot:run
-
-curl -s "http://localhost:18080/api/v1/productos/detalle/1" \
-  -H "Authorization: Bearer $token"
+curl http://localhost:18080/api/v1/productos
 ```
 
-## Cierre en produccion local con Docker
+### 3.5 Probar error controlado
+
+Detener `catalogo-ms` o simular una categoria inexistente y verificar que `producto-ms` responde de forma controlada.
+
+### 3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
 ```bash
-cd services/catalogo-ms
-docker compose up -d --build
-
-cd ../producto-ms
-docker compose up -d --build
+git clone --branch vs06-comunicacion-sincronica https://github.com/261dist/ecom.git ecom-s06
+cd ecom-s06
 ```
 
-En produccion local, `producto-ms` consume `catalogo-ms` dentro de la red Docker usando descubrimiento y Gateway. El acceso desde fuera se mantiene por Gateway PROD, no por puertos host de cada microservicio.
+## 4. Crea: actividad autonoma
 
-## Verificacion funcional
+Tiempo: 4h fuera del aula.
 
-- Producto creado.
-- Categoria creada.
-- Detalle devuelve datos de producto y categoria.
-- Al apagar `catalogo-ms`, la respuesta es controlada y no rompe todo el flujo.
+### 4.1 Plantilla de evidencia individual
 
-## Observabilidad y diagnostico
+Entrega un PDF:
 
-- Logs de `producto-ms`.
-- Logs de `catalogo-ms`.
-- Estado de servicios en Eureka.
-- Respuesta HTTP del endpoint de detalle.
-
-## Verificacion de base de datos
-
-```powershell
-docker exec -it ecom-postgres-producto-dev psql -U ecom -d ecom_producto_db -c "SELECT * FROM productos;"
-docker exec -it ecom-postgres-catalogo-dev psql -U ecom -d ecom_catalogo_db -c "SELECT * FROM categorias;"
+```text
+S06_Equipo##_ApellidoNombre.pdf
 ```
 
-## Evidencia esperada
+#### 4.1.1 Datos del estudiante
 
-- Endpoint de detalle funcionando.
-- Fallback probado.
-- Logs del fallo.
-- Explicacion del impacto de la dependencia remota.
-- Evidencia individual.
+- Nombre:
+- Equipo:
+- Sesion: S06 - Comunicacion sincronica resiliente entre servicios
+- Rol o aporte realizado:
+- Link de GitHub:
 
-## Errores frecuentes
+#### 4.1.2 Trabajo autonomo realizado
 
-| Problema | Causa probable | Solucion |
-|---|---|---|
-| 503 | Servicio remoto no registrado | Revisar Eureka |
-| 401 | Falta token en ruta protegida | Iniciar sesion |
-| Fallback no ejecuta | Circuit Breaker mal configurado | Revisar anotacion/config |
+1. Evidenciar llamada de `producto-ms` a `catalogo-ms`.
+2. Probar caso exitoso.
+3. Probar error controlado.
+4. Explicar por que no se comparte base de datos.
+5. Registrar aporte individual.
 
-## Preguntas de defensa
+### 4.2 Criterios minimos de aceptacion
 
-1. Que diferencia hay entre comunicacion sincronica y asincrona?
-2. Por que la llamada a `catalogo-ms` puede afectar a `producto-ms`?
-3. Que aporta el Circuit Breaker?
-4. Como demuestras que el fallback funciona?
+- PDF con nombre correcto.
+- Evidencia de comunicacion entre servicios.
+- Evidencia de caso correcto y error controlado.
+- Aporte individual verificable.
 
-## Checklist de cierre
+## 5. Cierre evaluativo
 
-- [ ] Comunicacion entre servicios implementada.
-- [ ] Endpoint de detalle probado.
-- [ ] Fallo simulado.
-- [ ] Fallback evidenciado.
-- [ ] Evidencia individual registrada.
+Tiempo: 20 min.
+
+### 5.1 Resultados esperados
+
+- `producto-ms` consume `catalogo-ms`.
+- El flujo distribuido funciona.
+- Los errores internos se responden de forma controlada.
+
+### 5.2 Evidencia del producto de sesion
+
+Entrega individual:
+
+```text
+S06_Equipo##_ApellidoNombre.pdf
+```
+
+### 5.3 Preguntas de defensa y reflexion
+
+1. Por que un microservicio no debe leer la BD de otro?
+2. Que pasa si el servicio llamado no responde?
+3. Que evidencia demuestra la comunicacion entre servicios?
+4. Como ayuda el correlation id?
+
+### 5.4 Rubrica de evaluacion
+
+| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+|---|---:|---|---|---|---|---:|
+| 1. Comunicacion entre servicios | 2 | Evidencia flujo completo y consistente entre servicios. | Evidencia llamada funcional. | Evidencia parcial o poco clara. | No evidencia comunicacion. | |
+| 2. Contrato y datos | 2 | Usa DTOs y valida datos correctamente. | Usa contrato funcional. | Contrato parcial o confuso. | No evidencia contrato. | |
+| 3. Manejo de errores | 2 | Evidencia error controlado y explica causa. | Evidencia respuesta ante error. | Error probado parcialmente. | No evidencia manejo de error. | |
+| 4. Observabilidad | 2 | Evidencia logs/correlation id del flujo. | Evidencia logs suficientes. | Evidencia limitada. | No evidencia diagnostico. | |
+| 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
+| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+
+Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+
+Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
+
+Para usar la rubrica con IA, solicita:
+
+```text
+Evalua el PDF usando la rubrica de la sesion.
+Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuacion.
+Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
+Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+```

@@ -1,172 +1,190 @@
 # S8 - Mensajeria asincrona entre servicios
 
-## Ubicacion en el curso
+## 1. Introduccion
+
+Tiempo: 20 min.
+
+### 1.1 Proposito
+
+Incorporar comunicacion por eventos para desacoplar microservicios y permitir que operaciones de negocio avancen sin depender de una respuesta inmediata.
+
+### 1.2 Resultado de aprendizaje
+
+El estudiante publica y consume eventos entre microservicios, verifica topics y evidencia procesamiento asincrono.
+
+### 1.3 Producto de sesion
+
+Broker de eventos operativo, topics creados y comunicacion asincrona entre `orden-ms` y `pago-ms`.
+
+### 1.4 Motivacion de la sesion
+
+No todas las operaciones requieren una llamada inmediata. Cuando una orden se crea, otros servicios pueden reaccionar por eventos sin bloquear al usuario ni acoplar directamente los servicios.
+
+### 1.5 Ubicacion en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
-- Producto de unidad: sistema seguro, resiliente, consistente, observable e integrado.
+- Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
 - Avance del producto en esta sesion: comunicacion por eventos entre servicios desacoplados.
 
-## Proposito
+## 2. Explica
 
-Incorporar mensajeria asincrona para que un servicio publique hechos de negocio y otro los procese sin depender de una respuesta inmediata.
+Tiempo: 15 min.
 
-## Resultado de aprendizaje
+### 2.1 Conceptos clave
 
-El estudiante crea topics, publica eventos, consume mensajes y verifica el resultado en logs y base de datos.
+- Mensajeria asincrona.
+- Evento.
+- Productor.
+- Consumidor.
+- Broker.
+- Topic.
+- Desacoplamiento temporal.
 
-## Producto de sesion
+### 2.2 Arquitectura del producto en `ecom`
 
-Flujo asincrono donde `orden-ms` publica eventos de orden y `pago-ms` los consume para generar pagos.
+```mermaid
+flowchart LR
+    Orden["orden-ms"]
+    Broker["Kafka broker"]
+    Pago["pago-ms"]
+    KafkaUI["Kafka UI"]
 
-## Concepto distribuido clave
+    Orden -->|"orden-eventos"| Broker
+    Broker -->|"orden-eventos"| Pago
+    KafkaUI --> Broker
+```
 
-La mensajeria asincrona desacopla productor y consumidor. El productor comunica que algo ocurrio; el consumidor procesa cuando puede.
+### 2.3 Observabilidad y diagnostico
 
-## Implementacion en el proyecto
+Revisar topics, logs de productor, logs de consumidor, Kafka UI y errores de serializacion/deserializacion.
 
-En `ecom`, la mensajeria se implementa con Kafka. En el silabo se mantiene como concepto generico, porque podria implementarse con otro broker.
+## 3. Aplica: actividad practica guiada
 
-## Distribucion de carga
+Tiempo: 3h.
 
-Laboratorio 4h:
-
-- Levantar broker y UI.
-- Crear topics.
-- Implementar o revisar producer.
-- Implementar o revisar consumer.
-- Probar evento y persistencia.
-- Cerrar con broker y servicios de eventos en produccion local con Docker.
-
-Trabajo fuera del aula 4h:
-
-- Documentar topics y payload.
-- Registrar evidencia de logs y BD.
-- Explicar productor/consumidor.
-- Preparar defensa individual.
-
-## Pasos para construir el producto de sesion
-
-1. Levantar infraestructura de mensajeria.
-2. Crear topics `orden-eventos` y `pago-eventos`.
-3. Definir evento de negocio.
-4. Implementar producer en `orden-ms`.
-5. Publicar evento al crear una orden.
-6. Implementar consumer en `pago-ms`.
-7. Persistir pago generado por evento.
-8. Verificar logs del producer.
-9. Verificar logs del consumer.
-10. Verificar registros en BD.
-11. Ejecutar cierre en produccion local con Docker.
-12. Revisar mensajes desde la UI del broker.
-
-## Archivos involucrados
-
-| Archivo | Proposito |
-|---|---|
-| `kafka/compose-dev.yml` | Broker y UI DEV |
-| `services/orden-ms` | Productor de eventos |
-| `services/pago-ms` | Consumidor de eventos |
-| `infra/config/config-repo/orden-ms-dev.yml` | Configuracion del producer |
-| `infra/config/config-repo/pago-ms-dev.yml` | Configuracion del consumer |
-
-## Comandos de ejecucion
+### 3.1 Levantar broker
 
 PowerShell / bash macOS/Linux:
 
 ```bash
 cd kafka
-docker compose -f compose-dev.yml up -d
-docker compose -f compose-dev.yml exec kafka bash
+docker compose up -d
 ```
 
-Dentro del broker:
+### 3.2 Crear topics
+
+PowerShell / bash macOS/Linux:
 
 ```bash
-/opt/kafka/bin/kafka-topics.sh --create --topic orden-eventos --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
-/opt/kafka/bin/kafka-topics.sh --create --topic pago-eventos --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
-/opt/kafka/bin/kafka-topics.sh --list --bootstrap-server kafka:9092
+docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --create --if-not-exists --topic orden-eventos
+docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --create --if-not-exists --topic pago-eventos
+docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --list
 ```
 
-## Cierre en produccion local con Docker
+### 3.3 Configurar productor
+
+Configurar `orden-ms` para publicar eventos de orden en `orden-eventos`.
+
+### 3.4 Configurar consumidor
+
+Configurar `pago-ms` para consumir eventos desde `orden-eventos`.
+
+### 3.5 Probar flujo asincrono
+
+Crear una orden y verificar que se publica un evento y que `pago-ms` lo consume.
+
+### 3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
 ```bash
-cd kafka
-docker compose up -d --build
-
-cd ../services/orden-ms
-docker compose up -d --build
-
-cd ../pago-ms
-docker compose up -d --build
+git clone --branch vs08-mensajeria-asincrona https://github.com/261dist/ecom.git ecom-s08
+cd ecom-s08
 ```
 
-En produccion local, el broker y los servicios de eventos corren como contenedores. Los microservicios se comunican por la red Docker y las pruebas externas se realizan por Gateway PROD.
+## 4. Crea: actividad autonoma
 
-## Verificacion funcional
+Tiempo: 4h fuera del aula.
 
-Crear una orden:
+### 4.1 Plantilla de evidencia individual
 
-```powershell
-$body = @{
-  usuarioId = 1
-  total = 159.90
-} | ConvertTo-Json
+Entrega un PDF:
 
-Invoke-RestMethod `
-  -Method Post `
-  -Uri "http://localhost:18080/api/v1/ordenes" `
-  -ContentType "application/json" `
-  -Body $body
+```text
+S08_Equipo##_ApellidoNombre.pdf
 ```
 
-Ver pagos:
+#### 4.1.1 Datos del estudiante
 
-```powershell
-Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/pagos"
-```
+- Nombre:
+- Equipo:
+- Sesion: S08 - Mensajeria asincrona entre servicios
+- Rol o aporte realizado:
+- Link de GitHub:
 
-## Observabilidad y diagnostico
+#### 4.1.2 Trabajo autonomo realizado
 
-- Kafka UI DEV: `http://localhost:41085`.
-- Logs de `orden-ms`.
-- Logs de `pago-ms`.
-- Health del Gateway: `http://localhost:18080/actuator/health`.
+1. Crear o verificar topics.
+2. Publicar evento desde un microservicio.
+3. Consumir evento en otro microservicio.
+4. Revisar Kafka UI.
+5. Explicar ventaja frente a comunicacion sincronica.
 
-## Verificacion de base de datos
+### 4.2 Criterios minimos de aceptacion
 
-```powershell
-docker exec -it ecom-postgres-orden-dev psql -U ecom -d ecom_orden_db -c "SELECT * FROM ordenes;"
-docker exec -it ecom-postgres-pago-dev psql -U ecom -d ecom_pago_db -c "SELECT * FROM pagos;"
-```
-
-## Evidencia esperada
-
-- Topics creados.
-- Orden creada.
+- PDF con nombre correcto.
+- Topics evidenciados.
 - Evento publicado.
-- Pago generado por consumo.
-- Registros en BD.
-- Evidencia individual.
+- Evento consumido.
+- Aporte individual verificable.
 
-## Errores frecuentes
+## 5. Cierre evaluativo
 
-| Problema | Causa probable | Solucion |
-|---|---|---|
-| Topic no existe | No se crearon topics | Ejecutar comandos de creacion |
-| Consumer no procesa | `pago-ms` apagado o mal configurado | Revisar logs |
-| No hay pago | Evento no llego o fallo persistencia | Revisar Kafka UI y BD |
+Tiempo: 20 min.
 
-## Preguntas de defensa
+### 5.1 Resultados esperados
 
-1. Que problema resuelve la mensajeria asincrona?
-2. Que diferencia hay entre producer y consumer?
-3. Como demuestras que el evento fue procesado?
-4. Que pasa si el consumidor esta apagado temporalmente?
+- Broker operativo.
+- Topics creados.
+- Productor publica eventos.
+- Consumidor procesa eventos.
 
-## Checklist de cierre
+### 5.2 Evidencia del producto de sesion
 
-- [ ] Broker activo.
-- [ ] Topics creados.
-- [ ] Evento publicado.
-- [ ] Evento consumido.
-- [ ] Evidencia individual registrada.
+Entrega individual:
+
+```text
+S08_Equipo##_ApellidoNombre.pdf
+```
+
+### 5.3 Preguntas de defensa y reflexion
+
+1. Que diferencia hay entre mensaje y evento?
+2. Por que la mensajeria reduce acoplamiento?
+3. Que hace un productor?
+4. Que hace un consumidor?
+5. Como diagnosticas que un evento no llega?
+
+### 5.4 Rubrica de evaluacion
+
+| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+|---|---:|---|---|---|---|---:|
+| 1. Broker y topics | 2 | Evidencia broker, topics y UI funcionando. | Evidencia broker y topics. | Evidencia parcial. | No evidencia broker. | |
+| 2. Productor | 2 | Evento publicado correctamente y explicado. | Evento publicado. | Publicacion parcial. | No evidencia productor. | |
+| 3. Consumidor | 2 | Evento consumido y procesado correctamente. | Evento consumido. | Consumo parcial. | No evidencia consumidor. | |
+| 4. Diagnostico | 2 | Analiza errores de mensajeria con solucion. | Explica un problema. | Menciona problema sin analisis. | No diagnostica. | |
+| 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
+| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+
+Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+
+Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
+
+Para usar la rubrica con IA, solicita:
+
+```text
+Evalua el PDF usando la rubrica de la sesion.
+Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuacion.
+Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
+Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+```

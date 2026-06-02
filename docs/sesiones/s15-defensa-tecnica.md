@@ -1,114 +1,159 @@
-# S15 - Defensa tecnica grupal
+# S15 - Defensa tecnica
 
-## Ubicacion en el curso
+## 1. Introduccion
 
-- Unidad: U3 - Validacion y consolidacion del producto del curso.
-- Producto de unidad: producto final del curso validado, documentado, estabilizado y defendido.
-- Avance del producto en esta sesion: sustentacion grupal del producto con nota individual.
+Tiempo: 20 min.
 
-## Proposito
+### 1.1 Proposito
 
-Sustentar tecnicamente el producto construido, las decisiones tomadas, las evidencias obtenidas y el aporte individual de cada integrante.
+Sustentar tecnicamente el producto del curso, las decisiones tomadas, las evidencias obtenidas y el aporte individual de cada integrante.
 
-## Resultado de aprendizaje
+### 1.2 Resultado de aprendizaje
 
 El estudiante explica, demuestra y defiende su contribucion dentro de un sistema distribuido completo.
 
-## Producto de sesion
+### 1.3 Producto de sesion
 
-Defensa tecnica grupal del producto final.
+Defensa tecnica grupal del producto del curso con nota individual.
 
-## Concepto distribuido clave
+### 1.4 Motivacion de la sesion
 
-Defender un sistema distribuido exige explicar arquitectura, flujos, fallos, diagnostico, datos y decisiones de diseño.
+Defender un sistema distribuido exige demostrar arquitectura, flujos, fallos, diagnostico, datos y decisiones tecnicas. No basta con ejecutar una demo.
 
-## Implementacion en el proyecto
+### 1.5 Ubicacion en el curso
 
-El equipo presenta `ecom` o su proyecto final equivalente, construido con la misma logica metodologica del curso.
+- Unidad: U3 - Validacion y consolidacion del producto del curso.
+- Producto de unidad: producto final del curso validado, documentado, estabilizado y defendido.
+- Avance del producto en esta sesion: sustentacion grupal del producto con evaluacion individual.
 
-## Distribucion de carga
+## 2. Explica
 
-Laboratorio 4h:
+Tiempo: 15 min.
 
-- Presentar arquitectura.
-- Ejecutar demo.
-- Responder preguntas.
-- Evaluar aportes individuales.
+### 2.1 Conceptos clave
 
-Trabajo fuera del aula 4h:
+- Defensa tecnica.
+- Evidencia individual.
+- Demo reproducible.
+- Diagnostico en vivo.
+- Argumentacion de decisiones.
 
-- Preparacion previa de defensa.
-- Ensayo por integrante.
-- Revision de evidencias.
-- Correccion final de documentacion.
+### 2.2 Arquitectura del producto en `ecom`
 
-## Pasos para construir el producto de sesion
+El equipo presenta la arquitectura final del producto, sus componentes, relaciones y decisiones tecnicas.
 
-1. Presentar problema y alcance.
-2. Presentar arquitectura.
-3. Explicar responsabilidades de servicios.
-4. Ejecutar demo end-to-end.
-5. Mostrar seguridad.
-6. Mostrar comunicacion y resiliencia.
-7. Mostrar mensajeria y consistencia.
-8. Mostrar observabilidad.
-9. Mostrar evidencias de BD.
-10. Cada integrante sustenta su aporte.
-11. Responder preguntas del docente.
+### 2.3 Observabilidad y diagnostico
 
-## Archivos involucrados
+Durante la defensa se puede solicitar diagnosticar un fallo, revisar logs, consultar BD, revisar eventos o explicar una metrica.
 
-Todo el producto final y sus evidencias.
+## 3. Aplica: actividad practica guiada
 
-## Comandos de ejecucion
+Tiempo: 3h.
 
-El equipo debe usar comandos documentados, no pasos improvisados.
+### 3.1 Presentar arquitectura
 
-## Cierre en produccion local con Docker
+El equipo explica componentes, responsabilidades y relaciones.
 
-La defensa puede ejecutarse en DEV o en produccion local, segun indicacion del docente. Si se usa produccion local, el equipo debe levantar infraestructura y servicios con `docker compose up -d --build` y demostrar acceso por Gateway PROD.
+### 3.2 Ejecutar demo end-to-end
 
-## Verificacion funcional
+La demo debe mostrar un flujo completo y evidencia verificable.
 
-- Producto ejecuta.
-- Demo completa.
-- Evidencias coinciden con el codigo.
-- Cada integrante responde sobre su aporte.
+### 3.3 Sustentar decisiones
 
-## Observabilidad y diagnostico
+Cada integrante explica una decision tecnica relacionada con su aporte.
 
-Durante la defensa se puede pedir diagnosticar un fallo o explicar que componente revisar.
+### 3.4 Responder preguntas individuales
 
-## Verificacion de base de datos
+El docente realiza preguntas por integrante.
 
-Se solicita evidencia de datos reales generados por la demo.
+### 3.5 Diagnosticar variacion o fallo
 
-## Evidencia esperada
+El docente puede solicitar una variacion de la demo o diagnostico de un fallo.
 
-- Arquitectura.
-- Demo.
-- Evidencias tecnicas.
-- Participacion individual.
-- Respuestas de defensa.
+## 4. Crea: actividad autonoma
 
-## Errores frecuentes
+Tiempo: 4h fuera del aula.
 
-| Problema | Causa probable | Solucion |
-|---|---|---|
-| Solo expone un integrante | Falta responsabilidad individual | Preguntas por integrante |
-| Demo memorizada | No entiende diagnostico | Pedir variacion o fallo |
-| Evidencia no coincide | Producto no reproducible | Contrastar con comandos/BD |
+### 4.1 Plantilla de evidencia individual
 
-## Preguntas de defensa
+Entrega un PDF:
+
+```text
+S15_Equipo##_ApellidoNombre.pdf
+```
+
+#### 4.1.1 Datos del estudiante
+
+- Nombre:
+- Equipo:
+- Sesion: S15 - Defensa tecnica
+- Rol o aporte realizado:
+- Link de GitHub:
+
+#### 4.1.2 Trabajo autonomo realizado
+
+1. Preparar defensa individual.
+2. Ordenar evidencias personales.
+3. Ensayar explicacion tecnica.
+4. Preparar respuesta a fallos.
+5. Registrar mejoras pendientes.
+
+### 4.2 Criterios minimos de aceptacion
+
+- PDF con nombre correcto.
+- Evidencia de aporte individual.
+- Arquitectura o flujo relacionado con su aporte.
+- Evidencia tecnica verificable.
+- Reflexion o mejora propuesta.
+
+## 5. Cierre evaluativo
+
+Tiempo: 20 min.
+
+### 5.1 Resultados esperados
+
+- Producto defendido.
+- Demo ejecutada.
+- Evidencias revisadas.
+- Cada integrante evaluado individualmente.
+
+### 5.2 Evidencia del producto de sesion
+
+Entrega individual:
+
+```text
+S15_Equipo##_ApellidoNombre.pdf
+```
+
+### 5.3 Preguntas de defensa y reflexion
 
 1. Que componente construiste o configuraste?
 2. Como se comunica tu parte con el resto?
 3. Que fallo puede ocurrir y como lo diagnosticas?
 4. Que mejorarias si tuvieras una iteracion mas?
 
-## Checklist de cierre
+### 5.4 Rubrica de evaluacion
 
-- [ ] Demo presentada.
-- [ ] Arquitectura explicada.
-- [ ] Evidencias revisadas.
-- [ ] Cada integrante evaluado.
+| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+|---|---:|---|---|---|---|---:|
+| 1. Dominio tecnico | 2 | Explica con precision arquitectura y decisiones. | Explica adecuadamente. | Explica parcialmente. | No demuestra dominio. | |
+| 2. Demo y evidencia | 2 | Demo reproducible y evidencias completas. | Demo funcional. | Demo parcial. | No evidencia demo. | |
+| 3. Diagnostico | 2 | Diagnostica fallos con criterio tecnico. | Explica diagnostico basico. | Diagnostico parcial. | No diagnostica. | |
+| 4. Aporte individual | 2 | Aporte claro, verificable y defendido. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
+| 5. Comunicacion | 1 | Sustenta con claridad y orden. | Sustenta adecuadamente. | Sustenta parcialmente. | No sustenta. | |
+| 6. Reflexion y mejora | 1 | Propone mejoras tecnicas pertinentes. | Propone mejora general. | Reflexion superficial. | No reflexiona. | |
+
+Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+
+Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
+
+Para usar la rubrica con IA, solicita:
+
+```text
+Evalua el PDF usando la rubrica de la sesion.
+Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuacion.
+Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
+Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+```

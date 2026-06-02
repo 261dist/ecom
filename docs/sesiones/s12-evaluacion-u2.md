@@ -1,135 +1,187 @@
-# S12 - Evaluacion integradora de sistema robusto
+# S12 - Evaluacion U2
 
-## Ubicacion en el curso
+## 1. Introduccion
+
+Tiempo: 20 min.
+
+### 1.1 Proposito
+
+Validar que el sistema distribuido robusto integra comunicacion entre servicios, seguridad, eventos, consistencia, observabilidad y frontend.
+
+### 1.2 Resultado de aprendizaje
+
+El estudiante demuestra que el sistema responde ante condiciones reales de operacion y sustenta su aporte individual dentro del producto U2.
+
+### 1.3 Producto de sesion
+
+Sistema robusto validado: comunicacion sincronica, seguridad, mensajeria, consistencia distribuida, observabilidad e integracion frontend.
+
+### 1.4 Motivacion de la sesion
+
+Un sistema distribuido robusto debe funcionar cuando hay usuarios, errores, multiples servicios, eventos, seguridad y necesidad de diagnostico. Esta evaluacion valida el sistema en condiciones integradas.
+
+### 1.5 Ubicacion en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
-- Producto de unidad: sistema seguro, resiliente, consistente, observable e integrado.
-- Avance del producto en esta sesion: evaluacion del producto U2.
+- Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
+- Avance del producto en esta sesion: evaluacion integradora de la Unidad 2.
 
-## Proposito
+## 2. Explica
 
-Validar que el sistema soporta seguridad, resiliencia, mensajeria, consistencia, observabilidad e integracion frontend.
+Tiempo: 15 min.
 
-## Resultado de aprendizaje
+### 2.1 Conceptos clave
 
-El estudiante demuestra competencias tecnicas en condiciones reales de uso y fallo, con defensa individual de su aporte.
+- Robustez.
+- Seguridad distribuida.
+- Comunicacion sincronica y asincrona.
+- Consistencia eventual.
+- Observabilidad.
+- Integracion frontend.
 
-## Producto de sesion
+### 2.2 Arquitectura del producto en `ecom`
 
-Producto U2 robusto validado con evidencias grupales e individuales.
+```mermaid
+flowchart LR
+    Front["ecom-ng"]
+    Gateway["Gateway"]
+    Auth["auth-ms"]
+    Producto["producto-ms"]
+    Catalogo["catalogo-ms"]
+    Orden["orden-ms"]
+    Pago["pago-ms"]
+    Broker["Kafka"]
+    Obs["Observabilidad"]
 
-## Concepto distribuido clave
-
-La robustez se demuestra cuando el sistema sigue siendo entendible, diagnosticable y recuperable ante fallos.
-
-## Implementacion en el proyecto
-
-Se integra lo construido en S6-S11 sobre `ecom`.
-
-## Distribucion de carga
-
-Laboratorio 4h:
-
-- Ejecutar demostracion integrada.
-- Simular fallos.
-- Mostrar evidencias.
-- Defender aportes individuales.
-
-Trabajo fuera del aula 4h:
-
-- Corregir observaciones.
-- Completar bitacora de evidencias.
-- Preparar integracion final de U3.
-- Reforzar competencias pendientes.
-
-## Pasos para construir el producto de sesion
-
-1. Preparar orden de arranque completo.
-2. Crear datos iniciales.
-3. Ejecutar login y rutas protegidas.
-4. Probar comunicacion sincronica resiliente.
-5. Probar mensajeria asincrona.
-6. Probar consistencia distribuida.
-7. Probar observabilidad.
-8. Probar frontend.
-9. Simular al menos un fallo.
-10. Registrar evidencias.
-11. Ejecutar cierre en produccion local con Docker.
-12. Sustentar aportes individuales.
-
-## Archivos involucrados
-
-Todo el sistema `ecom`.
-
-## Comandos de ejecucion
-
-Usar README de infraestructura, servicios, Kafka, observabilidad y cliente frontend.
-
-## Cierre en produccion local con Docker
-
-```bash
-cd infra
-docker compose up -d --build
-
-cd ../kafka
-docker compose up -d --build
+    Front --> Gateway
+    Gateway --> Auth
+    Gateway --> Producto
+    Gateway --> Orden
+    Producto --> Catalogo
+    Orden --> Broker
+    Broker --> Pago
+    Pago --> Broker
+    Gateway -. logs/metrics .-> Obs
 ```
 
-Luego se levantan los servicios necesarios con sus `docker compose up -d --build`. La validacion PROD local comprueba que el producto U2 funciona como contenedores, por Gateway PROD y con red Docker interna.
+### 2.3 Observabilidad y diagnostico
 
-## Verificacion funcional
+Validar health, logs, metricas, eventos, errores controlados, seguridad y experiencia desde frontend.
 
-- Login.
-- CRUD.
-- Comunicacion entre servicios.
-- Respuesta controlada ante fallo.
-- Evento publicado y consumido.
-- Estado consistente.
-- Observabilidad.
-- Frontend.
+## 3. Aplica: actividad practica guiada
 
-## Observabilidad y diagnostico
+Tiempo: 3h.
 
-El estudiante debe explicar que revisa ante:
+### 3.1 Preparar demostracion
 
-- 401.
-- 503.
-- Evento no consumido.
-- Servicio no registrado.
-- Duplicado de mensaje.
-- Error de base de datos.
+El equipo define el flujo a demostrar y el orden de arranque.
 
-## Verificacion de base de datos
+### 3.2 Validar seguridad
 
-Debe verificar registros en al menos tres bases: auth, catalogo/producto y orden/pago.
+Obtener token y consumir una ruta protegida.
 
-## Evidencia esperada
+### 3.3 Validar comunicacion entre servicios
 
-- Salidas de comandos.
-- Capturas de Eureka, Gateway, Angular, Kafka UI y observabilidad.
-- Evidencia de BD.
-- Bitacora individual de aporte.
+Ejecutar un flujo donde un microservicio consulte a otro.
 
-## Errores frecuentes
+### 3.4 Validar eventos y consistencia
 
-| Problema | Causa probable | Solucion |
-|---|---|---|
-| Sistema incompleto | Servicio faltante | Levantar por orden |
-| Demo no reproducible | Falta documentacion | Usar README y checklist |
-| Nota individual baja | Aporte no evidenciado | Sustentar tarea concreta |
+Ejecutar flujo de orden-pago y revisar eventos/estados.
 
-## Preguntas de defensa
+### 3.5 Validar observabilidad
 
-1. Cual fue tu aporte tecnico en U2?
-2. Como fluye una peticion desde frontend hasta BD?
-3. Como se evidencia seguridad?
-4. Como se evidencia consistencia distribuida?
-5. Como diagnosticas un fallo real?
+Mostrar health, logs, metricas o dashboard.
 
-## Checklist de cierre
+### 3.6 Validar frontend
 
-- [ ] Producto U2 levantado.
-- [ ] Evidencias grupales presentadas.
-- [ ] Evidencias individuales presentadas.
-- [ ] Fallo simulado.
-- [ ] Respuestas tecnicas sustentadas.
+Consumir el sistema desde `ecom-ng` mediante Gateway.
+
+## 4. Crea: actividad autonoma
+
+Tiempo: 4h fuera del aula.
+
+### 4.1 Plantilla de evidencia individual
+
+Entrega un PDF:
+
+```text
+S12_Equipo##_ApellidoNombre.pdf
+```
+
+#### 4.1.1 Datos del estudiante
+
+- Nombre:
+- Equipo:
+- Sesion: S12 - Evaluacion U2
+- Rol o aporte realizado:
+- Link de GitHub:
+
+#### 4.1.2 Trabajo autonomo realizado
+
+1. Ordenar evidencias de U2.
+2. Registrar aporte individual.
+3. Corregir observaciones.
+4. Preparar defensa tecnica.
+5. Documentar flujo integrado.
+
+### 4.2 Criterios minimos de aceptacion
+
+- PDF con nombre correcto.
+- Evidencia de sistema robusto integrado.
+- Seguridad demostrada.
+- Eventos o consistencia demostrados.
+- Observabilidad demostrada.
+- Aporte individual verificable.
+
+## 5. Cierre evaluativo
+
+Tiempo: 20 min.
+
+### 5.1 Resultados esperados
+
+- Sistema U2 integrado.
+- Flujo seguro y observable.
+- Comunicacion sincronica y asincrona validada.
+- Defensa individual del aporte.
+
+### 5.2 Evidencia del producto de sesion
+
+Entrega individual:
+
+```text
+S12_Equipo##_ApellidoNombre.pdf
+```
+
+### 5.3 Preguntas de defensa y reflexion
+
+1. Como se protege el sistema?
+2. Que flujo demuestra comunicacion entre servicios?
+3. Que evidencia muestra mensajeria asincrona?
+4. Como se diagnostica un fallo?
+5. Cual fue tu aporte individual?
+
+### 5.4 Rubrica de evaluacion
+
+| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+|---|---:|---|---|---|---|---:|
+| 1. Integracion U2 | 2 | Evidencia sistema robusto completo. | Evidencia componentes principales. | Evidencia parcial. | No evidencia integracion. | |
+| 2. Seguridad | 2 | Evidencia login, token, rutas protegidas y errores esperados. | Evidencia seguridad funcional. | Seguridad parcial. | No evidencia seguridad. | |
+| 3. Eventos/consistencia | 2 | Evidencia eventos y consistencia de negocio. | Evidencia flujo de eventos. | Evidencia parcial. | No evidencia eventos. | |
+| 4. Observabilidad/diagnostico | 2 | Diagnostica con logs/metricas/paneles. | Evidencia observabilidad. | Evidencia limitada. | No evidencia observabilidad. | |
+| 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
+| 6. Defensa y orden | 1 | Defensa clara y PDF completo. | Defensa suficiente. | Defensa parcial. | No sustenta. | |
+
+Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+
+Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
+
+Para usar la rubrica con IA, solicita:
+
+```text
+Evalua el PDF usando la rubrica de la sesion.
+Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuacion.
+Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
+Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+```

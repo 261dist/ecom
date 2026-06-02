@@ -1,165 +1,191 @@
 # S9 - Consistencia distribuida en procesos de negocio
 
-## Ubicacion en el curso
+## 1. Introduccion
+
+Tiempo: 20 min.
+
+### 1.1 Proposito
+
+Modelar un proceso de negocio distribuido donde varios microservicios colaboran sin una transaccion unica compartida.
+
+### 1.2 Resultado de aprendizaje
+
+El estudiante implementa un flujo con consistencia eventual, eventos de confirmacion o rechazo, compensacion e idempotencia basica.
+
+### 1.3 Producto de sesion
+
+Proceso `orden-ms` y `pago-ms` integrado por eventos, con estados de orden y respuesta ante pago confirmado o rechazado.
+
+### 1.4 Motivacion de la sesion
+
+En un monolito se puede usar una transaccion local. En microservicios, cada servicio tiene su base de datos. Por eso, una compra no se valida con una unica transaccion global, sino mediante pasos coordinados y compensaciones.
+
+### 1.5 Ubicacion en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
-- Producto de unidad: sistema seguro, resiliente, consistente, observable e integrado.
-- Avance del producto en esta sesion: proceso de negocio distribuido con consistencia eventual.
+- Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
+- Avance del producto en esta sesion: proceso distribuido con consistencia eventual.
 
-## Proposito
+## 2. Explica
 
-Abordar el problema central de los microservicios: cada servicio tiene su propia base de datos y no existe una transaccion global simple.
+Tiempo: 15 min.
 
-## Resultado de aprendizaje
+### 2.1 Conceptos clave
 
-El estudiante modela un flujo de negocio distribuido con estados, eventos, compensacion, idempotencia y correlacion.
+- Consistencia eventual.
+- Saga.
+- Compensacion.
+- Idempotencia.
+- Estado de negocio.
+- Evento de confirmacion/rechazo.
 
-## Producto de sesion
+### 2.2 Arquitectura del producto en `ecom`
 
-Flujo de orden y pago con consistencia eventual: la orden cambia de estado segun el resultado del pago y evita duplicados ante reintentos.
+```mermaid
+flowchart LR
+    Orden["orden-ms"]
+    OrdenDB["orden_db"]
+    Broker["Kafka broker"]
+    Pago["pago-ms"]
+    PagoDB["pago_db"]
+    Pasarela["Pasarela de pagos externa"]
 
-## Concepto distribuido clave
-
-La consistencia distribuida se logra coordinando transacciones locales mediante eventos, estados y acciones compensatorias.
-
-## Implementacion en el proyecto
-
-En `ecom`, el flujo se implementa con `orden-ms`, `pago-ms` y Kafka. Puede evolucionar hacia una pasarela externa simulada o real, como Stripe, Mercado Pago o Culqi, sin cambiar el concepto de la sesion.
-
-## Distribucion de carga
-
-Laboratorio 4h:
-
-- Identificar estados del proceso.
-- Definir eventos de exito y rechazo.
-- Implementar actualizacion de estado.
-- Probar duplicados o reintentos.
-- Cerrar el flujo de consistencia en produccion local con Docker.
-
-Trabajo fuera del aula 4h:
-
-- Documentar diagrama de saga.
-- Agregar evidencia de compensacion.
-- Explicar idempotencia y correlacion.
-- Registrar aporte individual.
-
-## Pasos para construir el producto de sesion
-
-1. Definir estados de orden: creada, pagada, rechazada o equivalente.
-2. Definir eventos del proceso.
-3. Agregar identificador de correlacion.
-4. Publicar evento al crear orden.
-5. Procesar pago en `pago-ms`.
-6. Publicar evento de pago aprobado o rechazado.
-7. Consumir respuesta en `orden-ms`.
-8. Actualizar estado de orden.
-9. Evitar pagos duplicados por evento repetido.
-10. Simular fallo de pago.
-11. Verificar estado final en BD.
-12. Ejecutar cierre en produccion local con Docker.
-13. Documentar el flujo como saga coreografica.
-
-## Archivos involucrados
-
-| Archivo | Proposito |
-|---|---|
-| `services/orden-ms` | Estado de orden y eventos |
-| `services/pago-ms` | Procesamiento de pago |
-| `kafka/compose-dev.yml` | Broker de eventos |
-| `docs/` | Evidencia y diagrama del flujo |
-
-## Comandos de ejecucion
-
-PowerShell:
-
-```powershell
-Invoke-RestMethod `
-  -Method Post `
-  -Uri "http://localhost:18080/api/v1/ordenes" `
-  -ContentType "application/json" `
-  -Body '{"usuarioId":1,"total":159.90}'
-
-Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/ordenes"
-Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/pagos"
+    Orden --> OrdenDB
+    Orden -->|"orden-eventos"| Broker
+    Broker -->|"orden-eventos"| Pago
+    Pago --> PagoDB
+    Pago --> Pasarela
+    Pago -->|"pago-eventos"| Broker
+    Broker -->|"pago-eventos"| Orden
 ```
 
-bash macOS/Linux:
+### 2.3 Observabilidad y diagnostico
+
+Revisar estados en BD, eventos publicados, eventos consumidos, duplicados, errores de pago y compensaciones ejecutadas.
+
+## 3. Aplica: actividad practica guiada
+
+Tiempo: 3h.
+
+### 3.1 Definir estados de negocio
+
+Estados sugeridos:
+
+```text
+ORDEN_CREADA
+PAGO_PENDIENTE
+PAGO_CONFIRMADO
+PAGO_RECHAZADO
+ORDEN_CANCELADA
+```
+
+### 3.2 Publicar evento de orden
+
+`orden-ms` publica un evento cuando se crea una orden.
+
+### 3.3 Procesar pago
+
+`pago-ms` consume el evento de orden, registra intento de pago y responde con evento de pago.
+
+### 3.4 Actualizar estado de orden
+
+`orden-ms` consume el evento de pago y actualiza el estado final.
+
+### 3.5 Probar idempotencia basica
+
+Reenviar o simular un evento repetido y verificar que no se duplique el efecto de negocio.
+
+### 3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
 ```bash
-curl -s -X POST "http://localhost:18080/api/v1/ordenes" \
-  -H "Content-Type: application/json" \
-  -d '{"usuarioId":1,"total":159.90}'
-
-curl -s "http://localhost:18080/api/v1/ordenes"
-curl -s "http://localhost:18080/api/v1/pagos"
+git clone --branch vs09-consistencia-distribuida https://github.com/261dist/ecom.git ecom-s09
+cd ecom-s09
 ```
 
-## Cierre en produccion local con Docker
+## 4. Crea: actividad autonoma
 
-```bash
-cd kafka
-docker compose up -d --build
+Tiempo: 4h fuera del aula.
 
-cd ../services/orden-ms
-docker compose up -d --build
+### 4.1 Plantilla de evidencia individual
 
-cd ../pago-ms
-docker compose up -d --build
+Entrega un PDF:
+
+```text
+S09_Equipo##_ApellidoNombre.pdf
 ```
 
-En produccion local se valida que el proceso distribuido funciona entre contenedores y mantiene consistencia eventual aun cuando cada microservicio conserva su propia base de datos.
+#### 4.1.1 Datos del estudiante
 
-## Verificacion funcional
+- Nombre:
+- Equipo:
+- Sesion: S09 - Consistencia distribuida en procesos de negocio
+- Rol o aporte realizado:
+- Link de GitHub:
 
-- Orden creada con estado inicial.
-- Pago procesado asincronicamente.
-- Orden actualizada segun evento de pago.
-- Evento repetido no duplica pago.
-- Fallo simulado deja estado compensado o rechazado.
+#### 4.1.2 Trabajo autonomo realizado
 
-## Observabilidad y diagnostico
+1. Evidenciar flujo orden-pago.
+2. Mostrar estados en BD.
+3. Probar evento de confirmacion o rechazo.
+4. Explicar compensacion.
+5. Explicar idempotencia.
 
-- Kafka UI.
-- Logs con `ordenId` o identificador de correlacion.
-- Tablas `ordenes` y `pagos`.
-- Evento de exito y evento de rechazo.
+### 4.2 Criterios minimos de aceptacion
 
-## Verificacion de base de datos
-
-```powershell
-docker exec -it ecom-postgres-orden-dev psql -U ecom -d ecom_orden_db -c "SELECT * FROM ordenes;"
-docker exec -it ecom-postgres-pago-dev psql -U ecom -d ecom_pago_db -c "SELECT * FROM pagos;"
-```
-
-## Evidencia esperada
-
-- Diagrama simple de saga.
-- Estados antes y despues.
+- PDF con nombre correcto.
+- Flujo distribuido evidenciado.
+- Estados de negocio visibles.
 - Evento de pago procesado.
-- Caso de duplicado controlado.
-- Caso de fallo o compensacion.
-- Evidencia individual.
+- Aporte individual verificable.
 
-## Errores frecuentes
+## 5. Cierre evaluativo
 
-| Problema | Causa probable | Solucion |
-|---|---|---|
-| Pago duplicado | Falta idempotencia | Validar evento/proceso existente |
-| Orden queda pendiente | No consume evento de respuesta | Revisar consumer de `orden-ms` |
-| No se entiende el flujo | Falta correlacion | Usar `ordenId` en logs/eventos |
+Tiempo: 20 min.
 
-## Preguntas de defensa
+### 5.1 Resultados esperados
+
+- El proceso distribuido avanza por eventos.
+- La orden cambia de estado segun el resultado del pago.
+- El estudiante explica consistencia eventual y compensacion.
+
+### 5.2 Evidencia del producto de sesion
+
+Entrega individual:
+
+```text
+S09_Equipo##_ApellidoNombre.pdf
+```
+
+### 5.3 Preguntas de defensa y reflexion
 
 1. Por que no se usa una transaccion global?
-2. Que es consistencia eventual?
-3. Que es una accion compensatoria?
-4. Como evitas duplicar pagos?
-5. Como integrarias una pasarela externa?
+2. Que significa consistencia eventual?
+3. Que es una compensacion?
+4. Que problema resuelve la idempotencia?
+5. Que evidencia demuestra que el proceso fue distribuido?
 
-## Checklist de cierre
+### 5.4 Rubrica de evaluacion
 
-- [ ] Flujo de estados definido.
-- [ ] Evento de respuesta procesado.
-- [ ] Idempotencia evidenciada.
-- [ ] Compensacion o rechazo probado.
-- [ ] Evidencia individual registrada.
+| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+|---|---:|---|---|---|---|---:|
+| 1. Flujo distribuido | 2 | Evidencia proceso completo orden-pago. | Evidencia flujo principal. | Flujo parcial. | No evidencia flujo. | |
+| 2. Consistencia eventual | 2 | Explica estados y transiciones con claridad. | Evidencia estados principales. | Estados confusos o incompletos. | No evidencia consistencia. | |
+| 3. Compensacion/idempotencia | 2 | Evidencia compensacion o idempotencia aplicada. | Explica el mecanismo. | Mencion parcial. | No evidencia ni explica. | |
+| 4. Diagnostico | 2 | Analiza fallos de evento/pago con solucion. | Explica un problema. | Menciona problema sin analisis. | No diagnostica. | |
+| 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
+| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+
+Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+
+Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
+
+Para usar la rubrica con IA, solicita:
+
+```text
+Evalua el PDF usando la rubrica de la sesion.
+Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuacion.
+Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
+Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+```

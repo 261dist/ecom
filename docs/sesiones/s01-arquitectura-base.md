@@ -1277,6 +1277,7 @@ El PDF debe usar esta estructura. La primera seccion define el trabajo autonomo;
 - Equipo:
 - Sesion: S01 - Construccion de un servicio base para un sistema distribuido
 - Rol o aporte realizado:
+- Link de GitHub:
 
 #### 4.1.2 Trabajo autonomo realizado
 

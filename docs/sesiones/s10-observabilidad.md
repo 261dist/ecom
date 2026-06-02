@@ -1,141 +1,201 @@
 # S10 - Observabilidad y diagnostico de sistemas distribuidos
 
-## Ubicacion en el curso
+## 1. Introduccion
+
+Tiempo: 20 min.
+
+### 1.1 Proposito
+
+Consolidar practicas de observabilidad para diagnosticar el comportamiento del sistema distribuido mediante logs, health, metricas y paneles.
+
+### 1.2 Resultado de aprendizaje
+
+El estudiante configura y consulta herramientas de observabilidad, interpreta senales del sistema y diagnostica fallos comunes.
+
+### 1.3 Producto de sesion
+
+Stack de observabilidad operativo con Prometheus, Loki y Grafana, conectado a servicios del sistema.
+
+### 1.4 Motivacion de la sesion
+
+En microservicios no basta con saber que “algo fallo”. Se necesita ubicar en que servicio, en que instancia, con que solicitud y bajo que condicion ocurrio el problema.
+
+### 1.5 Ubicacion en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
-- Producto de unidad: sistema seguro, resiliente, consistente, observable e integrado.
-- Avance del producto en esta sesion: consolidacion de health, logs, metricas y diagnostico.
+- Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
+- Avance del producto en esta sesion: diagnostico operacional del sistema distribuido.
 
-## Proposito
+## 2. Explica
 
-Convertir la observabilidad trabajada desde S2 en una practica operativa para diagnosticar fallos reales del sistema.
+Tiempo: 15 min.
 
-## Resultado de aprendizaje
+### 2.1 Conceptos clave
 
-El estudiante identifica fallos usando evidencias observables y explica que componente revisa segun el sintoma.
+- Logs.
+- Health checks.
+- Metricas.
+- Trazabilidad.
+- Dashboard.
+- Correlation id.
 
-## Producto de sesion
+### 2.2 Arquitectura del producto en `ecom`
 
-Sistema observable con health checks, logs, metricas, dashboards y evidencias de diagnostico.
+```mermaid
+flowchart LR
+    Services["Microservicios"]
+    Prometheus["Prometheus"]
+    Loki["Loki"]
+    Grafana["Grafana"]
 
-## Concepto distribuido clave
+    Services -->|"metrics"| Prometheus
+    Services -->|"logs"| Loki
+    Grafana --> Prometheus
+    Grafana --> Loki
+```
 
-En un sistema distribuido, el error puede estar en configuracion, red, Gateway, servicio, BD, broker o cliente. La observabilidad reduce incertidumbre.
+### 2.3 Observabilidad y diagnostico
 
-## Implementacion en el proyecto
+Senales a revisar:
 
-En `ecom`, se usa Actuator, logs, Prometheus, Loki, Grafana, Promtail y Kafka UI segun el componente.
+- `/actuator/health`.
+- `/actuator/metrics`.
+- Logs por servicio.
+- Logs por correlation id.
+- Paneles de Grafana.
+- Errores 4xx/5xx.
 
-## Distribucion de carga
+## 3. Aplica: actividad practica guiada
 
-Laboratorio 4h:
+Tiempo: 3h.
 
-- Levantar stack de observabilidad.
-- Revisar health y targets.
-- Simular fallos.
-- Diagnosticar con logs/metricas.
-- Cerrar con stack de observabilidad en produccion local con Docker.
-
-Trabajo fuera del aula 4h:
-
-- Preparar bitacora de incidentes.
-- Documentar capturas y comandos.
-- Explicar ruta de diagnostico.
-- Registrar aporte individual.
-
-## Pasos para construir el producto de sesion
-
-1. Revisar endpoints Actuator expuestos.
-2. Levantar stack `obs`.
-3. Configurar o revisar Prometheus.
-4. Revisar targets.
-5. Revisar logs por servicio.
-6. Revisar dashboards.
-7. Simular servicio apagado.
-8. Simular error 401 o 503.
-9. Simular evento no consumido.
-10. Ejecutar cierre en produccion local con Docker.
-11. Documentar diagnostico y causa probable.
-
-## Archivos involucrados
-
-| Archivo | Proposito |
-|---|---|
-| `obs/compose-dev.yml` | Stack observabilidad DEV |
-| `obs/prometheus/prometheus-dev.yml` | Scrape de metricas |
-| `obs/grafana` | Dashboards |
-| `obs/loki` | Logs centralizados |
-| `infra/config/config-repo/*-dev.yml` | Exposure de Actuator |
-
-## Comandos de ejecucion
+### 3.1 Levantar observabilidad
 
 PowerShell / bash macOS/Linux:
 
 ```bash
 cd obs
-docker compose -f compose-dev.yml up -d
+docker compose up -d
 ```
 
-## Cierre en produccion local con Docker
+### 3.2 Verificar herramientas
+
+URLs:
+
+```text
+Grafana DEV: http://localhost:13000
+Prometheus DEV: http://localhost:19090
+Loki DEV: http://localhost:13100
+```
+
+### 3.3 Verificar endpoints Actuator
+
+PowerShell / bash macOS/Linux:
 
 ```bash
-cd obs
-docker compose up -d --build
+curl http://localhost:<puerto>/actuator/health
+curl http://localhost:<puerto>/actuator/metrics
 ```
 
-En produccion local, Prometheus, Loki, Promtail y Grafana se ejecutan como contenedores y observan los servicios publicados en la red Docker.
+### 3.4 Generar trafico
 
-## Verificacion funcional
+Ejecutar pruebas por Gateway para generar logs y metricas.
 
-- Gateway health activo.
-- Prometheus con targets.
-- Grafana disponible.
-- Logs visibles.
-- Kafka UI disponible si se prueba mensajeria.
+### 3.5 Diagnosticar un fallo
 
-## Observabilidad y diagnostico
+Provocar un error controlado y ubicarlo mediante logs, health o metricas.
 
-Revisar segun sintoma:
+### 3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
-| Sintoma | Primera revision |
-|---|---|
-| 401 | Token, Gateway y reglas de seguridad |
-| 503 | Eureka, Gateway y servicio destino |
-| Evento no llega | Broker, topic, producer y consumer |
-| BD falla | Compose, credenciales y logs JPA |
-| Config incorrecta | Config Server y perfil |
+```bash
+git clone --branch vs10-observabilidad https://github.com/261dist/ecom.git ecom-s10
+cd ecom-s10
+```
 
-## Verificacion de base de datos
+## 4. Crea: actividad autonoma
 
-No es el foco central, pero se correlaciona cada flujo diagnosticado con datos persistidos.
+Tiempo: 4h fuera del aula.
 
-## Evidencia esperada
+### 4.1 Plantilla de evidencia individual
 
-- Captura o salida de health.
-- Target Prometheus o dashboard.
-- Log de un fallo.
-- Explicacion causa-raiz.
-- Evidencia individual.
+Entrega un PDF:
 
-## Errores frecuentes
+```text
+S10_Equipo##_ApellidoNombre.pdf
+```
 
-| Problema | Causa probable | Solucion |
-|---|---|---|
-| Target caido | Servicio apagado | Levantar servicio o corregir scrape |
-| No hay logs | Configuracion incompleta | Revisar Promtail/Loki |
-| Diagnostico superficial | Solo se mira la UI | Correlacionar logs, health y BD |
+#### 4.1.1 Datos del estudiante
 
-## Preguntas de defensa
+- Nombre:
+- Equipo:
+- Sesion: S10 - Observabilidad y diagnostico de sistemas distribuidos
+- Rol o aporte realizado:
+- Link de GitHub:
 
-1. Que diferencia hay entre log, metrica y health?
-2. Que revisas ante un 503?
-3. Como diagnosticas un evento no consumido?
-4. Como se relaciona observabilidad con defensa tecnica?
+#### 4.1.2 Trabajo autonomo realizado
 
-## Checklist de cierre
+1. Consultar health y metrics.
+2. Revisar logs de un servicio.
+3. Revisar panel o consulta en Grafana/Prometheus/Loki.
+4. Diagnosticar un error.
+5. Explicar correlation id o trazabilidad.
 
-- [ ] Stack `obs` activo.
-- [ ] Health revisado.
-- [ ] Logs revisados.
-- [ ] Fallo diagnosticado.
-- [ ] Evidencia individual registrada.
+### 4.2 Criterios minimos de aceptacion
+
+- PDF con nombre correcto.
+- Evidencia de health/metrics.
+- Evidencia de logs o paneles.
+- Diagnostico tecnico.
+- Aporte individual verificable.
+
+## 5. Cierre evaluativo
+
+Tiempo: 20 min.
+
+### 5.1 Resultados esperados
+
+- Stack de observabilidad operativo.
+- Servicios exponen health/metrics.
+- Logs permiten diagnosticar errores.
+- El estudiante interpreta una senal operacional.
+
+### 5.2 Evidencia del producto de sesion
+
+Entrega individual:
+
+```text
+S10_Equipo##_ApellidoNombre.pdf
+```
+
+### 5.3 Preguntas de defensa y reflexion
+
+1. Que diferencia hay entre logs y metricas?
+2. Para que sirve un health check?
+3. Como ayuda un correlation id?
+4. Que revisas ante un error 500?
+
+### 5.4 Rubrica de evaluacion
+
+| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+|---|---:|---|---|---|---|---:|
+| 1. Herramientas operativas | 2 | Evidencia Grafana, Prometheus y Loki operativos. | Evidencia herramientas principales. | Evidencia parcial. | No evidencia stack. | |
+| 2. Health y metricas | 2 | Consulta e interpreta health/metrics. | Consulta health/metrics. | Consulta parcial. | No evidencia. | |
+| 3. Logs y trazabilidad | 2 | Usa logs/correlation id para diagnosticar. | Evidencia logs suficientes. | Logs poco claros. | No evidencia logs. | |
+| 4. Diagnostico | 2 | Analiza fallo con causa y solucion. | Explica problema. | Menciona problema sin analisis. | No diagnostica. | |
+| 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
+| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+
+Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+
+Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
+
+Para usar la rubrica con IA, solicita:
+
+```text
+Evalua el PDF usando la rubrica de la sesion.
+Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuacion.
+Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
+Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+```

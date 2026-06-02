@@ -1,134 +1,154 @@
 # S13 - Validacion end-to-end del producto del curso
 
-## Ubicacion en el curso
+## 1. Introduccion
+
+Tiempo: 20 min.
+
+### 1.1 Proposito
+
+Validar el producto del curso como sistema completo, desde cliente o shell hasta Gateway, servicios, eventos, base de datos y observabilidad.
+
+### 1.2 Resultado de aprendizaje
+
+El estudiante ejecuta flujos end-to-end, verifica resultados en cada capa y produce evidencias reproducibles.
+
+### 1.3 Producto de sesion
+
+Checklist end-to-end del producto del curso con evidencias por capa.
+
+### 1.4 Motivacion de la sesion
+
+Un sistema distribuido solo se considera completo cuando sus componentes cooperan en un flujo real de negocio y el equipo puede demostrarlo de forma reproducible.
+
+### 1.5 Ubicacion en el curso
 
 - Unidad: U3 - Validacion y consolidacion del producto del curso.
 - Producto de unidad: producto final del curso validado, documentado, estabilizado y defendido.
-- Avance del producto en esta sesion: pruebas integrales desde cliente hasta servicios, eventos y base de datos.
+- Avance del producto en esta sesion: validacion integral del producto del curso.
 
-## Proposito
+## 2. Explica
 
-Probar el producto del curso como sistema completo y no como piezas aisladas.
+Tiempo: 15 min.
 
-## Resultado de aprendizaje
+### 2.1 Conceptos clave
 
-El estudiante ejecuta flujos end-to-end, verifica datos en cada capa y produce evidencias reproducibles.
+- Validacion end-to-end.
+- Evidencia reproducible.
+- Trazabilidad del flujo.
+- Datos finales.
+- Diagnostico por capas.
 
-## Producto de sesion
+### 2.2 Arquitectura del producto en `ecom`
 
-Checklist end-to-end del producto final del curso.
+```mermaid
+flowchart LR
+    Cliente["Cliente / ecom-ng"]
+    Gateway["Gateway"]
+    Servicios["Microservicios"]
+    Broker["Kafka"]
+    DB["Bases de datos"]
+    Obs["Observabilidad"]
 
-## Concepto distribuido clave
-
-La validacion integral confirma que los componentes cooperan correctamente bajo un flujo de negocio completo.
-
-## Implementacion en el proyecto
-
-En `ecom`, se validan flujos desde Angular o shell hacia Gateway, seguridad, servicios, mensajeria, consistencia y BD.
-
-## Distribucion de carga
-
-Laboratorio 4h:
-
-- Ejecutar flujo completo.
-- Verificar cada salto del sistema.
-- Registrar evidencias.
-- Identificar puntos debiles.
-
-Trabajo fuera del aula 4h:
-
-- Corregir fallos.
-- Completar documentacion.
-- Preparar demo final.
-- Registrar aporte individual.
-
-## Pasos para construir el producto de sesion
-
-1. Definir flujo end-to-end principal.
-2. Preparar datos base.
-3. Ejecutar login.
-4. Ejecutar operaciones CRUD.
-5. Ejecutar flujo con comunicacion entre servicios.
-6. Ejecutar flujo con mensajeria.
-7. Validar consistencia final.
-8. Verificar resultados en BD.
-9. Revisar logs y metricas.
-10. Guardar evidencias reproducibles.
-11. Ejecutar cierre en produccion local con Docker.
-12. Asignar responsables por evidencia.
-
-## Archivos involucrados
-
-Todo el proyecto `ecom`.
-
-## Comandos de ejecucion
-
-Usar README de:
-
-- `infra/`
-- `services/*`
-- `kafka/`
-- `obs/`
-- `clients/ecom-ng`
-
-## Cierre en produccion local con Docker
-
-```bash
-cd infra
-docker compose up -d --build
-
-cd ../kafka
-docker compose up -d --build
-
-cd ../obs
-docker compose up -d --build
+    Cliente --> Gateway
+    Gateway --> Servicios
+    Servicios --> Broker
+    Servicios --> DB
+    Servicios -. logs/metricas .-> Obs
 ```
 
-La validacion end-to-end se realiza primero en DEV. Al cierre se comprueba produccion local con Docker para verificar que el producto tambien opera con contenedores y perfiles `prod`.
+### 2.3 Observabilidad y diagnostico
 
-## Verificacion funcional
+Validar cada salto del flujo con logs, metricas, BD, Kafka UI, Eureka, Gateway y respuestas HTTP.
 
-Flujo minimo:
+## 3. Aplica: actividad practica guiada
+
+Tiempo: 3h.
+
+### 3.1 Definir flujo principal
+
+Ejemplo minimo:
 
 1. Login.
 2. Crear categoria.
 3. Crear producto.
-4. Consultar detalle.
-5. Crear orden.
-6. Ver pago generado.
-7. Revisar estado final.
+4. Crear orden.
+5. Procesar pago.
+6. Revisar estado final.
 
-## Observabilidad y diagnostico
+### 3.2 Ejecutar flujo
 
-- Eureka.
-- Gateway.
-- Kafka UI.
+Usar shell, frontend o ambos, siempre mediante Gateway cuando corresponda.
+
+### 3.3 Verificar resultados por capa
+
+Validar:
+
+- Respuesta HTTP.
+- Registro en BD.
+- Evento publicado/consumido.
 - Logs.
-- Metricas.
-- BD.
-- Angular DevTools.
+- Metricas o dashboard.
 
-## Verificacion de base de datos
+### 3.4 Registrar incidencias
 
-Debe existir evidencia en categorias, productos, ordenes y pagos.
+Documentar errores, causa probable y accion correctiva.
 
-## Evidencia esperada
+## 4. Crea: actividad autonoma
 
-- Checklist completado.
-- Salidas de comandos.
-- Capturas o registros de cada componente.
-- Incidencias encontradas y solucionadas.
-- Evidencia individual.
+Tiempo: 4h fuera del aula.
 
-## Errores frecuentes
+### 4.1 Plantilla de evidencia individual
 
-| Problema | Causa probable | Solucion |
-|---|---|---|
-| Flujo parcial | Falta servicio o dato base | Revisar orden de arranque |
-| Evidencia incompleta | No se verifico BD/logs | Usar checklist |
-| Demo depende de memoria | Falta README | Documentar pasos |
+Entrega un PDF:
 
-## Preguntas de defensa
+```text
+S13_Equipo##_ApellidoNombre.pdf
+```
+
+#### 4.1.1 Datos del estudiante
+
+- Nombre:
+- Equipo:
+- Sesion: S13 - Validacion end-to-end del producto del curso
+- Rol o aporte realizado:
+- Link de GitHub:
+
+#### 4.1.2 Trabajo autonomo realizado
+
+1. Completar evidencias del flujo end-to-end.
+2. Corregir fallos detectados.
+3. Registrar datos finales.
+4. Documentar aporte individual.
+5. Preparar demo final.
+
+### 4.2 Criterios minimos de aceptacion
+
+- PDF con nombre correcto.
+- Flujo end-to-end evidenciado.
+- Evidencias por capa.
+- Incidencias registradas.
+- Aporte individual verificable.
+
+## 5. Cierre evaluativo
+
+Tiempo: 20 min.
+
+### 5.1 Resultados esperados
+
+- Flujo completo probado.
+- Evidencia de datos y eventos.
+- Diagnostico por capas.
+- Incidencias documentadas.
+
+### 5.2 Evidencia del producto de sesion
+
+Entrega individual:
+
+```text
+S13_Equipo##_ApellidoNombre.pdf
+```
+
+### 5.3 Preguntas de defensa y reflexion
 
 1. Cual es el flujo end-to-end principal?
 2. Donde se valida seguridad?
@@ -136,9 +156,28 @@ Debe existir evidencia en categorias, productos, ordenes y pagos.
 4. Como demuestras que el flujo llego a BD?
 5. Que aportaste individualmente a la validacion?
 
-## Checklist de cierre
+### 5.4 Rubrica de evaluacion
 
-- [ ] Flujo completo probado.
-- [ ] Evidencias por capa.
-- [ ] Incidencias registradas.
-- [ ] Aporte individual documentado.
+| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+|---|---:|---|---|---|---|---:|
+| 1. Flujo end-to-end | 2 | Evidencia flujo completo y reproducible. | Evidencia flujo principal. | Flujo parcial. | No evidencia flujo. | |
+| 2. Evidencias por capa | 2 | Evidencia cliente, Gateway, servicios, eventos y BD. | Evidencia capas principales. | Evidencia incompleta. | No evidencia capas. | |
+| 3. Diagnostico | 2 | Analiza incidencias con causa y solucion. | Explica problemas principales. | Menciona incidencias sin analisis. | No diagnostica. | |
+| 4. Reproducibilidad | 2 | Comandos y pasos claros para repetir la prueba. | Pasos suficientes. | Pasos incompletos. | No es reproducible. | |
+| 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
+| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+
+Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+
+Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
+
+Para usar la rubrica con IA, solicita:
+
+```text
+Evalua el PDF usando la rubrica de la sesion.
+Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuacion.
+Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
+Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+```
