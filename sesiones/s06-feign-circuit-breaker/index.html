@@ -690,10 +690,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-revisar-servicios-base" class="md-nav__link">
+  <a href="#31-identificar-servicios-base" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Revisar servicios base
+        3.1 Identificar servicios base
       
     </span>
   </a>
@@ -822,10 +822,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#313-revisar-trazabilidad-en-logs" class="md-nav__link">
+  <a href="#313-validar-trazabilidad-en-logs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.13 Revisar trazabilidad en logs
+        3.13 Validar trazabilidad en logs
       
     </span>
   </a>
@@ -1548,10 +1548,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-revisar-servicios-base" class="md-nav__link">
+  <a href="#31-identificar-servicios-base" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Revisar servicios base
+        3.1 Identificar servicios base
       
     </span>
   </a>
@@ -1680,10 +1680,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#313-revisar-trazabilidad-en-logs" class="md-nav__link">
+  <a href="#313-validar-trazabilidad-en-logs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.13 Revisar trazabilidad en logs
+        3.13 Validar trazabilidad en logs
       
     </span>
   </a>
@@ -1949,18 +1949,133 @@
 <h2 id="3-aplica-actividad-practica-guiada">3. Aplica: actividad practica guiada</h2>
 <p>Tiempo: 3h.</p>
 <p>La ruta principal de la sesion es construir desde cero la comunicacion entre <code>producto-ms</code> y <code>catalogo-ms</code>. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17.</p>
-<h3 id="31-revisar-servicios-base">3.1 Revisar servicios base</h3>
+<h3 id="31-identificar-servicios-base">3.1 Identificar servicios base</h3>
 <p><strong>Producto del paso:</strong> <code>catalogo-ms</code> y <code>producto-ms</code> identificados como servicios que participaran en la comunicacion.</p>
+<p>En esta sesion:</p>
+<ul>
+<li><code>catalogo-ms</code> expone categorias.</li>
+<li><code>producto-ms</code> consulta <code>catalogo-ms</code> para obtener el detalle de la categoria de un producto.</li>
+<li>La llamada se hace por nombre logico registrado en Eureka, no por puerto fijo.</li>
+</ul>
 <h3 id="32-agregar-dependencia-de-cliente-http-interno">3.2 Agregar dependencia de cliente HTTP interno</h3>
-<p>Agregar en <code>producto-ms</code> la dependencia usada para llamadas internas entre servicios.</p>
+<p>Producto del paso: <code>producto-ms</code> preparado para usar OpenFeign.</p>
+<p>En <code>services/producto-ms/pom.xml</code>, agrega:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-openfeign<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+<p>Si tambien se trabajara respuesta controlada con Circuit Breaker, agrega:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>io.github.resilience4j<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>resilience4j-spring-boot3<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+<p>En la clase principal de <code>producto-ms</code>, habilita Feign:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.upeu.producto</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.SpringApplication</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.cloud.openfeign.EnableFeignClients</span><span class="p">;</span>
+
+<span class="nd">@SpringBootApplication</span>
+<span class="nd">@EnableFeignClients</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ProductoApplication</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SpringApplication</span><span class="p">.</span><span class="na">run</span><span class="p">(</span><span class="n">ProductoApplication</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="33-crear-dto-de-categoria">3.3 Crear DTO de categoria</h3>
-<p>Crear un DTO que represente los datos que <code>producto-ms</code> necesita recibir desde <code>catalogo-ms</code>.</p>
+<p>Producto del paso: contrato de datos recibido desde <code>catalogo-ms</code>.</p>
+<p>Crea:</p>
+<div class="highlight"><pre><span></span><code>services/producto-ms/src/main/java/com/upeu/producto/dto/CategoriaDto.java
+</code></pre></div>
+<p>Pega:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.upeu.producto.dto</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.AllArgsConstructor</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Builder</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Getter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.NoArgsConstructor</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Setter</span><span class="p">;</span>
+
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@Builder</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CategoriaDto</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">descripcion</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="34-crear-cliente-interno-hacia-catalogo-ms">3.4 Crear cliente interno hacia <code>catalogo-ms</code></h3>
-<p>Implementar un cliente que consulte <code>catalogo-ms</code> usando nombre logico del servicio registrado.</p>
+<p>Producto del paso: cliente Feign que consulta <code>catalogo-ms</code> por nombre logico.</p>
+<p>Crea:</p>
+<div class="highlight"><pre><span></span><code>services/producto-ms/src/main/java/com/upeu/producto/client/CatalogoClient.java
+</code></pre></div>
+<p>Pega:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.upeu.producto.client</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.upeu.producto.dto.CategoriaDto</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.cloud.openfeign.FeignClient</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.PathVariable</span><span class="p">;</span>
+
+<span class="nd">@FeignClient</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;catalogo-ms&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">CatalogoClient</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/api/v1/categorias/{id}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">CategoriaDto</span><span class="w"> </span><span class="nf">findCategoriaById</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="35-integrar-cliente-en-el-servicio-de-producto">3.5 Integrar cliente en el servicio de producto</h3>
-<p>Actualizar el flujo de creacion o consulta de producto para validar o enriquecer la categoria consultando <code>catalogo-ms</code>.</p>
+<p>Producto del paso: <code>producto-ms</code> devuelve detalle de producto enriquecido con categoria.</p>
+<p>Inyecta <code>CatalogoClient</code> en el servicio de producto:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">CatalogoClient</span><span class="w"> </span><span class="n">catalogoClient</span><span class="p">;</span>
+</code></pre></div>
+<p>Agrega un metodo de consulta de detalle:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Override</span>
+<span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="nd">@CircuitBreaker</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;catalogo&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fallbackMethod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fallbackCategoria&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">ProductoResponse</span><span class="w"> </span><span class="nf">findDetalleById</span><span class="p">(</span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Producto</span><span class="w"> </span><span class="n">producto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getProductoById</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">CategoriaDto</span><span class="w"> </span><span class="n">categoria</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">catalogoClient</span><span class="p">.</span><span class="na">findCategoriaById</span><span class="p">(</span>
+<span class="w">            </span><span class="n">producto</span><span class="p">.</span><span class="na">getIdCategoria</span><span class="p">().</span><span class="na">longValue</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ProductoResponse</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">id</span><span class="p">(</span><span class="n">producto</span><span class="p">.</span><span class="na">getId</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">nombre</span><span class="p">(</span><span class="n">producto</span><span class="p">.</span><span class="na">getNombre</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">descripcion</span><span class="p">(</span><span class="n">producto</span><span class="p">.</span><span class="na">getDescripcion</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">idCategoria</span><span class="p">(</span><span class="n">producto</span><span class="p">.</span><span class="na">getIdCategoria</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">categoria</span><span class="p">(</span><span class="n">categoria</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="36-configurar-timeout-o-respuesta-controlada">3.6 Configurar timeout o respuesta controlada</h3>
-<p>Definir un manejo basico para errores de conexion, respuesta 404 o timeout.</p>
+<p>Producto del paso: respuesta controlada si <code>catalogo-ms</code> no responde.</p>
+<p>Agrega el fallback en el mismo servicio:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ProductoResponse</span><span class="w"> </span><span class="nf">fallbackCategoria</span><span class="p">(</span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Producto</span><span class="w"> </span><span class="n">producto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getProductoById</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ProductoResponse</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">id</span><span class="p">(</span><span class="n">producto</span><span class="p">.</span><span class="na">getId</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">nombre</span><span class="p">(</span><span class="n">producto</span><span class="p">.</span><span class="na">getNombre</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">descripcion</span><span class="p">(</span><span class="n">producto</span><span class="p">.</span><span class="na">getDescripcion</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">idCategoria</span><span class="p">(</span><span class="n">producto</span><span class="p">.</span><span class="na">getIdCategoria</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">categoria</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>En el controlador de productos, expone el endpoint de detalle si no existe:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/detalle/{id}&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">ProductoResponse</span><span class="w"> </span><span class="nf">findDetalleById</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">productoService</span><span class="p">.</span><span class="na">findDetalleById</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="37-levantar-infraestructura-en-dev">3.7 Levantar infraestructura en DEV</h3>
 <p>PowerShell / bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/config
@@ -1994,8 +2109,8 @@ mvn<span class="w"> </span>spring-boot:run
 <p>Ejecutar una operacion de producto que obligue a consultar <code>catalogo-ms</code>.</p>
 <h3 id="312-probar-error-controlado">3.12 Probar error controlado</h3>
 <p>Detener <code>catalogo-ms</code> o simular una categoria inexistente y verificar que <code>producto-ms</code> responde de forma controlada.</p>
-<h3 id="313-revisar-trazabilidad-en-logs">3.13 Revisar trazabilidad en logs</h3>
-<p>Revisar logs de <code>producto-ms</code> y <code>catalogo-ms</code> para confirmar la llamada interna y el correlation id.</p>
+<h3 id="313-validar-trazabilidad-en-logs">3.13 Validar trazabilidad en logs</h3>
+<p>Revisa logs de <code>producto-ms</code> y <code>catalogo-ms</code> para confirmar la llamada interna y el correlation id.</p>
 <h3 id="314-preparar-prod-local">3.14 Preparar PROD local</h3>
 <p>Primero levantar infraestructura y luego microservicios:</p>
 <div class="highlight"><pre><span></span><code>infra -&gt; config + eureka + gateway

@@ -718,10 +718,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-revisar-o-crear-auth-ms" class="md-nav__link">
+  <a href="#31-crear-auth-ms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Revisar o crear auth-ms
+        3.1 Crear auth-ms
       
     </span>
   </a>
@@ -850,10 +850,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#313-revisar-logs-de-seguridad" class="md-nav__link">
+  <a href="#313-validar-logs-de-seguridad" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.13 Revisar logs de seguridad
+        3.13 Validar logs de seguridad
       
     </span>
   </a>
@@ -1548,10 +1548,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-revisar-o-crear-auth-ms" class="md-nav__link">
+  <a href="#31-crear-auth-ms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Revisar o crear auth-ms
+        3.1 Crear auth-ms
       
     </span>
   </a>
@@ -1680,10 +1680,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#313-revisar-logs-de-seguridad" class="md-nav__link">
+  <a href="#313-validar-logs-de-seguridad" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.13 Revisar logs de seguridad
+        3.13 Validar logs de seguridad
       
     </span>
   </a>
@@ -1948,20 +1948,235 @@
 <h2 id="3-aplica-actividad-practica-guiada">3. Aplica: actividad practica guiada</h2>
 <p>Tiempo: 3h.</p>
 <p>La ruta principal de la sesion es construir desde cero el flujo de seguridad. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17.</p>
-<h3 id="31-revisar-o-crear-auth-ms">3.1 Revisar o crear <code>auth-ms</code></h3>
+<h3 id="31-crear-auth-ms">3.1 Crear <code>auth-ms</code></h3>
 <p><strong>Producto del paso:</strong> servicio de identidad disponible para login y emision de token.</p>
+<p>En VS Code usa Spring Initializr:</p>
+<div class="highlight"><pre><span></span><code>Spring Initializr: Create a Maven Project
+Spring Boot: 3.5.x
+Language: Java 17
+Group Id: com.upeu
+Artifact Id: ecom-auth-ms
+Package name: com.upeu.auth
+Packaging: Jar
+Ubicacion: services/auth-ms
+</code></pre></div>
+<p>Dependencias base:</p>
+<table>
+<thead>
+<tr>
+<th>Grupo</th>
+<th>Dependencias</th>
+<th>Proposito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web</td>
+<td>Spring Web, Validation</td>
+<td>Endpoint de login y validacion</td>
+</tr>
+<tr>
+<td>Seguridad</td>
+<td>Spring Security</td>
+<td>Autenticacion</td>
+</tr>
+<tr>
+<td>Datos</td>
+<td>Spring Data JPA, PostgreSQL, Flyway</td>
+<td>Usuarios, roles y migraciones</td>
+</tr>
+<tr>
+<td>Infra</td>
+<td>Config Client, Eureka Discovery Client, Actuator</td>
+<td>Configuracion, registro y health</td>
+</tr>
+<tr>
+<td>Productividad</td>
+<td>Lombok, DevTools</td>
+<td>Codigo y desarrollo</td>
+</tr>
+</tbody>
+</table>
+<p>Agrega dependencias JWT en <code>services/auth-ms/pom.xml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>io.jsonwebtoken<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>jjwt-api<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>0.12.7<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>io.jsonwebtoken<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>jjwt-impl<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>0.12.7<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>io.jsonwebtoken<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>jjwt-jackson<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>0.12.7<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
 <h3 id="32-configurar-credenciales-y-secreto-de-token">3.2 Configurar credenciales y secreto de token</h3>
-<p>Revisar configuracion de usuarios, secreto y emisor del token en Config Server.</p>
+<p>Producto del paso: <code>auth-ms</code> recibe configuracion externa para BD y JWT.</p>
+<p>Crea <code>infra/config/config-repo/auth-ms-dev.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+
+<span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">datasource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jdbc:postgresql://localhost:15431/ecom_auth_db</span>
+<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ecom</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ecom</span>
+<span class="w">    </span><span class="nt">driver-class-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">org.postgresql.Driver</span>
+<span class="w">  </span><span class="nt">flyway</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">jpa</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">hibernate</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ddl-auto</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">update</span>
+<span class="w">    </span><span class="nt">show-sql</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">eureka</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instance</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">    </span><span class="nt">prefer-ip-address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">instance-id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${spring.application.name}:${local.server.port:${random.value}}</span>
+<span class="w">  </span><span class="nt">client</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">service-url</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://localhost:18761/eureka</span>
+
+<span class="nt">jwt</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1s3alJJATsWK91vf5zrODYlQa+LauM/9udaLZlQhHlpu46g/KzmSS5c3CGy6xF9kzAqBhvjmKBuZO/pSL7tfOg==</span>
+<span class="w">  </span><span class="nt">expiration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3600000</span>
+<span class="w">  </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auth</span>
+</code></pre></div>
+<p>Crea <code>infra/config/config-repo/auth-ms-prod.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+
+<span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">datasource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}</span>
+<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${DB_USER}</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${DB_PASS}</span>
+<span class="w">    </span><span class="nt">driver-class-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">org.postgresql.Driver</span>
+<span class="w">  </span><span class="nt">flyway</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">locations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">classpath:db/migration</span>
+<span class="w">  </span><span class="nt">jpa</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">hibernate</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ddl-auto</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">validate</span>
+
+<span class="nt">eureka</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">client</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">service-url</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://eureka:8761/eureka</span>
+
+<span class="nt">jwt</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${JWT_SECRET}</span>
+<span class="w">  </span><span class="nt">expiration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3600000</span>
+<span class="w">  </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auth</span>
+</code></pre></div>
 <h3 id="33-configurar-rutas-publicas-y-protegidas">3.3 Configurar rutas publicas y protegidas</h3>
-<p>Definir que rutas son publicas, por ejemplo login, y que rutas requieren token.</p>
+<p>Producto del paso: login publico y resto del servicio protegido.</p>
+<p>Crea <code>JwtProperties</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.upeu.auth.config</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Getter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Setter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.context.properties.ConfigurationProperties</span><span class="p">;</span>
+
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@ConfigurationProperties</span><span class="p">(</span><span class="n">prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;jwt&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">JwtProperties</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">secret</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">expiration</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">issuer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Crea la configuracion de seguridad:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Bean</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">SecurityFilterChain</span><span class="w"> </span><span class="nf">securityFilterChain</span><span class="p">(</span><span class="n">HttpSecurity</span><span class="w"> </span><span class="n">http</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">http</span>
+<span class="w">            </span><span class="p">.</span><span class="na">csrf</span><span class="p">(</span><span class="n">AbstractHttpConfigurer</span><span class="p">::</span><span class="n">disable</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">sessionManagement</span><span class="p">(</span><span class="n">session</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">session</span><span class="p">.</span><span class="na">sessionCreationPolicy</span><span class="p">(</span><span class="n">SessionCreationPolicy</span><span class="p">.</span><span class="na">STATELESS</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">authorizeHttpRequests</span><span class="p">(</span><span class="n">auth</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">auth</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">requestMatchers</span><span class="p">(</span>
+<span class="w">                            </span><span class="s">&quot;/auth/login&quot;</span><span class="p">,</span>
+<span class="w">                            </span><span class="s">&quot;/actuator/health&quot;</span><span class="p">,</span>
+<span class="w">                            </span><span class="s">&quot;/actuator/info&quot;</span><span class="p">,</span>
+<span class="w">                            </span><span class="s">&quot;/v3/api-docs/**&quot;</span><span class="p">,</span>
+<span class="w">                            </span><span class="s">&quot;/swagger-ui/**&quot;</span><span class="p">,</span>
+<span class="w">                            </span><span class="s">&quot;/swagger-ui.html&quot;</span>
+<span class="w">                    </span><span class="p">).</span><span class="na">permitAll</span><span class="p">()</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">anyRequest</span><span class="p">().</span><span class="na">authenticated</span><span class="p">()</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">httpBasic</span><span class="p">(</span><span class="n">Customizer</span><span class="p">.</span><span class="na">withDefaults</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="34-integrar-validacion-en-gateway">3.4 Integrar validacion en Gateway</h3>
-<p>Configurar Gateway para validar solicitudes protegidas.</p>
+<p>Producto del paso: Gateway valida JWT antes de enrutar a rutas protegidas.</p>
+<p>En <code>infra/gateway/pom.xml</code>, agrega:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-oauth2-resource-server<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.security<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-security-oauth2-jose<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+<p>En <code>gateway-dev.yml</code> y <code>gateway-prod.yml</code>, agrega el secreto compartido:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">jwt</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1s3alJJATsWK91vf5zrODYlQa+LauM/9udaLZlQhHlpu46g/KzmSS5c3CGy6xF9kzAqBhvjmKBuZO/pSL7tfOg==</span>
+<span class="w">  </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auth</span>
+</code></pre></div>
+<p>En PROD, el secreto debe llegar por variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">jwt</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${JWT_SECRET}</span>
+<span class="w">  </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auth</span>
+</code></pre></div>
 <h3 id="35-integrar-validacion-en-microservicios">3.5 Integrar validacion en microservicios</h3>
-<p>Revisar que los microservicios protejan endpoints cuando corresponda.</p>
+<p>Producto del paso: microservicios preparados para rechazar accesos no autorizados cuando corresponda.</p>
+<p>Agrega a los microservicios protegidos:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-oauth2-resource-server<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.security<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-security-oauth2-jose<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+<p>La regla minima: health publico, API protegida.</p>
 <h3 id="36-levantar-infraestructura-en-dev">3.6 Levantar infraestructura en DEV</h3>
-<p>Levantar Config Server, Eureka y Gateway.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/config
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>En otra terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/eureka
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>En otra terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/gateway
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
 <h3 id="37-levantar-auth-ms-y-microservicios">3.7 Levantar <code>auth-ms</code> y microservicios</h3>
-<p>Levantar <code>auth-ms</code>, <code>catalogo-ms</code> y <code>producto-ms</code>.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/auth-ms
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>En terminales separadas:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/catalogo-ms
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/producto-ms
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
 <h3 id="38-obtener-token">3.8 Obtener token</h3>
 <p>PowerShell:</p>
 <p>PowerShell:</p>
@@ -1993,8 +2208,8 @@
 <p>Enviar un token incorrecto y verificar respuesta controlada.</p>
 <h3 id="312-revisar-claims-o-datos-del-token">3.12 Revisar claims o datos del token</h3>
 <p>Identificar usuario, roles o permisos usados por el sistema.</p>
-<h3 id="313-revisar-logs-de-seguridad">3.13 Revisar logs de seguridad</h3>
-<p>Revisar logs de Gateway, <code>auth-ms</code> y microservicios para ubicar autenticacion/autorizacion.</p>
+<h3 id="313-validar-logs-de-seguridad">3.13 Validar logs de seguridad</h3>
+<p>Revisa logs de Gateway, <code>auth-ms</code> y microservicios para ubicar autenticacion/autorizacion.</p>
 <h3 id="314-preparar-prod-local">3.14 Preparar PROD local</h3>
 <p>Primero levantar infraestructura y luego servicios:</p>
 <div class="highlight"><pre><span></span><code>infra -&gt; config + eureka + gateway

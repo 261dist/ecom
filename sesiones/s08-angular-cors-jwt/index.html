@@ -746,10 +746,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-revisar-el-punto-de-partida" class="md-nav__link">
+  <a href="#31-preparar-el-punto-de-partida" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Revisar el punto de partida
+        3.1 Preparar el punto de partida
       
     </span>
   </a>
@@ -1548,10 +1548,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-revisar-el-punto-de-partida" class="md-nav__link">
+  <a href="#31-preparar-el-punto-de-partida" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Revisar el punto de partida
+        3.1 Preparar el punto de partida
       
     </span>
   </a>
@@ -1982,9 +1982,9 @@ Microservicios: puerto dinamico
 <h2 id="3-aplica-actividad-practica-guiada">3. Aplica: actividad practica guiada</h2>
 <p>Tiempo: 3h.</p>
 <p>En el laboratorio, el docente guia la incorporacion de mensajeria asincrona entre <code>orden-ms</code> y <code>pago-ms</code>. El foco es construir el flujo desde cero: levantar Kafka, crear topics, configurar productor/consumidor y probar que el proceso ya no depende de una llamada sincronica directa.</p>
-<h3 id="31-revisar-el-punto-de-partida">3.1 Revisar el punto de partida</h3>
+<h3 id="31-preparar-el-punto-de-partida">3.1 Preparar el punto de partida</h3>
 <p>Producto del paso: identificar que el sistema ya tiene Config Server, Eureka, Gateway, seguridad y microservicios base.</p>
-<p>Revisar:</p>
+<p>Antes de construir eventos, confirma que existan o crea estos modulos:</p>
 <ul>
 <li><code>infra/config</code></li>
 <li><code>infra/eureka</code></li>
@@ -2032,20 +2032,81 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 </code></pre></div>
 <h3 id="36-crear-dto-de-evento-de-orden">3.6 Crear DTO de evento de orden</h3>
 <p>Producto del paso: contrato simple para publicar una orden como evento.</p>
-<p>Crear un DTO de evento con campos minimos:</p>
-<ul>
-<li><code>ordenId</code></li>
-<li><code>clienteId</code></li>
-<li><code>monto</code></li>
-<li><code>estado</code></li>
-<li><code>fecha</code></li>
-</ul>
+<p>Crea:</p>
+<div class="highlight"><pre><span></span><code>services/orden-ms/src/main/java/com/upeu/ordenms/evento/EventoOrden.java
+services/pago-ms/src/main/java/com/upeu/pagoms/evento/EventoOrden.java
+</code></pre></div>
+<p>Pega una estructura base:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.upeu.ordenms.evento</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.AllArgsConstructor</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Builder</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Getter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.NoArgsConstructor</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.Setter</span><span class="p">;</span>
+
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@Builder</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EventoOrden</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">tipoEvento</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">ordenId</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">clienteId</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Double</span><span class="w"> </span><span class="n">total</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">timestamp</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="37-configurar-serializacion-json">3.7 Configurar serializacion JSON</h3>
 <p>Producto del paso: productor y consumidor comparten formato JSON.</p>
-<p>Revisar que la configuracion use serializadores/deserializadores JSON y paquetes confiables segun el proyecto.</p>
+<p>Crea una configuracion Kafka en el microservicio productor:</p>
+<div class="highlight"><pre><span></span><code>services/orden-ms/src/main/java/com/upeu/ordenms/configuracion/KafkaConfiguracion.java
+</code></pre></div>
+<p>Pega la base:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Configuration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">KafkaConfiguracion</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${spring.kafka.bootstrap-servers}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">bootstrapServers</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ProducerFactory</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">EventoOrden</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">producerFactory</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">propiedades</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">propiedades</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">ProducerConfig</span><span class="p">.</span><span class="na">BOOTSTRAP_SERVERS_CONFIG</span><span class="p">,</span><span class="w"> </span><span class="n">bootstrapServers</span><span class="p">);</span>
+<span class="w">        </span><span class="n">propiedades</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">ProducerConfig</span><span class="p">.</span><span class="na">KEY_SERIALIZER_CLASS_CONFIG</span><span class="p">,</span><span class="w"> </span><span class="n">StringSerializer</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">propiedades</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">ProducerConfig</span><span class="p">.</span><span class="na">VALUE_SERIALIZER_CLASS_CONFIG</span><span class="p">,</span><span class="w"> </span><span class="n">JsonSerializer</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DefaultKafkaProducerFactory</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">propiedades</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">KafkaTemplate</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">EventoOrden</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">kafkaTemplate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">KafkaTemplate</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">producerFactory</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>En el consumidor se usa <code>JsonDeserializer</code> y un <code>groupId</code> para leer <code>orden-eventos</code>.</p>
 <h3 id="38-implementar-productor-en-orden-ms">3.8 Implementar productor en <code>orden-ms</code></h3>
 <p>Producto del paso: <code>orden-ms</code> publica en <code>orden-eventos</code> cuando se crea una orden.</p>
 <p>El productor debe enviar el evento despues de persistir la orden. Si la orden no se guarda, no debe publicarse el evento.</p>
+<p>Crea:</p>
+<div class="highlight"><pre><span></span><code>services/orden-ms/src/main/java/com/upeu/ordenms/servicio/ProductorOrden.java
+</code></pre></div>
+<p>Fragmento base:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ProductorOrden</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">KafkaTemplate</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">EventoOrden</span><span class="o">&gt;</span><span class="w"> </span><span class="n">kafkaTemplate</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${app.kafka.topic.ordenes}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">topicOrdenes</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">publicarOrdenCreada</span><span class="p">(</span><span class="n">EventoOrden</span><span class="w"> </span><span class="n">eventoOrden</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">kafkaTemplate</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">topicOrdenes</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">eventoOrden</span><span class="p">.</span><span class="na">getOrdenId</span><span class="p">()),</span><span class="w"> </span><span class="n">eventoOrden</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="39-implementar-consumidor-en-pago-ms">3.9 Implementar consumidor en <code>pago-ms</code></h3>
 <p>Producto del paso: <code>pago-ms</code> escucha <code>orden-eventos</code> y registra el intento de pago.</p>
 <p>El consumidor debe:</p>
@@ -2093,7 +2154,7 @@ mvn<span class="w"> </span>spring-boot:run
 </code></pre></div>
 <h3 id="314-probar-flujo-asincrono-por-gateway">3.14 Probar flujo asincrono por Gateway</h3>
 <p>Producto del paso: orden creada, evento publicado y pago procesado por evento.</p>
-<p>Ejecutar una solicitud de creacion de orden desde shell o Swagger, segun los endpoints reales del proyecto. Luego revisar:</p>
+<p>Ejecutar una solicitud de creacion de orden desde shell o Swagger, segun los endpoints reales del proyecto. Luego valida:</p>
 <ul>
 <li>Logs de <code>orden-ms</code>.</li>
 <li>Logs de <code>pago-ms</code>.</li>
@@ -2117,7 +2178,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> 
 </code></pre></div>
 <h3 id="316-diagnosticar-errores-frecuentes">3.16 Diagnosticar errores frecuentes</h3>
 <p>Producto del paso: estudiante reconoce fallos tipicos de mensajeria.</p>
-<p>Revisar:</p>
+<p>Prueba o identifica estos casos:</p>
 <ul>
 <li>Topic no existe.</li>
 <li>Broker apagado.</li>

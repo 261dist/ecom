@@ -2312,11 +2312,10 @@ Microservicios: 8080 interno, sin puerto host fijo
 <span class="w">    </span><span class="nt">import</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;optional:configserver:${CONFIG_SERVER_URL:http://localhost:18888}&quot;</span>
 </code></pre></div>
 <h3 id="35-crear-configuracion-de-eureka-en-config-repo">3.5 Crear configuracion de Eureka en <code>config-repo</code></h3>
-<p>Crear o revisar:</p>
+<p>Crea el archivo DEV:</p>
 <div class="highlight"><pre><span></span><code>infra/config/config-repo/eureka-dev.yml
-infra/config/config-repo/eureka-prod.yml
 </code></pre></div>
-<p>Contenido base:</p>
+<p>Pega este contenido:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spring</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">application</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eureka</span>
@@ -2331,6 +2330,31 @@ infra/config/config-repo/eureka-prod.yml
 <span class="w">    </span><span class="nt">web</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">exposure</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health,info,metrics</span>
+<span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">health</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">show-details</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+</code></pre></div>
+<p>Crea el archivo PROD:</p>
+<div class="highlight"><pre><span></span><code>infra/config/config-repo/eureka-prod.yml
+</code></pre></div>
+<p>Pega este contenido:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">application</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eureka</span>
+
+<span class="nt">eureka</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">client</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">register-with-eureka</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">fetch-registry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="nt">management</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">endpoints</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">web</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">exposure</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health,info,metrics</span>
+<span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">health</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">show-details</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">never</span>
 </code></pre></div>
 <h3 id="36-probar-configuracion-de-eureka-desde-config-server">3.6 Probar configuracion de Eureka desde Config Server</h3>
 <p>Con Config Server ejecutando:</p>
@@ -2360,12 +2384,40 @@ mvn<span class="w"> </span>spring-boot:run
 <div class="highlight"><pre><span></span><code>http://localhost:18761
 </code></pre></div>
 <h3 id="38-agregar-eureka-client-a-microservicios">3.8 Agregar Eureka Client a microservicios</h3>
-<p>Agregar en los microservicios:</p>
-<div class="highlight"><pre><span></span><code>Eureka Discovery Client
+<p>Producto del paso: <code>catalogo-ms</code> y <code>producto-ms</code> preparados para registrarse en Eureka.</p>
+<p>En el <code>pom.xml</code> de cada microservicio agrega la dependencia:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>
-<p>Revisar que <code>spring.application.name</code> coincida con el nombre esperado en Eureka.</p>
+<p>Si el microservicio aun no tiene Spring Cloud, agrega tambien la version:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;properties&gt;</span>
+<span class="w">    </span><span class="nt">&lt;java.version&gt;</span>17<span class="nt">&lt;/java.version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;spring-cloud.version&gt;</span>2025.0.2<span class="nt">&lt;/spring-cloud.version&gt;</span>
+<span class="nt">&lt;/properties&gt;</span>
+</code></pre></div>
+<p>Y el BOM:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependencyManagement&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>spring-cloud-dependencies<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>${spring-cloud.version}<span class="nt">&lt;/version&gt;</span>
+<span class="w">            </span><span class="nt">&lt;type&gt;</span>pom<span class="nt">&lt;/type&gt;</span>
+<span class="w">            </span><span class="nt">&lt;scope&gt;</span>import<span class="nt">&lt;/scope&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;/dependencyManagement&gt;</span>
+</code></pre></div>
+<p>El nombre del servicio debe coincidir con el archivo de Config Server y con lo que se vera en Eureka:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">application</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">catalogo-ms</span>
+</code></pre></div>
 <h3 id="39-configurar-clientes-eureka-desde-config-server">3.9 Configurar clientes Eureka desde Config Server</h3>
-<p>En los archivos <code>*-ms-dev.yml</code> de cada microservicio, revisar:</p>
+<p>Producto del paso: microservicios conectados a Eureka desde configuracion externa.</p>
+<p>En <code>catalogo-ms-dev.yml</code> y <code>producto-ms-dev.yml</code>, agrega:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">eureka</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">instance</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
@@ -2377,7 +2429,7 @@ mvn<span class="w"> </span>spring-boot:run
 <span class="w">    </span><span class="nt">service-url</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://localhost:18761/eureka</span>
 </code></pre></div>
-<p>En PROD local, el equivalente debe apuntar a Eureka dentro de Docker:</p>
+<p>En <code>catalogo-ms-prod.yml</code> y <code>producto-ms-prod.yml</code>, agrega:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">eureka</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">client</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">service-url</span><span class="p">:</span>
@@ -2401,7 +2453,7 @@ mvn<span class="w"> </span>spring-boot:run
 mvn<span class="w"> </span>spring-boot:run
 </code></pre></div>
 <h3 id="312-verificar-multiples-instancias">3.12 Verificar multiples instancias</h3>
-<p>Revisar:</p>
+<p>Abre:</p>
 <div class="highlight"><pre><span></span><code>http://localhost:18761
 </code></pre></div>
 <p>Resultado esperado:</p>

@@ -830,10 +830,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-revisar-el-punto-de-partida" class="md-nav__link">
+  <a href="#31-preparar-el-punto-de-partida" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Revisar el punto de partida
+        3.1 Preparar el punto de partida
       
     </span>
   </a>
@@ -874,10 +874,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#35-revisar-cors-en-gateway" class="md-nav__link">
+  <a href="#35-configurar-cors-en-gateway" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.5 Revisar CORS en Gateway
+        3.5 Configurar CORS en Gateway
       
     </span>
   </a>
@@ -973,10 +973,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#314-revisar-observabilidad-del-flujo" class="md-nav__link">
+  <a href="#314-validar-observabilidad-del-flujo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.14 Revisar observabilidad del flujo
+        3.14 Validar observabilidad del flujo
       
     </span>
   </a>
@@ -1548,10 +1548,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-revisar-el-punto-de-partida" class="md-nav__link">
+  <a href="#31-preparar-el-punto-de-partida" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Revisar el punto de partida
+        3.1 Preparar el punto de partida
       
     </span>
   </a>
@@ -1592,10 +1592,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#35-revisar-cors-en-gateway" class="md-nav__link">
+  <a href="#35-configurar-cors-en-gateway" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.5 Revisar CORS en Gateway
+        3.5 Configurar CORS en Gateway
       
     </span>
   </a>
@@ -1691,10 +1691,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#314-revisar-observabilidad-del-flujo" class="md-nav__link">
+  <a href="#314-validar-observabilidad-del-flujo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.14 Revisar observabilidad del flujo
+        3.14 Validar observabilidad del flujo
       
     </span>
   </a>
@@ -1966,9 +1966,9 @@
 <h2 id="3-aplica-actividad-practica-guiada">3. Aplica: actividad practica guiada</h2>
 <p>Tiempo: 3h.</p>
 <p>En el laboratorio, el docente guia la integracion de <code>ecom-ng</code> con el backend distribuido. El estudiante prueba desde navegador y confirma que el frontend usa Gateway como unico punto de entrada.</p>
-<h3 id="31-revisar-el-punto-de-partida">3.1 Revisar el punto de partida</h3>
+<h3 id="31-preparar-el-punto-de-partida">3.1 Preparar el punto de partida</h3>
 <p>Producto del paso: identificar backend, frontend y contrato de URLs.</p>
-<p>Revisar:</p>
+<p>Confirma que existan estos modulos. Si alguno falta, crealo o usa la ruta alternativa de la sesion correspondiente:</p>
 <ul>
 <li><code>clients/ecom-ng</code></li>
 <li><code>infra/gateway</code></li>
@@ -2005,13 +2005,70 @@ mvn<span class="w"> </span>spring-boot:run
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18080/actuator/health
 </code></pre></div>
 <h3 id="34-configurar-url-del-frontend">3.4 Configurar URL del frontend</h3>
+<p>Producto del paso: <code>ecom-ng</code> apunta al Gateway DEV.</p>
 <p>El frontend apunta al Gateway DEV:</p>
 <div class="highlight"><pre><span></span><code>http://localhost:18080
 </code></pre></div>
-<p>Revisar el archivo de ambiente o configuracion del cliente donde se define la URL base de API.</p>
-<h3 id="35-revisar-cors-en-gateway">3.5 Revisar CORS en Gateway</h3>
+<p>Crea o actualiza:</p>
+<div class="highlight"><pre><span></span><code>clients/ecom-ng/src/environments/environment.ts
+</code></pre></div>
+<p>Pega:</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">production</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">apiBaseUrl</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;http://localhost:18080&#39;</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>Crea o actualiza el servicio base de API:</p>
+<div class="highlight"><pre><span></span><code>clients/ecom-ng/src/app/core/services/api.service.ts
+</code></pre></div>
+<p>Pega:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Injectable</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@angular/core&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">environment</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../../../environments/environment&#39;</span><span class="p">;</span>
+
+<span class="kd">@Injectable</span><span class="p">({</span><span class="w"> </span><span class="nx">providedIn</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;root&#39;</span><span class="w"> </span><span class="p">})</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ApiService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">readonly</span><span class="w"> </span><span class="nx">baseUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">environment</span><span class="p">.</span><span class="nx">apiBaseUrl</span><span class="p">;</span>
+
+<span class="w">  </span><span class="nx">buildUrl</span><span class="p">(</span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">normalizedPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">path</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">path</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="sb">`/</span><span class="si">${</span><span class="nx">path</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="k">this</span><span class="p">.</span><span class="nx">baseUrl</span><span class="si">}${</span><span class="nx">normalizedPath</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="35-configurar-cors-en-gateway">3.5 Configurar CORS en Gateway</h3>
 <p>Producto del paso: Gateway permite peticiones desde <code>http://localhost:4200</code>.</p>
-<p>Validar que el origen del frontend este permitido en configuracion del Gateway.</p>
+<p>Crea o actualiza:</p>
+<div class="highlight"><pre><span></span><code>infra/gateway/src/main/java/com/upeu/gateway/config/CorsGlobalConfig.java
+</code></pre></div>
+<p>Pega:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.upeu.gateway.config</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.context.annotation.Bean</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.context.annotation.Configuration</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.cors.CorsConfiguration</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.cors.reactive.CorsWebFilter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource</span><span class="p">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CorsGlobalConfig</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">CorsWebFilter</span><span class="w"> </span><span class="nf">corsWebFilter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CorsConfiguration</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CorsConfiguration</span><span class="p">();</span>
+<span class="w">        </span><span class="n">config</span><span class="p">.</span><span class="na">setAllowedOrigins</span><span class="p">(</span><span class="n">java</span><span class="p">.</span><span class="na">util</span><span class="p">.</span><span class="na">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span>
+<span class="w">                </span><span class="s">&quot;http://localhost:4200&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s">&quot;http://localhost:4300&quot;</span>
+<span class="w">        </span><span class="p">));</span>
+<span class="w">        </span><span class="n">config</span><span class="p">.</span><span class="na">addAllowedMethod</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">config</span><span class="p">.</span><span class="na">addAllowedHeader</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">config</span><span class="p">.</span><span class="na">setAllowCredentials</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">UrlBasedCorsConfigurationSource</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UrlBasedCorsConfigurationSource</span><span class="p">();</span>
+<span class="w">        </span><span class="n">source</span><span class="p">.</span><span class="na">registerCorsConfiguration</span><span class="p">(</span><span class="s">&quot;/**&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CorsWebFilter</span><span class="p">(</span><span class="n">source</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="36-instalar-dependencias-del-frontend">3.6 Instalar dependencias del frontend</h3>
 <p>Producto del paso: dependencias del cliente instaladas.</p>
 <p>PowerShell / bash macOS/Linux:</p>
@@ -2050,7 +2107,7 @@ npm<span class="w"> </span>install
 </ul>
 <h3 id="312-diagnosticar-cors">3.12 Diagnosticar CORS</h3>
 <p>Producto del paso: estudiante reconoce un bloqueo CORS en navegador.</p>
-<p>Revisar:</p>
+<p>Valida:</p>
 <ul>
 <li>Consola del navegador.</li>
 <li>Cabeceras de respuesta.</li>
@@ -2065,9 +2122,9 @@ docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> 
 <p>Levantar microservicios necesarios con Docker. Luego configurar temporalmente el frontend contra:</p>
 <div class="highlight"><pre><span></span><code>http://localhost:28082
 </code></pre></div>
-<h3 id="314-revisar-observabilidad-del-flujo">3.14 Revisar observabilidad del flujo</h3>
+<h3 id="314-validar-observabilidad-del-flujo">3.14 Validar observabilidad del flujo</h3>
 <p>Producto del paso: una accion del frontend se encuentra en logs del backend.</p>
-<p>Revisar logs del Gateway y del microservicio llamado. Si existe correlation id, seguir la solicitud.</p>
+<p>Revisa logs del Gateway y del microservicio llamado. Si existe correlation id, sigue la solicitud.</p>
 <h3 id="315-registrar-evidencia-funcional">3.15 Registrar evidencia funcional</h3>
 <p>Producto del paso: capturas y comandos suficientes para demostrar integracion.</p>
 <p>Evidenciar:</p>

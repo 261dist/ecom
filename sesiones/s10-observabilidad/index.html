@@ -802,10 +802,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-revisar-exposicion-de-actuator" class="md-nav__link">
+  <a href="#31-configurar-exposicion-de-actuator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Revisar exposicion de Actuator
+        3.1 Configurar exposicion de Actuator
       
     </span>
   </a>
@@ -868,10 +868,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#37-revisar-prometheus" class="md-nav__link">
+  <a href="#37-consultar-prometheus" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.7 Revisar Prometheus
+        3.7 Consultar Prometheus
       
     </span>
   </a>
@@ -879,10 +879,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#38-revisar-loki" class="md-nav__link">
+  <a href="#38-consultar-loki" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.8 Revisar Loki
+        3.8 Consultar Loki
       
     </span>
   </a>
@@ -890,10 +890,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#39-crear-o-revisar-dashboard-en-grafana" class="md-nav__link">
+  <a href="#39-crear-dashboard-basico-en-grafana" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.9 Crear o revisar dashboard en Grafana
+        3.9 Crear dashboard basico en Grafana
       
     </span>
   </a>
@@ -912,10 +912,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#311-revisar-correlation-id" class="md-nav__link">
+  <a href="#311-validar-correlation-id" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.11 Revisar correlation id
+        3.11 Validar correlation id
       
     </span>
   </a>
@@ -1548,10 +1548,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-revisar-exposicion-de-actuator" class="md-nav__link">
+  <a href="#31-configurar-exposicion-de-actuator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Revisar exposicion de Actuator
+        3.1 Configurar exposicion de Actuator
       
     </span>
   </a>
@@ -1614,10 +1614,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#37-revisar-prometheus" class="md-nav__link">
+  <a href="#37-consultar-prometheus" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.7 Revisar Prometheus
+        3.7 Consultar Prometheus
       
     </span>
   </a>
@@ -1625,10 +1625,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#38-revisar-loki" class="md-nav__link">
+  <a href="#38-consultar-loki" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.8 Revisar Loki
+        3.8 Consultar Loki
       
     </span>
   </a>
@@ -1636,10 +1636,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#39-crear-o-revisar-dashboard-en-grafana" class="md-nav__link">
+  <a href="#39-crear-dashboard-basico-en-grafana" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.9 Crear o revisar dashboard en Grafana
+        3.9 Crear dashboard basico en Grafana
       
     </span>
   </a>
@@ -1658,10 +1658,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#311-revisar-correlation-id" class="md-nav__link">
+  <a href="#311-validar-correlation-id" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.11 Revisar correlation id
+        3.11 Validar correlation id
       
     </span>
   </a>
@@ -1964,9 +1964,21 @@
 <h2 id="3-aplica-actividad-practica-guiada">3. Aplica: actividad practica guiada</h2>
 <p>Tiempo: 3h.</p>
 <p>En el laboratorio, el docente guia la puesta en marcha del stack de observabilidad y los estudiantes diagnostican el sistema usando senales reales: health, metricas, logs y dashboards.</p>
-<h3 id="31-revisar-exposicion-de-actuator">3.1 Revisar exposicion de Actuator</h3>
+<h3 id="31-configurar-exposicion-de-actuator">3.1 Configurar exposicion de Actuator</h3>
 <p>Producto del paso: servicios preparados para exponer health, metrics y prometheus.</p>
-<p>Verificar en configuracion externa:</p>
+<p>En los microservicios y Gateway, agrega la dependencia Actuator:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-actuator<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+<p>Para exponer <code>/actuator/prometheus</code>, agrega:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>io.micrometer<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>micrometer-registry-prometheus<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+<p>En la configuracion externa del servicio, agrega:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">management</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">endpoints</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">web</span><span class="p">:</span>
@@ -2020,7 +2032,7 @@ curl<span class="w"> </span>http://localhost:&lt;puerto&gt;/actuator/prometheus
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18080/actuator/health
 curl<span class="w"> </span>http://localhost:18080/api/v1/categorias
 </code></pre></div>
-<h3 id="37-revisar-prometheus">3.7 Revisar Prometheus</h3>
+<h3 id="37-consultar-prometheus">3.7 Consultar Prometheus</h3>
 <p>Producto del paso: Prometheus consulta metricas expuestas por servicios.</p>
 <p>Entrar a:</p>
 <div class="highlight"><pre><span></span><code>http://localhost:19090
@@ -2030,10 +2042,10 @@ curl<span class="w"> </span>http://localhost:18080/api/v1/categorias
 http_server_requests_seconds_count
 jvm_memory_used_bytes
 </code></pre></div>
-<h3 id="38-revisar-loki">3.8 Revisar Loki</h3>
+<h3 id="38-consultar-loki">3.8 Consultar Loki</h3>
 <p>Producto del paso: logs consultables desde el stack de observabilidad.</p>
-<p>Revisar logs por servicio y, si existe, por correlation id.</p>
-<h3 id="39-crear-o-revisar-dashboard-en-grafana">3.9 Crear o revisar dashboard en Grafana</h3>
+<p>Consulta logs por servicio y, si existe, por correlation id.</p>
+<h3 id="39-crear-dashboard-basico-en-grafana">3.9 Crear dashboard basico en Grafana</h3>
 <p>Producto del paso: visualizacion basica de estado del sistema.</p>
 <p>Entrar a:</p>
 <div class="highlight"><pre><span></span><code>http://localhost:13000
@@ -2046,7 +2058,7 @@ jvm_memory_used_bytes
 <h3 id="310-diagnosticar-un-fallo">3.10 Diagnosticar un fallo</h3>
 <p>Provocar un error controlado y ubicarlo mediante logs, health o metricas.</p>
 <p>Producto del paso: hallazgo documentado con causa probable y solucion.</p>
-<h3 id="311-revisar-correlation-id">3.11 Revisar correlation id</h3>
+<h3 id="311-validar-correlation-id">3.11 Validar correlation id</h3>
 <p>Producto del paso: una solicitud puede seguirse en logs del sistema.</p>
 <p>Enviar una peticion con header:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;X-Correlation-Id: prueba-s10-001&quot;</span><span class="w"> </span>http://localhost:18080/api/v1/categorias
