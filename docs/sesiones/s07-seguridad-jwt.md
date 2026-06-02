@@ -391,6 +391,18 @@ curl -H "Authorization: Bearer $TOKEN" http://localhost:18080/api/v1/productos
 
 ### 3.10 Probar error esperado sin token
 
+PowerShell:
+
+```powershell
+try {
+  Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/productos"
+} catch {
+  $_.Exception.Response.StatusCode.value__
+}
+```
+
+bash macOS/Linux:
+
 ```bash
 curl -i http://localhost:18080/api/v1/productos
 ```
@@ -422,7 +434,19 @@ services/producto-ms
 
 ### 3.15 Probar seguridad en PROD local
 
-Obtener token por Gateway PROD:
+Obtener token por Gateway PROD con PowerShell:
+
+```powershell
+$body = @{
+  username = "admin"
+  password = "admin123"
+} | ConvertTo-Json
+
+$response = Invoke-RestMethod -Method Post -Uri "http://localhost:28082/auth/login" -ContentType "application/json" -Body $body
+$token = $response.accessToken
+```
+
+Obtener token por Gateway PROD con bash macOS/Linux:
 
 ```bash
 curl -s -X POST http://localhost:28082/auth/login \

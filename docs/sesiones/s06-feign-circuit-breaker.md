@@ -307,7 +307,13 @@ mvn spring-boot:run
 
 ### 3.10 Probar flujo correcto
 
-PowerShell / bash macOS/Linux:
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/productos"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18080/api/v1/productos
@@ -358,7 +364,13 @@ cd services/producto-ms
 docker compose up -d --build
 ```
 
-Prueba por Gateway PROD:
+Prueba por Gateway PROD con PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:28082/api/v1/productos"
+```
+
+Prueba por Gateway PROD con bash macOS/Linux:
 
 ```bash
 curl http://localhost:28082/api/v1/productos

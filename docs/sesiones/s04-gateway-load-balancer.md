@@ -430,7 +430,14 @@ mvn spring-boot:run
 
 Producto del paso: confirmar que `gateway-dev.yml` y `gateway-prod.yml` son leidos por Config Server.
 
-PowerShell / bash macOS/Linux:
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18888/gateway/dev"
+Invoke-RestMethod -Method Get -Uri "http://localhost:18888/gateway/prod"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18888/gateway/dev
@@ -474,7 +481,13 @@ mvn spring-boot:run
 
 ### 3.10 Verificar Gateway en DEV
 
-PowerShell / bash macOS/Linux:
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/actuator/health"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18080/actuator/health
@@ -698,7 +711,14 @@ docker compose up -d --build config eureka gateway
 docker compose ps
 ```
 
-Verifica:
+Verifica con PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:28082/actuator/health"
+Invoke-RestMethod -Method Get -Uri "http://localhost:28761/actuator/health"
+```
+
+Verifica con bash macOS/Linux:
 
 ```bash
 curl http://localhost:28082/actuator/health
@@ -716,7 +736,13 @@ cd ../services/catalogo-ms
 docker compose up -d --build --scale catalogo-ms=2
 ```
 
-Prueba desde el host por Gateway:
+Prueba desde el host por Gateway con PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:28082/api/v1/categorias"
+```
+
+Prueba desde el host por Gateway con bash macOS/Linux:
 
 ```bash
 curl http://localhost:28082/api/v1/categorias

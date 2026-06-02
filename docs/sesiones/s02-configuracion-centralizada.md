@@ -539,19 +539,18 @@ management:
 
 Con Config Server ejecutando en DEV:
 
-PowerShell / bash macOS/Linux:
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18888/catalogo-ms/dev"
+Invoke-RestMethod -Method Get -Uri "http://localhost:18888/catalogo-ms/prod"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18888/catalogo-ms/dev
 curl http://localhost:18888/catalogo-ms/prod
-```
-
-Si usas PowerShell y prefieres objetos:
-
-```powershell
-Invoke-RestMethod `
-  -Method Get `
-  -Uri "http://localhost:18888/catalogo-ms/dev"
 ```
 
 Resultado esperado:
@@ -589,7 +588,13 @@ Si Config Server no muestra esas propiedades, no continues a PROD. Primero corri
 
 Ahora consulta un nombre que no coincide con `spring.application.name` ni con el archivo del `config-repo`.
 
-PowerShell / bash macOS/Linux:
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18888/catalogo/dev"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18888/catalogo/dev
@@ -850,7 +855,15 @@ docker compose up -d --build config
 docker compose ps
 ```
 
-Consulta:
+Consulta con PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:28888/catalogo-ms/prod"
+Invoke-RestMethod -Method Get -Uri "http://localhost:28888/actuator/health"
+Invoke-RestMethod -Method Get -Uri "http://localhost:28888/actuator/metrics"
+```
+
+Consulta con bash macOS/Linux:
 
 ```bash
 curl http://localhost:28888/catalogo-ms/prod
@@ -974,6 +987,15 @@ Repite el mismo patron:
 3. Dejar `application.yml` con `spring.application.name: producto-ms`.
 4. Agregar `spring.config.import`.
 5. Probar consulta HTTP:
+
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18888/producto-ms/dev"
+Invoke-RestMethod -Method Get -Uri "http://localhost:18888/producto-ms/prod"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18888/producto-ms/dev

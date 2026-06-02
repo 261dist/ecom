@@ -916,6 +916,16 @@ curl http://localhost:<puerto-asignado>/actuator/metrics
 
 Tambien puedes consultar una metrica especifica:
 
+PowerShell:
+
+```powershell
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:<puerto-asignado>/actuator/metrics/jvm.memory.used"
+```
+
+bash macOS/Linux:
+
 ```bash
 curl http://localhost:<puerto-asignado>/actuator/metrics/jvm.memory.used
 ```

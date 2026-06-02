@@ -97,7 +97,16 @@ Orden recomendado:
 
 ### 3.2 Ejecutar pruebas base
 
-PowerShell / bash macOS/Linux:
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18888/catalogo-ms/dev"
+Invoke-WebRequest -Uri "http://localhost:18761" -UseBasicParsing
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/actuator/health"
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/categorias"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18888/catalogo-ms/dev

@@ -198,7 +198,15 @@ mvn spring-boot:run
 
 Producto del paso: health y metricas consultables desde consola.
 
-PowerShell / bash macOS/Linux:
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:<puerto>/actuator/health"
+Invoke-RestMethod -Method Get -Uri "http://localhost:<puerto>/actuator/metrics"
+Invoke-RestMethod -Method Get -Uri "http://localhost:<puerto>/actuator/prometheus"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:<puerto>/actuator/health
@@ -213,6 +221,15 @@ Producto del paso: logs y metricas con actividad real.
 Ejecutar pruebas por Gateway para generar logs y metricas.
 
 Ejemplos:
+
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/actuator/health"
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/categorias"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18080/actuator/health
@@ -270,6 +287,17 @@ Producto del paso: una solicitud puede seguirse en logs del sistema.
 
 Enviar una peticion con header:
 
+PowerShell:
+
+```powershell
+Invoke-RestMethod `
+  -Method Get `
+  -Uri "http://localhost:18080/api/v1/categorias" `
+  -Headers @{ "X-Correlation-Id" = "prueba-s10-001" }
+```
+
+bash macOS/Linux:
+
 ```bash
 curl -H "X-Correlation-Id: prueba-s10-001" http://localhost:18080/api/v1/categorias
 ```
@@ -281,6 +309,16 @@ Luego buscar ese valor en logs.
 Producto del paso: Gateway tambien expone senales operacionales.
 
 Verificar:
+
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/actuator/health"
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/actuator/metrics"
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/actuator/prometheus"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18080/actuator/health

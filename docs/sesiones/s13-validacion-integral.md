@@ -173,6 +173,14 @@ Producto del paso: infraestructura base saludable.
 
 Verificar:
 
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/actuator/health"
+```
+
+bash macOS/Linux:
+
 ```bash
 curl http://localhost:18080/actuator/health
 ```

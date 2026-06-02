@@ -338,7 +338,14 @@ management:
 
 Con Config Server ejecutando:
 
-PowerShell / bash macOS/Linux:
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18888/eureka/dev"
+Invoke-RestMethod -Method Get -Uri "http://localhost:18888/eureka/prod"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18888/eureka/dev
@@ -367,7 +374,13 @@ cd infra/eureka
 mvn spring-boot:run
 ```
 
-Verifica:
+Verifica con PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18761/actuator/health"
+```
+
+Verifica con bash macOS/Linux:
 
 ```bash
 curl http://localhost:18761/actuator/health
@@ -530,7 +543,14 @@ docker compose up -d --build config eureka
 docker compose ps
 ```
 
-Verifica desde el host:
+Verifica desde el host con PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:28888/eureka/prod"
+Invoke-RestMethod -Method Get -Uri "http://localhost:28761/actuator/health"
+```
+
+Verifica desde el host con bash macOS/Linux:
 
 ```bash
 curl http://localhost:28888/eureka/prod

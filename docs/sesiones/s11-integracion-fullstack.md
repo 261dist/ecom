@@ -163,7 +163,13 @@ mvn spring-boot:run
 
 Producto del paso: Gateway responde antes de abrir frontend.
 
-PowerShell / bash macOS/Linux:
+PowerShell:
+
+```powershell
+Invoke-RestMethod -Method Get -Uri "http://localhost:18080/actuator/health"
+```
+
+bash macOS/Linux:
 
 ```bash
 curl http://localhost:18080/actuator/health
