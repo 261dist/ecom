@@ -715,6 +715,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="2.2 Arquitectura del producto en ecom">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221-consistencia-distribuida-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 Consistencia distribuida en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-consistencia-distribuida-en-prod-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 Consistencia distribuida en PROD local
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -746,10 +774,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-definir-estados-de-negocio" class="md-nav__link">
+  <a href="#31-revisar-el-punto-de-partida" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Definir estados de negocio
+        3.1 Revisar el punto de partida
       
     </span>
   </a>
@@ -757,10 +785,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#32-publicar-evento-de-orden" class="md-nav__link">
+  <a href="#32-definir-estados-de-negocio" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.2 Publicar evento de orden
+        3.2 Definir estados de negocio
       
     </span>
   </a>
@@ -768,10 +796,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#33-procesar-pago" class="md-nav__link">
+  <a href="#33-definir-contratos-de-eventos" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3 Procesar pago
+        3.3 Definir contratos de eventos
       
     </span>
   </a>
@@ -779,10 +807,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#34-actualizar-estado-de-orden" class="md-nav__link">
+  <a href="#34-preparar-topics" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.4 Actualizar estado de orden
+        3.4 Preparar topics
       
     </span>
   </a>
@@ -790,10 +818,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#35-probar-idempotencia-basica" class="md-nav__link">
+  <a href="#35-implementar-persistencia-inicial-en-orden-ms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.5 Probar idempotencia basica
+        3.5 Implementar persistencia inicial en orden-ms
       
     </span>
   </a>
@@ -801,10 +829,131 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#36-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion" class="md-nav__link">
+  <a href="#36-publicar-evento-de-orden" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+        3.6 Publicar evento de orden
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-procesar-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Procesar pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-conectar-pasarela-de-pagos-externa-o-simulada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 Conectar pasarela de pagos externa o simulada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#39-actualizar-estado-de-orden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.9 Actualizar estado de orden
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#310-probar-idempotencia-basica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.10 Probar idempotencia basica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#311-levantar-infraestructura-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.11 Levantar infraestructura DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-levantar-microservicios-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.12 Levantar microservicios DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#313-probar-flujo-completo-por-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.13 Probar flujo completo por Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#314-inspeccionar-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.14 Inspeccionar base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#315-probar-en-prod-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.15 Probar en PROD local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#316-diagnosticar-errores-frecuentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16 Diagnosticar errores frecuentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#317-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
       
     </span>
   </a>
@@ -1340,6 +1489,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="2.2 Arquitectura del producto en ecom">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221-consistencia-distribuida-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 Consistencia distribuida en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-consistencia-distribuida-en-prod-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 Consistencia distribuida en PROD local
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1371,10 +1548,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-definir-estados-de-negocio" class="md-nav__link">
+  <a href="#31-revisar-el-punto-de-partida" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Definir estados de negocio
+        3.1 Revisar el punto de partida
       
     </span>
   </a>
@@ -1382,10 +1559,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#32-publicar-evento-de-orden" class="md-nav__link">
+  <a href="#32-definir-estados-de-negocio" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.2 Publicar evento de orden
+        3.2 Definir estados de negocio
       
     </span>
   </a>
@@ -1393,10 +1570,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#33-procesar-pago" class="md-nav__link">
+  <a href="#33-definir-contratos-de-eventos" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.3 Procesar pago
+        3.3 Definir contratos de eventos
       
     </span>
   </a>
@@ -1404,10 +1581,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#34-actualizar-estado-de-orden" class="md-nav__link">
+  <a href="#34-preparar-topics" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.4 Actualizar estado de orden
+        3.4 Preparar topics
       
     </span>
   </a>
@@ -1415,10 +1592,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#35-probar-idempotencia-basica" class="md-nav__link">
+  <a href="#35-implementar-persistencia-inicial-en-orden-ms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.5 Probar idempotencia basica
+        3.5 Implementar persistencia inicial en orden-ms
       
     </span>
   </a>
@@ -1426,10 +1603,131 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#36-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion" class="md-nav__link">
+  <a href="#36-publicar-evento-de-orden" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+        3.6 Publicar evento de orden
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-procesar-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Procesar pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-conectar-pasarela-de-pagos-externa-o-simulada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 Conectar pasarela de pagos externa o simulada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#39-actualizar-estado-de-orden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.9 Actualizar estado de orden
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#310-probar-idempotencia-basica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.10 Probar idempotencia basica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#311-levantar-infraestructura-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.11 Levantar infraestructura DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-levantar-microservicios-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.12 Levantar microservicios DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#313-probar-flujo-completo-por-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.13 Probar flujo completo por Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#314-inspeccionar-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.14 Inspeccionar base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#315-probar-en-prod-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.15 Probar en PROD local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#316-diagnosticar-errores-frecuentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16 Diagnosticar errores frecuentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#317-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
       
     </span>
   </a>
@@ -1615,26 +1913,74 @@
 <li>Evento de confirmacion/rechazo.</li>
 </ul>
 <h3 id="22-arquitectura-del-producto-en-ecom">2.2 Arquitectura del producto en <code>ecom</code></h3>
-<pre class="mermaid"><code>flowchart LR
-    Orden["orden-ms"]
-    OrdenDB["orden_db"]
-    Broker["Kafka broker"]
-    Pago["pago-ms"]
-    PagoDB["pago_db"]
+<p>En esta sesion se usa mensajeria para sostener un proceso distribuido: <code>orden-ms</code> crea la orden, <code>pago-ms</code> procesa el pago y la orden cambia de estado cuando llega el resultado. La idea central no es la tecnologia del broker, sino la consistencia eventual del negocio.</p>
+<h4 id="221-consistencia-distribuida-en-dev">2.2.1 Consistencia distribuida en DEV</h4>
+<pre class="mermaid"><code>flowchart TB
+    Cliente["Cliente&lt;br/&gt;PowerShell / bash / navegador"]
+    Gateway["Gateway&lt;br/&gt;localhost:18080"]
+    Kafka["Kafka broker&lt;br/&gt;localhost:41092"]
+    KafkaUI["Kafka UI&lt;br/&gt;localhost:41085"]
+    Orden["orden-ms&lt;br/&gt;puerto dinamico"]
+    Pago["pago-ms&lt;br/&gt;puerto dinamico"]
+    OrdenDB["ecom_orden_db&lt;br/&gt;localhost:15434"]
+    PagoDB["ecom_pago_db&lt;br/&gt;localhost:15435"]
     Pasarela["Pasarela de pagos externa"]
 
-    Orden --&gt; OrdenDB
-    Orden --&gt;|"orden-eventos"| Broker
-    Broker --&gt;|"orden-eventos"| Pago
-    Pago --&gt; PagoDB
-    Pago --&gt; Pasarela
-    Pago --&gt;|"pago-eventos"| Broker
-    Broker --&gt;|"pago-eventos"| Orden</code></pre>
+    Cliente --&gt;|"POST /api/v1/ordenes"| Gateway
+    Gateway --&gt; Orden
+    Orden --&gt;|"guarda ORDEN_CREADA"| OrdenDB
+    Orden --&gt;|"publica orden-eventos"| Kafka
+    Kafka --&gt;|"consume orden-eventos"| Pago
+    Pago --&gt;|"registra intento de pago"| PagoDB
+    Pago --&gt;|"autoriza / confirma pago"| Pasarela
+    Pago --&gt;|"publica pago-eventos"| Kafka
+    Kafka --&gt;|"consume pago-eventos"| Orden
+    Orden --&gt;|"actualiza estado final"| OrdenDB
+    KafkaUI --&gt;|"inspecciona eventos"| Kafka</code></pre>
+<h4 id="222-consistencia-distribuida-en-prod-local">2.2.2 Consistencia distribuida en PROD local</h4>
+<pre class="mermaid"><code>flowchart TB
+    Cliente["Cliente&lt;br/&gt;PowerShell / bash"]
+
+    subgraph Docker["Docker Network: ecom-prod-net + ecom-kafka-prod-net"]
+        Gateway["ecom-gateway&lt;br/&gt;8080 interno&lt;br/&gt;host localhost:28082"]
+        Kafka["Kafka broker&lt;br/&gt;kafka:9092"]
+        KafkaUI["Kafka UI&lt;br/&gt;host localhost:28085"]
+        Orden["orden-ms&lt;br/&gt;8080 interno"]
+        Pago["pago-ms&lt;br/&gt;8080 interno"]
+        OrdenDB["ecom_orden_db"]
+        PagoDB["ecom_pago_db"]
+    end
+
+    Pasarela["Pasarela de pagos externa"]
+
+    Cliente --&gt;|"POST localhost:28082/api/v1/ordenes"| Gateway
+    Gateway --&gt; Orden
+    Orden --&gt;|"guarda ORDEN_CREADA"| OrdenDB
+    Orden --&gt;|"publica orden-eventos"| Kafka
+    Kafka --&gt;|"consume orden-eventos"| Pago
+    Pago --&gt;|"registra intento de pago"| PagoDB
+    Pago --&gt;|"autoriza / confirma pago"| Pasarela
+    Pago --&gt;|"publica pago-eventos"| Kafka
+    Kafka --&gt;|"consume pago-eventos"| Orden
+    Orden --&gt;|"actualiza estado final"| OrdenDB
+    KafkaUI --&gt;|"inspecciona eventos"| Kafka</code></pre>
 <h3 id="23-observabilidad-y-diagnostico">2.3 Observabilidad y diagnostico</h3>
 <p>Revisar estados en BD, eventos publicados, eventos consumidos, duplicados, errores de pago y compensaciones ejecutadas.</p>
 <h2 id="3-aplica-actividad-practica-guiada">3. Aplica: actividad practica guiada</h2>
 <p>Tiempo: 3h.</p>
-<h3 id="31-definir-estados-de-negocio">3.1 Definir estados de negocio</h3>
+<p>En el laboratorio, el docente guia la construccion de un flujo de negocio distribuido. El estudiante debe ver que ya no existe una transaccion unica: cada microservicio cuida su base de datos y el proceso avanza por eventos.</p>
+<h3 id="31-revisar-el-punto-de-partida">3.1 Revisar el punto de partida</h3>
+<p>Producto del paso: identificar los servicios que participan en el flujo distribuido.</p>
+<p>Componentes:</p>
+<ul>
+<li><code>orden-ms</code>: inicia el proceso y conserva el estado de la orden.</li>
+<li><code>pago-ms</code>: procesa o simula el pago.</li>
+<li><code>kafka</code>: transporta eventos.</li>
+<li>Base de datos de ordenes y pagos.</li>
+<li>Pasarela externa simulada o integrada.</li>
+</ul>
+<h3 id="32-definir-estados-de-negocio">3.2 Definir estados de negocio</h3>
+<p>Producto del paso: estados minimos acordados para la orden.</p>
 <p>Estados sugeridos:</p>
 <div class="highlight"><pre><span></span><code>ORDEN_CREADA
 PAGO_PENDIENTE
@@ -1642,15 +1988,113 @@ PAGO_CONFIRMADO
 PAGO_RECHAZADO
 ORDEN_CANCELADA
 </code></pre></div>
-<h3 id="32-publicar-evento-de-orden">3.2 Publicar evento de orden</h3>
+<h3 id="33-definir-contratos-de-eventos">3.3 Definir contratos de eventos</h3>
+<p>Producto del paso: contratos claros para eventos de orden y pago.</p>
+<p>Evento de orden:</p>
+<div class="highlight"><pre><span></span><code>ordenId
+clienteId
+monto
+estado
+fecha
+</code></pre></div>
+<p>Evento de pago:</p>
+<div class="highlight"><pre><span></span><code>ordenId
+pagoId
+estadoPago
+mensaje
+fecha
+</code></pre></div>
+<h3 id="34-preparar-topics">3.4 Preparar topics</h3>
+<p>Producto del paso: topics disponibles para el flujo.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>kafka
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ecom-kafka-dev<span class="w"> </span>/opt/kafka/bin/kafka-topics.sh<span class="w"> </span>--create<span class="w"> </span>--topic<span class="w"> </span>orden-eventos<span class="w"> </span>--bootstrap-server<span class="w"> </span>kafka:9092<span class="w"> </span>--partitions<span class="w"> </span><span class="m">1</span><span class="w"> </span>--replication-factor<span class="w"> </span><span class="m">1</span>
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ecom-kafka-dev<span class="w"> </span>/opt/kafka/bin/kafka-topics.sh<span class="w"> </span>--create<span class="w"> </span>--topic<span class="w"> </span>pago-eventos<span class="w"> </span>--bootstrap-server<span class="w"> </span>kafka:9092<span class="w"> </span>--partitions<span class="w"> </span><span class="m">1</span><span class="w"> </span>--replication-factor<span class="w"> </span><span class="m">1</span>
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ecom-kafka-dev<span class="w"> </span>/opt/kafka/bin/kafka-topics.sh<span class="w"> </span>--list<span class="w"> </span>--bootstrap-server<span class="w"> </span>kafka:9092
+</code></pre></div>
+<h3 id="35-implementar-persistencia-inicial-en-orden-ms">3.5 Implementar persistencia inicial en <code>orden-ms</code></h3>
+<p>Producto del paso: una orden se registra antes de publicar evento.</p>
+<p>La orden debe guardarse con estado inicial, por ejemplo <code>ORDEN_CREADA</code> o <code>PAGO_PENDIENTE</code>.</p>
+<h3 id="36-publicar-evento-de-orden">3.6 Publicar evento de orden</h3>
 <p><code>orden-ms</code> publica un evento cuando se crea una orden.</p>
-<h3 id="33-procesar-pago">3.3 Procesar pago</h3>
+<p>Producto del paso: cada orden creada genera un evento en <code>orden-eventos</code>.</p>
+<h3 id="37-procesar-pago">3.7 Procesar pago</h3>
 <p><code>pago-ms</code> consume el evento de orden, registra intento de pago y responde con evento de pago.</p>
-<h3 id="34-actualizar-estado-de-orden">3.4 Actualizar estado de orden</h3>
+<p>Producto del paso: <code>pago-ms</code> produce una respuesta de pago sin acoplarse al controlador de ordenes.</p>
+<h3 id="38-conectar-pasarela-de-pagos-externa-o-simulada">3.8 Conectar pasarela de pagos externa o simulada</h3>
+<p>Producto del paso: pago confirmado o rechazado con una decision de negocio controlada.</p>
+<p>La pasarela puede ser real, simulada o reemplazada por un adaptador temporal para laboratorio.</p>
+<h3 id="39-actualizar-estado-de-orden">3.9 Actualizar estado de orden</h3>
 <p><code>orden-ms</code> consume el evento de pago y actualiza el estado final.</p>
-<h3 id="35-probar-idempotencia-basica">3.5 Probar idempotencia basica</h3>
+<p>Producto del paso: la orden refleja el resultado final del proceso.</p>
+<h3 id="310-probar-idempotencia-basica">3.10 Probar idempotencia basica</h3>
 <p>Reenviar o simular un evento repetido y verificar que no se duplique el efecto de negocio.</p>
-<h3 id="36-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion">3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion</h3>
+<p>Producto del paso: el servicio no genera efectos duplicados ante eventos repetidos.</p>
+<h3 id="311-levantar-infraestructura-dev">3.11 Levantar infraestructura DEV</h3>
+<p>Producto del paso: Config Server, Eureka, Gateway y Kafka disponibles.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/config
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>En otra terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/eureka
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>En otra terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/gateway
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<h3 id="312-levantar-microservicios-dev">3.12 Levantar microservicios DEV</h3>
+<p>Producto del paso: <code>orden-ms</code> y <code>pago-ms</code> ejecutando con configuracion externa.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/orden-ms
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>En otra terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/pago-ms
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<h3 id="313-probar-flujo-completo-por-gateway">3.13 Probar flujo completo por Gateway</h3>
+<p>Producto del paso: una orden cambia de estado mediante eventos.</p>
+<p>Crear una orden y verificar:</p>
+<ul>
+<li>Respuesta HTTP del Gateway.</li>
+<li>Registro en <code>ecom_orden_db</code>.</li>
+<li>Evento en <code>orden-eventos</code>.</li>
+<li>Registro en <code>ecom_pago_db</code>.</li>
+<li>Evento en <code>pago-eventos</code>.</li>
+<li>Estado final actualizado en orden.</li>
+</ul>
+<h3 id="314-inspeccionar-base-de-datos">3.14 Inspeccionar base de datos</h3>
+<p>Producto del paso: evidencia de estados y registros de negocio.</p>
+<p>Usar <code>docker exec</code> con <code>psql</code> segun el contenedor de cada microservicio para revisar tablas y registros.</p>
+<h3 id="315-probar-en-prod-local">3.15 Probar en PROD local</h3>
+<p>Producto del paso: consistencia eventual funcionando dentro de Docker.</p>
+<p>Levantar primero infraestructura y Kafka, luego microservicios:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>kafka
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/orden-ms
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/pago-ms
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</code></pre></div>
+<h3 id="316-diagnosticar-errores-frecuentes">3.16 Diagnosticar errores frecuentes</h3>
+<p>Producto del paso: estudiante interpreta problemas de consistencia distribuida.</p>
+<p>Revisar:</p>
+<ul>
+<li>Orden creada pero evento no publicado.</li>
+<li>Pago registrado pero orden no actualizada.</li>
+<li>Evento duplicado.</li>
+<li>Evento consumido por grupo incorrecto.</li>
+<li>Pasarela externa no disponible.</li>
+</ul>
+<h3 id="317-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion">3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion</h3>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>vs09-consistencia-distribuida<span class="w"> </span>https://github.com/261dist/ecom.git<span class="w"> </span>ecom-s09
 <span class="nb">cd</span><span class="w"> </span>ecom-s09
 </code></pre></div>

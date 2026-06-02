@@ -1593,6 +1593,27 @@
 </ul>
 <h3 id="22-arquitectura-del-producto-en-ecom">2.2 Arquitectura del producto en <code>ecom</code></h3>
 <p>El equipo presenta la arquitectura final del producto, sus componentes, relaciones y decisiones tecnicas.</p>
+<pre class="mermaid"><code>flowchart TB
+    Producto["Producto del curso&lt;br/&gt;ecom"]
+    Infra["infra&lt;br/&gt;Config + Eureka + Gateway"]
+    Services["services&lt;br/&gt;microservicios + BD"]
+    Kafka["kafka&lt;br/&gt;eventos"]
+    Obs["obs&lt;br/&gt;diagnostico"]
+    Cliente["clients/ecom-ng&lt;br/&gt;frontend"]
+    Defensa["Defensa tecnica&lt;br/&gt;demo + preguntas"]
+    Evidencia["Evidencia individual&lt;br/&gt;aporte + GitHub + PDF"]
+
+    Producto --&gt; Infra
+    Producto --&gt; Services
+    Producto --&gt; Kafka
+    Producto --&gt; Obs
+    Producto --&gt; Cliente
+    Infra --&gt; Defensa
+    Services --&gt; Defensa
+    Kafka --&gt; Defensa
+    Obs --&gt; Defensa
+    Cliente --&gt; Defensa
+    Defensa --&gt; Evidencia</code></pre>
 <h3 id="23-observabilidad-y-diagnostico">2.3 Observabilidad y diagnostico</h3>
 <p>Durante la defensa se puede solicitar diagnosticar un fallo, revisar logs, consultar BD, revisar eventos o explicar una metrica.</p>
 <h2 id="3-aplica-actividad-practica-guiada">3. Aplica: actividad practica guiada</h2>

@@ -1577,6 +1577,30 @@
 <li><code>clients/ecom-ng</code>.</li>
 <li><code>docs</code>.</li>
 </ul>
+<pre class="mermaid"><code>flowchart TB
+    Consigna["Consigna individual&lt;br/&gt;competencia pendiente"]
+    Infra["infra"]
+    Services["services"]
+    Kafka["kafka"]
+    Obs["obs"]
+    Front["clients/ecom-ng"]
+    Docs["docs"]
+    Evidencia["Evidencia verificable&lt;br/&gt;comando + resultado + explicacion"]
+    Sustentacion["Sustentacion individual"]
+
+    Consigna --&gt; Infra
+    Consigna --&gt; Services
+    Consigna --&gt; Kafka
+    Consigna --&gt; Obs
+    Consigna --&gt; Front
+    Consigna --&gt; Docs
+    Infra --&gt; Evidencia
+    Services --&gt; Evidencia
+    Kafka --&gt; Evidencia
+    Obs --&gt; Evidencia
+    Front --&gt; Evidencia
+    Docs --&gt; Evidencia
+    Evidencia --&gt; Sustentacion</code></pre>
 <h3 id="23-observabilidad-y-diagnostico">2.3 Observabilidad y diagnostico</h3>
 <p>La evaluacion puede incluir diagnosticar una falla provocada por el docente y explicar la ruta de revision.</p>
 <h2 id="3-aplica-actividad-practica-guiada">3. Aplica: actividad practica guiada</h2>
