@@ -278,14 +278,13 @@ spring:
 
 ### 3.5 Crear configuracion de Eureka en `config-repo`
 
-Crear o revisar:
+Crea el archivo DEV:
 
 ```text
 infra/config/config-repo/eureka-dev.yml
-infra/config/config-repo/eureka-prod.yml
 ```
 
-Contenido base:
+Pega este contenido:
 
 ```yaml
 spring:
@@ -302,6 +301,37 @@ management:
     web:
       exposure:
         include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+```
+
+Crea el archivo PROD:
+
+```text
+infra/config/config-repo/eureka-prod.yml
+```
+
+Pega este contenido:
+
+```yaml
+spring:
+  application:
+    name: eureka
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: never
 ```
 
 ### 3.6 Probar configuracion de Eureka desde Config Server
@@ -351,17 +381,55 @@ http://localhost:18761
 
 ### 3.8 Agregar Eureka Client a microservicios
 
-Agregar en los microservicios:
+Producto del paso: `catalogo-ms` y `producto-ms` preparados para registrarse en Eureka.
 
-```text
-Eureka Discovery Client
+En el `pom.xml` de cada microservicio agrega la dependencia:
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
 ```
 
-Revisar que `spring.application.name` coincida con el nombre esperado en Eureka.
+Si el microservicio aun no tiene Spring Cloud, agrega tambien la version:
+
+```xml
+<properties>
+    <java.version>17</java.version>
+    <spring-cloud.version>2025.0.2</spring-cloud.version>
+</properties>
+```
+
+Y el BOM:
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring-cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+El nombre del servicio debe coincidir con el archivo de Config Server y con lo que se vera en Eureka:
+
+```yaml
+spring:
+  application:
+    name: catalogo-ms
+```
 
 ### 3.9 Configurar clientes Eureka desde Config Server
 
-En los archivos `*-ms-dev.yml` de cada microservicio, revisar:
+Producto del paso: microservicios conectados a Eureka desde configuracion externa.
+
+En `catalogo-ms-dev.yml` y `producto-ms-dev.yml`, agrega:
 
 ```yaml
 eureka:
@@ -376,7 +444,7 @@ eureka:
       defaultZone: http://localhost:18761/eureka
 ```
 
-En PROD local, el equivalente debe apuntar a Eureka dentro de Docker:
+En `catalogo-ms-prod.yml` y `producto-ms-prod.yml`, agrega:
 
 ```yaml
 eureka:
@@ -412,7 +480,7 @@ mvn spring-boot:run
 
 ### 3.12 Verificar multiples instancias
 
-Revisar:
+Abre:
 
 ```text
 http://localhost:18761

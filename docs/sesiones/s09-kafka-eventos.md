@@ -111,9 +111,9 @@ Tiempo: 3h.
 
 En el laboratorio, el docente guia la construccion de un flujo de negocio distribuido. El estudiante debe ver que ya no existe una transaccion unica: cada microservicio cuida su base de datos y el proceso avanza por eventos.
 
-### 3.1 Revisar el punto de partida
+### 3.1 Preparar el punto de partida
 
-Producto del paso: identificar los servicios que participan en el flujo distribuido.
+Producto del paso: identificar o crear los servicios que participan en el flujo distribuido.
 
 Componentes:
 
@@ -303,7 +303,7 @@ docker compose up -d --build
 
 Producto del paso: estudiante interpreta problemas de consistencia distribuida.
 
-Revisar:
+Prueba o identifica estos casos:
 
 - Orden creada pero evento no publicado.
 - Pago registrado pero orden no actualizada.

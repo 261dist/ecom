@@ -23,7 +23,7 @@ Si un cliente conoce directamente todos los microservicios, queda acoplado a sus
 Preguntas para los estudiantes:
 
 1. Por que el cliente no deberia conocer todos los microservicios?
-2. Que problema resuelve una ruta `lb://`?
+2. Que problema aparece si cada cliente llama directamente a cada microservicio?
 3. Como se demuestra que existe balanceo de carga?
 
 ### 1.5 Ubicacion en el curso
@@ -154,9 +154,9 @@ En el laboratorio, el docente guia la configuracion de Gateway y la prueba de ru
 
 La ruta principal de la sesion es construir desde cero. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17 para clonar el tag final y ejecutar las pruebas.
 
-### 3.1 Crear la base de infraestructura para Gateway
+### 3.1 Crear carpeta del Gateway
 
-**Producto del paso:** proyecto Gateway creado dentro de `infra/gateway`.
+**Producto del paso:** ubicacion del proyecto Gateway preparada dentro del monorepo.
 
 En el monorepo `ecom`, Gateway vive en:
 
@@ -164,11 +164,38 @@ En el monorepo `ecom`, Gateway vive en:
 infra/gateway
 ```
 
-### 3.2 Crear proyecto Gateway desde VS Code
+Desde la raiz del repositorio:
+
+PowerShell / bash macOS/Linux:
+
+```bash
+mkdir infra/gateway
+```
+
+Luego abre la raiz del monorepo en VS Code:
+
+```bash
+code .
+```
+
+### 3.2 Crear proyecto Spring Boot Gateway desde VS Code
 
 **Producto del paso:** proyecto Spring Boot `ecom-gateway` creado dentro de `infra/gateway`.
 
-Dependencias principales:
+En VS Code usa Spring Initializr:
+
+```text
+Spring Initializr: Create a Maven Project
+Spring Boot: 3.5.x
+Language: Java 17
+Group Id: com.upeu
+Artifact Id: ecom-gateway
+Package name: com.upeu.gateway
+Packaging: Jar
+Ubicacion: infra/gateway
+```
+
+Dependencias para S04:
 
 | Grupo | Dependencias | Proposito |
 |---|---|---|
@@ -176,8 +203,81 @@ Dependencias principales:
 | Spring Cloud | Eureka Discovery Client | Resolver servicios registrados |
 | Spring Cloud | Config Client | Leer rutas desde Config Server |
 | Operacion | Actuator | Health y diagnostico |
+| Desarrollo | DevTools | Recarga durante desarrollo |
 
-### 3.3 Configurar `application.yml` base de Gateway
+En S07 se agregara seguridad al Gateway. En esta sesion todavia se trabaja el acceso unico y el balanceo.
+
+### 3.3 Ajustar `pom.xml`
+
+**Producto del paso:** Gateway con Spring Cloud y dependencias necesarias para DEV.
+
+En `infra/gateway/pom.xml`, confirma o agrega la version de Spring Cloud:
+
+```xml
+<properties>
+    <java.version>17</java.version>
+    <spring-cloud.version>2025.0.2</spring-cloud.version>
+</properties>
+```
+
+Agrega las dependencias principales:
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-config</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <scope>runtime</scope>
+        <optional>true</optional>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+```
+
+Agrega el BOM de Spring Cloud:
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring-cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+### 3.4 Configurar `application.yml` base de Gateway
+
+**Producto del paso:** Gateway preparado para leer rutas desde Config Server.
 
 En `infra/gateway/src/main/resources/application.yml`:
 
@@ -192,33 +292,143 @@ spring:
     active: dev
   config:
     import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:18888}"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
 ```
 
-### 3.4 Configurar rutas desde Config Server
+### 3.5 Crear rutas desde Config Server
 
-Revisar:
+Producto del paso: archivos de configuracion externa del Gateway creados en `config-repo`.
+
+Crea el archivo DEV:
 
 ```text
 infra/config/config-repo/gateway-dev.yml
-infra/config/config-repo/gateway-prod.yml
 ```
 
-Las rutas deben apuntar a nombres logicos registrados en Eureka.
-
-Ejemplo conceptual:
+Pega este contenido:
 
 ```yaml
 spring:
   cloud:
     gateway:
       routes:
-        - id: catalogo-ms
-          uri: lb://CATALOGO-MS
+        - id: catalogo-route
+          uri: lb://catalogo-ms
           predicates:
             - Path=/api/v1/categorias/**
+
+        - id: catalogo-instancia
+          uri: lb://catalogo-ms
+          predicates:
+            - Path=/api/v1/catalogo/instancia
+
+        - id: producto-route
+          uri: lb://producto-ms
+          predicates:
+            - Path=/api/v1/productos/**
+
+        - id: producto-instancia
+          uri: lb://producto-ms
+          predicates:
+            - Path=/api/v1/producto/instancia
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+    instance-id: ${spring.application.name}:${local.server.port:${server.port}}
+    metadata-map:
+      instance-port: ${local.server.port:${server.port}}
+  client:
+    service-url:
+      defaultZone: http://localhost:18761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
 ```
 
-### 3.5 Probar configuracion de Gateway desde Config Server
+Crea el archivo PROD:
+
+```text
+infra/config/config-repo/gateway-prod.yml
+```
+
+Pega este contenido:
+
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: catalogo-route
+          uri: lb://catalogo-ms
+          predicates:
+            - Path=/api/v1/categorias/**
+
+        - id: catalogo-instancia
+          uri: lb://catalogo-ms
+          predicates:
+            - Path=/api/v1/catalogo/instancia
+
+        - id: producto-route
+          uri: lb://producto-ms
+          predicates:
+            - Path=/api/v1/productos/**
+
+        - id: producto-instancia
+          uri: lb://producto-ms
+          predicates:
+            - Path=/api/v1/producto/instancia
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: never
+```
+
+Las rutas apuntan a nombres logicos registrados en Eureka. Por eso el Gateway no necesita conocer el puerto dinamico de cada instancia.
+
+### 3.6 Levantar Config Server en DEV
+
+Producto del paso: configuracion externa disponible por HTTP.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd infra/config
+mvn spring-boot:run
+```
+
+### 3.7 Probar configuracion de Gateway desde Config Server
+
+Producto del paso: confirmar que `gateway-dev.yml` y `gateway-prod.yml` son leidos por Config Server.
 
 PowerShell / bash macOS/Linux:
 
@@ -231,15 +441,12 @@ Resultado esperado:
 
 - La respuesta indica `name: gateway`.
 - Se observan rutas hacia servicios con `lb://`.
+- En DEV aparece Eureka con `localhost:18761`.
+- En PROD aparece Eureka con `http://eureka:8761/eureka`.
 
-### 3.6 Levantar infraestructura en DEV
+### 3.8 Levantar Eureka en DEV
 
-PowerShell / bash macOS/Linux:
-
-```bash
-cd infra/config
-mvn spring-boot:run
-```
+Producto del paso: registro de servicios disponible para Gateway.
 
 En otra terminal:
 
@@ -248,6 +455,16 @@ cd infra/eureka
 mvn spring-boot:run
 ```
 
+Verifica en navegador:
+
+```text
+http://localhost:18761
+```
+
+### 3.9 Levantar Gateway en DEV
+
+Producto del paso: Gateway ejecutando en `localhost:18080`.
+
 En otra terminal:
 
 ```bash
@@ -255,7 +472,7 @@ cd infra/gateway
 mvn spring-boot:run
 ```
 
-### 3.7 Verificar Gateway en DEV
+### 3.10 Verificar Gateway en DEV
 
 PowerShell / bash macOS/Linux:
 
@@ -265,7 +482,9 @@ curl http://localhost:18080/actuator/health
 
 Resultado esperado: estado `UP`.
 
-### 3.8 Levantar microservicio y segunda instancia
+### 3.11 Levantar microservicio y segunda instancia
+
+Producto del paso: `catalogo-ms` registrado con mas de una instancia.
 
 PowerShell / bash macOS/Linux:
 
@@ -282,7 +501,7 @@ cd services/catalogo-ms
 mvn spring-boot:run
 ```
 
-### 3.9 Verificar registro en Eureka
+### 3.12 Verificar registro en Eureka
 
 Abre:
 
@@ -295,7 +514,9 @@ Resultado esperado:
 - `CATALOGO-MS` aparece registrado.
 - Hay dos instancias si se levantaron dos terminales.
 
-### 3.10 Probar por Gateway
+### 3.13 Probar por Gateway
+
+Producto del paso: el cliente consume `catalogo-ms` por Gateway y no por el puerto directo del microservicio.
 
 PowerShell:
 
@@ -311,17 +532,86 @@ curl http://localhost:18080/actuator/health
 curl http://localhost:18080/api/v1/categorias
 ```
 
-### 3.11 Evidenciar balanceo
+### 3.14 Evidenciar balanceo
 
-Ejecuta varias veces un endpoint que devuelva informacion de instancia, si existe en el microservicio.
+Producto del paso: se observa distribucion de trafico entre instancias disponibles.
+
+El endpoint de instancia debe existir en `catalogo-ms`. Si todavia no lo tienes, crea este controlador:
+
+```text
+services/catalogo-ms/src/main/java/com/upeu/catalogo/controller/GatewayInstanciasController.java
+```
+
+Pega este codigo:
+
+```java
+package com.upeu.catalogo.controller;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Map;
+
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/api/v1/catalogo")
+@RequiredArgsConstructor
+public class GatewayInstanciasController {
+
+    private final Environment environment;
+
+    @GetMapping("/instancia")
+    public Map<String, String> instancia() {
+        return Map.of(
+                "servicio", "catalogo-ms",
+                "instancia", environment.getProperty("local.server.port", "N/A"),
+                "serverPort", environment.getProperty("server.port", "N/A"),
+                "host", hostName());
+    }
+
+    private String hostName() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            return "unknown";
+        }
+    }
+}
+```
+
+Ejecuta varias veces por Gateway:
+
+PowerShell:
+
+```powershell
+1..10 | ForEach-Object {
+  Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/catalogo/instancia"
+}
+```
+
+bash macOS/Linux:
+
+```bash
+for i in {1..10}; do
+  curl http://localhost:18080/api/v1/catalogo/instancia
+  echo
+done
+```
 
 Resultado esperado:
 
 - Gateway responde.
 - Eureka muestra instancias disponibles.
-- Las respuestas repetidas evidencian distribucion de trafico.
+- Las respuestas repetidas alternan entre instancias o muestran puertos distintos.
 
-### 3.12 Probar error esperado
+### 3.15 Probar error esperado
+
+Producto del paso: estudiante diferencia una falla de ruta y una falla de disponibilidad.
 
 Deten una instancia o cambia temporalmente una ruta para observar:
 
@@ -330,7 +620,63 @@ Deten una instancia o cambia temporalmente una ruta para observar:
 
 Luego restaura la configuracion.
 
-### 3.13 Preparar PROD local
+### 3.16 Preparar, levantar y probar PROD local
+
+En este paso se cierra la sesion mostrando que el Gateway tambien funciona en produccion local con Docker. Primero se prepara soporte Docker, luego se levanta infraestructura y finalmente se prueba el acceso por Gateway.
+
+#### 3.16.1 Crear soporte Docker para Gateway
+
+Producto del paso: Gateway preparado para ejecutarse dentro de Docker junto con `config` y `eureka`.
+
+Crea `infra/gateway/Dockerfile`:
+
+```dockerfile
+FROM maven:3.9.9-eclipse-temurin-17 AS build
+WORKDIR /app
+
+COPY pom.xml .
+RUN mvn -q -DskipTests dependency:go-offline
+
+COPY src ./src
+RUN mvn -q clean package -DskipTests
+
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /app/target/*.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+En `infra/compose.yml`, agrega el servicio `gateway`:
+
+```yaml
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: ecom-gateway
+    restart: unless-stopped
+    ports:
+      - "28082:8080"
+    environment:
+      SERVER_PORT: 8080
+      SPRING_PROFILES_ACTIVE: prod
+      CONFIG_SERVER_URL: http://ecom-config:8888
+    depends_on:
+      config:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
+    networks:
+      - ecom-prod-net
+```
+
+#### 3.16.2 Levantar Gateway en PROD local
 
 En PROD local, primero se levanta infraestructura:
 
@@ -343,8 +689,6 @@ Luego se levantan microservicios:
 ```text
 services/catalogo-ms -> BD + catalogo-ms
 ```
-
-### 3.14 Levantar Gateway en PROD local
 
 PowerShell / bash macOS/Linux:
 
@@ -361,7 +705,9 @@ curl http://localhost:28082/actuator/health
 curl http://localhost:28761/actuator/health
 ```
 
-### 3.15 Levantar microservicio en PROD local y probar Gateway
+#### 3.16.3 Levantar microservicio en PROD local y probar Gateway
+
+Producto del paso: acceso funcional a `catalogo-ms` por Gateway PROD.
 
 PowerShell / bash macOS/Linux:
 
@@ -382,7 +728,7 @@ Resultado esperado:
 - Microservicios no exponen puerto host fijo.
 - El acceso funcional pasa por Gateway.
 
-### 3.16 Validar evidencias de cierre de la practica
+#### 3.16.4 Validar evidencias de cierre de la practica
 
 Antes de pasar a la actividad autonoma, verifica:
 

@@ -90,29 +90,177 @@ Tiempo: 3h.
 
 La ruta principal de la sesion es construir desde cero la comunicacion entre `producto-ms` y `catalogo-ms`. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17.
 
-### 3.1 Revisar servicios base
+### 3.1 Identificar servicios base
 
 **Producto del paso:** `catalogo-ms` y `producto-ms` identificados como servicios que participaran en la comunicacion.
 
+En esta sesion:
+
+- `catalogo-ms` expone categorias.
+- `producto-ms` consulta `catalogo-ms` para obtener el detalle de la categoria de un producto.
+- La llamada se hace por nombre logico registrado en Eureka, no por puerto fijo.
+
 ### 3.2 Agregar dependencia de cliente HTTP interno
 
-Agregar en `producto-ms` la dependencia usada para llamadas internas entre servicios.
+Producto del paso: `producto-ms` preparado para usar OpenFeign.
+
+En `services/producto-ms/pom.xml`, agrega:
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+
+Si tambien se trabajara respuesta controlada con Circuit Breaker, agrega:
+
+```xml
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot3</artifactId>
+</dependency>
+```
+
+En la clase principal de `producto-ms`, habilita Feign:
+
+```java
+package com.upeu.producto;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+
+@SpringBootApplication
+@EnableFeignClients
+public class ProductoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ProductoApplication.class, args);
+    }
+}
+```
 
 ### 3.3 Crear DTO de categoria
 
-Crear un DTO que represente los datos que `producto-ms` necesita recibir desde `catalogo-ms`.
+Producto del paso: contrato de datos recibido desde `catalogo-ms`.
+
+Crea:
+
+```text
+services/producto-ms/src/main/java/com/upeu/producto/dto/CategoriaDto.java
+```
+
+Pega:
+
+```java
+package com.upeu.producto.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CategoriaDto {
+    private Long id;
+    private String nombre;
+    private String descripcion;
+}
+```
 
 ### 3.4 Crear cliente interno hacia `catalogo-ms`
 
-Implementar un cliente que consulte `catalogo-ms` usando nombre logico del servicio registrado.
+Producto del paso: cliente Feign que consulta `catalogo-ms` por nombre logico.
+
+Crea:
+
+```text
+services/producto-ms/src/main/java/com/upeu/producto/client/CatalogoClient.java
+```
+
+Pega:
+
+```java
+package com.upeu.producto.client;
+
+import com.upeu.producto.dto.CategoriaDto;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@FeignClient(name = "catalogo-ms")
+public interface CatalogoClient {
+
+    @GetMapping("/api/v1/categorias/{id}")
+    CategoriaDto findCategoriaById(@PathVariable("id") Long id);
+}
+```
 
 ### 3.5 Integrar cliente en el servicio de producto
 
-Actualizar el flujo de creacion o consulta de producto para validar o enriquecer la categoria consultando `catalogo-ms`.
+Producto del paso: `producto-ms` devuelve detalle de producto enriquecido con categoria.
+
+Inyecta `CatalogoClient` en el servicio de producto:
+
+```java
+private final CatalogoClient catalogoClient;
+```
+
+Agrega un metodo de consulta de detalle:
+
+```java
+@Override
+@Transactional(readOnly = true)
+@CircuitBreaker(name = "catalogo", fallbackMethod = "fallbackCategoria")
+public ProductoResponse findDetalleById(Integer id) {
+    Producto producto = getProductoById(id);
+
+    CategoriaDto categoria = catalogoClient.findCategoriaById(
+            producto.getIdCategoria().longValue());
+
+    return ProductoResponse.builder()
+            .id(producto.getId())
+            .nombre(producto.getNombre())
+            .descripcion(producto.getDescripcion())
+            .idCategoria(producto.getIdCategoria())
+            .categoria(categoria)
+            .build();
+}
+```
 
 ### 3.6 Configurar timeout o respuesta controlada
 
-Definir un manejo basico para errores de conexion, respuesta 404 o timeout.
+Producto del paso: respuesta controlada si `catalogo-ms` no responde.
+
+Agrega el fallback en el mismo servicio:
+
+```java
+public ProductoResponse fallbackCategoria(Integer id, Throwable ex) {
+    Producto producto = getProductoById(id);
+
+    return ProductoResponse.builder()
+            .id(producto.getId())
+            .nombre(producto.getNombre())
+            .descripcion(producto.getDescripcion())
+            .idCategoria(producto.getIdCategoria())
+            .categoria(null)
+            .build();
+}
+```
+
+En el controlador de productos, expone el endpoint de detalle si no existe:
+
+```java
+@GetMapping("/detalle/{id}")
+public ProductoResponse findDetalleById(@PathVariable Integer id) {
+    return productoService.findDetalleById(id);
+}
+```
 
 ### 3.7 Levantar infraestructura en DEV
 
@@ -173,9 +321,9 @@ Ejecutar una operacion de producto que obligue a consultar `catalogo-ms`.
 
 Detener `catalogo-ms` o simular una categoria inexistente y verificar que `producto-ms` responde de forma controlada.
 
-### 3.13 Revisar trazabilidad en logs
+### 3.13 Validar trazabilidad en logs
 
-Revisar logs de `producto-ms` y `catalogo-ms` para confirmar la llamada interna y el correlation id.
+Revisa logs de `producto-ms` y `catalogo-ms` para confirmar la llamada interna y el correlation id.
 
 ### 3.14 Preparar PROD local
 

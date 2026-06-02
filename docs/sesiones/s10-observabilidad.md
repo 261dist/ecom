@@ -105,11 +105,29 @@ Tiempo: 3h.
 
 En el laboratorio, el docente guia la puesta en marcha del stack de observabilidad y los estudiantes diagnostican el sistema usando senales reales: health, metricas, logs y dashboards.
 
-### 3.1 Revisar exposicion de Actuator
+### 3.1 Configurar exposicion de Actuator
 
 Producto del paso: servicios preparados para exponer health, metrics y prometheus.
 
-Verificar en configuracion externa:
+En los microservicios y Gateway, agrega la dependencia Actuator:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+Para exponer `/actuator/prometheus`, agrega:
+
+```xml
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-prometheus</artifactId>
+</dependency>
+```
+
+En la configuracion externa del servicio, agrega:
 
 ```yaml
 management:
@@ -201,7 +219,7 @@ curl http://localhost:18080/actuator/health
 curl http://localhost:18080/api/v1/categorias
 ```
 
-### 3.7 Revisar Prometheus
+### 3.7 Consultar Prometheus
 
 Producto del paso: Prometheus consulta metricas expuestas por servicios.
 
@@ -219,13 +237,13 @@ http_server_requests_seconds_count
 jvm_memory_used_bytes
 ```
 
-### 3.8 Revisar Loki
+### 3.8 Consultar Loki
 
 Producto del paso: logs consultables desde el stack de observabilidad.
 
-Revisar logs por servicio y, si existe, por correlation id.
+Consulta logs por servicio y, si existe, por correlation id.
 
-### 3.9 Crear o revisar dashboard en Grafana
+### 3.9 Crear dashboard basico en Grafana
 
 Producto del paso: visualizacion basica de estado del sistema.
 
@@ -246,7 +264,7 @@ Provocar un error controlado y ubicarlo mediante logs, health o metricas.
 
 Producto del paso: hallazgo documentado con causa probable y solucion.
 
-### 3.11 Revisar correlation id
+### 3.11 Validar correlation id
 
 Producto del paso: una solicitud puede seguirse en logs del sistema.
 

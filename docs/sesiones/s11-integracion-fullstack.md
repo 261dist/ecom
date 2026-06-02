@@ -108,11 +108,11 @@ Tiempo: 3h.
 
 En el laboratorio, el docente guia la integracion de `ecom-ng` con el backend distribuido. El estudiante prueba desde navegador y confirma que el frontend usa Gateway como unico punto de entrada.
 
-### 3.1 Revisar el punto de partida
+### 3.1 Preparar el punto de partida
 
 Producto del paso: identificar backend, frontend y contrato de URLs.
 
-Revisar:
+Confirma que existan estos modulos. Si alguno falta, crealo o usa la ruta alternativa de la sesion correspondiente:
 
 - `clients/ecom-ng`
 - `infra/gateway`
@@ -171,19 +171,93 @@ curl http://localhost:18080/actuator/health
 
 ### 3.4 Configurar URL del frontend
 
+Producto del paso: `ecom-ng` apunta al Gateway DEV.
+
 El frontend apunta al Gateway DEV:
 
 ```text
 http://localhost:18080
 ```
 
-Revisar el archivo de ambiente o configuracion del cliente donde se define la URL base de API.
+Crea o actualiza:
 
-### 3.5 Revisar CORS en Gateway
+```text
+clients/ecom-ng/src/environments/environment.ts
+```
+
+Pega:
+
+```ts
+export const environment = {
+  production: false,
+  apiBaseUrl: 'http://localhost:18080'
+};
+```
+
+Crea o actualiza el servicio base de API:
+
+```text
+clients/ecom-ng/src/app/core/services/api.service.ts
+```
+
+Pega:
+
+```ts
+import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+
+@Injectable({ providedIn: 'root' })
+export class ApiService {
+  readonly baseUrl = environment.apiBaseUrl;
+
+  buildUrl(path: string): string {
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+    return `${this.baseUrl}${normalizedPath}`;
+  }
+}
+```
+
+### 3.5 Configurar CORS en Gateway
 
 Producto del paso: Gateway permite peticiones desde `http://localhost:4200`.
 
-Validar que el origen del frontend este permitido en configuracion del Gateway.
+Crea o actualiza:
+
+```text
+infra/gateway/src/main/java/com/upeu/gateway/config/CorsGlobalConfig.java
+```
+
+Pega:
+
+```java
+package com.upeu.gateway.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+
+@Configuration
+public class CorsGlobalConfig {
+
+    @Bean
+    public CorsWebFilter corsWebFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(java.util.Arrays.asList(
+                "http://localhost:4200",
+                "http://localhost:4300"
+        ));
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return new CorsWebFilter(source);
+    }
+}
+```
 
 ### 3.6 Instalar dependencias del frontend
 
@@ -248,7 +322,7 @@ Probar:
 
 Producto del paso: estudiante reconoce un bloqueo CORS en navegador.
 
-Revisar:
+Valida:
 
 - Consola del navegador.
 - Cabeceras de respuesta.
@@ -271,11 +345,11 @@ Levantar microservicios necesarios con Docker. Luego configurar temporalmente el
 http://localhost:28082
 ```
 
-### 3.14 Revisar observabilidad del flujo
+### 3.14 Validar observabilidad del flujo
 
 Producto del paso: una accion del frontend se encuentra en logs del backend.
 
-Revisar logs del Gateway y del microservicio llamado. Si existe correlation id, seguir la solicitud.
+Revisa logs del Gateway y del microservicio llamado. Si existe correlation id, sigue la solicitud.
 
 ### 3.15 Registrar evidencia funcional
 

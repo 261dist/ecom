@@ -127,11 +127,11 @@ Tiempo: 3h.
 
 En el laboratorio, el docente guia la incorporacion de mensajeria asincrona entre `orden-ms` y `pago-ms`. El foco es construir el flujo desde cero: levantar Kafka, crear topics, configurar productor/consumidor y probar que el proceso ya no depende de una llamada sincronica directa.
 
-### 3.1 Revisar el punto de partida
+### 3.1 Preparar el punto de partida
 
 Producto del paso: identificar que el sistema ya tiene Config Server, Eureka, Gateway, seguridad y microservicios base.
 
-Revisar:
+Antes de construir eventos, confirma que existan o crea estos modulos:
 
 - `infra/config`
 - `infra/eureka`
@@ -207,25 +207,104 @@ spring:
 
 Producto del paso: contrato simple para publicar una orden como evento.
 
-Crear un DTO de evento con campos minimos:
+Crea:
 
-- `ordenId`
-- `clienteId`
-- `monto`
-- `estado`
-- `fecha`
+```text
+services/orden-ms/src/main/java/com/upeu/ordenms/evento/EventoOrden.java
+services/pago-ms/src/main/java/com/upeu/pagoms/evento/EventoOrden.java
+```
+
+Pega una estructura base:
+
+```java
+package com.upeu.ordenms.evento;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class EventoOrden {
+    private String tipoEvento;
+    private Long ordenId;
+    private Long clienteId;
+    private Double total;
+    private Long timestamp;
+}
+```
 
 ### 3.7 Configurar serializacion JSON
 
 Producto del paso: productor y consumidor comparten formato JSON.
 
-Revisar que la configuracion use serializadores/deserializadores JSON y paquetes confiables segun el proyecto.
+Crea una configuracion Kafka en el microservicio productor:
+
+```text
+services/orden-ms/src/main/java/com/upeu/ordenms/configuracion/KafkaConfiguracion.java
+```
+
+Pega la base:
+
+```java
+@Configuration
+public class KafkaConfiguracion {
+
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String bootstrapServers;
+
+    @Bean
+    public ProducerFactory<String, EventoOrden> producerFactory() {
+        Map<String, Object> propiedades = new HashMap<>();
+        propiedades.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        propiedades.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        propiedades.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(propiedades);
+    }
+
+    @Bean
+    public KafkaTemplate<String, EventoOrden> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+}
+```
+
+En el consumidor se usa `JsonDeserializer` y un `groupId` para leer `orden-eventos`.
 
 ### 3.8 Implementar productor en `orden-ms`
 
 Producto del paso: `orden-ms` publica en `orden-eventos` cuando se crea una orden.
 
 El productor debe enviar el evento despues de persistir la orden. Si la orden no se guarda, no debe publicarse el evento.
+
+Crea:
+
+```text
+services/orden-ms/src/main/java/com/upeu/ordenms/servicio/ProductorOrden.java
+```
+
+Fragmento base:
+
+```java
+@Service
+@RequiredArgsConstructor
+public class ProductorOrden {
+
+    private final KafkaTemplate<String, EventoOrden> kafkaTemplate;
+
+    @Value("${app.kafka.topic.ordenes}")
+    private String topicOrdenes;
+
+    public void publicarOrdenCreada(EventoOrden eventoOrden) {
+        kafkaTemplate.send(topicOrdenes, String.valueOf(eventoOrden.getOrdenId()), eventoOrden);
+    }
+}
+```
 
 ### 3.9 Implementar consumidor en `pago-ms`
 
@@ -302,7 +381,7 @@ mvn spring-boot:run
 
 Producto del paso: orden creada, evento publicado y pago procesado por evento.
 
-Ejecutar una solicitud de creacion de orden desde shell o Swagger, segun los endpoints reales del proyecto. Luego revisar:
+Ejecutar una solicitud de creacion de orden desde shell o Swagger, segun los endpoints reales del proyecto. Luego valida:
 
 - Logs de `orden-ms`.
 - Logs de `pago-ms`.
@@ -339,7 +418,7 @@ docker compose up -d --build
 
 Producto del paso: estudiante reconoce fallos tipicos de mensajeria.
 
-Revisar:
+Prueba o identifica estos casos:
 
 - Topic no existe.
 - Broker apagado.

@@ -89,33 +89,267 @@ Tiempo: 3h.
 
 La ruta principal de la sesion es construir desde cero el flujo de seguridad. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17.
 
-### 3.1 Revisar o crear `auth-ms`
+### 3.1 Crear `auth-ms`
 
 **Producto del paso:** servicio de identidad disponible para login y emision de token.
 
+En VS Code usa Spring Initializr:
+
+```text
+Spring Initializr: Create a Maven Project
+Spring Boot: 3.5.x
+Language: Java 17
+Group Id: com.upeu
+Artifact Id: ecom-auth-ms
+Package name: com.upeu.auth
+Packaging: Jar
+Ubicacion: services/auth-ms
+```
+
+Dependencias base:
+
+| Grupo | Dependencias | Proposito |
+|---|---|---|
+| Web | Spring Web, Validation | Endpoint de login y validacion |
+| Seguridad | Spring Security | Autenticacion |
+| Datos | Spring Data JPA, PostgreSQL, Flyway | Usuarios, roles y migraciones |
+| Infra | Config Client, Eureka Discovery Client, Actuator | Configuracion, registro y health |
+| Productividad | Lombok, DevTools | Codigo y desarrollo |
+
+Agrega dependencias JWT en `services/auth-ms/pom.xml`:
+
+```xml
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>0.12.7</version>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-impl</artifactId>
+    <version>0.12.7</version>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-jackson</artifactId>
+    <version>0.12.7</version>
+    <scope>runtime</scope>
+</dependency>
+```
+
 ### 3.2 Configurar credenciales y secreto de token
 
-Revisar configuracion de usuarios, secreto y emisor del token en Config Server.
+Producto del paso: `auth-ms` recibe configuracion externa para BD y JWT.
+
+Crea `infra/config/config-repo/auth-ms-dev.yml`:
+
+```yaml
+server:
+  port: 0
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:15431/ecom_auth_db
+    username: ecom
+    password: ecom
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+    instance-id: ${spring.application.name}:${local.server.port:${random.value}}
+  client:
+    service-url:
+      defaultZone: http://localhost:18761/eureka
+
+jwt:
+  secret: 1s3alJJATsWK91vf5zrODYlQa+LauM/9udaLZlQhHlpu46g/KzmSS5c3CGy6xF9kzAqBhvjmKBuZO/pSL7tfOg==
+  expiration: 3600000
+  issuer: auth
+```
+
+Crea `infra/config/config-repo/auth-ms-prod.yml`:
+
+```yaml
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:8761/eureka
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 3600000
+  issuer: auth
+```
 
 ### 3.3 Configurar rutas publicas y protegidas
 
-Definir que rutas son publicas, por ejemplo login, y que rutas requieren token.
+Producto del paso: login publico y resto del servicio protegido.
+
+Crea `JwtProperties`:
+
+```java
+package com.upeu.auth.config;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@Getter
+@Setter
+@ConfigurationProperties(prefix = "jwt")
+public class JwtProperties {
+    private String secret;
+    private long expiration;
+    private String issuer;
+}
+```
+
+Crea la configuracion de seguridad:
+
+```java
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(
+                            "/auth/login",
+                            "/actuator/health",
+                            "/actuator/info",
+                            "/v3/api-docs/**",
+                            "/swagger-ui/**",
+                            "/swagger-ui.html"
+                    ).permitAll()
+                    .anyRequest().authenticated()
+            )
+            .httpBasic(Customizer.withDefaults());
+
+    return http.build();
+}
+```
 
 ### 3.4 Integrar validacion en Gateway
 
-Configurar Gateway para validar solicitudes protegidas.
+Producto del paso: Gateway valida JWT antes de enrutar a rutas protegidas.
+
+En `infra/gateway/pom.xml`, agrega:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-oauth2-jose</artifactId>
+</dependency>
+```
+
+En `gateway-dev.yml` y `gateway-prod.yml`, agrega el secreto compartido:
+
+```yaml
+jwt:
+  secret: 1s3alJJATsWK91vf5zrODYlQa+LauM/9udaLZlQhHlpu46g/KzmSS5c3CGy6xF9kzAqBhvjmKBuZO/pSL7tfOg==
+  issuer: auth
+```
+
+En PROD, el secreto debe llegar por variable:
+
+```yaml
+jwt:
+  secret: ${JWT_SECRET}
+  issuer: auth
+```
 
 ### 3.5 Integrar validacion en microservicios
 
-Revisar que los microservicios protejan endpoints cuando corresponda.
+Producto del paso: microservicios preparados para rechazar accesos no autorizados cuando corresponda.
+
+Agrega a los microservicios protegidos:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-oauth2-jose</artifactId>
+</dependency>
+```
+
+La regla minima: health publico, API protegida.
 
 ### 3.6 Levantar infraestructura en DEV
 
-Levantar Config Server, Eureka y Gateway.
+PowerShell / bash macOS/Linux:
+
+```bash
+cd infra/config
+mvn spring-boot:run
+```
+
+En otra terminal:
+
+```bash
+cd infra/eureka
+mvn spring-boot:run
+```
+
+En otra terminal:
+
+```bash
+cd infra/gateway
+mvn spring-boot:run
+```
 
 ### 3.7 Levantar `auth-ms` y microservicios
 
-Levantar `auth-ms`, `catalogo-ms` y `producto-ms`.
+PowerShell / bash macOS/Linux:
+
+```bash
+cd services/auth-ms
+docker compose -f compose-dev.yml up -d
+mvn spring-boot:run
+```
+
+En terminales separadas:
+
+```bash
+cd services/catalogo-ms
+mvn spring-boot:run
+```
+
+```bash
+cd services/producto-ms
+mvn spring-boot:run
+```
 
 ### 3.8 Obtener token
 
@@ -171,9 +405,9 @@ Enviar un token incorrecto y verificar respuesta controlada.
 
 Identificar usuario, roles o permisos usados por el sistema.
 
-### 3.13 Revisar logs de seguridad
+### 3.13 Validar logs de seguridad
 
-Revisar logs de Gateway, `auth-ms` y microservicios para ubicar autenticacion/autorizacion.
+Revisa logs de Gateway, `auth-ms` y microservicios para ubicar autenticacion/autorizacion.
 
 ### 3.14 Preparar PROD local
 
