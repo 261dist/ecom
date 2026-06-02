@@ -18,7 +18,7 @@ Stack de observabilidad operativo con Prometheus, Loki y Grafana, conectado a se
 
 ### 1.4 Motivacion de la sesion
 
-En microservicios no basta con saber que “algo fallo”. Se necesita ubicar en que servicio, en que instancia, con que solicitud y bajo que condicion ocurrio el problema.
+En microservicios no basta con saber que "algo fallo". Se necesita ubicar en que servicio, en que instancia, con que solicitud y bajo que condicion ocurrio el problema.
 
 ### 1.5 Ubicacion en el curso
 
@@ -41,17 +41,51 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
-```mermaid
-flowchart LR
-    Services["Microservicios"]
-    Prometheus["Prometheus"]
-    Loki["Loki"]
-    Grafana["Grafana"]
+En esta sesion se consolida la observabilidad. Los servicios ya exponen Actuator; ahora se agrega recoleccion, consulta y visualizacion con Prometheus, Loki y Grafana.
 
-    Services -->|"metrics"| Prometheus
-    Services -->|"logs"| Loki
-    Grafana --> Prometheus
-    Grafana --> Loki
+#### 2.2.1 Observabilidad en DEV
+
+```mermaid
+flowchart TB
+    Cliente["Cliente<br/>PowerShell / bash / navegador"]
+    Gateway["Gateway<br/>localhost:18080"]
+    Servicios["Microservicios<br/>puerto dinamico"]
+    Prometheus["Prometheus<br/>localhost:19090"]
+    Loki["Loki<br/>localhost:13100"]
+    Grafana["Grafana<br/>localhost:13000"]
+
+    Cliente --> Gateway
+    Gateway --> Servicios
+    Prometheus -->|"scrape /actuator/prometheus"| Gateway
+    Prometheus -->|"scrape /actuator/prometheus"| Servicios
+    Gateway -->|"logs"| Loki
+    Servicios -->|"logs"| Loki
+    Grafana -->|"datasource"| Prometheus
+    Grafana -->|"datasource"| Loki
+```
+
+#### 2.2.2 Observabilidad en PROD local
+
+```mermaid
+flowchart TB
+    Cliente["Cliente<br/>PowerShell / bash / navegador"]
+
+    subgraph Docker["Docker Networks: ecom-prod-net + observabilidad"]
+        Gateway["ecom-gateway<br/>8080 interno<br/>host localhost:28082"]
+        Servicios["Microservicios<br/>8080 interno"]
+        Prometheus["Prometheus<br/>host localhost:29090"]
+        Loki["Loki<br/>host localhost:23100"]
+        Grafana["Grafana<br/>host localhost:23000"]
+    end
+
+    Cliente --> Gateway
+    Gateway --> Servicios
+    Prometheus -->|"scrape /actuator/prometheus"| Gateway
+    Prometheus -->|"scrape /actuator/prometheus"| Servicios
+    Gateway -->|"logs"| Loki
+    Servicios -->|"logs"| Loki
+    Grafana -->|"datasource"| Prometheus
+    Grafana -->|"datasource"| Loki
 ```
 
 ### 2.3 Observabilidad y diagnostico
@@ -69,16 +103,37 @@ Senales a revisar:
 
 Tiempo: 3h.
 
-### 3.1 Levantar observabilidad
+En el laboratorio, el docente guia la puesta en marcha del stack de observabilidad y los estudiantes diagnostican el sistema usando senales reales: health, metricas, logs y dashboards.
+
+### 3.1 Revisar exposicion de Actuator
+
+Producto del paso: servicios preparados para exponer health, metrics y prometheus.
+
+Verificar en configuracion externa:
+
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+```
+
+Nota: `/actuator/metrics` funciona con Actuator. Para `/actuator/prometheus` se requiere `micrometer-registry-prometheus` en el servicio.
+
+### 3.2 Levantar observabilidad DEV
+
+Producto del paso: Prometheus, Loki y Grafana disponibles en host.
 
 PowerShell / bash macOS/Linux:
 
 ```bash
 cd obs
-docker compose up -d
+docker compose -f compose-dev.yml up -d
+docker compose -f compose-dev.yml ps
 ```
 
-### 3.2 Verificar herramientas
+### 3.3 Verificar herramientas
 
 URLs:
 
@@ -88,24 +143,193 @@ Prometheus DEV: http://localhost:19090
 Loki DEV: http://localhost:13100
 ```
 
-### 3.3 Verificar endpoints Actuator
+### 3.4 Levantar backend DEV
+
+Producto del paso: Gateway y microservicios generando senales.
+
+Levantar Config Server, Eureka, Gateway y al menos dos microservicios:
+
+```bash
+cd infra/config
+mvn spring-boot:run
+```
+
+En terminales separadas:
+
+```bash
+cd infra/eureka
+mvn spring-boot:run
+```
+
+```bash
+cd infra/gateway
+mvn spring-boot:run
+```
+
+```bash
+cd services/catalogo-ms
+mvn spring-boot:run
+```
+
+```bash
+cd services/producto-ms
+mvn spring-boot:run
+```
+
+### 3.5 Verificar endpoints Actuator
+
+Producto del paso: health y metricas consultables desde consola.
 
 PowerShell / bash macOS/Linux:
 
 ```bash
 curl http://localhost:<puerto>/actuator/health
 curl http://localhost:<puerto>/actuator/metrics
+curl http://localhost:<puerto>/actuator/prometheus
 ```
 
-### 3.4 Generar trafico
+### 3.6 Generar trafico por Gateway
+
+Producto del paso: logs y metricas con actividad real.
 
 Ejecutar pruebas por Gateway para generar logs y metricas.
 
-### 3.5 Diagnosticar un fallo
+Ejemplos:
+
+```bash
+curl http://localhost:18080/actuator/health
+curl http://localhost:18080/api/v1/categorias
+```
+
+### 3.7 Revisar Prometheus
+
+Producto del paso: Prometheus consulta metricas expuestas por servicios.
+
+Entrar a:
+
+```text
+http://localhost:19090
+```
+
+Probar consultas como:
+
+```text
+up
+http_server_requests_seconds_count
+jvm_memory_used_bytes
+```
+
+### 3.8 Revisar Loki
+
+Producto del paso: logs consultables desde el stack de observabilidad.
+
+Revisar logs por servicio y, si existe, por correlation id.
+
+### 3.9 Crear o revisar dashboard en Grafana
+
+Producto del paso: visualizacion basica de estado del sistema.
+
+Entrar a:
+
+```text
+http://localhost:13000
+```
+
+Verificar datasources:
+
+- Prometheus.
+- Loki.
+
+### 3.10 Diagnosticar un fallo
 
 Provocar un error controlado y ubicarlo mediante logs, health o metricas.
 
-### 3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+Producto del paso: hallazgo documentado con causa probable y solucion.
+
+### 3.11 Revisar correlation id
+
+Producto del paso: una solicitud puede seguirse en logs del sistema.
+
+Enviar una peticion con header:
+
+```bash
+curl -H "X-Correlation-Id: prueba-s10-001" http://localhost:18080/api/v1/categorias
+```
+
+Luego buscar ese valor en logs.
+
+### 3.12 Validar observabilidad en Gateway
+
+Producto del paso: Gateway tambien expone senales operacionales.
+
+Verificar:
+
+```bash
+curl http://localhost:18080/actuator/health
+curl http://localhost:18080/actuator/metrics
+curl http://localhost:18080/actuator/prometheus
+```
+
+### 3.13 Probar en PROD local
+
+Producto del paso: observabilidad conectada al sistema Dockerizado.
+
+Levantar infraestructura y observabilidad:
+
+```bash
+cd infra
+docker compose up -d --build
+```
+
+```bash
+cd obs
+docker compose up -d
+```
+
+Luego levantar microservicios necesarios con Docker.
+
+### 3.14 Consultar URLs PROD
+
+Producto del paso: herramientas abiertas en puertos de produccion local.
+
+```text
+Gateway PROD health: http://localhost:28082/actuator/health
+Prometheus PROD: http://localhost:29090
+Loki PROD: http://localhost:23100
+Grafana PROD: http://localhost:23000
+```
+
+### 3.15 Registrar evidencias de diagnostico
+
+Producto del paso: captura o registro claro del analisis.
+
+Evidenciar:
+
+- Health de un servicio.
+- Metrica consultada.
+- Log de una solicitud.
+- Dashboard o panel.
+- Error controlado con solucion.
+
+### 3.16 Detener stack cuando termine la practica
+
+Producto del paso: recursos locales liberados.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd obs
+docker compose -f compose-dev.yml down
+```
+
+Para PROD:
+
+```bash
+cd obs
+docker compose down
+```
+
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
 ```bash
 git clone --branch vs10-observabilidad https://github.com/261dist/ecom.git ecom-s10

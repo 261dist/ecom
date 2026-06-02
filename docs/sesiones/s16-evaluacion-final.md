@@ -49,6 +49,33 @@ La consigna puede tomar cualquier componente del producto:
 - `clients/ecom-ng`.
 - `docs`.
 
+```mermaid
+flowchart TB
+    Consigna["Consigna individual<br/>competencia pendiente"]
+    Infra["infra"]
+    Services["services"]
+    Kafka["kafka"]
+    Obs["obs"]
+    Front["clients/ecom-ng"]
+    Docs["docs"]
+    Evidencia["Evidencia verificable<br/>comando + resultado + explicacion"]
+    Sustentacion["Sustentacion individual"]
+
+    Consigna --> Infra
+    Consigna --> Services
+    Consigna --> Kafka
+    Consigna --> Obs
+    Consigna --> Front
+    Consigna --> Docs
+    Infra --> Evidencia
+    Services --> Evidencia
+    Kafka --> Evidencia
+    Obs --> Evidencia
+    Front --> Evidencia
+    Docs --> Evidencia
+    Evidencia --> Sustentacion
+```
+
 ### 2.3 Observabilidad y diagnostico
 
 La evaluacion puede incluir diagnosticar una falla provocada por el docente y explicar la ruta de revision.

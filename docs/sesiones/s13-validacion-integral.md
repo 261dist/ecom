@@ -40,20 +40,81 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
-```mermaid
-flowchart LR
-    Cliente["Cliente / ecom-ng"]
-    Gateway["Gateway"]
-    Servicios["Microservicios"]
-    Broker["Kafka"]
-    DB["Bases de datos"]
-    Obs["Observabilidad"]
+En esta sesion se valida el producto completo. El foco no es agregar un componente nuevo, sino demostrar que el flujo atraviesa cliente, Gateway, seguridad, microservicios, eventos, bases de datos y observabilidad.
 
-    Cliente --> Gateway
-    Gateway --> Servicios
-    Servicios --> Broker
-    Servicios --> DB
-    Servicios -. logs/metricas .-> Obs
+#### 2.2.1 Validacion end-to-end en DEV
+
+```mermaid
+flowchart TB
+    Cliente["Cliente<br/>PowerShell / bash / ecom-ng"]
+    Gateway["Gateway<br/>localhost:18080"]
+    Auth["auth-ms<br/>puerto dinamico"]
+    Catalogo["catalogo-ms<br/>puerto dinamico"]
+    Producto["producto-ms<br/>puerto dinamico"]
+    Orden["orden-ms<br/>puerto dinamico"]
+    Pago["pago-ms<br/>puerto dinamico"]
+    Kafka["Kafka broker<br/>localhost:41092"]
+    DB["Bases de datos<br/>PostgreSQL DEV"]
+    Obs["Observabilidad<br/>Grafana localhost:13000"]
+
+    Cliente -->|"login + CRUD + orden"| Gateway
+    Gateway --> Auth
+    Gateway --> Catalogo
+    Gateway --> Producto
+    Gateway --> Orden
+    Orden -->|"orden-eventos"| Kafka
+    Kafka --> Pago
+    Pago -->|"pago-eventos"| Kafka
+    Kafka --> Orden
+    Catalogo --> DB
+    Producto --> DB
+    Orden --> DB
+    Pago --> DB
+    Auth --> DB
+    Gateway -.->|"logs / metricas"| Obs
+    Catalogo -.->|"logs / metricas"| Obs
+    Producto -.->|"logs / metricas"| Obs
+    Orden -.->|"logs / metricas"| Obs
+    Pago -.->|"logs / metricas"| Obs
+```
+
+#### 2.2.2 Validacion end-to-end en PROD local
+
+```mermaid
+flowchart TB
+    Cliente["Cliente<br/>PowerShell / bash / ecom-ng"]
+
+    subgraph Docker["Docker Networks: ecom-prod-net + ecom-kafka-prod-net + observabilidad"]
+        Gateway["ecom-gateway<br/>host localhost:28082"]
+        Auth["auth-ms<br/>8080 interno"]
+        Catalogo["catalogo-ms<br/>8080 interno"]
+        Producto["producto-ms<br/>8080 interno"]
+        Orden["orden-ms<br/>8080 interno"]
+        Pago["pago-ms<br/>8080 interno"]
+        Kafka["Kafka broker<br/>kafka:9092<br/>UI localhost:28085"]
+        DB["Bases de datos<br/>PostgreSQL PROD local"]
+        Obs["Grafana<br/>localhost:23000"]
+    end
+
+    Cliente -->|"login + CRUD + orden"| Gateway
+    Gateway --> Auth
+    Gateway --> Catalogo
+    Gateway --> Producto
+    Gateway --> Orden
+    Orden -->|"orden-eventos"| Kafka
+    Kafka --> Pago
+    Pago -->|"pago-eventos"| Kafka
+    Kafka --> Orden
+    Catalogo --> DB
+    Producto --> DB
+    Orden --> DB
+    Pago --> DB
+    Auth --> DB
+    Gateway -.->|"logs / metricas"| Obs
+    Catalogo -.->|"logs / metricas"| Obs
+    Producto -.->|"logs / metricas"| Obs
+    Orden -.->|"logs / metricas"| Obs
+    Pago -.->|"logs / metricas"| Obs
 ```
 
 ### 2.3 Observabilidad y diagnostico
@@ -64,7 +125,24 @@ Validar cada salto del flujo con logs, metricas, BD, Kafka UI, Eureka, Gateway y
 
 Tiempo: 3h.
 
-### 3.1 Definir flujo principal
+En el laboratorio, el docente guia una validacion integral. Cada equipo ejecuta el mismo flujo, registra evidencias por capa y anota incidencias tecnicas con causa probable.
+
+### 3.1 Preparar checklist end-to-end
+
+Producto del paso: flujo principal y evidencias esperadas definidas antes de ejecutar.
+
+Checklist minimo:
+
+- Login.
+- CRUD de categoria.
+- CRUD de producto.
+- Creacion de orden.
+- Procesamiento de pago.
+- Validacion en BD.
+- Validacion en Kafka.
+- Validacion en logs/metricas.
+
+### 3.2 Definir flujo principal
 
 Ejemplo minimo:
 
@@ -75,11 +153,61 @@ Ejemplo minimo:
 5. Procesar pago.
 6. Revisar estado final.
 
-### 3.2 Ejecutar flujo
+### 3.3 Levantar sistema DEV
+
+Producto del paso: sistema completo disponible en desarrollo.
+
+Levantar:
+
+- Config Server.
+- Eureka.
+- Gateway.
+- Kafka.
+- Observabilidad.
+- Microservicios necesarios.
+- Frontend, si se usara en la demo.
+
+### 3.4 Validar health y registro de servicios
+
+Producto del paso: infraestructura base saludable.
+
+Verificar:
+
+```bash
+curl http://localhost:18080/actuator/health
+```
+
+Abrir Eureka:
+
+```text
+http://localhost:18761
+```
+
+### 3.5 Ejecutar login
+
+Producto del paso: token valido para el flujo protegido.
+
+Guardar token si la prueba se realiza desde shell.
+
+### 3.6 Ejecutar CRUD de categoria
+
+Producto del paso: categoria creada y consultable por Gateway.
+
+Evidenciar respuesta HTTP y registro en base de datos.
+
+### 3.7 Ejecutar CRUD de producto
+
+Producto del paso: producto creado con categoria asociada.
+
+Evidenciar respuesta HTTP y validacion de relacion con categoria.
+
+### 3.8 Ejecutar flujo de orden y pago
+
+Producto del paso: orden creada y pago procesado por eventos.
 
 Usar shell, frontend o ambos, siempre mediante Gateway cuando corresponda.
 
-### 3.3 Verificar resultados por capa
+### 3.9 Verificar resultados por capa
 
 Validar:
 
@@ -89,9 +217,72 @@ Validar:
 - Logs.
 - Metricas o dashboard.
 
-### 3.4 Registrar incidencias
+### 3.10 Verificar Kafka UI
+
+Producto del paso: eventos de orden y pago visibles.
+
+Abrir:
+
+```text
+http://localhost:41085
+```
+
+Revisar `orden-eventos` y `pago-eventos`.
+
+### 3.11 Verificar bases de datos
+
+Producto del paso: datos finales visibles en las tablas de cada microservicio.
+
+Consultar tablas de categorias, productos, ordenes y pagos con `docker exec` y `psql`.
+
+### 3.12 Revisar observabilidad
+
+Producto del paso: evidencias de logs o metricas del flujo.
+
+Revisar:
+
+- Grafana DEV: `http://localhost:13000`
+- Prometheus DEV: `http://localhost:19090`
+- Loki DEV: `http://localhost:13100`
+
+### 3.13 Registrar incidencias
 
 Documentar errores, causa probable y accion correctiva.
+
+### 3.14 Repetir flujo en PROD local
+
+Producto del paso: flujo principal probado con contenedores.
+
+Levantar infraestructura, Kafka, observabilidad y microservicios con Docker. Usar Gateway PROD:
+
+```text
+http://localhost:28082
+```
+
+### 3.15 Comparar DEV y PROD local
+
+Producto del paso: diferencias operativas identificadas.
+
+Comparar:
+
+- Puertos.
+- URLs.
+- Uso de `localhost` vs nombres de servicio Docker.
+- Swagger habilitado o deshabilitado.
+- Health y logs.
+
+### 3.16 Consolidar evidencia del equipo
+
+Producto del paso: evidencia lista para la revision de cierre.
+
+Agrupar capturas, comandos, logs y hallazgos. Cada integrante debe identificar su aporte.
+
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+
+```bash
+git clone --branch vs13-validacion-end-to-end https://github.com/261dist/ecom.git ecom-s13
+cd ecom-s13
+```
 
 ## 4. Crea: actividad autonoma
 

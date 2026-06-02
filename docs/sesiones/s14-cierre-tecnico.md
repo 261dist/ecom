@@ -40,13 +40,59 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
-Revisar que la documentacion explique como levantar e integrar:
+Revisar que la documentacion explique como levantar e integrar el producto completo.
 
-- `infra`.
-- `services`.
-- `kafka`.
-- `obs`.
-- `clients/ecom-ng`.
+#### 2.2.1 Revision tecnica en DEV
+
+```mermaid
+flowchart TB
+    Doc["Documentacion<br/>README + docs"]
+    Cliente["Cliente<br/>PowerShell / bash / ecom-ng"]
+    Infra["infra<br/>Config + Eureka + Gateway"]
+    Services["services<br/>microservicios"]
+    Kafka["kafka<br/>broker + UI"]
+    Obs["obs<br/>Prometheus + Loki + Grafana"]
+    Evidencias["Evidencias<br/>PDF + capturas + comandos"]
+
+    Doc --> Cliente
+    Cliente --> Infra
+    Infra --> Services
+    Services --> Kafka
+    Services -.-> Obs
+    Cliente --> Evidencias
+    Infra --> Evidencias
+    Services --> Evidencias
+    Kafka --> Evidencias
+    Obs --> Evidencias
+```
+
+#### 2.2.2 Revision tecnica en PROD local
+
+```mermaid
+flowchart TB
+    Doc["Documentacion<br/>README + .env.example"]
+
+    subgraph Docker["Docker local"]
+        Infra["infra<br/>Config + Eureka + Gateway"]
+        Services["services<br/>microservicios + DB"]
+        Kafka["kafka<br/>broker + UI"]
+        Obs["obs<br/>Prometheus + Loki + Grafana"]
+    end
+
+    Cliente["Cliente<br/>PowerShell / bash / navegador"]
+    Evidencias["Evidencias finales<br/>comandos + capturas + diagnostico"]
+
+    Doc --> Infra
+    Doc --> Services
+    Doc --> Kafka
+    Doc --> Obs
+    Cliente --> Infra
+    Infra --> Services
+    Services --> Kafka
+    Services -.-> Obs
+    Cliente --> Evidencias
+    Docker --> Evidencias
+```
 
 ### 2.3 Observabilidad y diagnostico
 
@@ -56,23 +102,119 @@ La revision debe incluir al menos un caso de fallo documentado y su ruta de diag
 
 Tiempo: 3h.
 
-### 3.1 Revisar README principal y por modulo
+En el laboratorio, el docente guia una revision tecnica final. El equipo no solo demuestra que funciona: deja el producto ordenado, reproducible y defendible.
+
+### 3.1 Preparar checklist de estabilizacion
+
+Producto del paso: lista de verificacion acordada por equipo.
+
+Checklist minimo:
+
+- README principal.
+- README por modulo.
+- `.env.example`.
+- Comandos DEV.
+- Comandos PROD local.
+- Health por componente.
+- Flujo end-to-end.
+- Evidencias por integrante.
+
+### 3.2 Revisar README principal y por modulo
 
 Verificar que los comandos funcionen en DEV y PROD local cuando aplique.
 
-### 3.2 Revisar variables y perfiles
+Producto del paso: documentacion alineada al codigo real.
+
+### 3.3 Revisar variables y perfiles
 
 Confirmar `.env.example`, perfiles `dev/prod`, puertos, health y rutas.
 
-### 3.3 Ejecutar prueba principal
+Producto del paso: configuracion externa comprensible y sin secretos innecesarios.
+
+### 3.4 Validar comandos DEV
+
+Producto del paso: el sistema se puede levantar desde consola en desarrollo.
+
+Probar, como minimo:
+
+- Config Server.
+- Eureka.
+- Gateway.
+- Dos microservicios.
+- Kafka u observabilidad si participan en el flujo.
+
+### 3.5 Validar comandos PROD local
+
+Producto del paso: el sistema se puede levantar con Docker Compose.
+
+Probar:
+
+```bash
+cd infra
+docker compose up -d --build
+```
+
+Luego levantar los modulos necesarios y verificar health.
+
+### 3.6 Ejecutar prueba principal
 
 Repetir el flujo end-to-end principal y registrar incidencias.
 
-### 3.4 Corregir fallos prioritarios
+Producto del paso: flujo funcional y reproducible.
+
+### 3.7 Registrar incidencias tecnicas
+
+Producto del paso: errores descritos con causa probable y decision tomada.
+
+Usar formato:
+
+```text
+Incidencia:
+Causa probable:
+Evidencia:
+Accion aplicada:
+Resultado:
+```
+
+### 3.8 Corregir fallos prioritarios
 
 Priorizar fallos que bloquean ejecucion, evidencia o defensa.
 
-### 3.5 Preparar guion de defensa
+Producto del paso: producto estabilizado para la defensa.
+
+### 3.9 Revisar observabilidad minima
+
+Producto del paso: diagnostico basico disponible.
+
+Verificar:
+
+- Health de Gateway.
+- Logs de un microservicio.
+- Una metrica o panel.
+- Un correlation id si aplica.
+
+### 3.10 Revisar seguridad
+
+Producto del paso: rutas protegidas y publicas verificadas.
+
+Probar:
+
+- Login correcto.
+- Ruta protegida con token.
+- Ruta protegida sin token.
+
+### 3.11 Revisar mensajeria y consistencia
+
+Producto del paso: topics, eventos y estados finales coherentes.
+
+Verificar:
+
+- `orden-eventos`.
+- `pago-eventos`.
+- Estado final de orden.
+- Registro de pago.
+
+### 3.12 Preparar guion de defensa
 
 Asignar a cada integrante:
 
@@ -80,6 +222,51 @@ Asignar a cada integrante:
 - Evidencia.
 - Pregunta probable.
 - Riesgo tecnico.
+
+### 3.13 Preparar evidencias individuales
+
+Producto del paso: cada estudiante tiene evidencia propia.
+
+Cada integrante debe tener:
+
+- Captura o comando de su aporte.
+- Explicacion breve.
+- Link de GitHub.
+- Riesgo o aprendizaje tecnico.
+
+### 3.14 Validar repositorio GitHub
+
+Producto del paso: trabajo versionado y revisable.
+
+Verificar:
+
+- Rama o tag usado.
+- Commits del equipo.
+- README actualizado.
+- Archivos generados no necesarios fuera del repo.
+
+### 3.15 Ejecutar simulacro breve de defensa
+
+Producto del paso: cada integrante responde al menos una pregunta tecnica.
+
+El docente puede seleccionar integrantes al azar y pedir evidencia directa.
+
+### 3.16 Cerrar pendientes
+
+Producto del paso: lista corta de pendientes o confirmacion de cierre.
+
+Clasificar:
+
+- Bloqueante.
+- Importante pero no bloqueante.
+- Mejora futura.
+
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+
+```bash
+git clone --branch vs14-estabilizacion-final https://github.com/261dist/ecom.git ecom-s14
+cd ecom-s14
+```
 
 ## 4. Crea: actividad autonoma
 

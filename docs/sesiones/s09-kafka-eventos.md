@@ -41,22 +41,64 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
+En esta sesion se usa mensajeria para sostener un proceso distribuido: `orden-ms` crea la orden, `pago-ms` procesa el pago y la orden cambia de estado cuando llega el resultado. La idea central no es la tecnologia del broker, sino la consistencia eventual del negocio.
+
+#### 2.2.1 Consistencia distribuida en DEV
+
 ```mermaid
-flowchart LR
-    Orden["orden-ms"]
-    OrdenDB["orden_db"]
-    Broker["Kafka broker"]
-    Pago["pago-ms"]
-    PagoDB["pago_db"]
+flowchart TB
+    Cliente["Cliente<br/>PowerShell / bash / navegador"]
+    Gateway["Gateway<br/>localhost:18080"]
+    Kafka["Kafka broker<br/>localhost:41092"]
+    KafkaUI["Kafka UI<br/>localhost:41085"]
+    Orden["orden-ms<br/>puerto dinamico"]
+    Pago["pago-ms<br/>puerto dinamico"]
+    OrdenDB["ecom_orden_db<br/>localhost:15434"]
+    PagoDB["ecom_pago_db<br/>localhost:15435"]
     Pasarela["Pasarela de pagos externa"]
 
-    Orden --> OrdenDB
-    Orden -->|"orden-eventos"| Broker
-    Broker -->|"orden-eventos"| Pago
-    Pago --> PagoDB
-    Pago --> Pasarela
-    Pago -->|"pago-eventos"| Broker
-    Broker -->|"pago-eventos"| Orden
+    Cliente -->|"POST /api/v1/ordenes"| Gateway
+    Gateway --> Orden
+    Orden -->|"guarda ORDEN_CREADA"| OrdenDB
+    Orden -->|"publica orden-eventos"| Kafka
+    Kafka -->|"consume orden-eventos"| Pago
+    Pago -->|"registra intento de pago"| PagoDB
+    Pago -->|"autoriza / confirma pago"| Pasarela
+    Pago -->|"publica pago-eventos"| Kafka
+    Kafka -->|"consume pago-eventos"| Orden
+    Orden -->|"actualiza estado final"| OrdenDB
+    KafkaUI -->|"inspecciona eventos"| Kafka
+```
+
+#### 2.2.2 Consistencia distribuida en PROD local
+
+```mermaid
+flowchart TB
+    Cliente["Cliente<br/>PowerShell / bash"]
+
+    subgraph Docker["Docker Network: ecom-prod-net + ecom-kafka-prod-net"]
+        Gateway["ecom-gateway<br/>8080 interno<br/>host localhost:28082"]
+        Kafka["Kafka broker<br/>kafka:9092"]
+        KafkaUI["Kafka UI<br/>host localhost:28085"]
+        Orden["orden-ms<br/>8080 interno"]
+        Pago["pago-ms<br/>8080 interno"]
+        OrdenDB["ecom_orden_db"]
+        PagoDB["ecom_pago_db"]
+    end
+
+    Pasarela["Pasarela de pagos externa"]
+
+    Cliente -->|"POST localhost:28082/api/v1/ordenes"| Gateway
+    Gateway --> Orden
+    Orden -->|"guarda ORDEN_CREADA"| OrdenDB
+    Orden -->|"publica orden-eventos"| Kafka
+    Kafka -->|"consume orden-eventos"| Pago
+    Pago -->|"registra intento de pago"| PagoDB
+    Pago -->|"autoriza / confirma pago"| Pasarela
+    Pago -->|"publica pago-eventos"| Kafka
+    Kafka -->|"consume pago-eventos"| Orden
+    Orden -->|"actualiza estado final"| OrdenDB
+    KafkaUI -->|"inspecciona eventos"| Kafka
 ```
 
 ### 2.3 Observabilidad y diagnostico
@@ -67,7 +109,23 @@ Revisar estados en BD, eventos publicados, eventos consumidos, duplicados, error
 
 Tiempo: 3h.
 
-### 3.1 Definir estados de negocio
+En el laboratorio, el docente guia la construccion de un flujo de negocio distribuido. El estudiante debe ver que ya no existe una transaccion unica: cada microservicio cuida su base de datos y el proceso avanza por eventos.
+
+### 3.1 Revisar el punto de partida
+
+Producto del paso: identificar los servicios que participan en el flujo distribuido.
+
+Componentes:
+
+- `orden-ms`: inicia el proceso y conserva el estado de la orden.
+- `pago-ms`: procesa o simula el pago.
+- `kafka`: transporta eventos.
+- Base de datos de ordenes y pagos.
+- Pasarela externa simulada o integrada.
+
+### 3.2 Definir estados de negocio
+
+Producto del paso: estados minimos acordados para la orden.
 
 Estados sugeridos:
 
@@ -79,23 +137,181 @@ PAGO_RECHAZADO
 ORDEN_CANCELADA
 ```
 
-### 3.2 Publicar evento de orden
+### 3.3 Definir contratos de eventos
+
+Producto del paso: contratos claros para eventos de orden y pago.
+
+Evento de orden:
+
+```text
+ordenId
+clienteId
+monto
+estado
+fecha
+```
+
+Evento de pago:
+
+```text
+ordenId
+pagoId
+estadoPago
+mensaje
+fecha
+```
+
+### 3.4 Preparar topics
+
+Producto del paso: topics disponibles para el flujo.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd kafka
+docker compose -f compose-dev.yml up -d
+docker exec -it ecom-kafka-dev /opt/kafka/bin/kafka-topics.sh --create --topic orden-eventos --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
+docker exec -it ecom-kafka-dev /opt/kafka/bin/kafka-topics.sh --create --topic pago-eventos --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
+docker exec -it ecom-kafka-dev /opt/kafka/bin/kafka-topics.sh --list --bootstrap-server kafka:9092
+```
+
+### 3.5 Implementar persistencia inicial en `orden-ms`
+
+Producto del paso: una orden se registra antes de publicar evento.
+
+La orden debe guardarse con estado inicial, por ejemplo `ORDEN_CREADA` o `PAGO_PENDIENTE`.
+
+### 3.6 Publicar evento de orden
 
 `orden-ms` publica un evento cuando se crea una orden.
 
-### 3.3 Procesar pago
+Producto del paso: cada orden creada genera un evento en `orden-eventos`.
+
+### 3.7 Procesar pago
 
 `pago-ms` consume el evento de orden, registra intento de pago y responde con evento de pago.
 
-### 3.4 Actualizar estado de orden
+Producto del paso: `pago-ms` produce una respuesta de pago sin acoplarse al controlador de ordenes.
+
+### 3.8 Conectar pasarela de pagos externa o simulada
+
+Producto del paso: pago confirmado o rechazado con una decision de negocio controlada.
+
+La pasarela puede ser real, simulada o reemplazada por un adaptador temporal para laboratorio.
+
+### 3.9 Actualizar estado de orden
 
 `orden-ms` consume el evento de pago y actualiza el estado final.
 
-### 3.5 Probar idempotencia basica
+Producto del paso: la orden refleja el resultado final del proceso.
+
+### 3.10 Probar idempotencia basica
 
 Reenviar o simular un evento repetido y verificar que no se duplique el efecto de negocio.
 
-### 3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+Producto del paso: el servicio no genera efectos duplicados ante eventos repetidos.
+
+### 3.11 Levantar infraestructura DEV
+
+Producto del paso: Config Server, Eureka, Gateway y Kafka disponibles.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd infra/config
+mvn spring-boot:run
+```
+
+En otra terminal:
+
+```bash
+cd infra/eureka
+mvn spring-boot:run
+```
+
+En otra terminal:
+
+```bash
+cd infra/gateway
+mvn spring-boot:run
+```
+
+### 3.12 Levantar microservicios DEV
+
+Producto del paso: `orden-ms` y `pago-ms` ejecutando con configuracion externa.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd services/orden-ms
+mvn spring-boot:run
+```
+
+En otra terminal:
+
+```bash
+cd services/pago-ms
+mvn spring-boot:run
+```
+
+### 3.13 Probar flujo completo por Gateway
+
+Producto del paso: una orden cambia de estado mediante eventos.
+
+Crear una orden y verificar:
+
+- Respuesta HTTP del Gateway.
+- Registro en `ecom_orden_db`.
+- Evento en `orden-eventos`.
+- Registro en `ecom_pago_db`.
+- Evento en `pago-eventos`.
+- Estado final actualizado en orden.
+
+### 3.14 Inspeccionar base de datos
+
+Producto del paso: evidencia de estados y registros de negocio.
+
+Usar `docker exec` con `psql` segun el contenedor de cada microservicio para revisar tablas y registros.
+
+### 3.15 Probar en PROD local
+
+Producto del paso: consistencia eventual funcionando dentro de Docker.
+
+Levantar primero infraestructura y Kafka, luego microservicios:
+
+```bash
+cd infra
+docker compose up -d --build
+```
+
+```bash
+cd kafka
+docker compose up -d
+```
+
+```bash
+cd services/orden-ms
+docker compose up -d --build
+```
+
+```bash
+cd services/pago-ms
+docker compose up -d --build
+```
+
+### 3.16 Diagnosticar errores frecuentes
+
+Producto del paso: estudiante interpreta problemas de consistencia distribuida.
+
+Revisar:
+
+- Orden creada pero evento no publicado.
+- Pago registrado pero orden no actualizada.
+- Evento duplicado.
+- Evento consumido por grupo incorrecto.
+- Pasarela externa no disponible.
+
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
 ```bash
 git clone --branch vs09-consistencia-distribuida https://github.com/261dist/ecom.git ecom-s09

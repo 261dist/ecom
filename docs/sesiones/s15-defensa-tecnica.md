@@ -42,6 +42,30 @@ Tiempo: 15 min.
 
 El equipo presenta la arquitectura final del producto, sus componentes, relaciones y decisiones tecnicas.
 
+```mermaid
+flowchart TB
+    Producto["Producto del curso<br/>ecom"]
+    Infra["infra<br/>Config + Eureka + Gateway"]
+    Services["services<br/>microservicios + BD"]
+    Kafka["kafka<br/>eventos"]
+    Obs["obs<br/>diagnostico"]
+    Cliente["clients/ecom-ng<br/>frontend"]
+    Defensa["Defensa tecnica<br/>demo + preguntas"]
+    Evidencia["Evidencia individual<br/>aporte + GitHub + PDF"]
+
+    Producto --> Infra
+    Producto --> Services
+    Producto --> Kafka
+    Producto --> Obs
+    Producto --> Cliente
+    Infra --> Defensa
+    Services --> Defensa
+    Kafka --> Defensa
+    Obs --> Defensa
+    Cliente --> Defensa
+    Defensa --> Evidencia
+```
+
 ### 2.3 Observabilidad y diagnostico
 
 Durante la defensa se puede solicitar diagnosticar un fallo, revisar logs, consultar BD, revisar eventos o explicar una metrica.

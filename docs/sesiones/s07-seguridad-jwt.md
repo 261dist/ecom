@@ -41,17 +41,40 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
+#### 2.2.1 Seguridad en DEV
+
 ```mermaid
 flowchart LR
-    Cliente["Cliente"]
-    Gateway["Gateway"]
-    Auth["auth-ms"]
-    Catalogo["catalogo-ms"]
-    Producto["producto-ms"]
+    Cliente["Cliente<br/>PowerShell / bash"]
+    Gateway["Gateway<br/>localhost:18080"]
+    Auth["auth-ms<br/>puerto dinamico"]
+    Catalogo["catalogo-ms<br/>puerto dinamico"]
+    Producto["producto-ms<br/>puerto dinamico"]
 
-    Cliente -->|"login"| Auth
+    Cliente -->|"POST localhost:18080/auth/login"| Gateway
+    Gateway --> Auth
     Auth -->|"token"| Cliente
-    Cliente -->|"Bearer token"| Gateway
+    Cliente -->|"Bearer token<br/>localhost:18080"| Gateway
+    Gateway --> Catalogo
+    Gateway --> Producto
+```
+
+#### 2.2.2 Seguridad en PROD local
+
+```mermaid
+flowchart LR
+    Cliente["Cliente<br/>PowerShell / bash"]
+    subgraph Docker["Docker Network: ecom-prod-net"]
+        Gateway["ecom-gateway<br/>8080 interno"]
+        Auth["auth-ms<br/>8080 interno"]
+        Catalogo["catalogo-ms<br/>8080 interno"]
+        Producto["producto-ms<br/>8080 interno"]
+    end
+
+    Cliente -->|"POST localhost:28082/auth/login"| Gateway
+    Gateway --> Auth
+    Auth -->|"token"| Cliente
+    Cliente -->|"Bearer token<br/>localhost:28082"| Gateway
     Gateway --> Catalogo
     Gateway --> Producto
 ```
@@ -64,11 +87,39 @@ Revisar health de `auth-ms`, logs de autenticacion, respuesta 401 sin token, res
 
 Tiempo: 3h.
 
-### 3.1 Levantar infraestructura y servicios
+La ruta principal de la sesion es construir desde cero el flujo de seguridad. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17.
 
-Levantar Config Server, Eureka, Gateway, `auth-ms` y microservicios protegidos.
+### 3.1 Revisar o crear `auth-ms`
 
-### 3.2 Obtener token
+**Producto del paso:** servicio de identidad disponible para login y emision de token.
+
+### 3.2 Configurar credenciales y secreto de token
+
+Revisar configuracion de usuarios, secreto y emisor del token en Config Server.
+
+### 3.3 Configurar rutas publicas y protegidas
+
+Definir que rutas son publicas, por ejemplo login, y que rutas requieren token.
+
+### 3.4 Integrar validacion en Gateway
+
+Configurar Gateway para validar solicitudes protegidas.
+
+### 3.5 Integrar validacion en microservicios
+
+Revisar que los microservicios protejan endpoints cuando corresponda.
+
+### 3.6 Levantar infraestructura en DEV
+
+Levantar Config Server, Eureka y Gateway.
+
+### 3.7 Levantar `auth-ms` y microservicios
+
+Levantar `auth-ms`, `catalogo-ms` y `producto-ms`.
+
+### 3.8 Obtener token
+
+PowerShell:
 
 PowerShell:
 
@@ -90,7 +141,7 @@ TOKEN=$(curl -s -X POST http://localhost:18080/auth/login \
   -d '{"username":"admin","password":"admin123"}' | jq -r '.accessToken')
 ```
 
-### 3.3 Probar ruta protegida
+### 3.9 Probar ruta protegida
 
 PowerShell:
 
@@ -104,7 +155,7 @@ bash macOS/Linux:
 curl -H "Authorization: Bearer $TOKEN" http://localhost:18080/api/v1/productos
 ```
 
-### 3.4 Probar error esperado sin token
+### 3.10 Probar error esperado sin token
 
 ```bash
 curl -i http://localhost:18080/api/v1/productos
@@ -112,7 +163,52 @@ curl -i http://localhost:18080/api/v1/productos
 
 Resultado esperado: respuesta `401`.
 
-### 3.5 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.11 Probar token invalido o expirado
+
+Enviar un token incorrecto y verificar respuesta controlada.
+
+### 3.12 Revisar claims o datos del token
+
+Identificar usuario, roles o permisos usados por el sistema.
+
+### 3.13 Revisar logs de seguridad
+
+Revisar logs de Gateway, `auth-ms` y microservicios para ubicar autenticacion/autorizacion.
+
+### 3.14 Preparar PROD local
+
+Primero levantar infraestructura y luego servicios:
+
+```text
+infra -> config + eureka + gateway
+services/auth-ms
+services/catalogo-ms
+services/producto-ms
+```
+
+### 3.15 Probar seguridad en PROD local
+
+Obtener token por Gateway PROD:
+
+```bash
+curl -s -X POST http://localhost:28082/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}'
+```
+
+Consumir ruta protegida con `Bearer token` usando `localhost:28082`.
+
+### 3.16 Validar evidencias de cierre de la practica
+
+Verifica:
+
+- Login exitoso.
+- Token recibido.
+- Ruta protegida funciona con token.
+- Ruta protegida falla sin token.
+- DEV y PROD local usan Gateway como punto de entrada.
+
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
 ```bash
 git clone --branch vs07-seguridad-distribuida https://github.com/261dist/ecom.git ecom-s07

@@ -40,18 +40,44 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
+#### 2.2.1 Comunicacion sincronica en DEV
+
 ```mermaid
 flowchart LR
-    Gateway["Gateway"]
-    Producto["producto-ms"]
-    Catalogo["catalogo-ms"]
+    Cliente["Cliente<br/>PowerShell / bash"]
+    Gateway["Gateway<br/>localhost:18080"]
+    Eureka["Eureka<br/>localhost:18761"]
+    Producto["producto-ms<br/>puerto dinamico"]
+    Catalogo["catalogo-ms<br/>puerto dinamico"]
     ProductoDB["producto_db"]
     CatalogoDB["catalogo_db"]
 
+    Cliente --> Gateway
     Gateway --> Producto
-    Producto -->|"consulta categoria"| Catalogo
+    Gateway -. "descubre servicios<br/>localhost:18761/eureka" .-> Eureka
+    Producto -. "descubre catalogo-ms<br/>localhost:18761/eureka" .-> Eureka
+    Producto -->|"consulta categoria<br/>http://catalogo-ms"| Catalogo
     Producto --> ProductoDB
     Catalogo --> CatalogoDB
+```
+
+#### 2.2.2 Comunicacion sincronica en PROD local
+
+```mermaid
+flowchart LR
+    Cliente["Cliente<br/>PowerShell / bash"]
+    subgraph Docker["Docker Network: ecom-prod-net"]
+        Gateway["ecom-gateway<br/>8080 interno"]
+        Eureka["eureka<br/>8761 interno"]
+        Producto["producto-ms<br/>8080 interno"]
+        Catalogo["catalogo-ms<br/>8080 interno"]
+    end
+
+    Cliente -->|"GET localhost:28082/api/v1/productos"| Gateway
+    Gateway --> Producto
+    Gateway -. "descubre servicios<br/>http://eureka:8761/eureka" .-> Eureka
+    Producto -. "descubre catalogo-ms<br/>http://eureka:8761/eureka" .-> Eureka
+    Producto -->|"consulta categoria<br/>http://catalogo-ms:8080"| Catalogo
 ```
 
 ### 2.3 Observabilidad y diagnostico
@@ -62,19 +88,76 @@ Revisar logs de `producto-ms`, logs de `catalogo-ms`, correlation id, health y r
 
 Tiempo: 3h.
 
-### 3.1 Preparar servicios
+La ruta principal de la sesion es construir desde cero la comunicacion entre `producto-ms` y `catalogo-ms`. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17.
 
-Levantar Config Server, Eureka, Gateway, `catalogo-ms` y `producto-ms`.
+### 3.1 Revisar servicios base
 
-### 3.2 Crear cliente interno
+**Producto del paso:** `catalogo-ms` y `producto-ms` identificados como servicios que participaran en la comunicacion.
 
-Implementar cliente para que `producto-ms` consulte `catalogo-ms` usando nombre logico del servicio.
+### 3.2 Agregar dependencia de cliente HTTP interno
 
-### 3.3 Integrar el flujo de producto
+Agregar en `producto-ms` la dependencia usada para llamadas internas entre servicios.
 
-Actualizar el flujo de creacion o consulta de producto para validar categoria mediante `catalogo-ms`.
+### 3.3 Crear DTO de categoria
 
-### 3.4 Probar flujo correcto
+Crear un DTO que represente los datos que `producto-ms` necesita recibir desde `catalogo-ms`.
+
+### 3.4 Crear cliente interno hacia `catalogo-ms`
+
+Implementar un cliente que consulte `catalogo-ms` usando nombre logico del servicio registrado.
+
+### 3.5 Integrar cliente en el servicio de producto
+
+Actualizar el flujo de creacion o consulta de producto para validar o enriquecer la categoria consultando `catalogo-ms`.
+
+### 3.6 Configurar timeout o respuesta controlada
+
+Definir un manejo basico para errores de conexion, respuesta 404 o timeout.
+
+### 3.7 Levantar infraestructura en DEV
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd infra/config
+mvn spring-boot:run
+```
+
+En otra terminal:
+
+```bash
+cd infra/eureka
+mvn spring-boot:run
+```
+
+En otra terminal:
+
+```bash
+cd infra/gateway
+mvn spring-boot:run
+```
+
+### 3.8 Levantar `catalogo-ms` en DEV
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd services/catalogo-ms
+docker compose -f compose-dev.yml up -d
+mvn spring-boot:run
+```
+
+### 3.9 Levantar `producto-ms` en DEV
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd services/producto-ms
+docker compose -f compose-dev.yml up -d
+mvn spring-boot:run
+```
+
+### 3.10 Probar flujo correcto
 
 PowerShell / bash macOS/Linux:
 
@@ -82,11 +165,68 @@ PowerShell / bash macOS/Linux:
 curl http://localhost:18080/api/v1/productos
 ```
 
-### 3.5 Probar error controlado
+### 3.11 Probar detalle o validacion de categoria
+
+Ejecutar una operacion de producto que obligue a consultar `catalogo-ms`.
+
+### 3.12 Probar error controlado
 
 Detener `catalogo-ms` o simular una categoria inexistente y verificar que `producto-ms` responde de forma controlada.
 
-### 3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.13 Revisar trazabilidad en logs
+
+Revisar logs de `producto-ms` y `catalogo-ms` para confirmar la llamada interna y el correlation id.
+
+### 3.14 Preparar PROD local
+
+Primero levantar infraestructura y luego microservicios:
+
+```text
+infra -> config + eureka + gateway
+services/catalogo-ms
+services/producto-ms
+```
+
+### 3.15 Probar comunicacion en PROD local
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd infra
+docker compose up -d --build config eureka gateway
+```
+
+En otra terminal:
+
+```bash
+cd services/catalogo-ms
+docker compose up -d --build
+```
+
+En otra terminal:
+
+```bash
+cd services/producto-ms
+docker compose up -d --build
+```
+
+Prueba por Gateway PROD:
+
+```bash
+curl http://localhost:28082/api/v1/productos
+```
+
+### 3.16 Validar evidencias de cierre de la practica
+
+Verifica:
+
+- `producto-ms` consulta `catalogo-ms`.
+- La llamada ocurre por nombre logico.
+- El flujo correcto responde.
+- El error controlado responde sin romper el sistema.
+- PROD local mantiene el mismo comportamiento.
+
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
 ```bash
 git clone --branch vs06-comunicacion-sincronica https://github.com/261dist/ecom.git ecom-s06

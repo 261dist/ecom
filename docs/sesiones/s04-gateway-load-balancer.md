@@ -32,6 +32,33 @@ Preguntas para los estudiantes:
 - Producto de unidad: sistema distribuido base funcional, configurable y preparado para multiples instancias.
 - Avance del producto en esta sesion: acceso centralizado con rutas y balanceo de carga.
 
+Roadmap para elaborar el producto de la unidad:
+
+```mermaid
+flowchart TB
+    Cliente["Cliente de prueba<br/>PowerShell / bash / Swagger"]
+    Gateway["Gateway<br/>punto unico de acceso<br/>balanceo de carga<br/>HOY"]
+    Catalogo["catalogo-ms<br/>construido"]
+    Producto["producto-ms<br/>trabajo aplicado"]
+    Eureka["Registro de servicios<br/>Eureka<br/>construido"]
+    Config["Servidor de configuracion<br/>Config Server<br/>construido"]
+
+    Cliente --> Gateway
+    Gateway --> Catalogo
+    Gateway --> Producto
+    Gateway -. descubre servicios .-> Eureka
+    Catalogo -. registra instancia .-> Eureka
+    Producto -. registra instancia .-> Eureka
+    Gateway -. carga configuracion .-> Config
+    Catalogo -. carga configuracion .-> Config
+    Producto -. carga configuracion .-> Config
+
+    classDef done fill:#e8f5e9,stroke:#2e7d32,color:#111;
+    classDef today fill:#ffe08a,stroke:#9a6b00,stroke-width:2px,color:#111;
+    class Catalogo,Eureka,Config done;
+    class Gateway today;
+```
+
 ## 2. Explica
 
 Tiempo: 15 min.
@@ -45,21 +72,62 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
+#### 2.2.1 Gateway y balanceo en DEV
+
 ```mermaid
 flowchart TB
     Cliente["Cliente<br/>PowerShell / bash / navegador"]
-    Gateway["API Gateway<br/>DEV 18080"]
-    Eureka["Eureka Server<br/>DEV 18761"]
-    Catalogo1["catalogo-ms<br/>instancia 1"]
-    Catalogo2["catalogo-ms<br/>instancia 2"]
+    Config["Config Server<br/>localhost:18888"]
+    Gateway["API Gateway<br/>localhost:18080"]
+    Eureka["Eureka Server<br/>localhost:18761"]
+    Catalogo1["catalogo-ms<br/>instancia 1<br/>puerto dinamico"]
+    Catalogo2["catalogo-ms<br/>instancia 2<br/>puerto dinamico"]
 
     Cliente --> Gateway
-    Gateway -. descubre servicios .-> Eureka
-    Catalogo1 -. registra instancia .-> Eureka
-    Catalogo2 -. registra instancia .-> Eureka
+    Cliente -->|"GET localhost:18080/actuator/health"| Gateway
+    Gateway -. "spring.config.import<br/>http://localhost:18888" .-> Config
+    Gateway -. "descubre servicios<br/>http://localhost:18761/eureka" .-> Eureka
+    Catalogo1 -. "registra instancia<br/>http://localhost:18761/eureka" .-> Eureka
+    Catalogo2 -. "registra instancia<br/>http://localhost:18761/eureka" .-> Eureka
     Gateway -->|"lb://CATALOGO-MS"| Catalogo1
     Gateway -->|"lb://CATALOGO-MS"| Catalogo2
 ```
+
+#### 2.2.2 Gateway y balanceo en PROD local
+
+```mermaid
+flowchart TB
+    Cliente["Cliente<br/>PowerShell / bash / navegador"]
+    subgraph Docker["Docker Network: ecom-prod-net"]
+        Config["ecom-config<br/>8888 interno"]
+        Gateway["ecom-gateway<br/>8080 interno"]
+        Eureka["eureka<br/>8761 interno"]
+        Catalogo1["catalogo-ms<br/>instancia 1<br/>8080 interno"]
+        Catalogo2["catalogo-ms<br/>instancia 2<br/>8080 interno"]
+    end
+
+    Cliente -->|"GET localhost:28082/actuator/health"| Gateway
+    Cliente -->|"GET localhost:28082/api/v1/categorias"| Gateway
+    Gateway -. "spring.config.import<br/>http://ecom-config:8888" .-> Config
+    Gateway -. "descubre servicios<br/>http://eureka:8761/eureka" .-> Eureka
+    Catalogo1 -. "registra instancia<br/>http://eureka:8761/eureka" .-> Eureka
+    Catalogo2 -. "registra instancia<br/>http://eureka:8761/eureka" .-> Eureka
+    Gateway -->|"lb://CATALOGO-MS"| Catalogo1
+    Gateway -->|"lb://CATALOGO-MS"| Catalogo2
+```
+
+#### 2.2.3 Estado nuevo de URLs en S4
+
+| Ambiente | Componente | URL o nombre |
+|---|---|---|
+| DEV | Gateway | `http://localhost:18080` |
+| DEV | Gateway health | `http://localhost:18080/actuator/health` |
+| DEV | Eureka | `http://localhost:18761` |
+| PROD local | Gateway desde host | `http://localhost:28082` |
+| PROD local | Gateway health | `http://localhost:28082/actuator/health` |
+| PROD local | Eureka desde host | `http://localhost:28761` |
+| PROD local | Gateway interno | `http://ecom-gateway:8080` |
+| PROD local | Eureka interno | `http://eureka:8761/eureka` |
 
 ### 2.3 Observabilidad y diagnostico
 
@@ -84,20 +152,49 @@ Tiempo: 3h.
 
 En el laboratorio, el docente guia la configuracion de Gateway y la prueba de rutas hacia microservicios registrados.
 
-### 3.1 Crear o revisar `infra/gateway`
+La ruta principal de la sesion es construir desde cero. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17 para clonar el tag final y ejecutar las pruebas.
+
+### 3.1 Crear la base de infraestructura para Gateway
 
 **Producto del paso:** proyecto Gateway creado dentro de `infra/gateway`.
 
-Dependencias principales:
+En el monorepo `ecom`, Gateway vive en:
 
 ```text
-Spring Cloud Gateway
-Eureka Discovery Client
-Config Client
-Actuator
+infra/gateway
 ```
 
-### 3.2 Configurar rutas desde Config Server
+### 3.2 Crear proyecto Gateway desde VS Code
+
+**Producto del paso:** proyecto Spring Boot `ecom-gateway` creado dentro de `infra/gateway`.
+
+Dependencias principales:
+
+| Grupo | Dependencias | Proposito |
+|---|---|---|
+| Spring Cloud | Gateway | Punto unico de acceso |
+| Spring Cloud | Eureka Discovery Client | Resolver servicios registrados |
+| Spring Cloud | Config Client | Leer rutas desde Config Server |
+| Operacion | Actuator | Health y diagnostico |
+
+### 3.3 Configurar `application.yml` base de Gateway
+
+En `infra/gateway/src/main/resources/application.yml`:
+
+```yaml
+server:
+  port: 18080
+
+spring:
+  application:
+    name: gateway
+  profiles:
+    active: dev
+  config:
+    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:18888}"
+```
+
+### 3.4 Configurar rutas desde Config Server
 
 Revisar:
 
@@ -108,7 +205,34 @@ infra/config/config-repo/gateway-prod.yml
 
 Las rutas deben apuntar a nombres logicos registrados en Eureka.
 
-### 3.3 Levantar infraestructura en DEV
+Ejemplo conceptual:
+
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: catalogo-ms
+          uri: lb://CATALOGO-MS
+          predicates:
+            - Path=/api/v1/categorias/**
+```
+
+### 3.5 Probar configuracion de Gateway desde Config Server
+
+PowerShell / bash macOS/Linux:
+
+```bash
+curl http://localhost:18888/gateway/dev
+curl http://localhost:18888/gateway/prod
+```
+
+Resultado esperado:
+
+- La respuesta indica `name: gateway`.
+- Se observan rutas hacia servicios con `lb://`.
+
+### 3.6 Levantar infraestructura en DEV
 
 PowerShell / bash macOS/Linux:
 
@@ -131,7 +255,17 @@ cd infra/gateway
 mvn spring-boot:run
 ```
 
-### 3.4 Levantar microservicio y segunda instancia
+### 3.7 Verificar Gateway en DEV
+
+PowerShell / bash macOS/Linux:
+
+```bash
+curl http://localhost:18080/actuator/health
+```
+
+Resultado esperado: estado `UP`.
+
+### 3.8 Levantar microservicio y segunda instancia
 
 PowerShell / bash macOS/Linux:
 
@@ -148,7 +282,20 @@ cd services/catalogo-ms
 mvn spring-boot:run
 ```
 
-### 3.5 Probar por Gateway
+### 3.9 Verificar registro en Eureka
+
+Abre:
+
+```text
+http://localhost:18761
+```
+
+Resultado esperado:
+
+- `CATALOGO-MS` aparece registrado.
+- Hay dos instancias si se levantaron dos terminales.
+
+### 3.10 Probar por Gateway
 
 PowerShell:
 
@@ -164,7 +311,7 @@ curl http://localhost:18080/actuator/health
 curl http://localhost:18080/api/v1/categorias
 ```
 
-### 3.6 Evidenciar balanceo
+### 3.11 Evidenciar balanceo
 
 Ejecuta varias veces un endpoint que devuelva informacion de instancia, si existe en el microservicio.
 
@@ -174,7 +321,79 @@ Resultado esperado:
 - Eureka muestra instancias disponibles.
 - Las respuestas repetidas evidencian distribucion de trafico.
 
-### 3.7 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.12 Probar error esperado
+
+Deten una instancia o cambia temporalmente una ruta para observar:
+
+- `503` cuando no hay servicio disponible.
+- `404` cuando la ruta no coincide.
+
+Luego restaura la configuracion.
+
+### 3.13 Preparar PROD local
+
+En PROD local, primero se levanta infraestructura:
+
+```text
+infra -> ecom-config + eureka + ecom-gateway
+```
+
+Luego se levantan microservicios:
+
+```text
+services/catalogo-ms -> BD + catalogo-ms
+```
+
+### 3.14 Levantar Gateway en PROD local
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd infra
+docker compose up -d --build config eureka gateway
+docker compose ps
+```
+
+Verifica:
+
+```bash
+curl http://localhost:28082/actuator/health
+curl http://localhost:28761/actuator/health
+```
+
+### 3.15 Levantar microservicio en PROD local y probar Gateway
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd ../services/catalogo-ms
+docker compose up -d --build --scale catalogo-ms=2
+```
+
+Prueba desde el host por Gateway:
+
+```bash
+curl http://localhost:28082/api/v1/categorias
+```
+
+Resultado esperado:
+
+- Gateway PROD responde por `localhost:28082`.
+- Microservicios no exponen puerto host fijo.
+- El acceso funcional pasa por Gateway.
+
+### 3.16 Validar evidencias de cierre de la practica
+
+Antes de pasar a la actividad autonoma, verifica:
+
+- Gateway DEV health.
+- Ruta DEV por Gateway.
+- Eureka con multiples instancias.
+- Gateway PROD health.
+- Ruta PROD por Gateway.
+- Diagnostico de 404 o 503 explicado.
+
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
 PowerShell / bash macOS/Linux:
 

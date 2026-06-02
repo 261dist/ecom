@@ -42,16 +42,79 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
-```mermaid
-flowchart LR
-    Orden["orden-ms"]
-    Broker["Kafka broker"]
-    Pago["pago-ms"]
-    KafkaUI["Kafka UI"]
+En esta sesion se agrega mensajeria asincrona. `orden-ms` publica eventos de orden y `pago-ms` los consume. `pago-ms` tambien puede publicar eventos de pago para que `orden-ms` actualice el estado de negocio.
 
-    Orden -->|"orden-eventos"| Broker
-    Broker -->|"orden-eventos"| Pago
-    KafkaUI --> Broker
+#### 2.2.1 Mensajeria en DEV
+
+```mermaid
+flowchart TB
+    Cliente["Cliente<br/>PowerShell / bash / navegador"]
+    Gateway["Gateway<br/>localhost:18080"]
+    Config["Config Server<br/>localhost:18888"]
+    Eureka["Eureka Server<br/>localhost:18761"]
+    Kafka["Kafka broker<br/>localhost:41092"]
+    KafkaUI["Kafka UI<br/>localhost:41085"]
+    Orden["orden-ms<br/>puerto dinamico"]
+    Pago["pago-ms<br/>puerto dinamico"]
+    OrdenDB["ecom_orden_db<br/>localhost:15434"]
+    PagoDB["ecom_pago_db<br/>localhost:15435"]
+
+    Cliente -->|"POST /api/v1/ordenes"| Gateway
+    Gateway --> Orden
+    Orden --> OrdenDB
+    Orden -->|"publica orden-eventos<br/>spring.kafka.bootstrap-servers<br/>localhost:41092"| Kafka
+    Kafka -->|"consume orden-eventos"| Pago
+    Pago --> PagoDB
+    Pago -->|"publica pago-eventos"| Kafka
+    Kafka -->|"consume pago-eventos"| Orden
+    KafkaUI -->|"inspecciona topics"| Kafka
+    Orden -.->|"spring.config.import<br/>http://localhost:18888"| Config
+    Pago -.->|"spring.config.import<br/>http://localhost:18888"| Config
+    Orden -.->|"registra instancia<br/>http://localhost:18761/eureka"| Eureka
+    Pago -.->|"registra instancia<br/>http://localhost:18761/eureka"| Eureka
+    Gateway -.->|"descubre servicios"| Eureka
+```
+
+En DEV, Kafka corre en Docker pero los microservicios corren con Maven en el host:
+
+```text
+Kafka broker: localhost:41092
+Kafka UI: http://localhost:41085
+Microservicios: puerto dinamico
+```
+
+#### 2.2.2 Mensajeria en PROD local
+
+```mermaid
+flowchart TB
+    Cliente["Cliente<br/>PowerShell / bash"]
+
+    subgraph Docker["Docker Network: ecom-prod-net + ecom-kafka-prod-net"]
+        Gateway["ecom-gateway<br/>8080 interno<br/>host localhost:28082"]
+        Config["ecom-config<br/>8888 interno"]
+        Eureka["eureka<br/>8761 interno"]
+        Kafka["Kafka broker<br/>kafka:9092<br/>host localhost:29092"]
+        KafkaUI["Kafka UI<br/>8080 interno<br/>host localhost:28085"]
+        Orden["orden-ms<br/>8080 interno"]
+        Pago["pago-ms<br/>8080 interno"]
+        OrdenDB["ecom_orden_db"]
+        PagoDB["ecom_pago_db"]
+    end
+
+    Cliente -->|"POST localhost:28082/api/v1/ordenes"| Gateway
+    Gateway --> Orden
+    Orden --> OrdenDB
+    Orden -->|"publica orden-eventos<br/>spring.kafka.bootstrap-servers<br/>kafka:9092"| Kafka
+    Kafka -->|"consume orden-eventos"| Pago
+    Pago --> PagoDB
+    Pago -->|"publica pago-eventos"| Kafka
+    Kafka -->|"consume pago-eventos"| Orden
+    KafkaUI -->|"inspecciona topics"| Kafka
+    Orden -.->|"spring.config.import<br/>http://ecom-config:8888"| Config
+    Pago -.->|"spring.config.import<br/>http://ecom-config:8888"| Config
+    Orden -.->|"registra instancia<br/>http://eureka:8761/eureka"| Eureka
+    Pago -.->|"registra instancia<br/>http://eureka:8761/eureka"| Eureka
+    Gateway -.->|"descubre servicios"| Eureka
 ```
 
 ### 2.3 Observabilidad y diagnostico
@@ -62,38 +125,229 @@ Revisar topics, logs de productor, logs de consumidor, Kafka UI y errores de ser
 
 Tiempo: 3h.
 
-### 3.1 Levantar broker
+En el laboratorio, el docente guia la incorporacion de mensajeria asincrona entre `orden-ms` y `pago-ms`. El foco es construir el flujo desde cero: levantar Kafka, crear topics, configurar productor/consumidor y probar que el proceso ya no depende de una llamada sincronica directa.
+
+### 3.1 Revisar el punto de partida
+
+Producto del paso: identificar que el sistema ya tiene Config Server, Eureka, Gateway, seguridad y microservicios base.
+
+Revisar:
+
+- `infra/config`
+- `infra/eureka`
+- `infra/gateway`
+- `services/orden-ms`
+- `services/pago-ms`
+- `kafka`
+
+### 3.2 Levantar Kafka en DEV
+
+Producto del paso: broker y Kafka UI disponibles para trabajo local.
 
 PowerShell / bash macOS/Linux:
+
+```bash
+cd kafka
+docker compose -f compose-dev.yml up -d
+docker compose -f compose-dev.yml ps
+```
+
+### 3.3 Crear topics base
+
+Producto del paso: topics `orden-eventos` y `pago-eventos` creados.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+docker exec -it ecom-kafka-dev /opt/kafka/bin/kafka-topics.sh --create --topic orden-eventos --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
+docker exec -it ecom-kafka-dev /opt/kafka/bin/kafka-topics.sh --create --topic pago-eventos --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
+docker exec -it ecom-kafka-dev /opt/kafka/bin/kafka-topics.sh --list --bootstrap-server kafka:9092
+```
+
+Tambien puedes revisar Kafka UI:
+
+```text
+http://localhost:41085
+```
+
+### 3.4 Agregar dependencias de mensajeria
+
+Producto del paso: `orden-ms` y `pago-ms` preparados para usar Kafka.
+
+Agregar en los `pom.xml` de los microservicios que publican o consumen eventos:
+
+```xml
+<dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+</dependency>
+```
+
+### 3.5 Externalizar configuracion de Kafka
+
+Producto del paso: bootstrap server definido por ambiente desde Config Server.
+
+En los archivos de configuracion DEV:
+
+```yaml
+spring:
+  kafka:
+    bootstrap-servers: localhost:41092
+```
+
+En PROD:
+
+```yaml
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+```
+
+### 3.6 Crear DTO de evento de orden
+
+Producto del paso: contrato simple para publicar una orden como evento.
+
+Crear un DTO de evento con campos minimos:
+
+- `ordenId`
+- `clienteId`
+- `monto`
+- `estado`
+- `fecha`
+
+### 3.7 Configurar serializacion JSON
+
+Producto del paso: productor y consumidor comparten formato JSON.
+
+Revisar que la configuracion use serializadores/deserializadores JSON y paquetes confiables segun el proyecto.
+
+### 3.8 Implementar productor en `orden-ms`
+
+Producto del paso: `orden-ms` publica en `orden-eventos` cuando se crea una orden.
+
+El productor debe enviar el evento despues de persistir la orden. Si la orden no se guarda, no debe publicarse el evento.
+
+### 3.9 Implementar consumidor en `pago-ms`
+
+Producto del paso: `pago-ms` escucha `orden-eventos` y registra el intento de pago.
+
+El consumidor debe:
+
+- Recibir el evento.
+- Registrar logs con correlation id si existe.
+- Guardar o simular el pago.
+- Dejar evidencia en BD o logs.
+
+### 3.10 Publicar evento de pago
+
+Producto del paso: `pago-ms` publica resultado en `pago-eventos`.
+
+El evento de pago debe indicar:
+
+- `ordenId`
+- `pagoId`
+- `estadoPago`
+- `mensaje`
+
+### 3.11 Consumir resultado de pago en `orden-ms`
+
+Producto del paso: `orden-ms` actualiza el estado de la orden con base en el pago.
+
+`orden-ms` debe escuchar `pago-eventos` y actualizar la orden como confirmada o rechazada.
+
+### 3.12 Levantar infraestructura DEV
+
+Producto del paso: Config Server, Eureka y Gateway disponibles antes de iniciar microservicios.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd infra/config
+mvn spring-boot:run
+```
+
+En otra terminal:
+
+```bash
+cd infra/eureka
+mvn spring-boot:run
+```
+
+En otra terminal:
+
+```bash
+cd infra/gateway
+mvn spring-boot:run
+```
+
+### 3.13 Levantar microservicios DEV
+
+Producto del paso: `orden-ms` y `pago-ms` ejecutando con puertos dinamicos.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+cd services/orden-ms
+mvn spring-boot:run
+```
+
+En otra terminal:
+
+```bash
+cd services/pago-ms
+mvn spring-boot:run
+```
+
+### 3.14 Probar flujo asincrono por Gateway
+
+Producto del paso: orden creada, evento publicado y pago procesado por evento.
+
+Ejecutar una solicitud de creacion de orden desde shell o Swagger, segun los endpoints reales del proyecto. Luego revisar:
+
+- Logs de `orden-ms`.
+- Logs de `pago-ms`.
+- Kafka UI.
+- Tablas de orden y pago.
+
+### 3.15 Probar en PROD local
+
+Producto del paso: flujo de eventos funcionando dentro de Docker.
+
+Levantar primero infraestructura y Kafka PROD, luego microservicios:
+
+```bash
+cd infra
+docker compose up -d --build
+```
 
 ```bash
 cd kafka
 docker compose up -d
 ```
 
-### 3.2 Crear topics
-
-PowerShell / bash macOS/Linux:
-
 ```bash
-docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --create --if-not-exists --topic orden-eventos
-docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --create --if-not-exists --topic pago-eventos
-docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --list
+cd services/orden-ms
+docker compose up -d --build
 ```
 
-### 3.3 Configurar productor
+```bash
+cd services/pago-ms
+docker compose up -d --build
+```
 
-Configurar `orden-ms` para publicar eventos de orden en `orden-eventos`.
+### 3.16 Diagnosticar errores frecuentes
 
-### 3.4 Configurar consumidor
+Producto del paso: estudiante reconoce fallos tipicos de mensajeria.
 
-Configurar `pago-ms` para consumir eventos desde `orden-eventos`.
+Revisar:
 
-### 3.5 Probar flujo asincrono
+- Topic no existe.
+- Broker apagado.
+- Error de serializacion.
+- Consumidor no recibe por `groupId`.
+- Diferencia entre `localhost:41092` en DEV y `kafka:9092` en PROD.
 
-Crear una orden y verificar que se publica un evento y que `pago-ms` lo consume.
-
-### 3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
 ```bash
 git clone --branch vs08-mensajeria-asincrona https://github.com/261dist/ecom.git ecom-s08

@@ -41,18 +41,61 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
+En esta sesion el frontend deja de ser una pieza aislada. `ecom-ng` consume el sistema por Gateway, obtiene token desde `auth-ms` y ejecuta CRUD contra los microservicios protegidos.
+
+#### 2.2.1 Integracion frontend en DEV
+
 ```mermaid
-flowchart LR
+flowchart TB
     Angular["ecom-ng<br/>localhost:4200"]
     Gateway["Gateway<br/>localhost:18080"]
-    Auth["auth-ms"]
-    Catalogo["catalogo-ms"]
-    Producto["producto-ms"]
+    Auth["auth-ms<br/>puerto dinamico"]
+    Catalogo["catalogo-ms<br/>puerto dinamico"]
+    Producto["producto-ms<br/>puerto dinamico"]
+    Eureka["Eureka Server<br/>localhost:18761"]
+    Config["Config Server<br/>localhost:18888"]
 
-    Angular --> Gateway
+    Angular -->|"login / auth"| Gateway
+    Angular -->|"CRUD categorias/productos<br/>Bearer token"| Gateway
+    Gateway -->|"ruta auth"| Auth
+    Gateway -->|"lb://CATALOGO-MS"| Catalogo
+    Gateway -->|"lb://PRODUCTO-MS"| Producto
+    Gateway -.->|"descubre servicios"| Eureka
+    Auth -.->|"registra instancia"| Eureka
+    Catalogo -.->|"registra instancia"| Eureka
+    Producto -.->|"registra instancia"| Eureka
+    Auth -.->|"spring.config.import<br/>http://localhost:18888"| Config
+    Catalogo -.->|"spring.config.import<br/>http://localhost:18888"| Config
+    Producto -.->|"spring.config.import<br/>http://localhost:18888"| Config
+```
+
+#### 2.2.2 Integracion frontend en PROD local
+
+```mermaid
+flowchart TB
+    Angular["ecom-ng<br/>DEV localhost:4200"]
+
+    subgraph Docker["Docker Network: ecom-prod-net"]
+        Gateway["ecom-gateway<br/>8080 interno<br/>host localhost:28082"]
+        Auth["auth-ms<br/>8080 interno"]
+        Catalogo["catalogo-ms<br/>8080 interno"]
+        Producto["producto-ms<br/>8080 interno"]
+        Eureka["eureka<br/>8761 interno<br/>host localhost:28761"]
+        Config["ecom-config<br/>8888 interno<br/>host localhost:28888"]
+    end
+
+    Angular -->|"login / auth"| Gateway
+    Angular -->|"CRUD categorias/productos<br/>Bearer token"| Gateway
     Gateway --> Auth
     Gateway --> Catalogo
     Gateway --> Producto
+    Gateway -.->|"descubre servicios"| Eureka
+    Auth -.->|"registra instancia"| Eureka
+    Catalogo -.->|"registra instancia"| Eureka
+    Producto -.->|"registra instancia"| Eureka
+    Auth -.->|"spring.config.import<br/>http://ecom-config:8888"| Config
+    Catalogo -.->|"spring.config.import<br/>http://ecom-config:8888"| Config
+    Producto -.->|"spring.config.import<br/>http://ecom-config:8888"| Config
 ```
 
 ### 2.3 Observabilidad y diagnostico
@@ -63,11 +106,70 @@ Revisar consola del navegador, network requests, respuestas 401/403, errores COR
 
 Tiempo: 3h.
 
-### 3.1 Levantar backend
+En el laboratorio, el docente guia la integracion de `ecom-ng` con el backend distribuido. El estudiante prueba desde navegador y confirma que el frontend usa Gateway como unico punto de entrada.
+
+### 3.1 Revisar el punto de partida
+
+Producto del paso: identificar backend, frontend y contrato de URLs.
+
+Revisar:
+
+- `clients/ecom-ng`
+- `infra/gateway`
+- `infra/config/config-repo/gateway-dev.yml`
+- `services/auth-ms`
+- `services/catalogo-ms`
+- `services/producto-ms`
+
+### 3.2 Levantar backend DEV
+
+Producto del paso: infraestructura y microservicios listos para el frontend.
 
 Levantar Config Server, Eureka, Gateway, `auth-ms`, `catalogo-ms` y `producto-ms`.
 
-### 3.2 Configurar URL del frontend
+Comandos base en terminales separadas:
+
+```bash
+cd infra/config
+mvn spring-boot:run
+```
+
+```bash
+cd infra/eureka
+mvn spring-boot:run
+```
+
+```bash
+cd infra/gateway
+mvn spring-boot:run
+```
+
+```bash
+cd services/auth-ms
+mvn spring-boot:run
+```
+
+```bash
+cd services/catalogo-ms
+mvn spring-boot:run
+```
+
+```bash
+cd services/producto-ms
+mvn spring-boot:run
+```
+
+### 3.3 Verificar Gateway DEV
+
+Producto del paso: Gateway responde antes de abrir frontend.
+
+PowerShell / bash macOS/Linux:
+
+```bash
+curl http://localhost:18080/actuator/health
+```
+
+### 3.4 Configurar URL del frontend
 
 El frontend apunta al Gateway DEV:
 
@@ -75,34 +177,125 @@ El frontend apunta al Gateway DEV:
 http://localhost:18080
 ```
 
-### 3.3 Levantar frontend
+Revisar el archivo de ambiente o configuracion del cliente donde se define la URL base de API.
+
+### 3.5 Revisar CORS en Gateway
+
+Producto del paso: Gateway permite peticiones desde `http://localhost:4200`.
+
+Validar que el origen del frontend este permitido en configuracion del Gateway.
+
+### 3.6 Instalar dependencias del frontend
+
+Producto del paso: dependencias del cliente instaladas.
 
 PowerShell / bash macOS/Linux:
 
 ```bash
 cd clients/ecom-ng
 npm install
+```
+
+### 3.7 Levantar frontend DEV
+
+Producto del paso: `ecom-ng` ejecutando en navegador.
+
+PowerShell / bash macOS/Linux:
+
+```bash
 npm start
 ```
 
-### 3.4 Probar login y CRUD
-
-Probar desde navegador:
+Abrir:
 
 ```text
 http://localhost:4200
 ```
 
-### 3.5 Diagnosticar errores frecuentes
+### 3.8 Probar login
+
+Producto del paso: token obtenido desde frontend.
+
+Usar credenciales de laboratorio y verificar en Network:
+
+- Peticion a Gateway.
+- Respuesta 200.
+- Token recibido.
+
+### 3.9 Probar CRUD de categorias
+
+Producto del paso: frontend consume `catalogo-ms` por Gateway.
+
+Crear, listar, editar o eliminar una categoria desde la interfaz y verificar que la llamada va a `localhost:18080`.
+
+### 3.10 Probar CRUD de productos
+
+Producto del paso: frontend consume `producto-ms` por Gateway.
+
+Crear un producto asociado a una categoria existente.
+
+### 3.11 Diagnosticar 401/403
+
+Producto del paso: estudiante distingue error de autenticacion y autorizacion.
+
+Probar:
+
+- Peticion sin token.
+- Token incorrecto.
+- Token vencido o mal formado.
+
+### 3.12 Diagnosticar CORS
+
+Producto del paso: estudiante reconoce un bloqueo CORS en navegador.
 
 Revisar:
 
-- CORS.
-- Token ausente o expirado.
-- Gateway apagado.
-- Ruta no encontrada.
+- Consola del navegador.
+- Cabeceras de respuesta.
+- Configuracion de origen permitido.
 
-### 3.6 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.13 Probar en PROD local
+
+Producto del paso: frontend consume Gateway PROD local si el backend esta dockerizado.
+
+Levantar backend PROD:
+
+```bash
+cd infra
+docker compose up -d --build
+```
+
+Levantar microservicios necesarios con Docker. Luego configurar temporalmente el frontend contra:
+
+```text
+http://localhost:28082
+```
+
+### 3.14 Revisar observabilidad del flujo
+
+Producto del paso: una accion del frontend se encuentra en logs del backend.
+
+Revisar logs del Gateway y del microservicio llamado. Si existe correlation id, seguir la solicitud.
+
+### 3.15 Registrar evidencia funcional
+
+Producto del paso: capturas y comandos suficientes para demostrar integracion.
+
+Evidenciar:
+
+- Pantalla del frontend.
+- Network request al Gateway.
+- Respuesta exitosa.
+- Registro creado o modificado.
+- Log del backend.
+
+### 3.16 Detener procesos al terminar
+
+Producto del paso: entorno local ordenado.
+
+Detener `npm start` y procesos Maven con `Ctrl+C`. Para Docker, ejecutar `docker compose down` en cada modulo levantado.
+
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
 
 ```bash
 git clone --branch vs11-integracion-frontend https://github.com/261dist/ecom.git ecom-s11
