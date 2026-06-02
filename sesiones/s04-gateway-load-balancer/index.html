@@ -2502,7 +2502,11 @@ mvn<span class="w"> </span>spring-boot:run
 </code></pre></div>
 <h3 id="37-probar-configuracion-de-gateway-desde-config-server">3.7 Probar configuracion de Gateway desde Config Server</h3>
 <p>Producto del paso: confirmar que <code>gateway-dev.yml</code> y <code>gateway-prod.yml</code> son leidos por Config Server.</p>
-<p>PowerShell / bash macOS/Linux:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/gateway/dev&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/gateway/prod&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18888/gateway/dev
 curl<span class="w"> </span>http://localhost:18888/gateway/prod
 </code></pre></div>
@@ -2529,7 +2533,10 @@ mvn<span class="w"> </span>spring-boot:run
 mvn<span class="w"> </span>spring-boot:run
 </code></pre></div>
 <h3 id="310-verificar-gateway-en-dev">3.10 Verificar Gateway en DEV</h3>
-<p>PowerShell / bash macOS/Linux:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/actuator/health&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18080/actuator/health
 </code></pre></div>
 <p>Resultado esperado: estado <code>UP</code>.</p>
@@ -2691,7 +2698,11 @@ curl<span class="w"> </span>http://localhost:18080/api/v1/categorias
 docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>config<span class="w"> </span>eureka<span class="w"> </span>gateway
 docker<span class="w"> </span>compose<span class="w"> </span>ps
 </code></pre></div>
-<p>Verifica:</p>
+<p>Verifica con PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:28082/actuator/health&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:28761/actuator/health&quot;</span>
+</code></pre></div>
+<p>Verifica con bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:28082/actuator/health
 curl<span class="w"> </span>http://localhost:28761/actuator/health
 </code></pre></div>
@@ -2701,7 +2712,10 @@ curl<span class="w"> </span>http://localhost:28761/actuator/health
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>../services/catalogo-ms
 docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>--scale<span class="w"> </span>catalogo-ms<span class="o">=</span><span class="m">2</span>
 </code></pre></div>
-<p>Prueba desde el host por Gateway:</p>
+<p>Prueba desde el host por Gateway con PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:28082/api/v1/categorias&quot;</span>
+</code></pre></div>
+<p>Prueba desde el host por Gateway con bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:28082/api/v1/categorias
 </code></pre></div>
 <p>Resultado esperado:</p>

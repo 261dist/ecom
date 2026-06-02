@@ -2023,6 +2023,10 @@
 <h3 id="34-validar-health-y-registro-de-servicios">3.4 Validar health y registro de servicios</h3>
 <p>Producto del paso: infraestructura base saludable.</p>
 <p>Verificar:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/actuator/health&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18080/actuator/health
 </code></pre></div>
 <p>Abrir Eureka:</p>

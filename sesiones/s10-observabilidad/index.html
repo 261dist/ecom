@@ -2020,7 +2020,12 @@ mvn<span class="w"> </span>spring-boot:run
 </code></pre></div>
 <h3 id="35-verificar-endpoints-actuator">3.5 Verificar endpoints Actuator</h3>
 <p>Producto del paso: health y metricas consultables desde consola.</p>
-<p>PowerShell / bash macOS/Linux:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:&lt;puerto&gt;/actuator/health&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:&lt;puerto&gt;/actuator/metrics&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:&lt;puerto&gt;/actuator/prometheus&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:&lt;puerto&gt;/actuator/health
 curl<span class="w"> </span>http://localhost:&lt;puerto&gt;/actuator/metrics
 curl<span class="w"> </span>http://localhost:&lt;puerto&gt;/actuator/prometheus
@@ -2029,6 +2034,11 @@ curl<span class="w"> </span>http://localhost:&lt;puerto&gt;/actuator/prometheus
 <p>Producto del paso: logs y metricas con actividad real.</p>
 <p>Ejecutar pruebas por Gateway para generar logs y metricas.</p>
 <p>Ejemplos:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/actuator/health&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/api/v1/categorias&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18080/actuator/health
 curl<span class="w"> </span>http://localhost:18080/api/v1/categorias
 </code></pre></div>
@@ -2061,12 +2071,25 @@ jvm_memory_used_bytes
 <h3 id="311-validar-correlation-id">3.11 Validar correlation id</h3>
 <p>Producto del paso: una solicitud puede seguirse en logs del sistema.</p>
 <p>Enviar una peticion con header:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/api/v1/categorias&quot;</span> <span class="p">`</span>
+  <span class="n">-Headers</span> <span class="p">@{</span> <span class="s2">&quot;X-Correlation-Id&quot;</span> <span class="p">=</span> <span class="s2">&quot;prueba-s10-001&quot;</span> <span class="p">}</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;X-Correlation-Id: prueba-s10-001&quot;</span><span class="w"> </span>http://localhost:18080/api/v1/categorias
 </code></pre></div>
 <p>Luego buscar ese valor en logs.</p>
 <h3 id="312-validar-observabilidad-en-gateway">3.12 Validar observabilidad en Gateway</h3>
 <p>Producto del paso: Gateway tambien expone senales operacionales.</p>
 <p>Verificar:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/actuator/health&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/actuator/metrics&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/actuator/prometheus&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18080/actuator/health
 curl<span class="w"> </span>http://localhost:18080/actuator/metrics
 curl<span class="w"> </span>http://localhost:18080/actuator/prometheus

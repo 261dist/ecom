@@ -3458,6 +3458,12 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:&lt;puerto-asignado&gt;/actuator/metrics
 </code></pre></div>
 <p>Tambien puedes consultar una metrica especifica:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:&lt;puerto-asignado&gt;/actuator/metrics/jvm.memory.used&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:&lt;puerto-asignado&gt;/actuator/metrics/jvm.memory.used
 </code></pre></div>
 <p>Nota: para exponer <code>/actuator/prometheus</code> si se requiere <code>micrometer-registry-prometheus</code>.</p>

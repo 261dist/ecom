@@ -1706,7 +1706,13 @@
 <li>Segunda instancia, si aplica.</li>
 </ol>
 <h3 id="32-ejecutar-pruebas-base">3.2 Ejecutar pruebas base</h3>
-<p>PowerShell / bash macOS/Linux:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/catalogo-ms/dev&quot;</span>
+<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18761&quot;</span> <span class="n">-UseBasicParsing</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/actuator/health&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18080/api/v1/categorias&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18888/catalogo-ms/dev
 curl<span class="w"> </span>http://localhost:18761
 curl<span class="w"> </span>http://localhost:18080/actuator/health

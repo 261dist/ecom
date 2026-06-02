@@ -2358,7 +2358,11 @@ Microservicios: 8080 interno, sin puerto host fijo
 </code></pre></div>
 <h3 id="36-probar-configuracion-de-eureka-desde-config-server">3.6 Probar configuracion de Eureka desde Config Server</h3>
 <p>Con Config Server ejecutando:</p>
-<p>PowerShell / bash macOS/Linux:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/eureka/dev&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/eureka/prod&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18888/eureka/dev
 curl<span class="w"> </span>http://localhost:18888/eureka/prod
 </code></pre></div>
@@ -2377,7 +2381,10 @@ mvn<span class="w"> </span>spring-boot:run
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/eureka
 mvn<span class="w"> </span>spring-boot:run
 </code></pre></div>
-<p>Verifica:</p>
+<p>Verifica con PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18761/actuator/health&quot;</span>
+</code></pre></div>
+<p>Verifica con bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18761/actuator/health
 </code></pre></div>
 <p>Tambien abre:</p>
@@ -2487,7 +2494,11 @@ mvn<span class="w"> </span>spring-boot:run
 docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>config<span class="w"> </span>eureka
 docker<span class="w"> </span>compose<span class="w"> </span>ps
 </code></pre></div>
-<p>Verifica desde el host:</p>
+<p>Verifica desde el host con PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:28888/eureka/prod&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:28761/actuator/health&quot;</span>
+</code></pre></div>
+<p>Verifica desde el host con bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:28888/eureka/prod
 curl<span class="w"> </span>http://localhost:28761/actuator/health
 </code></pre></div>

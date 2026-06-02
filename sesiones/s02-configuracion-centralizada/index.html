@@ -2655,14 +2655,13 @@ infra/config/config-repo/catalogo-ms-prod.yml
 <h3 id="38-consultar-perfiles-por-http">3.8 Consultar perfiles por HTTP</h3>
 <p><strong>Producto del paso:</strong> configuracion externa consultada sin levantar el microservicio.</p>
 <p>Con Config Server ejecutando en DEV:</p>
-<p>PowerShell / bash macOS/Linux:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/catalogo-ms/dev&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/catalogo-ms/prod&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18888/catalogo-ms/dev
 curl<span class="w"> </span>http://localhost:18888/catalogo-ms/prod
-</code></pre></div>
-<p>Si usas PowerShell y prefieres objetos:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
-  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
-  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/catalogo-ms/dev&quot;</span>
 </code></pre></div>
 <p>Resultado esperado:</p>
 <ul>
@@ -2693,7 +2692,10 @@ curl<span class="w"> </span>http://localhost:18888/catalogo-ms/prod
 <p>Si Config Server no muestra esas propiedades, no continues a PROD. Primero corrige el nombre del archivo, el perfil o la ubicacion de <code>config-repo</code>.</p>
 <h4 id="381-probar-una-consulta-incorrecta-para-aprender-del-error">3.8.1 Probar una consulta incorrecta para aprender del error</h4>
 <p>Ahora consulta un nombre que no coincide con <code>spring.application.name</code> ni con el archivo del <code>config-repo</code>.</p>
-<p>PowerShell / bash macOS/Linux:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/catalogo/dev&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18888/catalogo/dev
 </code></pre></div>
 <p>Resultado esperado:</p>
@@ -2880,7 +2882,12 @@ services/catalogo-ms -&gt; BD + catalogo-ms con Docker Compose
 docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>config
 docker<span class="w"> </span>compose<span class="w"> </span>ps
 </code></pre></div>
-<p>Consulta:</p>
+<p>Consulta con PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:28888/catalogo-ms/prod&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:28888/actuator/health&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:28888/actuator/metrics&quot;</span>
+</code></pre></div>
+<p>Consulta con bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:28888/catalogo-ms/prod
 curl<span class="w"> </span>http://localhost:28888/actuator/health
 curl<span class="w"> </span>http://localhost:28888/actuator/metrics
@@ -2966,6 +2973,11 @@ docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> 
 <li>Agregar <code>spring.config.import</code>.</li>
 <li>Probar consulta HTTP:</li>
 </ol>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/producto-ms/dev&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:18888/producto-ms/prod&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:18888/producto-ms/dev
 curl<span class="w"> </span>http://localhost:18888/producto-ms/prod
 </code></pre></div>
