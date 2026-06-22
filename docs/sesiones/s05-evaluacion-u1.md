@@ -1,4 +1,4 @@
-# S5 - Evaluacion U1
+﻿# S5 - Evaluacion U1
 
 ## 1. Instrucciones iniciales
 
@@ -81,16 +81,16 @@ En esta sesion se realiza la exposicion y evaluacion practica. Cada equipo dispo
 
 La evaluacion U1 requiere tres entregables:
 
-1. PDF grupal generado desde la documentacion MkDocs y subido a la plataforma BLearning (BL).
-2. Presentacion del proyecto U1 (PPT o equivalente) subida a BL.
-3. Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U1.
+1. Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U1.
+2. PDF grupal generado desde la documentacion MkDocs y subido a la plataforma BLearning (BL).
+3. Presentacion del proyecto U1 (PPT o equivalente) subida a BL.
 
-El link de la documentacion MkDocs debe aparecer en el `index` del PDF. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajo.
+El link de la documentacion MkDocs debe aparecer en el `index` del PDF. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
 
 Entrega el PDF grupal con el siguiente nombre:
 
 ```text
-S05_Equipo##_MkDocs.pdf
+S05_Equipo##_U1_MkDocs.pdf
 ```
 
 Entrega la presentacion con el siguiente nombre:
@@ -111,7 +111,7 @@ La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecut
 - Evidencia de participacion individual en GitHub:
 - Commits o PR de codigo:
 - Commits o PR de documentacion:
-- Parte del sistema que demostrara en vivo:
+- Parte del sistema que demostrará en vivo:
 
 #### 3.1.2 Evidencia tecnica individual
 
@@ -155,7 +155,7 @@ Cada anexo individual debe contener:
 - Rol o responsabilidad.
 - Commits o PR de codigo.
 - Commits o PR de documentacion.
-- Evidencia breve de la parte que demostrara en vivo.
+- Evidencia breve de la parte que demostrará en vivo.
 
 ### 3.2 Secuencia sugerida de presentacion
 
@@ -164,7 +164,7 @@ Cada anexo individual debe contener:
 3. Mostrar Config Server, Eureka, Gateway y microservicios integrados.
 4. Ejecutar la demo tecnica por Gateway.
 5. Mostrar participacion de cada integrante en GitHub.
-6. Cada integrante muestra la parte que trabajo.
+6. Cada integrante muestra la parte que trabajó.
 7. Cerrar con hallazgos, problemas y decisiones tecnicas.
 
 ### 3.3 Criterios minimos de aceptacion
@@ -175,7 +175,7 @@ Cada anexo individual debe contener:
 - Evidencia del producto U1 integrado.
 - MkDocs incluye anexos de participacion individual, uno por integrante.
 - GitHub evidencia aporte individual de cada integrante mediante commits o PR de codigo y documentacion.
-- Cada integrante demuestra en vivo la parte que trabajo.
+- Cada integrante demuestra en vivo la parte que trabajó.
 - Pruebas por consola.
 - Diagnostico tecnico.
 

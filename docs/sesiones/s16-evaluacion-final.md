@@ -1,4 +1,4 @@
-# S16 - Evaluacion final
+﻿# S16 - Evaluacion final
 
 ## 1. Instrucciones iniciales
 
@@ -96,16 +96,16 @@ En esta sesion se realiza la exposicion y evaluacion final. Cada equipo dispone 
 
 La evaluacion final requiere tres entregables:
 
-1. PDF grupal generado desde la documentacion MkDocs y subido a la plataforma BLearning (BL).
-2. Presentacion final del proyecto (PPT o equivalente) subida a BL.
-3. Documentacion MkDocs del producto del curso con guias reproducibles de los artefactos de sesion.
+1. Documentacion MkDocs del producto del curso con guias reproducibles de los artefactos de sesion.
+2. PDF grupal generado desde la documentacion MkDocs y subido a la plataforma BLearning (BL).
+3. Presentacion final del proyecto (PPT o equivalente) subida a BL.
 
-El link de la documentacion MkDocs debe aparecer en el `index` del PDF. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajo.
+El link de la documentacion MkDocs debe aparecer en el `index` del PDF. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
 
 Entrega el PDF grupal:
 
 ```text
-S16_Equipo##_MkDocs.pdf
+S16_Equipo##_U3_MkDocs.pdf
 ```
 
 Entrega la presentacion final con el siguiente nombre:
@@ -126,7 +126,7 @@ La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecut
 - Evidencia de participacion individual en GitHub:
 - Commits o PR de codigo:
 - Commits o PR de documentacion:
-- Parte del sistema que demostrara en vivo:
+- Parte del sistema que demostrará en vivo:
 
 #### 3.1.2 Evidencia tecnica individual
 
@@ -170,7 +170,7 @@ Cada anexo individual debe contener:
 - Rol o responsabilidad.
 - Commits o PR de codigo.
 - Commits o PR de documentacion.
-- Evidencia breve de la parte que demostrara en vivo.
+- Evidencia breve de la parte que demostrará en vivo.
 
 ### 3.2 Secuencia sugerida de presentacion
 
@@ -181,7 +181,7 @@ Cada anexo individual debe contener:
 5. Mostrar seguridad, eventos, consistencia y observabilidad.
 6. Mostrar documentacion MkDocs y guia de reproduccion.
 7. Mostrar participacion de cada integrante en GitHub.
-8. Cada integrante muestra la parte que trabajo.
+8. Cada integrante muestra la parte que trabajó.
 9. Cerrar con riesgos, incidencias y mejoras futuras.
 
 ### 3.3 Criterios minimos de aceptacion
@@ -191,7 +191,7 @@ Cada anexo individual debe contener:
 - Documentacion MkDocs reproducible del producto del curso.
 - MkDocs incluye anexos de participacion individual, uno por integrante.
 - GitHub evidencia aporte individual de cada integrante mediante commits o PR de codigo y documentacion.
-- Cada integrante demuestra en vivo la parte que trabajo.
+- Cada integrante demuestra en vivo la parte que trabajó.
 - Competencia identificada.
 - Consigna ejecutada.
 - Evidencia verificable.
@@ -224,7 +224,7 @@ La rubrica evalua el entregable y la sustentacion del producto final presentados
 | 1. Ejecucion tecnica | 2 | Ejecuta la consigna correctamente y explica cada paso. | Ejecuta la consigna principal. | Ejecucion parcial. | No ejecuta la consigna. | |
 | 2. Diagnostico | 2 | Diagnostica sintomas, causa y solucion. | Explica causa probable. | Diagnostico parcial. | No diagnostica. | |
 | 3. Evidencia verificable | 2 | Presenta evidencia clara, reproducible y suficiente. | Evidencia suficiente. | Evidencia incompleta. | No presenta evidencia. | |
-| 4. Sustentacion individual y demo de aporte | 2 | Responde con autonomia, criterio tecnico y demuestra en vivo la parte que trabajo. | Responde y demuestra su parte adecuadamente. | Responde o demuestra parcialmente. | No sustenta. | |
+| 4. Sustentacion individual y demo de aporte | 2 | Responde con autonomia, criterio tecnico y demuestra en vivo la parte que trabajó. | Responde y demuestra su parte adecuadamente. | Responde o demuestra parcialmente. | No sustenta. | |
 | 5. Reflexion tecnica | 1 | Explica aprendizajes, limites y decisiones tecnicas con claridad. | Explica aprendizajes o decisiones principales. | Reflexion poco clara. | No reflexiona. | |
 | 6. Orden, presentacion, documentacion y GitHub | 1 | PDF grupal generado desde MkDocs con estructura por unidad/sesion y anexos por integrante, presentacion final clara, link MkDocs en el index y participacion verificable en GitHub. | Evidencia suficiente con presentacion, documentacion y GitHub. | Evidencia poco clara, documentacion incompleta o GitHub poco trazable. | Evidencia insuficiente. | |
 
