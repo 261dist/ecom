@@ -34,7 +34,7 @@ Preguntas que el docente puede realizar a cada estudiante:
 - Producto de unidad: producto final del curso validado, documentado, estabilizado y defendido.
 - Avance del producto en esta sesion: demostracion individual de competencias pendientes.
 
-## 2. Explica
+## 2. Encuadre de la evaluacion
 
 Tiempo: 10 min.
 
@@ -86,7 +86,7 @@ Cada grupo dispone de hasta 18 minutos:
 - 5 minutos de demo tecnica.
 - 3 minutos de preguntas del docente a integrantes del equipo.
 
-## 3. Aplica: actividad practica guiada
+## 3. Presentacion y sustentacion del producto
 
 Tiempo: 3h 45 min para la ronda de evaluacion de equipos.
 
@@ -197,7 +197,7 @@ Cada anexo individual debe contener:
 - Evidencia verificable.
 - Sustentacion individual.
 
-## 4. Crea: actividad autonoma
+## 4. Retroalimentacion posterior
 
 Tiempo: 4h fuera del aula.
 
@@ -213,11 +213,9 @@ Trabajo autonomo:
 4. Registrar en GitHub los cambios posteriores a la evaluacion.
 5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
 
-## 5. Cierre evaluativo
+## 5. Rubrica de evaluacion
 
 La rubrica evalua el entregable y la sustentacion del producto final presentados durante la sesion.
-
-### 5.1 Rubrica de evaluacion
 
 | Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
 |---|---:|---|---|---|---|---:|
