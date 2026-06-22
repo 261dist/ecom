@@ -1514,13 +1514,13 @@
 <h3 id="31-plantilla-de-entrega">3.1 Plantilla de entrega</h3>
 <p>La evaluacion U1 requiere tres entregables:</p>
 <ol>
-<li>Evidencia individual en PDF.</li>
-<li>Presentacion del proyecto U1 (PPT o equivalente).</li>
+<li>PDF grupal generado desde la documentacion MkDocs y subido a la plataforma BLearning (BL).</li>
+<li>Presentacion del proyecto U1 (PPT o equivalente) subida a BL.</li>
 <li>Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U1.</li>
 </ol>
-<p>Ademas, el repositorio GitHub debe evidenciar el aporte o participacion de cada integrante del equipo, y cada integrante debe mostrar una demo de la parte que trabajo.</p>
-<p>Entrega el PDF con el siguiente nombre:</p>
-<div class="highlight"><pre><span></span><code>S05_Equipo##_ApellidoNombre.pdf
+<p>El link de la documentacion MkDocs debe aparecer en el <code>index</code> del PDF. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajo.</p>
+<p>Entrega el PDF grupal con el siguiente nombre:</p>
+<div class="highlight"><pre><span></span><code>S05_Equipo##_MkDocs.pdf
 </code></pre></div>
 <p>Entrega la presentacion con el siguiente nombre:</p>
 <div class="highlight"><pre><span></span><code>U1_Equipo##_Presentacion.pdf
@@ -1533,7 +1533,9 @@
 <li>Sesion: S05 - Evaluacion U1</li>
 <li>Rol o aporte realizado:</li>
 <li>Link de GitHub:</li>
-<li>Evidencia de participacion en GitHub:</li>
+<li>Evidencia de participacion individual en GitHub:</li>
+<li>Commits o PR de codigo:</li>
+<li>Commits o PR de documentacion:</li>
 <li>Parte del sistema que demostrara en vivo:</li>
 </ul>
 <h4 id="312-evidencia-tecnica-individual">3.1.2 Evidencia tecnica individual</h4>
@@ -1554,20 +1556,29 @@
 <li>Flujo de ejecucion.</li>
 <li>Evidencias principales.</li>
 <li>Aporte individual de cada integrante.</li>
-<li>Evidencia de participacion de cada integrante en GitHub.</li>
+<li>Evidencia de participacion individual de cada integrante en GitHub.</li>
 <li>Demo asignada a cada integrante.</li>
 <li>Problemas encontrados y decisiones tecnicas.</li>
 </ul>
 <h4 id="314-documentacion-mkdocs">3.1.4 Documentacion MkDocs</h4>
-<p>La documentacion debe incluir guias para reproducir cada artefacto de sesion:</p>
+<p>La documentacion debe seguir una estructura ordenada por sesion y anexos:</p>
 <ul>
 <li>S01: microservicio base y CRUD.</li>
 <li>S02: Config Server y perfiles <code>dev</code> / <code>prod</code>.</li>
 <li>S03: Eureka y registro de servicios.</li>
 <li>S04: Gateway, rutas y balanceo.</li>
 <li>S05: integracion y evaluacion U1.</li>
+<li>Anexos: evidencia de participacion individual, un anexo por integrante.</li>
 </ul>
-<p>Cada guia debe contener comandos, puertos, rutas probadas, evidencias esperadas y errores frecuentes.</p>
+<p>Cada guia debe contener comandos, puertos, rutas probadas, evidencias esperadas y errores frecuentes. El <code>index</code> debe incluir el link de la documentacion MkDocs publicada o ejecutable.</p>
+<p>Cada anexo individual debe contener:</p>
+<ul>
+<li>Nombre del integrante.</li>
+<li>Rol o responsabilidad.</li>
+<li>Commits o PR de codigo.</li>
+<li>Commits o PR de documentacion.</li>
+<li>Evidencia breve de la parte que demostrara en vivo.</li>
+</ul>
 <h3 id="32-secuencia-sugerida-de-presentacion">3.2 Secuencia sugerida de presentacion</h3>
 <ol>
 <li>Presentar nombre del proyecto, equipo y repositorio GitHub.</li>
@@ -1580,12 +1591,12 @@
 </ol>
 <h3 id="33-criterios-minimos-de-aceptacion">3.3 Criterios minimos de aceptacion</h3>
 <ul>
-<li>PDF con nombre correcto.</li>
-<li>Presentacion del proyecto U1 entregada.</li>
+<li>PDF grupal generado desde MkDocs y subido a BL con nombre correcto.</li>
+<li>Presentacion del proyecto U1 subida a BL.</li>
 <li>Documentacion MkDocs con guias reproducibles de S01 a S05.</li>
 <li>Evidencia del producto U1 integrado.</li>
-<li>Evidencia de aporte individual.</li>
-<li>GitHub evidencia aporte o participacion de cada integrante.</li>
+<li>MkDocs incluye anexos de participacion individual, uno por integrante.</li>
+<li>GitHub evidencia aporte individual de cada integrante mediante commits o PR de codigo y documentacion.</li>
 <li>Cada integrante demuestra en vivo la parte que trabajo.</li>
 <li>Pruebas por consola.</li>
 <li>Diagnostico tecnico.</li>
@@ -1648,8 +1659,8 @@
 <tr>
 <td>4. Aporte individual y participacion en GitHub</td>
 <td style="text-align: right;">2</td>
-<td>Aporte verificable en GitHub, claro y conectado al producto.</td>
-<td>Aporte identificable en GitHub.</td>
+<td>Aporte individual verificable en anexos MkDocs y en commits o PR de codigo y documentacion.</td>
+<td>Aporte identificable en GitHub y anexos.</td>
 <td>Aporte general o poco trazable.</td>
 <td>No se identifica aporte.</td>
 <td style="text-align: right;"></td>
@@ -1666,7 +1677,7 @@
 <tr>
 <td>6. Orden, presentacion, documentacion y demo individual</td>
 <td style="text-align: right;">1</td>
-<td>PDF ordenado, presentacion clara (PPT o equivalente), MkDocs reproducible y demo individual de la parte trabajada.</td>
+<td>PDF grupal generado desde MkDocs con estructura S01-S05 y anexos por integrante, presentacion clara, link MkDocs en el index y demo individual.</td>
 <td>Evidencias suficientes con presentacion, documentacion y demo.</td>
 <td>Evidencias poco claras, documentacion incompleta o demo parcial.</td>
 <td>Evidencia insuficiente.</td>
