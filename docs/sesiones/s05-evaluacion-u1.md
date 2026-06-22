@@ -20,7 +20,7 @@ Producto U1 integrado: Config Server, Eureka, Gateway, microservicios de negocio
 
 Un sistema distribuido no se evalua por componentes aislados. La evidencia importante es que los componentes se integran, se ejecutan en orden, responden por Gateway y pueden diagnosticarse ante fallos.
 
-Preguntas para los estudiantes:
+Preguntas que el docente puede realizar a cada estudiante:
 
 1. Que evidencia demuestra que el sistema funciona integrado?
 2. Que parte del producto puedes defender individualmente?
@@ -36,13 +36,7 @@ Preguntas para los estudiantes:
 
 Tiempo: 15 min.
 
-### 2.1 Conceptos clave
-
-- **Integracion**: los componentes funcionan coordinadamente.
-- **Evidencia individual**: prueba verificable del aporte de cada estudiante.
-- **Diagnostico**: capacidad de ubicar fallos en Config Server, Eureka, Gateway, microservicio o BD.
-
-### 2.2 Arquitectura del producto en `ecom`
+### 2.1 Arquitectura del producto de unidad
 
 ```mermaid
 flowchart TB
@@ -67,80 +61,21 @@ flowchart TB
     Producto --> DB2
 ```
 
-### 2.3 Observabilidad y diagnostico
+### 2.2 Tiempo de exposicion por equipo
 
-Senales obligatorias:
+Cada grupo dispone de 25 minutos:
 
-- Config Server entrega perfiles.
-- Eureka muestra servicios registrados.
-- Gateway responde health.
-- CRUD responde por Gateway.
-- BD contiene registros.
-- Se evidencia mas de una instancia cuando corresponde.
+- 15 minutos de exposicion del proyecto U1.
+- 5 minutos de demo tecnica.
+- 5 minutos de preguntas del docente a integrantes del equipo.
 
 ## 3. Aplica: actividad practica guiada
 
 Tiempo: 3h.
 
-En esta sesion se realiza una evaluacion practica. El equipo levanta el sistema y cada integrante evidencia su aporte individual.
+En esta sesion se realiza la exposicion y evaluacion practica. El equipo presenta el producto U1, muestra la demo y cada integrante evidencia su aporte.
 
-### 3.1 Preparar orden de arranque
-
-Orden recomendado:
-
-1. Config Server.
-2. Eureka.
-3. Gateway.
-4. Bases de datos.
-5. Microservicios.
-6. Segunda instancia, si aplica.
-
-### 3.2 Ejecutar pruebas base
-
-PowerShell:
-
-```powershell
-Invoke-RestMethod -Method Get -Uri "http://localhost:18888/catalogo-ms/dev"
-Invoke-WebRequest -Uri "http://localhost:18761" -UseBasicParsing
-Invoke-RestMethod -Method Get -Uri "http://localhost:18080/actuator/health"
-Invoke-RestMethod -Method Get -Uri "http://localhost:18080/api/v1/categorias"
-```
-
-bash macOS/Linux:
-
-```bash
-curl http://localhost:18888/catalogo-ms/dev
-curl http://localhost:18761
-curl http://localhost:18080/actuator/health
-curl http://localhost:18080/api/v1/categorias
-```
-
-### 3.3 Validar multiples instancias
-
-Verificar en Eureka que el servicio tiene mas de una instancia o explicar por que no se pudo levantar.
-
-### 3.4 Inspeccionar base de datos
-
-PowerShell / bash macOS/Linux:
-
-```bash
-docker exec -it ecom-postgres-catalogo-dev psql -U ecom -d ecom_catalogo_db -c "SELECT * FROM categorias;"
-```
-
-### 3.5 Demostracion individual
-
-Cada integrante debe poder responder:
-
-- Que parte implemento.
-- Que archivo modifico.
-- Que prueba ejecuto.
-- Que error diagnostico.
-
-## 4. Crea: actividad autonoma
-
-Tiempo: 4h fuera del aula.
-
-### 4.1 Plantilla de evidencia individual
+### 3.1 Plantilla de entrega
 
 La evaluacion U1 requiere tres entregables:
 
@@ -162,9 +97,9 @@ Entrega la presentacion con el siguiente nombre:
 U1_Equipo##_Presentacion.pdf
 ```
 
-La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable localmente con `mkdocs serve`.
+La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecutable localmente con `mkdocs serve`.
 
-#### 4.1.1 Datos del estudiante
+#### 3.1.1 Datos del estudiante
 
 - Nombre:
 - Equipo:
@@ -174,15 +109,7 @@ La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable lo
 - Evidencia de participacion en GitHub:
 - Parte del sistema que demostrara en vivo:
 
-#### 4.1.2 Trabajo autonomo realizado
-
-1. Ordenar evidencias de U1.
-2. Corregir observaciones detectadas.
-3. Completar README o documentacion del modulo asignado.
-4. Preparar defensa individual.
-5. Registrar comandos y resultados.
-
-#### 4.1.3 Evidencia tecnica
+#### 3.1.2 Evidencia tecnica individual
 
 - Config Server.
 - Eureka.
@@ -192,7 +119,7 @@ La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable lo
 - Multiples instancias.
 - Aporte individual.
 
-#### 4.1.4 Presentacion del proyecto U1
+#### 3.1.3 Presentacion del proyecto U1
 
 La presentacion debe incluir:
 
@@ -205,7 +132,7 @@ La presentacion debe incluir:
 - Demo asignada a cada integrante.
 - Problemas encontrados y decisiones tecnicas.
 
-#### 4.1.5 Documentacion MkDocs
+#### 3.1.4 Documentacion MkDocs
 
 La documentacion debe incluir guias para reproducir cada artefacto de sesion:
 
@@ -217,13 +144,31 @@ La documentacion debe incluir guias para reproducir cada artefacto de sesion:
 
 Cada guia debe contener comandos, puertos, rutas probadas, evidencias esperadas y errores frecuentes.
 
-#### 4.1.6 Error o hallazgo
+### 3.2 Secuencia sugerida de presentacion
 
-Describe un problema de integracion y como lo diagnosticarias.
+1. Presentar nombre del proyecto, equipo y repositorio GitHub.
+2. Explicar la arquitectura U1 usando el diagrama del producto.
+3. Mostrar Config Server, Eureka, Gateway y microservicios integrados.
+4. Ejecutar la demo tecnica por Gateway.
+5. Mostrar participacion de cada integrante en GitHub.
+6. Cada integrante muestra la parte que trabajo.
+7. Cerrar con hallazgos, problemas y decisiones tecnicas.
 
-#### 4.1.7 Reflexion tecnica breve
+## 4. Crea: actividad autonoma
 
-Explica como los componentes de U1 forman un sistema distribuido base.
+Tiempo: 4h fuera del aula.
+
+### 4.1 Mejoras y recomendaciones posteriores
+
+Despues de la evaluacion, cada estudiante debe implementar las mejoras y recomendaciones recibidas.
+
+Trabajo autonomo:
+
+1. Corregir observaciones detectadas en la exposicion.
+2. Completar o ajustar la documentacion MkDocs.
+3. Mejorar evidencias individuales incompletas.
+4. Registrar en GitHub los cambios posteriores a la evaluacion.
+5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
 
 ### 4.2 Criterios minimos de aceptacion
 
@@ -253,7 +198,7 @@ Tiempo: 20 min.
 
 ### 5.2 Evidencia del producto de sesion
 
-Cada estudiante entrega un PDF individual siguiendo la plantilla de la seccion 4.1. El equipo entrega ademas una presentacion del proyecto U1 y documentacion MkDocs con guias reproducibles de los artefactos de S01 a S05.
+Cada estudiante entrega un PDF individual siguiendo la plantilla de la seccion 3.1. El equipo entrega ademas una presentacion del proyecto U1 y documentacion MkDocs con guias reproducibles de los artefactos de S01 a S05.
 
 Nombre del archivo:
 
@@ -261,15 +206,15 @@ Nombre del archivo:
 S05_Equipo##_ApellidoNombre.pdf
 ```
 
-### 5.3 Preguntas de defensa y reflexion
+Presentacion:
 
-1. Cual fue tu aporte concreto en U1?
-2. Como se levanta el sistema base?
-3. Como se prueba sin Postman?
-4. Como sabes que hay multiples instancias?
-5. Que revisas si una ruta devuelve 503?
+```text
+U1_Equipo##_Presentacion.pdf
+```
 
-### 5.4 Rubrica de evaluacion
+La documentacion se verifica desde el repositorio GitHub del equipo.
+
+### 5.3 Rubrica de evaluacion
 
 | Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
 |---|---:|---|---|---|---|---:|
@@ -287,7 +232,7 @@ Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 Para usar la rubrica con IA, solicita:
 
 ```text
-Evalua el PDF, la presentacion y la documentacion MkDocs usando la rubrica de la sesion.
+Evalua el PDF, la presentacion, la documentacion MkDocs, la participacion en GitHub y la demo individual usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).

@@ -20,6 +20,14 @@ Sistema robusto validado: comunicacion sincronica, seguridad, mensajeria, consis
 
 Un sistema distribuido robusto debe funcionar cuando hay usuarios, errores, multiples servicios, eventos, seguridad y necesidad de diagnostico. Esta evaluacion valida el sistema en condiciones integradas.
 
+Preguntas que el docente puede realizar a cada estudiante:
+
+1. Como se protege el sistema?
+2. Que flujo demuestra comunicacion entre servicios?
+3. Que evidencia muestra mensajeria asincrona?
+4. Como se diagnostica un fallo?
+5. Cual fue tu aporte individual?
+
 ### 1.5 Ubicacion en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
@@ -30,16 +38,7 @@ Un sistema distribuido robusto debe funcionar cuando hay usuarios, errores, mult
 
 Tiempo: 15 min.
 
-### 2.1 Conceptos clave
-
-- Robustez.
-- Seguridad distribuida.
-- Comunicacion sincronica y asincrona.
-- Consistencia eventual.
-- Observabilidad.
-- Integracion frontend.
-
-### 2.2 Arquitectura del producto en `ecom`
+### 2.1 Arquitectura del producto de unidad
 
 ```mermaid
 flowchart LR
@@ -64,43 +63,21 @@ flowchart LR
     Gateway -. logs/metrics .-> Obs
 ```
 
-### 2.3 Observabilidad y diagnostico
+### 2.2 Tiempo de exposicion por equipo
 
-Validar health, logs, metricas, eventos, errores controlados, seguridad y experiencia desde frontend.
+Cada grupo dispone de 25 minutos:
+
+- 15 minutos de exposicion del proyecto U2.
+- 5 minutos de demo tecnica.
+- 5 minutos de preguntas del docente a integrantes del equipo.
 
 ## 3. Aplica: actividad practica guiada
 
 Tiempo: 3h.
 
-### 3.1 Preparar demostracion
+En esta sesion se realiza la exposicion y evaluacion practica. El equipo presenta el producto U2, muestra la demo y cada integrante evidencia su aporte.
 
-El equipo define el flujo a demostrar y el orden de arranque.
-
-### 3.2 Validar seguridad
-
-Obtener token y consumir una ruta protegida.
-
-### 3.3 Validar comunicacion entre servicios
-
-Ejecutar un flujo donde un microservicio consulte a otro.
-
-### 3.4 Validar eventos y consistencia
-
-Ejecutar flujo de orden-pago y revisar eventos/estados.
-
-### 3.5 Validar observabilidad
-
-Mostrar health, logs, metricas o dashboard.
-
-### 3.6 Validar frontend
-
-Consumir el sistema desde `ecom-ng` mediante Gateway.
-
-## 4. Crea: actividad autonoma
-
-Tiempo: 4h fuera del aula.
-
-### 4.1 Plantilla de evidencia individual
+### 3.1 Plantilla de entrega
 
 La evaluacion U2 requiere tres entregables:
 
@@ -122,9 +99,9 @@ Entrega la presentacion con el siguiente nombre:
 U2_Equipo##_Presentacion.pdf
 ```
 
-La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable localmente con `mkdocs serve`.
+La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecutable localmente con `mkdocs serve`.
 
-#### 4.1.1 Datos del estudiante
+#### 3.1.1 Datos del estudiante
 
 - Nombre:
 - Equipo:
@@ -134,15 +111,16 @@ La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable lo
 - Evidencia de participacion en GitHub:
 - Parte del sistema que demostrara en vivo:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 3.1.2 Evidencia tecnica individual
 
-1. Ordenar evidencias de U2.
-2. Registrar aporte individual.
-3. Corregir observaciones.
-4. Preparar defensa tecnica.
-5. Documentar flujo integrado.
+- Seguridad: login, token y ruta protegida.
+- Comunicacion sincronica entre servicios.
+- Eventos o consistencia distribuida.
+- Observabilidad: health, logs, metricas o panel.
+- Frontend integrado mediante Gateway.
+- Aporte individual.
 
-#### 4.1.3 Presentacion del proyecto U2
+#### 3.1.3 Presentacion del proyecto U2
 
 La presentacion debe incluir:
 
@@ -157,7 +135,7 @@ La presentacion debe incluir:
 - Evidencia de participacion de cada integrante en GitHub.
 - Demo asignada a cada integrante.
 
-#### 4.1.4 Documentacion MkDocs
+#### 3.1.4 Documentacion MkDocs
 
 La documentacion debe incluir guias para reproducir cada artefacto de sesion:
 
@@ -170,6 +148,34 @@ La documentacion debe incluir guias para reproducir cada artefacto de sesion:
 - S12: validacion integrada U2.
 
 Cada guia debe contener comandos, puertos, rutas probadas, datos de prueba, evidencias esperadas y errores frecuentes.
+
+### 3.2 Secuencia sugerida de presentacion
+
+1. Presentar nombre del proyecto, equipo y repositorio GitHub.
+2. Explicar la arquitectura U2 usando el diagrama del producto.
+3. Mostrar login, token y ruta protegida.
+4. Mostrar comunicacion sincronica entre servicios.
+5. Mostrar mensajeria, consistencia eventual y estado final.
+6. Mostrar integracion frontend y evidencia operacional.
+7. Mostrar participacion de cada integrante en GitHub.
+8. Cada integrante muestra la parte que trabajo.
+9. Cerrar con hallazgos, problemas y decisiones tecnicas.
+
+## 4. Crea: actividad autonoma
+
+Tiempo: 4h fuera del aula.
+
+### 4.1 Mejoras y recomendaciones posteriores
+
+Despues de la evaluacion, cada estudiante debe implementar las mejoras y recomendaciones recibidas.
+
+Trabajo autonomo:
+
+1. Corregir observaciones detectadas en la exposicion.
+2. Completar o ajustar la documentacion MkDocs.
+3. Mejorar evidencias individuales incompletas.
+4. Registrar en GitHub los cambios posteriores a la evaluacion.
+5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
 
 ### 4.2 Criterios minimos de aceptacion
 
@@ -207,15 +213,15 @@ S12_Equipo##_ApellidoNombre.pdf
 
 El equipo entrega ademas una presentacion del proyecto U2 y documentacion MkDocs con guias reproducibles de los artefactos de S06 a S12.
 
-### 5.3 Preguntas de defensa y reflexion
+Presentacion:
 
-1. Como se protege el sistema?
-2. Que flujo demuestra comunicacion entre servicios?
-3. Que evidencia muestra mensajeria asincrona?
-4. Como se diagnostica un fallo?
-5. Cual fue tu aporte individual?
+```text
+U2_Equipo##_Presentacion.pdf
+```
 
-### 5.4 Rubrica de evaluacion
+La documentacion se verifica desde el repositorio GitHub del equipo.
+
+### 5.3 Rubrica de evaluacion
 
 | Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
 |---|---:|---|---|---|---|---:|
@@ -233,7 +239,7 @@ Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 Para usar la rubrica con IA, solicita:
 
 ```text
-Evalua el PDF, la presentacion y la documentacion MkDocs usando la rubrica de la sesion.
+Evalua el PDF, la presentacion, la documentacion MkDocs, la participacion en GitHub y la demo individual usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).

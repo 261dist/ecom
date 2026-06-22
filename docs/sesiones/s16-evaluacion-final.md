@@ -20,6 +20,14 @@ Evidencia individual de logro de competencias pendientes.
 
 La competencia profesional se demuestra cuando el estudiante puede operar, explicar y defender una parte del sistema bajo condiciones controladas.
 
+Preguntas que el docente puede realizar a cada estudiante:
+
+1. Que competencia estas demostrando?
+2. Que comando ejecutaste y por que?
+3. Que evidencia confirma el resultado?
+4. Como corregirias el fallo presentado?
+5. Que aprendiste respecto a tu aporte en el sistema?
+
 ### 1.5 Ubicacion en el curso
 
 - Unidad: U3 - Validacion y consolidacion del producto del curso.
@@ -30,15 +38,7 @@ La competencia profesional se demuestra cuando el estudiante puede operar, expli
 
 Tiempo: 15 min.
 
-### 2.1 Conceptos clave
-
-- Competencia pendiente.
-- Consigna individual.
-- Evidencia verificable.
-- Diagnostico tecnico.
-- Sustentacion individual.
-
-### 2.2 Arquitectura del producto en `ecom`
+### 2.1 Arquitectura del producto del curso
 
 La consigna puede tomar cualquier componente del producto:
 
@@ -76,43 +76,21 @@ flowchart TB
     Evidencia --> Sustentacion
 ```
 
-### 2.3 Observabilidad y diagnostico
+### 2.2 Tiempo de exposicion por equipo
 
-La evaluacion puede incluir diagnosticar una falla provocada por el docente y explicar la ruta de revision.
+Cada grupo dispone de 25 minutos:
+
+- 15 minutos de exposicion del proyecto final.
+- 5 minutos de demo tecnica.
+- 5 minutos de preguntas del docente a integrantes del equipo.
 
 ## 3. Aplica: actividad practica guiada
 
 Tiempo: 3h.
 
-### 3.1 Identificar competencia pendiente
+En esta sesion se realiza la exposicion y evaluacion final. El equipo presenta el producto del curso, muestra la demo y cada integrante evidencia su aporte.
 
-El docente define la competencia que el estudiante debe demostrar.
-
-### 3.2 Asignar consigna individual
-
-Ejemplos:
-
-- Probar un endpoint.
-- Corregir una ruta.
-- Diagnosticar un 503.
-- Obtener token y consumir una ruta protegida.
-- Verificar un evento.
-- Consultar BD.
-- Explicar un componente.
-
-### 3.3 Ejecutar y evidenciar
-
-El estudiante ejecuta comandos, muestra resultados y explica lo realizado.
-
-### 3.4 Sustentar resultado
-
-El estudiante responde preguntas sobre su procedimiento, errores y decisiones.
-
-## 4. Crea: actividad autonoma
-
-Tiempo: 4h fuera del aula.
-
-### 4.1 Plantilla de evidencia individual
+### 3.1 Plantilla de entrega
 
 La evaluacion final requiere tres entregables:
 
@@ -134,9 +112,9 @@ Entrega la presentacion final con el siguiente nombre:
 ProductoCurso_Equipo##_Presentacion.pdf
 ```
 
-La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable localmente con `mkdocs serve`.
+La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecutable localmente con `mkdocs serve`.
 
-#### 4.1.1 Datos del estudiante
+#### 3.1.1 Datos del estudiante
 
 - Nombre:
 - Equipo:
@@ -146,15 +124,16 @@ La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable lo
 - Evidencia de participacion en GitHub:
 - Parte del sistema que demostrara en vivo:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 3.1.2 Evidencia tecnica individual
 
-1. Registrar competencia demostrada.
-2. Documentar consigna asignada.
-3. Mostrar comandos o evidencias.
-4. Explicar diagnostico o resultado.
-5. Registrar mejora o aprendizaje.
+- Competencia demostrada.
+- Consigna o parte del sistema trabajada.
+- Comandos o acciones ejecutadas.
+- Resultado verificable.
+- Diagnostico o explicacion tecnica.
+- Aporte individual.
 
-#### 4.1.3 Presentacion final del proyecto
+#### 3.1.3 Presentacion final del proyecto
 
 La presentacion debe incluir:
 
@@ -170,7 +149,7 @@ La presentacion debe incluir:
 - Demo asignada a cada integrante.
 - Riesgos, incidencias y mejoras futuras.
 
-#### 4.1.4 Documentacion MkDocs del producto del curso
+#### 3.1.4 Documentacion MkDocs del producto del curso
 
 La documentacion debe incluir guias para reproducir los artefactos evaluados durante el curso:
 
@@ -179,6 +158,34 @@ La documentacion debe incluir guias para reproducir los artefactos evaluados dur
 - U3: validacion end-to-end, estabilizacion, defensa y evaluacion final.
 
 Cada guia debe contener comandos, orden de arranque, puertos, variables de entorno, rutas, datos de prueba, evidencias esperadas, troubleshooting y criterios de verificacion.
+
+### 3.2 Secuencia sugerida de presentacion
+
+1. Presentar nombre del proyecto, equipo y repositorio GitHub.
+2. Explicar el problema o flujo de negocio implementado.
+3. Explicar la arquitectura final del producto.
+4. Ejecutar la demo end-to-end.
+5. Mostrar seguridad, eventos, consistencia y observabilidad.
+6. Mostrar documentacion MkDocs y guia de reproduccion.
+7. Mostrar participacion de cada integrante en GitHub.
+8. Cada integrante muestra la parte que trabajo.
+9. Cerrar con riesgos, incidencias y mejoras futuras.
+
+## 4. Crea: actividad autonoma
+
+Tiempo: 4h fuera del aula.
+
+### 4.1 Mejoras y recomendaciones posteriores
+
+Despues de la evaluacion, cada estudiante debe implementar las mejoras y recomendaciones recibidas.
+
+Trabajo autonomo:
+
+1. Corregir observaciones detectadas en la exposicion.
+2. Completar o ajustar la documentacion MkDocs del producto del curso.
+3. Mejorar evidencias individuales incompletas.
+4. Registrar en GitHub los cambios posteriores a la evaluacion.
+5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
 
 ### 4.2 Criterios minimos de aceptacion
 
@@ -215,15 +222,15 @@ S16_Equipo##_ApellidoNombre.pdf
 
 El equipo entrega ademas la presentacion final del proyecto y la documentacion MkDocs del producto del curso.
 
-### 5.3 Preguntas de defensa y reflexion
+Presentacion:
 
-1. Que competencia estas demostrando?
-2. Que comando ejecutaste y por que?
-3. Que evidencia confirma el resultado?
-4. Como corregirias el fallo presentado?
-5. Que aprendiste respecto a tu aporte en el sistema?
+```text
+ProductoCurso_Equipo##_Presentacion.pdf
+```
 
-### 5.4 Rubrica de evaluacion
+La documentacion se verifica desde el repositorio GitHub del equipo.
+
+### 5.3 Rubrica de evaluacion
 
 | Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
 |---|---:|---|---|---|---|---:|
@@ -241,7 +248,7 @@ Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 Para usar la rubrica con IA, solicita:
 
 ```text
-Evalua el PDF, la presentacion y la documentacion MkDocs usando la rubrica de la sesion.
+Evalua el PDF, la presentacion, la documentacion MkDocs, la participacion en GitHub y la demo individual usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
