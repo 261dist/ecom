@@ -81,11 +81,11 @@ En esta sesion se realiza la exposicion y evaluacion practica. Cada equipo dispo
 
 La evaluacion U1 requiere tres entregables:
 
-1. Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U1.
+1. Documentacion en MkDocs del avance U1 del proyecto final, organizada por sesiones y con guias reproducibles.
 2. PDF grupal generado desde la documentacion MkDocs y subido a la plataforma BLearning (BL).
 3. Presentacion del proyecto U1 (PPT o equivalente) subida a BL.
 
-El link de la documentacion MkDocs debe aparecer en el `index` del PDF. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
+El link de la documentacion MkDocs debe aparecer en el `index` del PDF. La documentacion no presenta productos aislados de sesion: organiza el avance U1 del proyecto final usando S01, S02, S03, S04 y S05 como estructura de evidencias. Para la unidad, el equipo debe juntar e integrar los productos de sesion desarrollados por todos los integrantes en una rama comun del equipo. No basta con mostrar ramas o PR separados: debe evidenciarse el merge o integracion, la resolucion de conflictos si aplica y la ejecucion del sistema integrado. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits, ramas, merges o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
 
 Entrega el PDF grupal con el siguiente nombre:
 
@@ -101,19 +101,20 @@ U1_Equipo##_Presentacion.pdf
 
 La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecutable localmente con `mkdocs serve`.
 
-#### 3.1.1 Datos del estudiante
+#### 3.1.1 Datos del equipo
 
-- Nombre:
 - Equipo:
 - Sesion: S05 - Evaluacion U1
-- Rol o aporte realizado:
+- Proyecto:
 - Link de GitHub:
-- Evidencia de participacion individual en GitHub:
-- Commits o PR de codigo:
-- Commits o PR de documentacion:
-- Parte del sistema que demostrará en vivo:
+- Link de MkDocs:
+- Rama integrada evaluada:
+- Evidencia de integracion o merge:
+- Integrantes:
+- Productos de sesion integrados por el equipo:
+- Anexos individuales incluidos:
 
-#### 3.1.2 Evidencia tecnica individual
+#### 3.1.2 Evidencia tecnica del avance U1
 
 - Config Server.
 - Eureka.
@@ -121,7 +122,7 @@ La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecut
 - CRUD por Gateway.
 - BD con registros.
 - Multiples instancias.
-- Aporte individual.
+- Avance del proyecto final correspondiente a U1.
 
 #### 3.1.3 Presentacion del proyecto U1
 
@@ -138,7 +139,7 @@ La presentacion debe incluir:
 
 #### 3.1.4 Documentacion MkDocs
 
-La documentacion debe seguir una estructura ordenada por sesion y anexos:
+La documentacion debe seguir una estructura ordenada por sesion y anexos. Cada sesion documenta el avance del proyecto final que corresponde a esa etapa y debe integrar los aportes realizados por los integrantes del equipo:
 
 - S01: microservicio base y CRUD.
 - S02: Config Server y perfiles `dev` / `prod`.
@@ -153,9 +154,10 @@ Cada anexo individual debe contener:
 
 - Nombre del integrante.
 - Rol o responsabilidad.
-- Commits o PR de codigo.
-- Commits o PR de documentacion.
+- Rama de trabajo, commits, merges o PR de codigo.
+- Rama de trabajo, commits, merges o PR de documentacion.
 - Evidencia breve de la parte que demostrará en vivo.
+- Evidencia de que su aporte quedo integrado en la rama comun del equipo.
 
 ### 3.2 Secuencia sugerida de presentacion
 
@@ -172,9 +174,12 @@ Cada anexo individual debe contener:
 - PDF grupal generado desde MkDocs y subido a BL con nombre correcto.
 - Presentacion del proyecto U1 subida a BL.
 - Documentacion MkDocs con guias reproducibles de S01 a S05.
-- Evidencia del producto U1 integrado.
+- Evidencia del avance U1 del proyecto final integrado.
+- Productos de sesion de todos los integrantes integrados en el avance U1.
+- Rama comun del equipo con aportes integrados y ejecutables.
+- Evidencia de merge, integracion o resolucion de conflictos cuando aplique.
 - MkDocs incluye anexos de participacion individual, uno por integrante.
-- GitHub evidencia aporte individual de cada integrante mediante commits o PR de codigo y documentacion.
+- GitHub evidencia aporte individual de cada integrante mediante ramas, commits, merges o PR de codigo y documentacion.
 - Cada integrante demuestra en vivo la parte que trabajó.
 - Pruebas por consola.
 - Diagnostico tecnico.
@@ -201,10 +206,10 @@ La rubrica evalua el entregable y la sustentacion del producto U1 presentados du
 
 | Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
 |---|---:|---|---|---|---|---:|
-| 1. Integracion del producto U1 | 2 | Evidencia sistema completo integrado y funcionando. | Evidencia componentes principales funcionando. | Evidencia parcial de componentes. | No evidencia integracion. | |
+| 1. Integracion del producto U1 | 2 | Integra los productos de sesion de todos los integrantes en un sistema base funcionando. | Integra los componentes principales del producto U1. | Integracion parcial de componentes o aportes. | No evidencia integracion. | |
 | 2. Pruebas tecnicas | 2 | Pruebas por Config, Eureka, Gateway, CRUD y BD completas. | Pruebas principales completas. | Pruebas incompletas o poco claras. | No evidencia pruebas. | |
 | 3. Diagnostico | 2 | Diagnostica fallos de integracion con claridad. | Explica un problema y causa probable. | Menciona problema sin analisis. | No diagnostica. | |
-| 4. Aporte individual y participacion en GitHub | 2 | Aporte individual verificable en anexos MkDocs y en commits o PR de codigo y documentacion. | Aporte identificable en GitHub y anexos. | Aporte general o poco trazable. | No se identifica aporte. | |
+| 4. Aporte individual e integracion en GitHub | 2 | Aporte individual verificable en anexos MkDocs y evidencia de integracion en la rama comun del equipo. | Aporte identificable en GitHub y anexos, integrado al producto. | Aporte general, poco trazable o no claramente integrado. | No se identifica aporte. | |
 | 5. Defensa tecnica | 1 | Responde con precision y criterio tecnico. | Responde adecuadamente. | Responde parcialmente. | No sustenta. | |
 | 6. Orden, presentacion, documentacion y demo individual | 1 | PDF grupal generado desde MkDocs con estructura S01-S05 y anexos por integrante, presentacion clara, link MkDocs en el index y demo individual. | Evidencias suficientes con presentacion, documentacion y demo. | Evidencias poco claras, documentacion incompleta o demo parcial. | Evidencia insuficiente. | |
 

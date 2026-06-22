@@ -96,11 +96,11 @@ En esta sesion se realiza la exposicion y evaluacion final. Cada equipo dispone 
 
 La evaluacion final requiere tres entregables:
 
-1. Documentacion MkDocs del producto del curso con guias reproducibles de los artefactos de sesion.
+1. Documentacion MkDocs del producto final del curso, organizada por unidad/sesion y con guias reproducibles.
 2. PDF grupal generado desde la documentacion MkDocs y subido a la plataforma BLearning (BL).
 3. Presentacion final del proyecto (PPT o equivalente) subida a BL.
 
-El link de la documentacion MkDocs debe aparecer en el `index` del PDF. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
+El link de la documentacion MkDocs debe aparecer en el `index` del PDF. La documentacion no presenta productos aislados de sesion: organiza el producto final del curso por unidad y sesion para evidenciar la evolucion del proyecto. Para el producto final, el equipo debe juntar e integrar los productos de sesion y de unidad desarrollados por todos los integrantes en una rama comun del equipo. No basta con mostrar ramas o PR separados: debe evidenciarse el merge o integracion, la resolucion de conflictos si aplica y la ejecucion del sistema integrado. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits, ramas, merges o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
 
 Entrega el PDF grupal:
 
@@ -116,26 +116,27 @@ ProductoCurso_Equipo##_Presentacion.pdf
 
 La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecutable localmente con `mkdocs serve`.
 
-#### 3.1.1 Datos del estudiante
+#### 3.1.1 Datos del equipo
 
-- Nombre:
 - Equipo:
 - Sesion: S16 - Evaluacion final
-- Rol o aporte realizado:
+- Proyecto:
 - Link de GitHub:
-- Evidencia de participacion individual en GitHub:
-- Commits o PR de codigo:
-- Commits o PR de documentacion:
-- Parte del sistema que demostrará en vivo:
+- Link de MkDocs:
+- Rama integrada evaluada:
+- Evidencia de integracion o merge:
+- Integrantes:
+- Productos de sesion y unidad integrados por el equipo:
+- Anexos individuales incluidos:
 
-#### 3.1.2 Evidencia tecnica individual
+#### 3.1.2 Evidencia tecnica del producto final
 
 - Competencia demostrada.
 - Consigna o parte del sistema trabajada.
 - Comandos o acciones ejecutadas.
 - Resultado verificable.
 - Diagnostico o explicacion tecnica.
-- Aporte individual.
+- Producto final del curso integrado.
 
 #### 3.1.3 Presentacion final del proyecto
 
@@ -155,7 +156,7 @@ La presentacion debe incluir:
 
 #### 3.1.4 Documentacion MkDocs del producto del curso
 
-La documentacion debe seguir una estructura ordenada por unidad, sesion y anexos:
+La documentacion debe seguir una estructura ordenada por unidad, sesion y anexos. Cada unidad y sesion documenta la evolucion del proyecto final y debe integrar los aportes realizados por los integrantes del equipo:
 
 - U1: artefactos de S01 a S05.
 - U2: artefactos de S06 a S12.
@@ -168,9 +169,10 @@ Cada anexo individual debe contener:
 
 - Nombre del integrante.
 - Rol o responsabilidad.
-- Commits o PR de codigo.
-- Commits o PR de documentacion.
+- Rama de trabajo, commits, merges o PR de codigo.
+- Rama de trabajo, commits, merges o PR de documentacion.
 - Evidencia breve de la parte que demostrará en vivo.
+- Evidencia de que su aporte quedo integrado en la rama comun del equipo.
 
 ### 3.2 Secuencia sugerida de presentacion
 
@@ -189,8 +191,11 @@ Cada anexo individual debe contener:
 - PDF grupal generado desde MkDocs y subido a BL con nombre correcto.
 - Presentacion final del proyecto subida a BL.
 - Documentacion MkDocs reproducible del producto del curso.
+- Productos de sesion y unidad de todos los integrantes integrados en el producto final.
+- Rama comun del equipo con aportes integrados y ejecutables.
+- Evidencia de merge, integracion o resolucion de conflictos cuando aplique.
 - MkDocs incluye anexos de participacion individual, uno por integrante.
-- GitHub evidencia aporte individual de cada integrante mediante commits o PR de codigo y documentacion.
+- GitHub evidencia aporte individual de cada integrante mediante ramas, commits, merges o PR de codigo y documentacion.
 - Cada integrante demuestra en vivo la parte que trabajó.
 - Competencia identificada.
 - Consigna ejecutada.

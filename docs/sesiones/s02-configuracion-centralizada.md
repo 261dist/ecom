@@ -1,4 +1,4 @@
-# S2 - Gestion centralizada de configuracion y ambientes
+﻿# S2 - Gestion centralizada de configuracion y ambientes
 
 ## 1. Introduccion
 
@@ -1053,6 +1053,8 @@ docker compose ps
 Fuera del aula, cada estudiante consolida el aprendizaje aplicando configuracion externa a otro componente del sistema y entrega una evidencia individual.
 
 Tiempo: 4h fuera del aula.
+
+Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse al MkDocs del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 

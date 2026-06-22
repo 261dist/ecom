@@ -1,4 +1,4 @@
-# S7 - Seguridad distribuida y control de acceso
+﻿# S7 - Seguridad distribuida y control de acceso
 
 ## 1. Introduccion
 
@@ -476,6 +476,8 @@ cd ecom-s07
 ## 4. Crea: actividad autonoma
 
 Tiempo: 4h fuera del aula.
+
+Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse al MkDocs del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
