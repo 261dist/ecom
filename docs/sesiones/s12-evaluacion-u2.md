@@ -102,11 +102,25 @@ Tiempo: 4h fuera del aula.
 
 ### 4.1 Plantilla de evidencia individual
 
-Entrega un PDF:
+La evaluacion U2 requiere tres entregables:
+
+1. Evidencia individual en PDF.
+2. Presentacion del proyecto U2 (PPT o equivalente).
+3. Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U2.
+
+Entrega el PDF:
 
 ```text
 S12_Equipo##_ApellidoNombre.pdf
 ```
+
+Entrega la presentacion con el siguiente nombre:
+
+```text
+U2_Equipo##_Presentacion.pdf
+```
+
+La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable localmente con `mkdocs serve`.
 
 #### 4.1.1 Datos del estudiante
 
@@ -124,9 +138,38 @@ S12_Equipo##_ApellidoNombre.pdf
 4. Preparar defensa tecnica.
 5. Documentar flujo integrado.
 
+#### 4.1.3 Presentacion del proyecto U2
+
+La presentacion debe incluir:
+
+- Nombre del proyecto y equipo.
+- Arquitectura robusta U2.
+- Flujo seguro con JWT.
+- Comunicacion sincronica entre servicios.
+- Mensajeria, consistencia eventual y estados finales.
+- Observabilidad y diagnostico.
+- Integracion frontend.
+- Aporte individual de cada integrante.
+
+#### 4.1.4 Documentacion MkDocs
+
+La documentacion debe incluir guias para reproducir cada artefacto de sesion:
+
+- S06: comunicacion sincronica resiliente.
+- S07: seguridad distribuida y JWT.
+- S08: mensajeria asincrona.
+- S09: consistencia distribuida.
+- S10: observabilidad y diagnostico.
+- S11: integracion frontend.
+- S12: validacion integrada U2.
+
+Cada guia debe contener comandos, puertos, rutas probadas, datos de prueba, evidencias esperadas y errores frecuentes.
+
 ### 4.2 Criterios minimos de aceptacion
 
 - PDF con nombre correcto.
+- Presentacion del proyecto U2 entregada.
+- Documentacion MkDocs con guias reproducibles de S06 a S12.
 - Evidencia de sistema robusto integrado.
 - Seguridad demostrada.
 - Eventos o consistencia demostrados.
@@ -152,6 +195,8 @@ Entrega individual:
 S12_Equipo##_ApellidoNombre.pdf
 ```
 
+El equipo entrega ademas una presentacion del proyecto U2 y documentacion MkDocs con guias reproducibles de los artefactos de S06 a S12.
+
 ### 5.3 Preguntas de defensa y reflexion
 
 1. Como se protege el sistema?
@@ -169,7 +214,7 @@ S12_Equipo##_ApellidoNombre.pdf
 | 3. Eventos/consistencia | 2 | Evidencia eventos y consistencia de negocio. | Evidencia flujo de eventos. | Evidencia parcial. | No evidencia eventos. | |
 | 4. Observabilidad/diagnostico | 2 | Diagnostica con logs/metricas/paneles. | Evidencia observabilidad. | Evidencia limitada. | No evidencia observabilidad. | |
 | 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Defensa y orden | 1 | Defensa clara y PDF completo. | Defensa suficiente. | Defensa parcial. | No sustenta. | |
+| 6. Defensa, presentacion y documentacion | 1 | Defensa clara, presentacion completa (PPT o equivalente) y MkDocs reproducible. | Defensa suficiente con presentacion y documentacion. | Defensa parcial o documentacion incompleta. | No sustenta ni documenta. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
@@ -178,7 +223,7 @@ Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 Para usar la rubrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
+Evalua el PDF, la presentacion y la documentacion MkDocs usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).

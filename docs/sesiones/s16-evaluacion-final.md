@@ -114,11 +114,25 @@ Tiempo: 4h fuera del aula.
 
 ### 4.1 Plantilla de evidencia individual
 
-Entrega un PDF:
+La evaluacion final requiere tres entregables:
+
+1. Evidencia individual en PDF.
+2. Presentacion final del proyecto (PPT o equivalente).
+3. Documentacion MkDocs del producto del curso con guias reproducibles de los artefactos de sesion.
+
+Entrega el PDF:
 
 ```text
 S16_Equipo##_ApellidoNombre.pdf
 ```
+
+Entrega la presentacion final con el siguiente nombre:
+
+```text
+ProductoCurso_Equipo##_Presentacion.pdf
+```
+
+La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable localmente con `mkdocs serve`.
 
 #### 4.1.1 Datos del estudiante
 
@@ -136,9 +150,35 @@ S16_Equipo##_ApellidoNombre.pdf
 4. Explicar diagnostico o resultado.
 5. Registrar mejora o aprendizaje.
 
+#### 4.1.3 Presentacion final del proyecto
+
+La presentacion debe incluir:
+
+- Nombre del proyecto y equipo.
+- Problema o flujo de negocio implementado.
+- Arquitectura final.
+- Flujo end-to-end.
+- Seguridad, eventos, consistencia y observabilidad.
+- Ejecucion DEV y PROD local.
+- Evidencias principales.
+- Aporte individual de cada integrante.
+- Riesgos, incidencias y mejoras futuras.
+
+#### 4.1.4 Documentacion MkDocs del producto del curso
+
+La documentacion debe incluir guias para reproducir los artefactos evaluados durante el curso:
+
+- U1: artefactos de S01 a S05.
+- U2: artefactos de S06 a S12.
+- U3: validacion end-to-end, estabilizacion, defensa y evaluacion final.
+
+Cada guia debe contener comandos, orden de arranque, puertos, variables de entorno, rutas, datos de prueba, evidencias esperadas, troubleshooting y criterios de verificacion.
+
 ### 4.2 Criterios minimos de aceptacion
 
 - PDF con nombre correcto.
+- Presentacion final del proyecto entregada.
+- Documentacion MkDocs reproducible del producto del curso.
 - Competencia identificada.
 - Consigna ejecutada.
 - Evidencia verificable.
@@ -163,6 +203,8 @@ Entrega individual:
 S16_Equipo##_ApellidoNombre.pdf
 ```
 
+El equipo entrega ademas la presentacion final del proyecto y la documentacion MkDocs del producto del curso.
+
 ### 5.3 Preguntas de defensa y reflexion
 
 1. Que competencia estas demostrando?
@@ -180,7 +222,7 @@ S16_Equipo##_ApellidoNombre.pdf
 | 3. Evidencia verificable | 2 | Presenta evidencia clara, reproducible y suficiente. | Evidencia suficiente. | Evidencia incompleta. | No presenta evidencia. | |
 | 4. Sustentacion individual | 2 | Responde con autonomia y criterio tecnico. | Responde adecuadamente. | Responde parcialmente. | No sustenta. | |
 | 5. Correccion o mejora | 1 | Corrige o propone mejora pertinente. | Propone mejora general. | Mejora poco clara. | No propone mejora. | |
-| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+| 6. Orden, presentacion y documentacion | 1 | PDF ordenado, presentacion final clara (PPT o equivalente) y MkDocs reproducible. | Evidencia suficiente con presentacion y documentacion. | Evidencia poco clara o documentacion incompleta. | Evidencia insuficiente. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
@@ -189,7 +231,7 @@ Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 Para usar la rubrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
+Evalua el PDF, la presentacion y la documentacion MkDocs usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).

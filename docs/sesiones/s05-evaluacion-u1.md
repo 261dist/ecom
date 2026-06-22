@@ -142,11 +142,25 @@ Tiempo: 4h fuera del aula.
 
 ### 4.1 Plantilla de evidencia individual
 
-Entrega un PDF con el siguiente nombre:
+La evaluacion U1 requiere tres entregables:
+
+1. Evidencia individual en PDF.
+2. Presentacion del proyecto U1 (PPT o equivalente).
+3. Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U1.
+
+Entrega el PDF con el siguiente nombre:
 
 ```text
 S05_Equipo##_ApellidoNombre.pdf
 ```
+
+Entrega la presentacion con el siguiente nombre:
+
+```text
+U1_Equipo##_Presentacion.pdf
+```
+
+La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable localmente con `mkdocs serve`.
 
 #### 4.1.1 Datos del estudiante
 
@@ -174,17 +188,42 @@ S05_Equipo##_ApellidoNombre.pdf
 - Multiples instancias.
 - Aporte individual.
 
-#### 4.1.4 Error o hallazgo
+#### 4.1.4 Presentacion del proyecto U1
+
+La presentacion debe incluir:
+
+- Nombre del proyecto y equipo.
+- Arquitectura U1.
+- Flujo de ejecucion.
+- Evidencias principales.
+- Aporte individual de cada integrante.
+- Problemas encontrados y decisiones tecnicas.
+
+#### 4.1.5 Documentacion MkDocs
+
+La documentacion debe incluir guias para reproducir cada artefacto de sesion:
+
+- S01: microservicio base y CRUD.
+- S02: Config Server y perfiles `dev` / `prod`.
+- S03: Eureka y registro de servicios.
+- S04: Gateway, rutas y balanceo.
+- S05: integracion y evaluacion U1.
+
+Cada guia debe contener comandos, puertos, rutas probadas, evidencias esperadas y errores frecuentes.
+
+#### 4.1.6 Error o hallazgo
 
 Describe un problema de integracion y como lo diagnosticarias.
 
-#### 4.1.5 Reflexion tecnica breve
+#### 4.1.7 Reflexion tecnica breve
 
 Explica como los componentes de U1 forman un sistema distribuido base.
 
 ### 4.2 Criterios minimos de aceptacion
 
 - PDF con nombre correcto.
+- Presentacion del proyecto U1 entregada.
+- Documentacion MkDocs con guias reproducibles de S01 a S05.
 - Evidencia del producto U1 integrado.
 - Evidencia de aporte individual.
 - Pruebas por consola.
@@ -204,7 +243,7 @@ Tiempo: 20 min.
 
 ### 5.2 Evidencia del producto de sesion
 
-Cada estudiante entrega un PDF individual siguiendo la plantilla de la seccion 4.1.
+Cada estudiante entrega un PDF individual siguiendo la plantilla de la seccion 4.1. El equipo entrega ademas una presentacion del proyecto U1 y documentacion MkDocs con guias reproducibles de los artefactos de S01 a S05.
 
 Nombre del archivo:
 
@@ -229,7 +268,7 @@ S05_Equipo##_ApellidoNombre.pdf
 | 3. Diagnostico | 2 | Diagnostica fallos de integracion con claridad. | Explica un problema y causa probable. | Menciona problema sin analisis. | No diagnostica. | |
 | 4. Aporte individual | 2 | Aporte verificable, claro y conectado al producto. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
 | 5. Defensa tecnica | 1 | Responde con precision y criterio tecnico. | Responde adecuadamente. | Responde parcialmente. | No sustenta. | |
-| 6. Orden y evidencias | 1 | PDF ordenado, completo y legible. | Evidencias suficientes. | Evidencias poco claras. | Evidencia insuficiente. | |
+| 6. Orden, presentacion y documentacion | 1 | PDF ordenado, presentacion clara (PPT o equivalente) y MkDocs reproducible. | Evidencias suficientes con presentacion y documentacion. | Evidencias poco claras o documentacion incompleta. | Evidencia insuficiente. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
@@ -238,7 +277,7 @@ Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 Para usar la rubrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
+Evalua el PDF, la presentacion y la documentacion MkDocs usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
