@@ -1,4 +1,4 @@
-﻿# S16 - Evaluacion final
+# S16 - Evaluacion final
 
 ## 1. Instrucciones iniciales
 
@@ -96,18 +96,18 @@ En esta sesion se realiza la exposicion y evaluacion final. Cada equipo dispone 
 
 La evaluacion final requiere tres entregables:
 
-1. Documentacion MkDocs del producto final del curso, organizada por unidad/sesion y con guias reproducibles.
-2. PDF grupal de la evaluacion generado como impresion o exportacion de la documentacion MkDocs y subido a la plataforma BLearning (BL).
+1. Documentacion en MkDocs o herramienta equivalente del producto final del curso, organizada por unidad/sesion y con guias reproducibles.
+2. PDF grupal de la evaluacion generado como impresion o exportacion de la documentacion y subido a la plataforma BLearning (BL).
 3. Presentacion final del proyecto (PPT o equivalente) subida a BL.
 
-El link de la documentacion MkDocs debe aparecer en el `index` del PDF. La documentacion no presenta productos aislados de sesion: organiza el producto final del curso por unidad y sesion para evidenciar la evolucion del proyecto. Para el producto final, el equipo debe juntar e integrar los productos de sesion y de unidad desarrollados por todos los integrantes en una rama comun del equipo. No basta con mostrar ramas o PR separados: debe evidenciarse el merge o integracion, la resolucion de conflictos si aplica y la ejecucion del sistema integrado. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits, ramas, merges o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
+El link de la documentacion debe aparecer en el `index` del PDF. La documentacion no presenta productos aislados de sesion: organiza el producto final del curso por unidad y sesion para evidenciar la evolucion del proyecto. Para el producto final, el equipo debe juntar e integrar los productos de sesion y de unidad desarrollados por todos los integrantes en una rama comun del equipo. No basta con mostrar ramas o PR separados: debe evidenciarse el merge o integracion, la resolucion de conflictos si aplica y la ejecucion del sistema integrado. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits, ramas, merges o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en la documentacion como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
 
-El PDF de esta evaluacion debe ser la impresion o exportacion directa del sitio MkDocs. No se acepta un PDF armado manualmente fuera de la documentacion.
+El PDF de esta evaluacion debe ser la impresion o exportacion directa del sitio de documentacion. No se acepta un PDF armado manualmente fuera de la documentacion.
 
 Entrega el PDF grupal:
 
 ```text
-S16_Equipo##_U3_MkDocs.pdf
+S16_Equipo##_U3_Docs.pdf
 ```
 
 Entrega la presentacion final con el siguiente nombre:
@@ -116,7 +116,7 @@ Entrega la presentacion final con el siguiente nombre:
 ProductoCurso_Equipo##_Presentacion.pdf
 ```
 
-La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecutable localmente con `mkdocs serve`.
+La documentacion debe estar en el repositorio GitHub y publicarse como sitio navegable, por ejemplo en GitHub Pages (`github.io`) u otra plataforma equivalente. Si usan MkDocs, tambien pueden verificarla localmente con `mkdocs serve`.
 
 #### 3.1.1 Datos del equipo
 
@@ -124,7 +124,7 @@ La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecut
 - Sesion: S16 - Evaluacion final
 - Proyecto:
 - Link de GitHub:
-- Link de MkDocs:
+- Link de documentacion:
 - Rama integrada evaluada:
 - Evidencia de integracion o merge:
 - Integrantes:
@@ -156,7 +156,7 @@ La presentacion debe incluir:
 - Demo asignada a cada integrante.
 - Riesgos, incidencias y mejoras futuras.
 
-#### 3.1.4 Documentacion MkDocs del producto del curso
+#### 3.1.4 Documentacion en MkDocs o herramienta equivalente del producto del curso
 
 La documentacion debe seguir una estructura ordenada por unidad, sesion y anexos. Cada unidad y sesion documenta la evolucion del proyecto final y debe integrar los aportes realizados por los integrantes del equipo:
 
@@ -165,7 +165,7 @@ La documentacion debe seguir una estructura ordenada por unidad, sesion y anexos
 - U3: validacion end-to-end, estabilizacion, defensa y evaluacion final.
 - Anexos: evidencia de participacion individual, un anexo por integrante.
 
-Cada guia debe contener comandos, orden de arranque, puertos, variables de entorno, rutas, datos de prueba, evidencias esperadas, troubleshooting y criterios de verificacion. El `index` debe incluir el link de la documentacion MkDocs publicada o ejecutable.
+Cada guia debe contener comandos, orden de arranque, puertos, variables de entorno, rutas, datos de prueba, evidencias esperadas, troubleshooting y criterios de verificacion. El `index` debe incluir el link de la documentacion publicada o ejecutable.
 
 Cada anexo individual debe contener:
 
@@ -183,20 +183,20 @@ Cada anexo individual debe contener:
 3. Explicar la arquitectura final del producto.
 4. Ejecutar la demo end-to-end.
 5. Mostrar seguridad, eventos, consistencia y observabilidad.
-6. Mostrar documentacion MkDocs y guia de reproduccion.
+6. Mostrar la documentacion y guia de reproduccion.
 7. Mostrar participacion de cada integrante en GitHub.
 8. Cada integrante muestra la parte que trabajó.
 9. Cerrar con riesgos, incidencias y mejoras futuras.
 
 ### 3.3 Criterios minimos de aceptacion
 
-- PDF grupal generado desde MkDocs y subido a BL con nombre correcto.
+- PDF grupal generado desde la documentacion y subido a BL con nombre correcto.
 - Presentacion final del proyecto subida a BL.
-- Documentacion MkDocs reproducible del producto del curso.
+- Documentacion en MkDocs o herramienta equivalente reproducible del producto del curso.
 - Productos de sesion y unidad de todos los integrantes integrados en el producto final.
 - Rama comun del equipo con aportes integrados y ejecutables.
 - Evidencia de merge, integracion o resolucion de conflictos cuando aplique.
-- MkDocs incluye anexos de participacion individual, uno por integrante.
+- La documentacion incluye anexos de participacion individual, uno por integrante.
 - GitHub evidencia aporte individual de cada integrante mediante ramas, commits, merges o PR de codigo y documentacion.
 - Cada integrante demuestra en vivo la parte que trabajó.
 - Competencia identificada.
@@ -215,7 +215,7 @@ Despues de la evaluacion, cada estudiante debe implementar las mejoras y recomen
 Trabajo autonomo:
 
 1. Corregir observaciones detectadas en la exposicion.
-2. Completar o ajustar la documentacion MkDocs del producto del curso.
+2. Completar o ajustar la documentacion del producto del curso.
 3. Mejorar evidencias individuales incompletas.
 4. Registrar en GitHub los cambios posteriores a la evaluacion.
 5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
@@ -231,7 +231,7 @@ La rubrica evalua el entregable y la sustentacion del producto final presentados
 | 3. Evidencia verificable | 2 | Presenta evidencia clara, reproducible y suficiente. | Evidencia suficiente. | Evidencia incompleta. | No presenta evidencia. | |
 | 4. Sustentacion individual y demo de aporte | 2 | Responde con autonomia, criterio tecnico y demuestra en vivo la parte que trabajó. | Responde y demuestra su parte adecuadamente. | Responde o demuestra parcialmente. | No sustenta. | |
 | 5. Reflexion tecnica | 1 | Explica aprendizajes, limites y decisiones tecnicas con claridad. | Explica aprendizajes o decisiones principales. | Reflexion poco clara. | No reflexiona. | |
-| 6. Orden, presentacion, documentacion y GitHub | 1 | PDF grupal generado desde MkDocs con estructura por unidad/sesion y anexos por integrante, presentacion final clara, link MkDocs en el index y participacion verificable en GitHub. | Evidencia suficiente con presentacion, documentacion y GitHub. | Evidencia poco clara, documentacion incompleta o GitHub poco trazable. | Evidencia insuficiente. | |
+| 6. Orden, presentacion, documentacion y GitHub | 1 | PDF grupal generado desde la documentacion con estructura por unidad/sesion y anexos por integrante, presentacion final clara, link de documentacion en el index y participacion verificable en GitHub. | Evidencia suficiente con presentacion, documentacion y GitHub. | Evidencia poco clara, documentacion incompleta o GitHub poco trazable. | Evidencia insuficiente. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
@@ -240,7 +240,7 @@ Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 Para usar la rubrica con IA, solicita:
 
 ```text
-Evalua el PDF, la presentacion, la documentacion MkDocs, la participacion en GitHub y la demo individual usando la rubrica de la sesion.
+Evalua el PDF, la presentacion, la documentacion, la participacion en GitHub y la demo individual usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).

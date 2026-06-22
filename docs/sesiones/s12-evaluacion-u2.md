@@ -1,4 +1,4 @@
-﻿# S12 - Evaluacion U2
+# S12 - Evaluacion U2
 
 ## 1. Instrucciones iniciales
 
@@ -83,18 +83,18 @@ En esta sesion se realiza la exposicion y evaluacion practica. Cada equipo dispo
 
 La evaluacion U2 requiere tres entregables:
 
-1. Documentacion en MkDocs del avance U2 del proyecto final, organizada por sesiones y con guias reproducibles.
-2. PDF grupal de la evaluacion generado como impresion o exportacion de la documentacion MkDocs y subido a la plataforma BLearning (BL).
+1. Documentacion en MkDocs o herramienta equivalente del avance U2 del proyecto final, organizada por sesiones y con guias reproducibles.
+2. PDF grupal de la evaluacion generado como impresion o exportacion de la documentacion y subido a la plataforma BLearning (BL).
 3. Presentacion del proyecto U2 (PPT o equivalente) subida a BL.
 
-El link de la documentacion MkDocs debe aparecer en el `index` del PDF. La documentacion no presenta productos aislados de sesion: organiza el avance U2 del proyecto final usando S06, S07, S08, S09, S10, S11 y S12 como estructura de evidencias. Para la unidad, el equipo debe juntar e integrar los productos de sesion desarrollados por todos los integrantes en una rama comun del equipo. No basta con mostrar ramas o PR separados: debe evidenciarse el merge o integracion, la resolucion de conflictos si aplica y la ejecucion del sistema integrado. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits, ramas, merges o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
+El link de la documentacion debe aparecer en el `index` del PDF. La documentacion no presenta productos aislados de sesion: organiza el avance U2 del proyecto final usando S06, S07, S08, S09, S10, S11 y S12 como estructura de evidencias. Para la unidad, el equipo debe juntar e integrar los productos de sesion desarrollados por todos los integrantes en una rama comun del equipo. No basta con mostrar ramas o PR separados: debe evidenciarse el merge o integracion, la resolucion de conflictos si aplica y la ejecucion del sistema integrado. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits, ramas, merges o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en la documentacion como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
 
-El PDF de esta evaluacion debe ser la impresion o exportacion directa del sitio MkDocs. No se acepta un PDF armado manualmente fuera de la documentacion.
+El PDF de esta evaluacion debe ser la impresion o exportacion directa del sitio de documentacion. No se acepta un PDF armado manualmente fuera de la documentacion.
 
 Entrega el PDF grupal:
 
 ```text
-S12_Equipo##_U2_MkDocs.pdf
+S12_Equipo##_U2_Docs.pdf
 ```
 
 Entrega la presentacion con el siguiente nombre:
@@ -103,7 +103,7 @@ Entrega la presentacion con el siguiente nombre:
 U2_Equipo##_Presentacion.pdf
 ```
 
-La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecutable localmente con `mkdocs serve`.
+La documentacion debe estar en el repositorio GitHub y publicarse como sitio navegable, por ejemplo en GitHub Pages (`github.io`) u otra plataforma equivalente. Si usan MkDocs, tambien pueden verificarla localmente con `mkdocs serve`.
 
 #### 3.1.1 Datos del equipo
 
@@ -111,7 +111,7 @@ La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecut
 - Sesion: S12 - Evaluacion U2
 - Proyecto:
 - Link de GitHub:
-- Link de MkDocs:
+- Link de documentacion:
 - Rama integrada evaluada:
 - Evidencia de integracion o merge:
 - Integrantes:
@@ -142,7 +142,7 @@ La presentacion debe incluir:
 - Evidencia de participacion individual de cada integrante en GitHub.
 - Demo asignada a cada integrante.
 
-#### 3.1.4 Documentacion MkDocs
+#### 3.1.4 Documentacion en MkDocs o herramienta equivalente
 
 La documentacion debe seguir una estructura ordenada por sesion y anexos. Cada sesion documenta el avance del proyecto final que corresponde a esa etapa y debe integrar los aportes realizados por los integrantes del equipo:
 
@@ -155,7 +155,7 @@ La documentacion debe seguir una estructura ordenada por sesion y anexos. Cada s
 - S12: validacion integrada U2.
 - Anexos: evidencia de participacion individual, un anexo por integrante.
 
-Cada guia debe contener comandos, puertos, rutas probadas, datos de prueba, evidencias esperadas y errores frecuentes. El `index` debe incluir el link de la documentacion MkDocs publicada o ejecutable.
+Cada guia debe contener comandos, puertos, rutas probadas, datos de prueba, evidencias esperadas y errores frecuentes. El `index` debe incluir el link de la documentacion publicada o ejecutable.
 
 Cada anexo individual debe contener:
 
@@ -180,9 +180,9 @@ Cada anexo individual debe contener:
 
 ### 3.3 Criterios minimos de aceptacion
 
-- PDF grupal generado desde MkDocs y subido a BL con nombre correcto.
+- PDF grupal generado desde la documentacion y subido a BL con nombre correcto.
 - Presentacion del proyecto U2 subida a BL.
-- Documentacion MkDocs con guias reproducibles de S06 a S12.
+- Documentacion en MkDocs o herramienta equivalente con guias reproducibles de S06 a S12.
 - Evidencia del avance U2 del proyecto final integrado.
 - Seguridad demostrada.
 - Eventos o consistencia demostrados.
@@ -191,7 +191,7 @@ Cada anexo individual debe contener:
 - Productos de sesion de todos los integrantes integrados en el avance U2.
 - Rama comun del equipo con aportes integrados y ejecutables.
 - Evidencia de merge, integracion o resolucion de conflictos cuando aplique.
-- MkDocs incluye anexos de participacion individual, uno por integrante.
+- La documentacion incluye anexos de participacion individual, uno por integrante.
 - GitHub evidencia aporte individual de cada integrante mediante ramas, commits, merges o PR de codigo y documentacion.
 - Cada integrante demuestra en vivo la parte que trabajó.
 
@@ -206,7 +206,7 @@ Despues de la evaluacion, cada estudiante debe implementar las mejoras y recomen
 Trabajo autonomo:
 
 1. Corregir observaciones detectadas en la exposicion.
-2. Completar o ajustar la documentacion MkDocs.
+2. Completar o ajustar la documentacion.
 3. Mejorar evidencias individuales incompletas.
 4. Registrar en GitHub los cambios posteriores a la evaluacion.
 5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
@@ -221,8 +221,8 @@ La rubrica evalua el entregable y la sustentacion del producto U2 presentados du
 | 2. Seguridad | 2 | Evidencia login, token, rutas protegidas y errores esperados. | Evidencia seguridad funcional. | Seguridad parcial. | No evidencia seguridad. | |
 | 3. Eventos/consistencia | 2 | Evidencia eventos y consistencia de negocio. | Evidencia flujo de eventos. | Evidencia parcial. | No evidencia eventos. | |
 | 4. Observabilidad/diagnostico | 2 | Diagnostica con logs/metricas/paneles. | Evidencia observabilidad. | Evidencia limitada. | No evidencia observabilidad. | |
-| 5. Aporte individual e integracion en GitHub | 1 | Aporte individual verificable en anexos MkDocs y evidencia de integracion en la rama comun del equipo. | Aporte identificable en GitHub y anexos, integrado al producto. | Aporte general, poco trazable o no claramente integrado. | No se identifica aporte. | |
-| 6. Defensa, presentacion, documentacion y demo individual | 1 | Defensa clara, presentacion completa, PDF grupal generado desde MkDocs con estructura S06-S12 y anexos por integrante, link MkDocs en el index y demo individual. | Defensa suficiente con presentacion, documentacion y demo. | Defensa parcial, documentacion incompleta o demo parcial. | No sustenta ni documenta. | |
+| 5. Aporte individual e integracion en GitHub | 1 | Aporte individual verificable en anexos de la documentacion y evidencia de integracion en la rama comun del equipo. | Aporte identificable en GitHub y anexos, integrado al producto. | Aporte general, poco trazable o no claramente integrado. | No se identifica aporte. | |
+| 6. Defensa, presentacion, documentacion y demo individual | 1 | Defensa clara, presentacion completa, PDF grupal generado desde la documentacion con estructura S06-S12 y anexos por integrante, link de documentacion en el index y demo individual. | Defensa suficiente con presentacion, documentacion y demo. | Defensa parcial, documentacion incompleta o demo parcial. | No sustenta ni documenta. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
@@ -231,7 +231,7 @@ Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 Para usar la rubrica con IA, solicita:
 
 ```text
-Evalua el PDF, la presentacion, la documentacion MkDocs, la participacion en GitHub y la demo individual usando la rubrica de la sesion.
+Evalua el PDF, la presentacion, la documentacion, la participacion en GitHub y la demo individual usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).

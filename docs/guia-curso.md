@@ -62,11 +62,13 @@ Distribucion fuera del aula:
 
 | Bloque | Tiempo | Funcion |
 |---|---:|---|
-| Crea | 4h | Aplicar el avance de la sesion al proyecto de fin de curso, evidenciar aporte individual, documentar en MkDocs y dejar trazabilidad en GitHub. |
+| Crea | 4h | Aplicar el avance de la sesion al proyecto de fin de curso, evidenciar aporte individual, documentar en MkDocs o una herramienta equivalente y dejar trazabilidad en GitHub. |
 
 El cierre evaluativo de la sesion N se revisa al inicio de la sesion N+1 dentro del bloque de enlace didactico. No se agrega tiempo extra al laboratorio.
 
-La actividad autonoma no debe quedar como una tarea aislada. Cada sesion aporta un artefacto, configuracion, validacion o evidencia al proyecto de fin de curso. Como el trabajo se realiza en equipo, el producto de cada unidad se construye integrando los productos de sesion aportados por todos los integrantes. Cada integrante puede trabajar en su rama, pero la evaluacion revisa que esos aportes hayan sido integrados en una rama comun del equipo, con evidencia de merge, resolucion de conflictos si aplica, ejecucion del sistema integrado y trazabilidad individual en GitHub y en los anexos de MkDocs.
+La actividad autonoma no debe quedar como una tarea aislada. Cada sesion aporta un artefacto, configuracion, validacion o evidencia al proyecto de fin de curso. Como el trabajo se realiza en equipo, el producto de cada unidad se construye integrando los productos de sesion aportados por todos los integrantes. Cada integrante puede trabajar en su rama, pero la evaluacion revisa que esos aportes hayan sido integrados en una rama comun del equipo, con evidencia de merge, resolucion de conflictos si aplica, ejecucion del sistema integrado y trazabilidad individual en GitHub y en los anexos de la documentacion.
+
+Todo PDF solicitado en el trabajo autonomo debe generarse como impresion o exportacion de la documentacion correspondiente, elaborada en MkDocs o una herramienta equivalente. La documentacion debe publicarse como sitio navegable, por ejemplo en GitHub Pages (`github.io`) u otra plataforma equivalente. No se debe armar un PDF manual separado de la documentacion del proyecto.
 
 En los documentos de cada sesion no se repite esta programacion. La estructura del archivo se mantiene limpia: introduccion, explica, aplica, crea y cierre evaluativo.
 

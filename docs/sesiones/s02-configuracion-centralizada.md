@@ -1,4 +1,4 @@
-﻿# S2 - Gestion centralizada de configuracion y ambientes
+# S2 - Gestion centralizada de configuracion y ambientes
 
 ## 1. Introduccion
 
@@ -1054,11 +1054,13 @@ Fuera del aula, cada estudiante consolida el aprendizaje aplicando configuracion
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse al MkDocs del proyecto y quedar trazable en GitHub.
+Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
 Entrega un PDF con el siguiente nombre:
+
+El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
 
 ```text
 S02_Equipo##_ApellidoNombre.pdf
