@@ -84,10 +84,12 @@ En esta sesion se realiza la exposicion y evaluacion practica. Cada equipo dispo
 La evaluacion U2 requiere tres entregables:
 
 1. Documentacion en MkDocs del avance U2 del proyecto final, organizada por sesiones y con guias reproducibles.
-2. PDF grupal generado desde la documentacion MkDocs y subido a la plataforma BLearning (BL).
+2. PDF grupal de la evaluacion generado como impresion o exportacion de la documentacion MkDocs y subido a la plataforma BLearning (BL).
 3. Presentacion del proyecto U2 (PPT o equivalente) subida a BL.
 
 El link de la documentacion MkDocs debe aparecer en el `index` del PDF. La documentacion no presenta productos aislados de sesion: organiza el avance U2 del proyecto final usando S06, S07, S08, S09, S10, S11 y S12 como estructura de evidencias. Para la unidad, el equipo debe juntar e integrar los productos de sesion desarrollados por todos los integrantes en una rama comun del equipo. No basta con mostrar ramas o PR separados: debe evidenciarse el merge o integracion, la resolucion de conflictos si aplica y la ejecucion del sistema integrado. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits, ramas, merges o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
+
+El PDF de esta evaluacion debe ser la impresion o exportacion directa del sitio MkDocs. No se acepta un PDF armado manualmente fuera de la documentacion.
 
 Entrega el PDF grupal:
 
