@@ -697,10 +697,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#414-error-o-hallazgo" class="md-nav__link">
+  <a href="#414-presentacion-del-proyecto-u1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.1.4 Error o hallazgo
+        4.1.4 Presentacion del proyecto U1
       
     </span>
   </a>
@@ -708,10 +708,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#415-reflexion-tecnica-breve" class="md-nav__link">
+  <a href="#415-documentacion-mkdocs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.1.5 Reflexion tecnica breve
+        4.1.5 Documentacion MkDocs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#416-error-o-hallazgo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.6 Error o hallazgo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#417-reflexion-tecnica-breve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.7 Reflexion tecnica breve
       
     </span>
   </a>
@@ -1510,10 +1532,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#414-error-o-hallazgo" class="md-nav__link">
+  <a href="#414-presentacion-del-proyecto-u1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.1.4 Error o hallazgo
+        4.1.4 Presentacion del proyecto U1
       
     </span>
   </a>
@@ -1521,10 +1543,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#415-reflexion-tecnica-breve" class="md-nav__link">
+  <a href="#415-documentacion-mkdocs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.1.5 Reflexion tecnica breve
+        4.1.5 Documentacion MkDocs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#416-error-o-hallazgo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.6 Error o hallazgo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#417-reflexion-tecnica-breve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.7 Reflexion tecnica breve
       
     </span>
   </a>
@@ -1735,9 +1779,19 @@ curl<span class="w"> </span>http://localhost:18080/api/v1/categorias
 <h2 id="4-crea-actividad-autonoma">4. Crea: actividad autonoma</h2>
 <p>Tiempo: 4h fuera del aula.</p>
 <h3 id="41-plantilla-de-evidencia-individual">4.1 Plantilla de evidencia individual</h3>
-<p>Entrega un PDF con el siguiente nombre:</p>
+<p>La evaluacion U1 requiere tres entregables:</p>
+<ol>
+<li>Evidencia individual en PDF.</li>
+<li>Presentacion del proyecto U1 (PPT o equivalente).</li>
+<li>Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U1.</li>
+</ol>
+<p>Entrega el PDF con el siguiente nombre:</p>
 <div class="highlight"><pre><span></span><code>S05_Equipo##_ApellidoNombre.pdf
 </code></pre></div>
+<p>Entrega la presentacion con el siguiente nombre:</p>
+<div class="highlight"><pre><span></span><code>U1_Equipo##_Presentacion.pdf
+</code></pre></div>
+<p>La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable localmente con <code>mkdocs serve</code>.</p>
 <h4 id="411-datos-del-estudiante">4.1.1 Datos del estudiante</h4>
 <ul>
 <li>Nombre:</li>
@@ -1764,13 +1818,35 @@ curl<span class="w"> </span>http://localhost:18080/api/v1/categorias
 <li>Multiples instancias.</li>
 <li>Aporte individual.</li>
 </ul>
-<h4 id="414-error-o-hallazgo">4.1.4 Error o hallazgo</h4>
+<h4 id="414-presentacion-del-proyecto-u1">4.1.4 Presentacion del proyecto U1</h4>
+<p>La presentacion debe incluir:</p>
+<ul>
+<li>Nombre del proyecto y equipo.</li>
+<li>Arquitectura U1.</li>
+<li>Flujo de ejecucion.</li>
+<li>Evidencias principales.</li>
+<li>Aporte individual de cada integrante.</li>
+<li>Problemas encontrados y decisiones tecnicas.</li>
+</ul>
+<h4 id="415-documentacion-mkdocs">4.1.5 Documentacion MkDocs</h4>
+<p>La documentacion debe incluir guias para reproducir cada artefacto de sesion:</p>
+<ul>
+<li>S01: microservicio base y CRUD.</li>
+<li>S02: Config Server y perfiles <code>dev</code> / <code>prod</code>.</li>
+<li>S03: Eureka y registro de servicios.</li>
+<li>S04: Gateway, rutas y balanceo.</li>
+<li>S05: integracion y evaluacion U1.</li>
+</ul>
+<p>Cada guia debe contener comandos, puertos, rutas probadas, evidencias esperadas y errores frecuentes.</p>
+<h4 id="416-error-o-hallazgo">4.1.6 Error o hallazgo</h4>
 <p>Describe un problema de integracion y como lo diagnosticarias.</p>
-<h4 id="415-reflexion-tecnica-breve">4.1.5 Reflexion tecnica breve</h4>
+<h4 id="417-reflexion-tecnica-breve">4.1.7 Reflexion tecnica breve</h4>
 <p>Explica como los componentes de U1 forman un sistema distribuido base.</p>
 <h3 id="42-criterios-minimos-de-aceptacion">4.2 Criterios minimos de aceptacion</h3>
 <ul>
 <li>PDF con nombre correcto.</li>
+<li>Presentacion del proyecto U1 entregada.</li>
+<li>Documentacion MkDocs con guias reproducibles de S01 a S05.</li>
 <li>Evidencia del producto U1 integrado.</li>
 <li>Evidencia de aporte individual.</li>
 <li>Pruebas por consola.</li>
@@ -1787,7 +1863,7 @@ curl<span class="w"> </span>http://localhost:18080/api/v1/categorias
 <li>Cada integrante sustenta su aporte.</li>
 </ul>
 <h3 id="52-evidencia-del-producto-de-sesion">5.2 Evidencia del producto de sesion</h3>
-<p>Cada estudiante entrega un PDF individual siguiendo la plantilla de la seccion 4.1.</p>
+<p>Cada estudiante entrega un PDF individual siguiendo la plantilla de la seccion 4.1. El equipo entrega ademas una presentacion del proyecto U1 y documentacion MkDocs con guias reproducibles de los artefactos de S01 a S05.</p>
 <p>Nombre del archivo:</p>
 <div class="highlight"><pre><span></span><code>S05_Equipo##_ApellidoNombre.pdf
 </code></pre></div>
@@ -1859,11 +1935,11 @@ curl<span class="w"> </span>http://localhost:18080/api/v1/categorias
 <td style="text-align: right;"></td>
 </tr>
 <tr>
-<td>6. Orden y evidencias</td>
+<td>6. Orden, presentacion y documentacion</td>
 <td style="text-align: right;">1</td>
-<td>PDF ordenado, completo y legible.</td>
-<td>Evidencias suficientes.</td>
-<td>Evidencias poco claras.</td>
+<td>PDF ordenado, presentacion clara (PPT o equivalente) y MkDocs reproducible.</td>
+<td>Evidencias suficientes con presentacion y documentacion.</td>
+<td>Evidencias poco claras o documentacion incompleta.</td>
 <td>Evidencia insuficiente.</td>
 <td style="text-align: right;"></td>
 </tr>
@@ -1872,7 +1948,7 @@ curl<span class="w"> </span>http://localhost:18080/api/v1/categorias
 <p>Puntuacion acumulada = suma de (<code>Peso</code> * <code>Puntuacion obtenida</code>) = ____.</p>
 <p>Nota final = (<code>Puntuacion acumulada</code> / 30) * 20 = ____.</p>
 <p>Para usar la rubrica con IA, solicita:</p>
-<div class="highlight"><pre><span></span><code>Evalua el PDF usando la rubrica de la sesion.
+<div class="highlight"><pre><span></span><code>Evalua el PDF, la presentacion y la documentacion MkDocs usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).

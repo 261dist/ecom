@@ -946,6 +946,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#413-presentacion-del-proyecto-u2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.3 Presentacion del proyecto U2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#414-documentacion-mkdocs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.4 Documentacion MkDocs
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1487,6 +1509,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#413-presentacion-del-proyecto-u2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.3 Presentacion del proyecto U2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#414-documentacion-mkdocs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.4 Documentacion MkDocs
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1654,9 +1698,19 @@
 <h2 id="4-crea-actividad-autonoma">4. Crea: actividad autonoma</h2>
 <p>Tiempo: 4h fuera del aula.</p>
 <h3 id="41-plantilla-de-evidencia-individual">4.1 Plantilla de evidencia individual</h3>
-<p>Entrega un PDF:</p>
+<p>La evaluacion U2 requiere tres entregables:</p>
+<ol>
+<li>Evidencia individual en PDF.</li>
+<li>Presentacion del proyecto U2 (PPT o equivalente).</li>
+<li>Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U2.</li>
+</ol>
+<p>Entrega el PDF:</p>
 <div class="highlight"><pre><span></span><code>S12_Equipo##_ApellidoNombre.pdf
 </code></pre></div>
+<p>Entrega la presentacion con el siguiente nombre:</p>
+<div class="highlight"><pre><span></span><code>U2_Equipo##_Presentacion.pdf
+</code></pre></div>
+<p>La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable localmente con <code>mkdocs serve</code>.</p>
 <h4 id="411-datos-del-estudiante">4.1.1 Datos del estudiante</h4>
 <ul>
 <li>Nombre:</li>
@@ -1673,9 +1727,35 @@
 <li>Preparar defensa tecnica.</li>
 <li>Documentar flujo integrado.</li>
 </ol>
+<h4 id="413-presentacion-del-proyecto-u2">4.1.3 Presentacion del proyecto U2</h4>
+<p>La presentacion debe incluir:</p>
+<ul>
+<li>Nombre del proyecto y equipo.</li>
+<li>Arquitectura robusta U2.</li>
+<li>Flujo seguro con JWT.</li>
+<li>Comunicacion sincronica entre servicios.</li>
+<li>Mensajeria, consistencia eventual y estados finales.</li>
+<li>Observabilidad y diagnostico.</li>
+<li>Integracion frontend.</li>
+<li>Aporte individual de cada integrante.</li>
+</ul>
+<h4 id="414-documentacion-mkdocs">4.1.4 Documentacion MkDocs</h4>
+<p>La documentacion debe incluir guias para reproducir cada artefacto de sesion:</p>
+<ul>
+<li>S06: comunicacion sincronica resiliente.</li>
+<li>S07: seguridad distribuida y JWT.</li>
+<li>S08: mensajeria asincrona.</li>
+<li>S09: consistencia distribuida.</li>
+<li>S10: observabilidad y diagnostico.</li>
+<li>S11: integracion frontend.</li>
+<li>S12: validacion integrada U2.</li>
+</ul>
+<p>Cada guia debe contener comandos, puertos, rutas probadas, datos de prueba, evidencias esperadas y errores frecuentes.</p>
 <h3 id="42-criterios-minimos-de-aceptacion">4.2 Criterios minimos de aceptacion</h3>
 <ul>
 <li>PDF con nombre correcto.</li>
+<li>Presentacion del proyecto U2 entregada.</li>
+<li>Documentacion MkDocs con guias reproducibles de S06 a S12.</li>
 <li>Evidencia de sistema robusto integrado.</li>
 <li>Seguridad demostrada.</li>
 <li>Eventos o consistencia demostrados.</li>
@@ -1695,6 +1775,7 @@
 <p>Entrega individual:</p>
 <div class="highlight"><pre><span></span><code>S12_Equipo##_ApellidoNombre.pdf
 </code></pre></div>
+<p>El equipo entrega ademas una presentacion del proyecto U2 y documentacion MkDocs con guias reproducibles de los artefactos de S06 a S12.</p>
 <h3 id="53-preguntas-de-defensa-y-reflexion">5.3 Preguntas de defensa y reflexion</h3>
 <ol>
 <li>Como se protege el sistema?</li>
@@ -1763,12 +1844,12 @@
 <td style="text-align: right;"></td>
 </tr>
 <tr>
-<td>6. Defensa y orden</td>
+<td>6. Defensa, presentacion y documentacion</td>
 <td style="text-align: right;">1</td>
-<td>Defensa clara y PDF completo.</td>
-<td>Defensa suficiente.</td>
-<td>Defensa parcial.</td>
-<td>No sustenta.</td>
+<td>Defensa clara, presentacion completa (PPT o equivalente) y MkDocs reproducible.</td>
+<td>Defensa suficiente con presentacion y documentacion.</td>
+<td>Defensa parcial o documentacion incompleta.</td>
+<td>No sustenta ni documenta.</td>
 <td style="text-align: right;"></td>
 </tr>
 </tbody>
@@ -1776,7 +1857,7 @@
 <p>Puntuacion acumulada = suma de (<code>Peso</code> * <code>Puntuacion obtenida</code>) = ____.</p>
 <p>Nota final = (<code>Puntuacion acumulada</code> / 30) * 20 = ____.</p>
 <p>Para usar la rubrica con IA, solicita:</p>
-<div class="highlight"><pre><span></span><code>Evalua el PDF usando la rubrica de la sesion.
+<div class="highlight"><pre><span></span><code>Evalua el PDF, la presentacion y la documentacion MkDocs usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
