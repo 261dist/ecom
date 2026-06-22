@@ -148,6 +148,8 @@ La evaluacion U1 requiere tres entregables:
 2. Presentacion del proyecto U1 (PPT o equivalente).
 3. Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U1.
 
+Ademas, el repositorio GitHub debe evidenciar el aporte o participacion de cada integrante del equipo, y cada integrante debe mostrar una demo de la parte que trabajo.
+
 Entrega el PDF con el siguiente nombre:
 
 ```text
@@ -169,6 +171,8 @@ La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable lo
 - Sesion: S05 - Evaluacion U1
 - Rol o aporte realizado:
 - Link de GitHub:
+- Evidencia de participacion en GitHub:
+- Parte del sistema que demostrara en vivo:
 
 #### 4.1.2 Trabajo autonomo realizado
 
@@ -197,6 +201,8 @@ La presentacion debe incluir:
 - Flujo de ejecucion.
 - Evidencias principales.
 - Aporte individual de cada integrante.
+- Evidencia de participacion de cada integrante en GitHub.
+- Demo asignada a cada integrante.
 - Problemas encontrados y decisiones tecnicas.
 
 #### 4.1.5 Documentacion MkDocs
@@ -226,6 +232,8 @@ Explica como los componentes de U1 forman un sistema distribuido base.
 - Documentacion MkDocs con guias reproducibles de S01 a S05.
 - Evidencia del producto U1 integrado.
 - Evidencia de aporte individual.
+- GitHub evidencia aporte o participacion de cada integrante.
+- Cada integrante demuestra en vivo la parte que trabajo.
 - Pruebas por consola.
 - Diagnostico tecnico.
 
@@ -240,6 +248,8 @@ Tiempo: 20 min.
 - Servicios registrados en Eureka.
 - Configuracion consultada.
 - Cada integrante sustenta su aporte.
+- Cada integrante demuestra la parte que trabajo.
+- GitHub permite verificar la participacion de cada integrante.
 
 ### 5.2 Evidencia del producto de sesion
 
@@ -266,9 +276,9 @@ S05_Equipo##_ApellidoNombre.pdf
 | 1. Integracion del producto U1 | 2 | Evidencia sistema completo integrado y funcionando. | Evidencia componentes principales funcionando. | Evidencia parcial de componentes. | No evidencia integracion. | |
 | 2. Pruebas tecnicas | 2 | Pruebas por Config, Eureka, Gateway, CRUD y BD completas. | Pruebas principales completas. | Pruebas incompletas o poco claras. | No evidencia pruebas. | |
 | 3. Diagnostico | 2 | Diagnostica fallos de integracion con claridad. | Explica un problema y causa probable. | Menciona problema sin analisis. | No diagnostica. | |
-| 4. Aporte individual | 2 | Aporte verificable, claro y conectado al producto. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
+| 4. Aporte individual y participacion en GitHub | 2 | Aporte verificable en GitHub, claro y conectado al producto. | Aporte identificable en GitHub. | Aporte general o poco trazable. | No se identifica aporte. | |
 | 5. Defensa tecnica | 1 | Responde con precision y criterio tecnico. | Responde adecuadamente. | Responde parcialmente. | No sustenta. | |
-| 6. Orden, presentacion y documentacion | 1 | PDF ordenado, presentacion clara (PPT o equivalente) y MkDocs reproducible. | Evidencias suficientes con presentacion y documentacion. | Evidencias poco claras o documentacion incompleta. | Evidencia insuficiente. | |
+| 6. Orden, presentacion, documentacion y demo individual | 1 | PDF ordenado, presentacion clara (PPT o equivalente), MkDocs reproducible y demo individual de la parte trabajada. | Evidencias suficientes con presentacion, documentacion y demo. | Evidencias poco claras, documentacion incompleta o demo parcial. | Evidencia insuficiente. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 

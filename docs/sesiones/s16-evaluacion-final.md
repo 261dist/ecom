@@ -120,6 +120,8 @@ La evaluacion final requiere tres entregables:
 2. Presentacion final del proyecto (PPT o equivalente).
 3. Documentacion MkDocs del producto del curso con guias reproducibles de los artefactos de sesion.
 
+Ademas, el repositorio GitHub debe evidenciar el aporte o participacion de cada integrante del equipo, y cada integrante debe mostrar una demo de la parte que trabajo.
+
 Entrega el PDF:
 
 ```text
@@ -141,6 +143,8 @@ La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable lo
 - Sesion: S16 - Evaluacion final
 - Rol o aporte realizado:
 - Link de GitHub:
+- Evidencia de participacion en GitHub:
+- Parte del sistema que demostrara en vivo:
 
 #### 4.1.2 Trabajo autonomo realizado
 
@@ -162,6 +166,8 @@ La presentacion debe incluir:
 - Ejecucion DEV y PROD local.
 - Evidencias principales.
 - Aporte individual de cada integrante.
+- Evidencia de participacion de cada integrante en GitHub.
+- Demo asignada a cada integrante.
 - Riesgos, incidencias y mejoras futuras.
 
 #### 4.1.4 Documentacion MkDocs del producto del curso
@@ -179,6 +185,8 @@ Cada guia debe contener comandos, orden de arranque, puertos, variables de entor
 - PDF con nombre correcto.
 - Presentacion final del proyecto entregada.
 - Documentacion MkDocs reproducible del producto del curso.
+- GitHub evidencia aporte o participacion de cada integrante.
+- Cada integrante demuestra en vivo la parte que trabajo.
 - Competencia identificada.
 - Consigna ejecutada.
 - Evidencia verificable.
@@ -194,6 +202,8 @@ Tiempo: 20 min.
 - Evidencia individual presentada.
 - Resultado registrado.
 - Retroalimentacion final aplicada.
+- Demo individual de la parte trabajada por cada integrante.
+- Participacion de cada integrante verificable en GitHub.
 
 ### 5.2 Evidencia del producto de sesion
 
@@ -220,9 +230,9 @@ El equipo entrega ademas la presentacion final del proyecto y la documentacion M
 | 1. Ejecucion tecnica | 2 | Ejecuta la consigna correctamente y explica cada paso. | Ejecuta la consigna principal. | Ejecucion parcial. | No ejecuta la consigna. | |
 | 2. Diagnostico | 2 | Diagnostica sintomas, causa y solucion. | Explica causa probable. | Diagnostico parcial. | No diagnostica. | |
 | 3. Evidencia verificable | 2 | Presenta evidencia clara, reproducible y suficiente. | Evidencia suficiente. | Evidencia incompleta. | No presenta evidencia. | |
-| 4. Sustentacion individual | 2 | Responde con autonomia y criterio tecnico. | Responde adecuadamente. | Responde parcialmente. | No sustenta. | |
+| 4. Sustentacion individual y demo de aporte | 2 | Responde con autonomia, criterio tecnico y demuestra en vivo la parte que trabajo. | Responde y demuestra su parte adecuadamente. | Responde o demuestra parcialmente. | No sustenta. | |
 | 5. Correccion o mejora | 1 | Corrige o propone mejora pertinente. | Propone mejora general. | Mejora poco clara. | No propone mejora. | |
-| 6. Orden, presentacion y documentacion | 1 | PDF ordenado, presentacion final clara (PPT o equivalente) y MkDocs reproducible. | Evidencia suficiente con presentacion y documentacion. | Evidencia poco clara o documentacion incompleta. | Evidencia insuficiente. | |
+| 6. Orden, presentacion, documentacion y GitHub | 1 | PDF ordenado, presentacion final clara (PPT o equivalente), MkDocs reproducible y participacion verificable en GitHub. | Evidencia suficiente con presentacion, documentacion y GitHub. | Evidencia poco clara, documentacion incompleta o GitHub poco trazable. | Evidencia insuficiente. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 

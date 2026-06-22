@@ -108,6 +108,8 @@ La evaluacion U2 requiere tres entregables:
 2. Presentacion del proyecto U2 (PPT o equivalente).
 3. Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U2.
 
+Ademas, el repositorio GitHub debe evidenciar el aporte o participacion de cada integrante del equipo, y cada integrante debe mostrar una demo de la parte que trabajo.
+
 Entrega el PDF:
 
 ```text
@@ -129,6 +131,8 @@ La documentacion MkDocs debe estar en el repositorio y publicada o ejecutable lo
 - Sesion: S12 - Evaluacion U2
 - Rol o aporte realizado:
 - Link de GitHub:
+- Evidencia de participacion en GitHub:
+- Parte del sistema que demostrara en vivo:
 
 #### 4.1.2 Trabajo autonomo realizado
 
@@ -150,6 +154,8 @@ La presentacion debe incluir:
 - Observabilidad y diagnostico.
 - Integracion frontend.
 - Aporte individual de cada integrante.
+- Evidencia de participacion de cada integrante en GitHub.
+- Demo asignada a cada integrante.
 
 #### 4.1.4 Documentacion MkDocs
 
@@ -175,6 +181,8 @@ Cada guia debe contener comandos, puertos, rutas probadas, datos de prueba, evid
 - Eventos o consistencia demostrados.
 - Observabilidad demostrada.
 - Aporte individual verificable.
+- GitHub evidencia aporte o participacion de cada integrante.
+- Cada integrante demuestra en vivo la parte que trabajo.
 
 ## 5. Cierre evaluativo
 
@@ -186,6 +194,8 @@ Tiempo: 20 min.
 - Flujo seguro y observable.
 - Comunicacion sincronica y asincrona validada.
 - Defensa individual del aporte.
+- Demo individual de la parte trabajada por cada integrante.
+- Participacion de cada integrante verificable en GitHub.
 
 ### 5.2 Evidencia del producto de sesion
 
@@ -213,8 +223,8 @@ El equipo entrega ademas una presentacion del proyecto U2 y documentacion MkDocs
 | 2. Seguridad | 2 | Evidencia login, token, rutas protegidas y errores esperados. | Evidencia seguridad funcional. | Seguridad parcial. | No evidencia seguridad. | |
 | 3. Eventos/consistencia | 2 | Evidencia eventos y consistencia de negocio. | Evidencia flujo de eventos. | Evidencia parcial. | No evidencia eventos. | |
 | 4. Observabilidad/diagnostico | 2 | Diagnostica con logs/metricas/paneles. | Evidencia observabilidad. | Evidencia limitada. | No evidencia observabilidad. | |
-| 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Defensa, presentacion y documentacion | 1 | Defensa clara, presentacion completa (PPT o equivalente) y MkDocs reproducible. | Defensa suficiente con presentacion y documentacion. | Defensa parcial o documentacion incompleta. | No sustenta ni documenta. | |
+| 5. Aporte individual y participacion en GitHub | 1 | Aporte claro, verificable en GitHub y conectado al producto. | Aporte identificable en GitHub. | Aporte general o poco trazable. | No se identifica aporte. | |
+| 6. Defensa, presentacion, documentacion y demo individual | 1 | Defensa clara, presentacion completa (PPT o equivalente), MkDocs reproducible y demo individual de la parte trabajada. | Defensa suficiente con presentacion, documentacion y demo. | Defensa parcial, documentacion incompleta o demo parcial. | No sustenta ni documenta. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
