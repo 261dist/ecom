@@ -171,23 +171,7 @@ Cada guia debe contener comandos, orden de arranque, puertos, variables de entor
 8. Cada integrante muestra la parte que trabajo.
 9. Cerrar con riesgos, incidencias y mejoras futuras.
 
-## 4. Crea: actividad autonoma
-
-Tiempo: 4h fuera del aula.
-
-### 4.1 Mejoras y recomendaciones posteriores
-
-Despues de la evaluacion, cada estudiante debe implementar las mejoras y recomendaciones recibidas.
-
-Trabajo autonomo:
-
-1. Corregir observaciones detectadas en la exposicion.
-2. Completar o ajustar la documentacion MkDocs del producto del curso.
-3. Mejorar evidencias individuales incompletas.
-4. Registrar en GitHub los cambios posteriores a la evaluacion.
-5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
-
-### 4.2 Criterios minimos de aceptacion
+### 3.3 Criterios minimos de aceptacion
 
 - PDF con nombre correcto.
 - Presentacion final del proyecto entregada.
@@ -199,38 +183,29 @@ Trabajo autonomo:
 - Evidencia verificable.
 - Sustentacion individual.
 
+## 4. Crea: actividad autonoma
+
+Tiempo: 4h fuera del aula.
+
+### 4.1 Mejoras y recomendaciones finales
+
+Despues de la evaluacion, cada estudiante debe implementar las mejoras y recomendaciones recibidas. Esta actividad no forma parte de la calificacion de la evaluacion final; sirve como cierre tecnico y mejora del portafolio del curso.
+
+Trabajo autonomo:
+
+1. Corregir observaciones detectadas en la exposicion.
+2. Completar o ajustar la documentacion MkDocs del producto del curso.
+3. Mejorar evidencias individuales incompletas.
+4. Registrar en GitHub los cambios posteriores a la evaluacion.
+5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
+
 ## 5. Cierre evaluativo
 
 Tiempo: 20 min.
 
-### 5.1 Resultados esperados
+La rubrica evalua el entregable y la sustentacion del producto final presentados durante la sesion.
 
-- Competencia pendiente demostrada.
-- Evidencia individual presentada.
-- Resultado registrado.
-- Retroalimentacion final aplicada.
-- Demo individual de la parte trabajada por cada integrante.
-- Participacion de cada integrante verificable en GitHub.
-
-### 5.2 Evidencia del producto de sesion
-
-Entrega individual:
-
-```text
-S16_Equipo##_ApellidoNombre.pdf
-```
-
-El equipo entrega ademas la presentacion final del proyecto y la documentacion MkDocs del producto del curso.
-
-Presentacion:
-
-```text
-ProductoCurso_Equipo##_Presentacion.pdf
-```
-
-La documentacion se verifica desde el repositorio GitHub del equipo.
-
-### 5.3 Rubrica de evaluacion
+### 5.1 Rubrica de evaluacion
 
 | Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
 |---|---:|---|---|---|---|---:|
@@ -238,7 +213,7 @@ La documentacion se verifica desde el repositorio GitHub del equipo.
 | 2. Diagnostico | 2 | Diagnostica sintomas, causa y solucion. | Explica causa probable. | Diagnostico parcial. | No diagnostica. | |
 | 3. Evidencia verificable | 2 | Presenta evidencia clara, reproducible y suficiente. | Evidencia suficiente. | Evidencia incompleta. | No presenta evidencia. | |
 | 4. Sustentacion individual y demo de aporte | 2 | Responde con autonomia, criterio tecnico y demuestra en vivo la parte que trabajo. | Responde y demuestra su parte adecuadamente. | Responde o demuestra parcialmente. | No sustenta. | |
-| 5. Correccion o mejora | 1 | Corrige o propone mejora pertinente. | Propone mejora general. | Mejora poco clara. | No propone mejora. | |
+| 5. Reflexion tecnica | 1 | Explica aprendizajes, limites y decisiones tecnicas con claridad. | Explica aprendizajes o decisiones principales. | Reflexion poco clara. | No reflexiona. | |
 | 6. Orden, presentacion, documentacion y GitHub | 1 | PDF ordenado, presentacion final clara (PPT o equivalente), MkDocs reproducible y participacion verificable en GitHub. | Evidencia suficiente con presentacion, documentacion y GitHub. | Evidencia poco clara, documentacion incompleta o GitHub poco trazable. | Evidencia insuficiente. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.

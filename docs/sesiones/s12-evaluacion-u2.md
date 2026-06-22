@@ -161,23 +161,7 @@ Cada guia debe contener comandos, puertos, rutas probadas, datos de prueba, evid
 8. Cada integrante muestra la parte que trabajo.
 9. Cerrar con hallazgos, problemas y decisiones tecnicas.
 
-## 4. Crea: actividad autonoma
-
-Tiempo: 4h fuera del aula.
-
-### 4.1 Mejoras y recomendaciones posteriores
-
-Despues de la evaluacion, cada estudiante debe implementar las mejoras y recomendaciones recibidas.
-
-Trabajo autonomo:
-
-1. Corregir observaciones detectadas en la exposicion.
-2. Completar o ajustar la documentacion MkDocs.
-3. Mejorar evidencias individuales incompletas.
-4. Registrar en GitHub los cambios posteriores a la evaluacion.
-5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
-
-### 4.2 Criterios minimos de aceptacion
+### 3.3 Criterios minimos de aceptacion
 
 - PDF con nombre correcto.
 - Presentacion del proyecto U2 entregada.
@@ -190,38 +174,29 @@ Trabajo autonomo:
 - GitHub evidencia aporte o participacion de cada integrante.
 - Cada integrante demuestra en vivo la parte que trabajo.
 
+## 4. Crea: actividad autonoma
+
+Tiempo: 4h fuera del aula.
+
+### 4.1 Mejoras y recomendaciones para la siguiente unidad
+
+Despues de la evaluacion, cada estudiante debe implementar las mejoras y recomendaciones recibidas. Esta actividad no forma parte de la calificacion de la evaluacion U2; sirve como preparacion para la siguiente unidad.
+
+Trabajo autonomo:
+
+1. Corregir observaciones detectadas en la exposicion.
+2. Completar o ajustar la documentacion MkDocs.
+3. Mejorar evidencias individuales incompletas.
+4. Registrar en GitHub los cambios posteriores a la evaluacion.
+5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
+
 ## 5. Cierre evaluativo
 
 Tiempo: 20 min.
 
-### 5.1 Resultados esperados
+La rubrica evalua el entregable y la sustentacion del producto U2 presentados durante la sesion.
 
-- Sistema U2 integrado.
-- Flujo seguro y observable.
-- Comunicacion sincronica y asincrona validada.
-- Defensa individual del aporte.
-- Demo individual de la parte trabajada por cada integrante.
-- Participacion de cada integrante verificable en GitHub.
-
-### 5.2 Evidencia del producto de sesion
-
-Entrega individual:
-
-```text
-S12_Equipo##_ApellidoNombre.pdf
-```
-
-El equipo entrega ademas una presentacion del proyecto U2 y documentacion MkDocs con guias reproducibles de los artefactos de S06 a S12.
-
-Presentacion:
-
-```text
-U2_Equipo##_Presentacion.pdf
-```
-
-La documentacion se verifica desde el repositorio GitHub del equipo.
-
-### 5.3 Rubrica de evaluacion
+### 5.1 Rubrica de evaluacion
 
 | Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
 |---|---:|---|---|---|---|---:|
