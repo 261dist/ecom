@@ -83,16 +83,16 @@ En esta sesion se realiza la exposicion y evaluacion practica. Cada equipo dispo
 
 La evaluacion U2 requiere tres entregables:
 
-1. Evidencia individual en PDF.
-2. Presentacion del proyecto U2 (PPT o equivalente).
+1. PDF grupal generado desde la documentacion MkDocs y subido a la plataforma BLearning (BL).
+2. Presentacion del proyecto U2 (PPT o equivalente) subida a BL.
 3. Documentacion en MkDocs con guias reproducibles de los artefactos trabajados en las sesiones de U2.
 
-Ademas, el repositorio GitHub debe evidenciar el aporte o participacion de cada integrante del equipo, y cada integrante debe mostrar una demo de la parte que trabajo.
+El link de la documentacion MkDocs debe aparecer en el `index` del PDF. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajo.
 
-Entrega el PDF:
+Entrega el PDF grupal:
 
 ```text
-S12_Equipo##_ApellidoNombre.pdf
+S12_Equipo##_MkDocs.pdf
 ```
 
 Entrega la presentacion con el siguiente nombre:
@@ -110,7 +110,9 @@ La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecut
 - Sesion: S12 - Evaluacion U2
 - Rol o aporte realizado:
 - Link de GitHub:
-- Evidencia de participacion en GitHub:
+- Evidencia de participacion individual en GitHub:
+- Commits o PR de codigo:
+- Commits o PR de documentacion:
 - Parte del sistema que demostrara en vivo:
 
 #### 3.1.2 Evidencia tecnica individual
@@ -134,12 +136,12 @@ La presentacion debe incluir:
 - Observabilidad y diagnostico.
 - Integracion frontend.
 - Aporte individual de cada integrante.
-- Evidencia de participacion de cada integrante en GitHub.
+- Evidencia de participacion individual de cada integrante en GitHub.
 - Demo asignada a cada integrante.
 
 #### 3.1.4 Documentacion MkDocs
 
-La documentacion debe incluir guias para reproducir cada artefacto de sesion:
+La documentacion debe seguir una estructura ordenada por sesion y anexos:
 
 - S06: comunicacion sincronica resiliente.
 - S07: seguridad distribuida y JWT.
@@ -148,8 +150,17 @@ La documentacion debe incluir guias para reproducir cada artefacto de sesion:
 - S10: observabilidad y diagnostico.
 - S11: integracion frontend.
 - S12: validacion integrada U2.
+- Anexos: evidencia de participacion individual, un anexo por integrante.
 
-Cada guia debe contener comandos, puertos, rutas probadas, datos de prueba, evidencias esperadas y errores frecuentes.
+Cada guia debe contener comandos, puertos, rutas probadas, datos de prueba, evidencias esperadas y errores frecuentes. El `index` debe incluir el link de la documentacion MkDocs publicada o ejecutable.
+
+Cada anexo individual debe contener:
+
+- Nombre del integrante.
+- Rol o responsabilidad.
+- Commits o PR de codigo.
+- Commits o PR de documentacion.
+- Evidencia breve de la parte que demostrara en vivo.
 
 ### 3.2 Secuencia sugerida de presentacion
 
@@ -165,15 +176,16 @@ Cada guia debe contener comandos, puertos, rutas probadas, datos de prueba, evid
 
 ### 3.3 Criterios minimos de aceptacion
 
-- PDF con nombre correcto.
-- Presentacion del proyecto U2 entregada.
+- PDF grupal generado desde MkDocs y subido a BL con nombre correcto.
+- Presentacion del proyecto U2 subida a BL.
 - Documentacion MkDocs con guias reproducibles de S06 a S12.
 - Evidencia de sistema robusto integrado.
 - Seguridad demostrada.
 - Eventos o consistencia demostrados.
 - Observabilidad demostrada.
 - Aporte individual verificable.
-- GitHub evidencia aporte o participacion de cada integrante.
+- MkDocs incluye anexos de participacion individual, uno por integrante.
+- GitHub evidencia aporte individual de cada integrante mediante commits o PR de codigo y documentacion.
 - Cada integrante demuestra en vivo la parte que trabajo.
 
 ## 4. Crea: actividad autonoma
@@ -204,8 +216,8 @@ La rubrica evalua el entregable y la sustentacion del producto U2 presentados du
 | 2. Seguridad | 2 | Evidencia login, token, rutas protegidas y errores esperados. | Evidencia seguridad funcional. | Seguridad parcial. | No evidencia seguridad. | |
 | 3. Eventos/consistencia | 2 | Evidencia eventos y consistencia de negocio. | Evidencia flujo de eventos. | Evidencia parcial. | No evidencia eventos. | |
 | 4. Observabilidad/diagnostico | 2 | Diagnostica con logs/metricas/paneles. | Evidencia observabilidad. | Evidencia limitada. | No evidencia observabilidad. | |
-| 5. Aporte individual y participacion en GitHub | 1 | Aporte claro, verificable en GitHub y conectado al producto. | Aporte identificable en GitHub. | Aporte general o poco trazable. | No se identifica aporte. | |
-| 6. Defensa, presentacion, documentacion y demo individual | 1 | Defensa clara, presentacion completa (PPT o equivalente), MkDocs reproducible y demo individual de la parte trabajada. | Defensa suficiente con presentacion, documentacion y demo. | Defensa parcial, documentacion incompleta o demo parcial. | No sustenta ni documenta. | |
+| 5. Aporte individual y participacion en GitHub | 1 | Aporte individual verificable en anexos MkDocs y en commits o PR de codigo y documentacion. | Aporte identificable en GitHub y anexos. | Aporte general o poco trazable. | No se identifica aporte. | |
+| 6. Defensa, presentacion, documentacion y demo individual | 1 | Defensa clara, presentacion completa, PDF grupal generado desde MkDocs con estructura S06-S12 y anexos por integrante, link MkDocs en el index y demo individual. | Defensa suficiente con presentacion, documentacion y demo. | Defensa parcial, documentacion incompleta o demo parcial. | No sustenta ni documenta. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 

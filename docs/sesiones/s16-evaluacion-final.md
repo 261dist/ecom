@@ -96,16 +96,16 @@ En esta sesion se realiza la exposicion y evaluacion final. Cada equipo dispone 
 
 La evaluacion final requiere tres entregables:
 
-1. Evidencia individual en PDF.
-2. Presentacion final del proyecto (PPT o equivalente).
+1. PDF grupal generado desde la documentacion MkDocs y subido a la plataforma BLearning (BL).
+2. Presentacion final del proyecto (PPT o equivalente) subida a BL.
 3. Documentacion MkDocs del producto del curso con guias reproducibles de los artefactos de sesion.
 
-Ademas, el repositorio GitHub debe evidenciar el aporte o participacion de cada integrante del equipo, y cada integrante debe mostrar una demo de la parte que trabajo.
+El link de la documentacion MkDocs debe aparecer en el `index` del PDF. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en MkDocs como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajo.
 
-Entrega el PDF:
+Entrega el PDF grupal:
 
 ```text
-S16_Equipo##_ApellidoNombre.pdf
+S16_Equipo##_MkDocs.pdf
 ```
 
 Entrega la presentacion final con el siguiente nombre:
@@ -123,7 +123,9 @@ La documentacion MkDocs debe estar en el repositorio GitHub y publicada o ejecut
 - Sesion: S16 - Evaluacion final
 - Rol o aporte realizado:
 - Link de GitHub:
-- Evidencia de participacion en GitHub:
+- Evidencia de participacion individual en GitHub:
+- Commits o PR de codigo:
+- Commits o PR de documentacion:
 - Parte del sistema que demostrara en vivo:
 
 #### 3.1.2 Evidencia tecnica individual
@@ -147,19 +149,28 @@ La presentacion debe incluir:
 - Ejecucion DEV y PROD local.
 - Evidencias principales.
 - Aporte individual de cada integrante.
-- Evidencia de participacion de cada integrante en GitHub.
+- Evidencia de participacion individual de cada integrante en GitHub.
 - Demo asignada a cada integrante.
 - Riesgos, incidencias y mejoras futuras.
 
 #### 3.1.4 Documentacion MkDocs del producto del curso
 
-La documentacion debe incluir guias para reproducir los artefactos evaluados durante el curso:
+La documentacion debe seguir una estructura ordenada por unidad, sesion y anexos:
 
 - U1: artefactos de S01 a S05.
 - U2: artefactos de S06 a S12.
 - U3: validacion end-to-end, estabilizacion, defensa y evaluacion final.
+- Anexos: evidencia de participacion individual, un anexo por integrante.
 
-Cada guia debe contener comandos, orden de arranque, puertos, variables de entorno, rutas, datos de prueba, evidencias esperadas, troubleshooting y criterios de verificacion.
+Cada guia debe contener comandos, orden de arranque, puertos, variables de entorno, rutas, datos de prueba, evidencias esperadas, troubleshooting y criterios de verificacion. El `index` debe incluir el link de la documentacion MkDocs publicada o ejecutable.
+
+Cada anexo individual debe contener:
+
+- Nombre del integrante.
+- Rol o responsabilidad.
+- Commits o PR de codigo.
+- Commits o PR de documentacion.
+- Evidencia breve de la parte que demostrara en vivo.
 
 ### 3.2 Secuencia sugerida de presentacion
 
@@ -175,10 +186,11 @@ Cada guia debe contener comandos, orden de arranque, puertos, variables de entor
 
 ### 3.3 Criterios minimos de aceptacion
 
-- PDF con nombre correcto.
-- Presentacion final del proyecto entregada.
+- PDF grupal generado desde MkDocs y subido a BL con nombre correcto.
+- Presentacion final del proyecto subida a BL.
 - Documentacion MkDocs reproducible del producto del curso.
-- GitHub evidencia aporte o participacion de cada integrante.
+- MkDocs incluye anexos de participacion individual, uno por integrante.
+- GitHub evidencia aporte individual de cada integrante mediante commits o PR de codigo y documentacion.
 - Cada integrante demuestra en vivo la parte que trabajo.
 - Competencia identificada.
 - Consigna ejecutada.
@@ -214,7 +226,7 @@ La rubrica evalua el entregable y la sustentacion del producto final presentados
 | 3. Evidencia verificable | 2 | Presenta evidencia clara, reproducible y suficiente. | Evidencia suficiente. | Evidencia incompleta. | No presenta evidencia. | |
 | 4. Sustentacion individual y demo de aporte | 2 | Responde con autonomia, criterio tecnico y demuestra en vivo la parte que trabajo. | Responde y demuestra su parte adecuadamente. | Responde o demuestra parcialmente. | No sustenta. | |
 | 5. Reflexion tecnica | 1 | Explica aprendizajes, limites y decisiones tecnicas con claridad. | Explica aprendizajes o decisiones principales. | Reflexion poco clara. | No reflexiona. | |
-| 6. Orden, presentacion, documentacion y GitHub | 1 | PDF ordenado, presentacion final clara (PPT o equivalente), MkDocs reproducible y participacion verificable en GitHub. | Evidencia suficiente con presentacion, documentacion y GitHub. | Evidencia poco clara, documentacion incompleta o GitHub poco trazable. | Evidencia insuficiente. | |
+| 6. Orden, presentacion, documentacion y GitHub | 1 | PDF grupal generado desde MkDocs con estructura por unidad/sesion y anexos por integrante, presentacion final clara, link MkDocs en el index y participacion verificable en GitHub. | Evidencia suficiente con presentacion, documentacion y GitHub. | Evidencia poco clara, documentacion incompleta o GitHub poco trazable. | Evidencia insuficiente. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
