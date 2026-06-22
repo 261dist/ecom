@@ -1,8 +1,8 @@
 # S12 - Evaluacion U2
 
-## 1. Introduccion
+## 1. Instrucciones iniciales
 
-Tiempo: 20 min.
+Tiempo: 5 min.
 
 ### 1.1 Proposito
 
@@ -16,7 +16,7 @@ El estudiante demuestra que el sistema responde ante condiciones reales de opera
 
 Sistema robusto validado: comunicacion sincronica, seguridad, mensajeria, consistencia distribuida, observabilidad e integracion frontend.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Preguntas del docente durante la sustentacion
 
 Un sistema distribuido robusto debe funcionar cuando hay usuarios, errores, multiples servicios, eventos, seguridad y necesidad de diagnostico. Esta evaluacion valida el sistema en condiciones integradas.
 
@@ -36,7 +36,9 @@ Preguntas que el docente puede realizar a cada estudiante:
 
 ## 2. Explica
 
-Tiempo: 15 min.
+Tiempo: 10 min.
+
+El docente presenta brevemente la arquitectura del producto de unidad, recuerda la distribucion de tiempo por equipo y pasa directamente a las exposiciones.
 
 ### 2.1 Arquitectura del producto de unidad
 
@@ -65,17 +67,17 @@ flowchart LR
 
 ### 2.2 Tiempo de exposicion por equipo
 
-Cada grupo dispone de 25 minutos:
+Cada grupo dispone de hasta 18 minutos:
 
-- 15 minutos de exposicion del proyecto U2.
+- 10 minutos de exposicion del proyecto U2.
 - 5 minutos de demo tecnica.
-- 5 minutos de preguntas del docente a integrantes del equipo.
+- 3 minutos de preguntas del docente a integrantes del equipo.
 
 ## 3. Aplica: actividad practica guiada
 
-Tiempo: 3h.
+Tiempo: 3h 45 min para la ronda de evaluacion de equipos.
 
-En esta sesion se realiza la exposicion y evaluacion practica. El equipo presenta el producto U2, muestra la demo y cada integrante evidencia su aporte.
+En esta sesion se realiza la exposicion y evaluacion practica. Cada equipo dispone de hasta 18 minutos para presentar el producto U2, mostrar la demo y responder preguntas. La rubrica se aplica al cierre de la exposicion de cada equipo.
 
 ### 3.1 Plantilla de entrega
 
@@ -191,8 +193,6 @@ Trabajo autonomo:
 5. Preparar una breve reflexion tecnica sobre la mejora aplicada.
 
 ## 5. Cierre evaluativo
-
-Tiempo: 20 min.
 
 La rubrica evalua el entregable y la sustentacion del producto U2 presentados durante la sesion.
 
