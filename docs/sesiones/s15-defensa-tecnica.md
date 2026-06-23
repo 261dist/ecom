@@ -1,8 +1,8 @@
 # S15 - Defensa tecnica
 
-## 1. Introduccion
+## 1. Instrucciones iniciales
 
-Tiempo: 20 min.
+Tiempo: 5 min.
 
 ### 1.1 Proposito
 
@@ -16,9 +16,15 @@ El estudiante explica, demuestra y defiende su contribucion dentro de un sistema
 
 Defensa tecnica grupal del producto del curso con nota individual.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Preguntas del docente durante la sustentacion
 
 Defender un sistema distribuido exige demostrar arquitectura, flujos, fallos, diagnostico, datos y decisiones tecnicas. No basta con ejecutar una demo.
+
+Preguntas que el docente puede realizar a cada estudiante:
+
+1. Que parte del producto desarrollaste y como se integra con el sistema?
+2. Que evidencia demuestra que tu aporte funciona?
+3. Como diagnosticarias un fallo relacionado con tu componente?
 
 ### 1.5 Ubicacion en el curso
 
@@ -26,150 +32,243 @@ Defender un sistema distribuido exige demostrar arquitectura, flujos, fallos, di
 - Producto de unidad: producto final del curso validado, documentado, estabilizado y defendido.
 - Avance del producto en esta sesion: sustentacion grupal del producto con evaluacion individual.
 
-## 2. Explica
+## 2. Encuadre de la evaluacion
 
-Tiempo: 15 min.
+Tiempo: 10 min.
 
-### 2.1 Conceptos clave
+El docente presenta brevemente la arquitectura del producto del curso, recuerda la distribucion del tiempo y pasa directamente a las exposiciones.
 
-- Defensa tecnica.
-- Evidencia individual.
-- Demo reproducible.
-- Diagnostico en vivo.
-- Argumentacion de decisiones.
+### 2.1 Arquitectura ecom v2026
 
-### 2.2 Arquitectura del producto en `ecom`
-
-El equipo presenta la arquitectura final del producto, sus componentes, relaciones y decisiones tecnicas.
+La arquitectura de referencia para la defensa del producto U3 es la misma arquitectura integral definida en el `index.md`. El equipo debe presentar los componentes que implemento, sus relaciones y el flujo end-to-end. Si realizo adaptaciones para su proyecto, debe reflejarlas en su propio diagrama y justificar tecnicamente cada diferencia.
 
 ```mermaid
-flowchart TB
-    Producto["Producto del curso<br/>ecom"]
-    Infra["infra<br/>Config + Eureka + Gateway"]
-    Services["services<br/>microservicios + BD"]
-    Kafka["kafka<br/>eventos"]
-    Obs["obs<br/>diagnostico"]
-    Cliente["clients/ecom-ng<br/>frontend"]
-    Defensa["Defensa tecnica<br/>demo + preguntas"]
-    Evidencia["Evidencia individual<br/>aporte + GitHub + PDF"]
+%%{init: {"flowchart": {"nodeSpacing": 18, "rankSpacing": 28, "curve": "basis"}} }%%
+flowchart LR
+    subgraph Infra["infra"]
+        Config["Config<br/>D 18888<br/>P 28888"]
+        Eureka["Eureka<br/>D 18761<br/>P 28761"]
+        Gateway["Gateway<br/>D 18080<br/>P 28082"]
+    end
 
-    Producto --> Infra
-    Producto --> Services
-    Producto --> Kafka
-    Producto --> Obs
-    Producto --> Cliente
-    Infra --> Defensa
-    Services --> Defensa
-    Kafka --> Defensa
-    Obs --> Defensa
-    Cliente --> Defensa
-    Defensa --> Evidencia
+    subgraph Runtime["microservicios"]
+        subgraph Identity["identidad"]
+            Auth["auth-ms<br/>(Keycloak u otro)<br/>dinamico"]
+            AuthDB["auth_db<br/>D 15431<br/>P 25431"]
+            Auth --> AuthDB
+        end
+
+        subgraph Services["services"]
+            Catalogo["catalogo-ms<br/>dinamico"]
+            CatalogoDB["catalogo_db<br/>D 15432<br/>P 25432"]
+            Producto["producto-ms<br/>dinamico"]
+            ProductoDB["producto_db<br/>D 15433<br/>P 25433"]
+            Orden["orden-ms<br/>dinamico"]
+            OrdenDB["orden_db<br/>D 15434<br/>P 25434"]
+            Pago["pago-ms<br/>dinamico"]
+            PagoDB["pago_db<br/>D 15435<br/>P 25435"]
+
+            Catalogo --> CatalogoDB
+            Producto --> ProductoDB
+            Orden --> OrdenDB
+            Pago --> PagoDB
+            Producto -->|"consulta categoria"| Catalogo
+        end
+    end
+
+    subgraph Messaging["kafka"]
+        Broker["Kafka broker<br/>D 41092<br/>P 29092"]
+        KafkaUI["Kafka UI<br/>D 41085<br/>P 28085"]
+        KafkaUI --> Broker
+    end
+
+    subgraph External["sistema externo"]
+        PaymentGateway["Pasarela<br/>pagos externa"]
+    end
+
+    Angular --> Gateway
+    Gateway --> Auth
+    Gateway --> Catalogo
+    Gateway --> Producto
+    Gateway --> Orden
+    Gateway --> Pago
+
+    Config -. "carga configuracion" .-> Eureka
+    Config -. "carga configuracion" .-> Gateway
+    Config -. "carga configuracion<br/>configserver" .-> Runtime
+    Runtime -. "registra instancias" .-> Eureka
+    Gateway -. "descubre servicios" .-> Eureka
+
+    Orden -->|"orden-eventos"| Broker
+    Broker -->|"orden-eventos"| Pago
+    Pago -->|"pago-eventos"| Broker
+    Pago -->|"autoriza / confirma pago"| PaymentGateway
+
+    classDef external fill:#fff3cd,stroke:#b7791f,stroke-width:2px,color:#5f370e;
+    class PaymentGateway external;
+
+    subgraph Client["clients"]
+        Angular["ecom-ng<br/>D 4200"]
+    end
+
+    subgraph Obs["observabilidad"]
+        Prometheus["Prometheus<br/>D 19090<br/>P 29090"]
+        Loki["Loki<br/>D 13100<br/>P 23100"]
+        Grafana["Grafana<br/>D 13000<br/>P 23000"]
+        Grafana --> Prometheus
+        Grafana --> Loki
+    end
+
+    Angular ~~~ Prometheus
 ```
 
-### 2.3 Observabilidad y diagnostico
+Las flechas continuas representan interacciones de negocio o consultas directas. Las flechas punteadas representan dependencias de infraestructura, configuracion o descubrimiento.
 
-Durante la defensa se puede solicitar diagnosticar un fallo, revisar logs, consultar BD, revisar eventos o explicar una metrica.
+### 2.2 Tiempo de exposicion por equipo
 
-## 3. Aplica: actividad practica guiada
+Cada equipo dispone de hasta 18 minutos:
 
-Tiempo: 3h.
+- 10 minutos de exposicion del producto final.
+- 5 minutos de demo tecnica.
+- 3 minutos de preguntas del docente a los integrantes del equipo.
 
-### 3.1 Presentar arquitectura
+## 3. Presentacion y sustentacion del producto
 
-El equipo explica componentes, responsabilidades y relaciones.
+Tiempo: 3h 45 min para la ronda de evaluacion de equipos.
 
-### 3.2 Ejecutar demo end-to-end
+En esta sesion se realiza la defensa tecnica del producto final. Cada equipo dispone de hasta 18 minutos para presentar su producto, ejecutar la demo y responder preguntas. La rubrica se aplica al cierre de la exposicion de cada equipo.
 
-La demo debe mostrar un flujo completo y evidencia verificable.
+### 3.1 Plantilla de entrega
 
-### 3.3 Sustentar decisiones
+La defensa tecnica requiere tres entregables grupales:
 
-Cada integrante explica una decision tecnica relacionada con su aporte.
+1. Documentacion en MkDocs o una herramienta equivalente, organizada por unidad y sesion, con guias reproducibles.
+2. PDF grupal generado como impresion o exportacion directa de la documentacion y subido a la plataforma BLearning (BL).
+3. Presentacion final clara del proyecto (PPT o equivalente) subida a BL.
 
-### 3.4 Responder preguntas individuales
+El PDF debe generarse como impresion o exportacion directa del sitio de documentacion. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
 
-El docente realiza preguntas por integrante.
+```text
+S15_Equipo##_U3_Docs.pdf
+```
 
-### 3.5 Diagnosticar variacion o fallo
+La presentacion final debe entregarse con el nombre:
 
-El docente puede solicitar una variacion de la demo o diagnostico de un fallo.
+```text
+ProductoCurso_Equipo##_Presentacion.pdf
+```
 
-## 4. Crea: actividad autonoma
+La documentacion debe estar en el repositorio GitHub y publicarse como sitio navegable, por ejemplo en GitHub Pages (`github.io`) u otra plataforma equivalente. El `index` debe incluir el enlace del sitio publicado.
+
+#### 3.1.1 Datos del equipo
+
+- Equipo:
+- Sesion: S15 - Defensa tecnica del producto U3
+- Proyecto:
+- Link de GitHub:
+- Link de documentacion:
+- Rama integrada evaluada:
+- Evidencia de integracion o merge:
+- Integrantes:
+- Anexos individuales incluidos:
+
+#### 3.1.2 Evidencia tecnica del producto final
+
+- Producto del curso integrado y ejecutable.
+- Arquitectura final y flujo end-to-end.
+- Seguridad, comunicacion sincronica, eventos y consistencia.
+- Observabilidad y diagnostico.
+- Frontend integrado mediante Gateway.
+- Evidencia de integracion de los aportes de todos los integrantes.
+
+#### 3.1.3 Presentacion final del proyecto
+
+La presentacion debe incluir:
+
+- Nombre del proyecto y equipo.
+- Problema o flujo de negocio implementado.
+- Arquitectura final del producto.
+- Flujo end-to-end.
+- Seguridad, eventos, consistencia y observabilidad.
+- Integracion frontend.
+- Evidencias principales.
+- Aporte individual de cada integrante.
+- Evidencia de participacion individual en GitHub.
+- Demo asignada a cada integrante.
+- Riesgos, incidencias y mejoras futuras.
+
+#### 3.1.4 Documentacion en MkDocs o herramienta equivalente
+
+La documentacion debe seguir una estructura ordenada por unidad, sesion y anexos. Cada sesion documenta la evolucion del proyecto final e integra los aportes realizados por el equipo:
+
+- U1: artefactos de S01 a S05.
+- U2: artefactos de S06 a S12.
+- U3: validacion, estabilizacion y defensa tecnica de S13 a S15.
+- Anexos: evidencia de participacion individual, un anexo por integrante.
+
+Cada guia debe contener comandos, orden de arranque, puertos, variables de entorno, rutas, datos de prueba, evidencias esperadas, errores frecuentes y criterios de verificacion.
+
+Cada anexo individual debe contener:
+
+- Nombre del integrante.
+- Rol o responsabilidad.
+- Rama de trabajo, commits, merges o pull requests de codigo.
+- Rama de trabajo, commits, merges o pull requests de documentacion.
+- Evidencia breve de la parte que demostrará en vivo.
+- Evidencia de que su aporte quedo integrado en la rama comun del equipo.
+
+### 3.2 Secuencia sugerida de presentacion
+
+1. Presentar el nombre del proyecto, el equipo y el repositorio GitHub.
+2. Explicar el problema o flujo de negocio implementado.
+3. Explicar la arquitectura final usando el diagrama del producto.
+4. Ejecutar la demo end-to-end.
+5. Mostrar seguridad, comunicacion, eventos, consistencia y observabilidad.
+6. Mostrar la integracion frontend y la documentacion reproducible.
+7. Mostrar la integracion y participacion de cada integrante en GitHub.
+8. Cada integrante demuestra la parte que trabajó.
+9. Cerrar con riesgos, incidencias y decisiones tecnicas.
+
+### 3.3 Criterios minimos de aceptacion
+
+- PDF grupal generado desde la documentacion y subido a BL con el nombre correcto.
+- Presentacion final clara (PPT o equivalente) subida a BL.
+- Documentacion publicada como sitio navegable, por ejemplo en GitHub Pages (`github.io`) o equivalente.
+- Producto final integrado y ejecutable desde una rama comun.
+- Arquitectura y flujo end-to-end demostrados.
+- Seguridad, eventos, consistencia y observabilidad demostrados.
+- Productos de sesion y unidad de todos los integrantes integrados.
+- Evidencia de merge, integracion o resolucion de conflictos cuando corresponda.
+- Un anexo de participacion individual por integrante.
+- GitHub evidencia aportes de codigo y documentacion.
+- Cada integrante demuestra en vivo la parte que trabajó.
+
+## 4. Retroalimentacion posterior
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
+### 4.1 Mejoras y recomendaciones
 
-### 4.1 Plantilla de evidencia individual
+Las mejoras indicadas despues de la evaluacion no forman parte de la calificacion de S15. Sirven para fortalecer el portafolio y, cuando corresponda, preparar la demostracion individual de competencias pendientes en S16.
 
-Entrega un PDF:
+1. Corregir las observaciones detectadas durante la defensa.
+2. Completar o ajustar la documentacion del producto.
+3. Mejorar las evidencias individuales incompletas.
+4. Registrar en GitHub los cambios posteriores a la evaluacion.
+5. Preparar la competencia pendiente que deba demostrarse en S16.
 
-El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
+## 5. Rubrica de evaluacion
 
-```text
-S15_Equipo##_ApellidoNombre.pdf
-```
-
-#### 4.1.1 Datos del estudiante
-
-- Nombre:
-- Equipo:
-- Sesion: S15 - Defensa tecnica
-- Rol o aporte realizado:
-- Link de GitHub:
-
-#### 4.1.2 Trabajo autonomo realizado
-
-1. Preparar defensa individual.
-2. Ordenar evidencias personales.
-3. Ensayar explicacion tecnica.
-4. Preparar respuesta a fallos.
-5. Registrar mejoras pendientes.
-
-### 4.2 Criterios minimos de aceptacion
-
-- PDF con nombre correcto.
-- Evidencia de aporte individual.
-- Arquitectura o flujo relacionado con su aporte.
-- Evidencia tecnica verificable.
-- Reflexion o mejora propuesta.
-
-## 5. Cierre evaluativo
-
-Tiempo: 20 min.
-
-### 5.1 Resultados esperados
-
-- Producto defendido.
-- Demo ejecutada.
-- Evidencias revisadas.
-- Cada integrante evaluado individualmente.
-
-### 5.2 Evidencia del producto de sesion
-
-Entrega individual:
-
-```text
-S15_Equipo##_ApellidoNombre.pdf
-```
-
-### 5.3 Preguntas de defensa y reflexion
-
-1. Que componente construiste o configuraste?
-2. Como se comunica tu parte con el resto?
-3. Que fallo puede ocurrir y como lo diagnosticas?
-4. Que mejorarias si tuvieras una iteracion mas?
-
-### 5.4 Rubrica de evaluacion
+La rubrica evalua el entregable grupal, la sustentacion del producto y la demostracion individual realizada durante S15. Se aplica al cierre de los 18 minutos asignados a cada equipo.
 
 | Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
 |---|---:|---|---|---|---|---:|
-| 1. Dominio tecnico | 2 | Explica con precision arquitectura y decisiones. | Explica adecuadamente. | Explica parcialmente. | No demuestra dominio. | |
-| 2. Demo y evidencia | 2 | Demo reproducible y evidencias completas. | Demo funcional. | Demo parcial. | No evidencia demo. | |
-| 3. Diagnostico | 2 | Diagnostica fallos con criterio tecnico. | Explica diagnostico basico. | Diagnostico parcial. | No diagnostica. | |
-| 4. Aporte individual | 2 | Aporte claro, verificable y defendido. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 5. Comunicacion | 1 | Sustenta con claridad y orden. | Sustenta adecuadamente. | Sustenta parcialmente. | No sustenta. | |
-| 6. Reflexion y mejora | 1 | Propone mejoras tecnicas pertinentes. | Propone mejora general. | Reflexion superficial. | No reflexiona. | |
+| 1. Integracion del producto U3 | 2 | Integra los productos de U1, U2 y U3 y los aportes de todos los integrantes en el producto final funcionando end-to-end. | Integra los componentes principales del producto final. | La integracion de unidades, componentes o aportes es parcial. | No evidencia integracion del producto final. | |
+| 2. Funcionamiento tecnico U3 | 2 | Demuestra el flujo end-to-end con infraestructura, servicios, seguridad, eventos, consistencia, observabilidad, frontend y sistema externo. | Demuestra el funcionamiento de los componentes principales del producto final. | El funcionamiento es parcial o presenta fallos relevantes. | No demuestra el funcionamiento del producto final. | |
+| 3. Pruebas, evidencia y diagnostico | 2 | Ejecuta una demo reproducible, presenta evidencia integral y diagnostica fallos mediante datos, logs, metricas, eventos o trazas. | Presenta pruebas y evidencia suficientes, y explica la causa probable de un fallo. | Las pruebas, evidencias o el diagnostico son incompletos. | No presenta evidencia verificable ni diagnostica. | |
+| 4. Aporte individual, GitHub y demo | 2 | El aporte individual de codigo y documentacion es verificable en GitHub y anexos, esta integrado en la rama comun y se demuestra en vivo con autonomia. | El aporte es identificable, esta integrado y se demuestra adecuadamente. | El aporte es poco trazable, no esta claramente integrado o la demo es parcial. | No se identifica ni demuestra el aporte individual. | |
+| 5. Defensa tecnica | 1 | Explica la arquitectura y las decisiones, y responde con precision, autonomia y criterio tecnico. | Explica las decisiones principales y responde adecuadamente. | Responde parcialmente o con escaso sustento tecnico. | No sustenta su trabajo. | |
+| 6. Presentacion, documentacion y reproducibilidad | 1 | Presentacion final clara; sitio y PDF ordenados por unidad y sesion, con guias reproducibles, enlace en el index y anexos individuales completos. | La presentacion y la documentacion permiten comprender y reproducir el flujo end-to-end. | La presentacion es poco clara o la documentacion es incompleta y poco reproducible. | No presenta documentacion o presentacion suficiente. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
@@ -178,7 +277,7 @@ Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 Para usar la rubrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
+Evalua el PDF, la presentacion, la documentacion, la participacion en GitHub y la demo individual usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).

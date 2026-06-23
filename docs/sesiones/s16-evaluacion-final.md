@@ -38,7 +38,7 @@ Preguntas que el docente puede realizar a cada estudiante:
 
 Tiempo: 10 min.
 
-El docente presenta brevemente la arquitectura del producto del curso, recuerda la distribucion de tiempo por equipo y pasa directamente a las exposiciones.
+El docente presenta brevemente la arquitectura del producto del curso, comunica las consignas y el orden de participacion, y pasa directamente a las demostraciones individuales.
 
 ### 2.1 Arquitectura del producto del curso
 
@@ -78,131 +78,66 @@ flowchart TB
     Evidencia --> Sustentacion
 ```
 
-### 2.2 Tiempo de exposicion por equipo
+### 2.2 Tiempo de evaluacion
 
-Cada grupo dispone de hasta 18 minutos:
+El tiempo de cada demostracion se asigna segun la cantidad de estudiantes convocados y la naturaleza de la competencia pendiente. No se realiza una nueva exposicion grupal.
 
-- 10 minutos de exposicion del proyecto final.
-- 5 minutos de demo tecnica.
-- 3 minutos de preguntas del docente a integrantes del equipo.
+## 3. Demostracion individual de competencias pendientes
 
-## 3. Presentacion y sustentacion del producto
+Tiempo: 3h 45 min para la ronda de evaluacion individual.
 
-Tiempo: 3h 45 min para la ronda de evaluacion de equipos.
+S16 no repite la defensa grupal ni exige una nueva entrega completa del producto U3. Participan los estudiantes que deben demostrar competencias pendientes de acuerdo con los resultados obtenidos en S15. El tiempo individual se distribuye segun la cantidad de estudiantes convocados y las competencias que deban demostrar.
 
-En esta sesion se realiza la exposicion y evaluacion final. Cada equipo dispone de hasta 18 minutos para presentar el producto del curso, mostrar la demo y responder preguntas. La rubrica se aplica al cierre de la exposicion de cada equipo.
+### 3.1 Evidencia para la evaluacion
 
-### 3.1 Plantilla de entrega
+La evaluacion final utiliza el producto integrado, la documentacion y la presentacion entregados en S15. No se solicita una segunda entrega grupal.
 
-La evaluacion final requiere tres entregables:
-
-1. Documentacion en MkDocs o herramienta equivalente del producto final del curso, organizada por unidad/sesion y con guias reproducibles.
-2. PDF grupal de la evaluacion generado como impresion o exportacion de la documentacion y subido a la plataforma BLearning (BL).
-3. Presentacion final del proyecto (PPT o equivalente) subida a BL.
-
-El link de la documentacion debe aparecer en el `index` del PDF. La documentacion no presenta productos aislados de sesion: organiza el producto final del curso por unidad y sesion para evidenciar la evolucion del proyecto. Para el producto final, el equipo debe juntar e integrar los productos de sesion y de unidad desarrollados por todos los integrantes en una rama comun del equipo. No basta con mostrar ramas o PR separados: debe evidenciarse el merge o integracion, la resolucion de conflictos si aplica y la ejecucion del sistema integrado. Ademas, el repositorio GitHub debe evidenciar el aporte o participacion individual de cada integrante mediante commits, ramas, merges o pull requests de codigo y documentacion. Esa evidencia debe incluirse tambien en la documentacion como anexos, un anexo por integrante, para que al imprimir o exportar el sitio se genere un PDF ordenado. Cada integrante debe mostrar una demo de la parte que trabajó.
-
-El PDF de esta evaluacion debe ser la impresion o exportacion directa del sitio de documentacion. No se acepta un PDF armado manualmente fuera de la documentacion.
-
-Entrega el PDF grupal:
+El archivo grupal del producto U3 corresponde a S15:
 
 ```text
-S16_Equipo##_U3_Docs.pdf
+S15_Equipo##_U3_Docs.pdf
 ```
 
-Entrega la presentacion final con el siguiente nombre:
+En S16 el estudiante presenta directamente la evidencia y la demo de la competencia pendiente que le fue comunicada por el docente. Las correcciones realizadas despues de S15 deben quedar trazables en GitHub y, cuando corresponda, en el anexo individual de la documentacion.
 
-```text
-ProductoCurso_Equipo##_Presentacion.pdf
-```
+#### 3.1.1 Datos del estudiante
 
-La documentacion debe estar en el repositorio GitHub y publicarse como sitio navegable, por ejemplo en GitHub Pages (`github.io`) u otra plataforma equivalente. Si usan MkDocs, tambien pueden verificarla localmente con `mkdocs serve`.
-
-#### 3.1.1 Datos del equipo
-
+- Nombre:
 - Equipo:
-- Sesion: S16 - Evaluacion final
+- Sesion: S16 - Evaluacion final de competencias pendientes
 - Proyecto:
+- Competencia pendiente:
+- Consigna asignada:
 - Link de GitHub:
 - Link de documentacion:
-- Rama integrada evaluada:
-- Evidencia de integracion o merge:
-- Integrantes:
-- Productos de sesion y unidad integrados por el equipo:
-- Anexos individuales incluidos:
+- Rama, commit o pull request de la correccion:
 
-#### 3.1.2 Evidencia tecnica del producto final
+#### 3.1.2 Evidencia tecnica individual
 
 - Competencia demostrada.
 - Consigna o parte del sistema trabajada.
 - Comandos o acciones ejecutadas.
 - Resultado verificable.
 - Diagnostico o explicacion tecnica.
-- Producto final del curso integrado.
+- Evidencia de la correccion en GitHub, cuando corresponda.
 
-#### 3.1.3 Presentacion final del proyecto
+### 3.2 Secuencia de demostracion individual
 
-La presentacion debe incluir:
-
-- Nombre del proyecto y equipo.
-- Problema o flujo de negocio implementado.
-- Arquitectura final.
-- Flujo end-to-end.
-- Seguridad, eventos, consistencia y observabilidad.
-- Ejecucion DEV y PROD local.
-- Evidencias principales.
-- Aporte individual de cada integrante.
-- Evidencia de participacion individual de cada integrante en GitHub.
-- Demo asignada a cada integrante.
-- Riesgos, incidencias y mejoras futuras.
-
-#### 3.1.4 Documentacion en MkDocs o herramienta equivalente del producto del curso
-
-La documentacion debe seguir una estructura ordenada por unidad, sesion y anexos. Cada unidad y sesion documenta la evolucion del proyecto final y debe integrar los aportes realizados por los integrantes del equipo:
-
-- U1: artefactos de S01 a S05.
-- U2: artefactos de S06 a S12.
-- U3: validacion end-to-end, estabilizacion, defensa y evaluacion final.
-- Anexos: evidencia de participacion individual, un anexo por integrante.
-
-Cada guia debe contener comandos, orden de arranque, puertos, variables de entorno, rutas, datos de prueba, evidencias esperadas, troubleshooting y criterios de verificacion. El `index` debe incluir el link de la documentacion publicada o ejecutable.
-
-Cada anexo individual debe contener:
-
-- Nombre del integrante.
-- Rol o responsabilidad.
-- Rama de trabajo, commits, merges o PR de codigo.
-- Rama de trabajo, commits, merges o PR de documentacion.
-- Evidencia breve de la parte que demostrará en vivo.
-- Evidencia de que su aporte quedo integrado en la rama comun del equipo.
-
-### 3.2 Secuencia sugerida de presentacion
-
-1. Presentar nombre del proyecto, equipo y repositorio GitHub.
-2. Explicar el problema o flujo de negocio implementado.
-3. Explicar la arquitectura final del producto.
-4. Ejecutar la demo end-to-end.
-5. Mostrar seguridad, eventos, consistencia y observabilidad.
-6. Mostrar la documentacion y guia de reproduccion.
-7. Mostrar participacion de cada integrante en GitHub.
-8. Cada integrante muestra la parte que trabajó.
-9. Cerrar con riesgos, incidencias y mejoras futuras.
+1. Identificar la competencia pendiente.
+2. Explicar brevemente el componente o flujo involucrado.
+3. Ejecutar la consigna asignada.
+4. Mostrar un resultado verificable.
+5. Diagnosticar el fallo o justificar la decision tecnica solicitada.
+6. Responder las preguntas del docente.
 
 ### 3.3 Criterios minimos de aceptacion
 
-- PDF grupal generado desde la documentacion y subido a BL con nombre correcto.
-- Presentacion final del proyecto subida a BL.
-- Documentacion en MkDocs o herramienta equivalente reproducible del producto del curso.
-- Productos de sesion y unidad de todos los integrantes integrados en el producto final.
-- Rama comun del equipo con aportes integrados y ejecutables.
-- Evidencia de merge, integracion o resolucion de conflictos cuando aplique.
-- La documentacion incluye anexos de participacion individual, uno por integrante.
-- GitHub evidencia aporte individual de cada integrante mediante ramas, commits, merges o PR de codigo y documentacion.
-- Cada integrante demuestra en vivo la parte que trabajó.
 - Competencia identificada.
-- Consigna ejecutada.
+- Consigna ejecutada individualmente.
 - Evidencia verificable.
-- Sustentacion individual.
+- Diagnostico o explicacion tecnica.
+- Correccion trazable en GitHub cuando corresponda.
+- Respuestas individuales a las preguntas del docente.
 
 ## 4. Retroalimentacion posterior
 
@@ -222,7 +157,7 @@ Trabajo autonomo:
 
 ## 5. Rubrica de evaluacion
 
-La rubrica evalua el entregable y la sustentacion del producto final presentados durante la sesion.
+La rubrica evalua exclusivamente la demostracion individual de las competencias pendientes.
 
 | Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
 |---|---:|---|---|---|---|---:|
@@ -231,7 +166,7 @@ La rubrica evalua el entregable y la sustentacion del producto final presentados
 | 3. Evidencia verificable | 2 | Presenta evidencia clara, reproducible y suficiente. | Evidencia suficiente. | Evidencia incompleta. | No presenta evidencia. | |
 | 4. Sustentacion individual y demo de aporte | 2 | Responde con autonomia, criterio tecnico y demuestra en vivo la parte que trabajó. | Responde y demuestra su parte adecuadamente. | Responde o demuestra parcialmente. | No sustenta. | |
 | 5. Reflexion tecnica | 1 | Explica aprendizajes, limites y decisiones tecnicas con claridad. | Explica aprendizajes o decisiones principales. | Reflexion poco clara. | No reflexiona. | |
-| 6. Orden, presentacion, documentacion y GitHub | 1 | PDF grupal generado desde la documentacion con estructura por unidad/sesion y anexos por integrante, presentacion final clara, link de documentacion en el index y participacion verificable en GitHub. | Evidencia suficiente con presentacion, documentacion y GitHub. | Evidencia poco clara, documentacion incompleta o GitHub poco trazable. | Evidencia insuficiente. | |
+| 6. Orden y trazabilidad | 1 | Presenta evidencia ordenada y la correccion queda claramente trazable en GitHub. | La evidencia y la trazabilidad son suficientes. | La evidencia es poco clara o la trazabilidad es incompleta. | No presenta evidencia suficiente. | |
 
 Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
@@ -240,7 +175,7 @@ Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 Para usar la rubrica con IA, solicita:
 
 ```text
-Evalua el PDF, la presentacion, la documentacion, la participacion en GitHub y la demo individual usando la rubrica de la sesion.
+Evalua la demostracion individual, la evidencia tecnica y la trazabilidad en GitHub usando la rubrica de la sesion.
 Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
 Justifica brevemente cada puntuacion.
 Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
