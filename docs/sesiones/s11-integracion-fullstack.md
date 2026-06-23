@@ -1,10 +1,10 @@
-# S11 - Integracion con cliente frontend
+# S11 - Integración con cliente frontend
 
-## 1. Introduccion
+## 1. Introducción
 
 Tiempo: 20 min.
 
-### 1.1 Proposito
+### 1.1 Propósito
 
 Integrar el cliente frontend con el sistema distribuido mediante Gateway, manteniendo seguridad, CORS y consumo centralizado de APIs.
 
@@ -12,19 +12,19 @@ Integrar el cliente frontend con el sistema distribuido mediante Gateway, manten
 
 El estudiante conecta el frontend al Gateway, ejecuta flujos autenticados y evidencia consumo de microservicios desde la interfaz.
 
-### 1.3 Producto de sesion
+### 1.3 Producto de sesión
 
-`ecom-ng` integrado con Gateway para consumir categorias, productos y flujos protegidos.
+`ecom-ng` integrado con Gateway para consumir categorías, productos y flujos protegidos.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Motivacion de la sesión
 
-El usuario no interactua con microservicios aislados. La experiencia real ocurre desde el frontend, que debe consumir el sistema por un punto unico de entrada.
+El usuario no interactua con microservicios aislados. La experiencia real ocurre desde el frontend, que debe consumir el sistema por un punto único de entrada.
 
-### 1.5 Ubicacion en el curso
+### 1.5 Ubicación en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
 - Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
-- Avance del producto en esta sesion: cliente web integrado mediante Gateway.
+- Avance del producto en esta sesión: cliente web integrado mediante Gateway.
 
 ## 2. Explica
 
@@ -41,9 +41,9 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
-En esta sesion el frontend deja de ser una pieza aislada. `ecom-ng` consume el sistema por Gateway, obtiene token desde `auth-ms` y ejecuta CRUD contra los microservicios protegidos.
+En esta sesión el frontend deja de ser una pieza aislada. `ecom-ng` consume el sistema por Gateway, obtiene token desde `auth-ms` y ejecuta CRUD contra los microservicios protegidos.
 
-#### 2.2.1 Integracion frontend en DEV
+#### 2.2.1 Integración frontend en DEV
 
 ```mermaid
 flowchart TB
@@ -69,7 +69,7 @@ flowchart TB
     Producto -.->|"spring.config.import<br/>http://localhost:18888"| Config
 ```
 
-#### 2.2.2 Integracion frontend en PROD local
+#### 2.2.2 Integración frontend en PROD local
 
 ```mermaid
 flowchart TB
@@ -98,21 +98,21 @@ flowchart TB
     Producto -.->|"spring.config.import<br/>http://ecom-config:8888"| Config
 ```
 
-### 2.3 Observabilidad y diagnostico
+### 2.3 Observabilidad y diagnóstico
 
 Revisar consola del navegador, network requests, respuestas 401/403, errores CORS, health de Gateway y logs de backend.
 
-## 3. Aplica: actividad practica guiada
+## 3. Aplica: actividad práctica guiada
 
 Tiempo: 3h.
 
-En el laboratorio, el docente guia la integracion de `ecom-ng` con el backend distribuido. El estudiante prueba desde navegador y confirma que el frontend usa Gateway como unico punto de entrada.
+En el laboratorio, el docente guía la integración de `ecom-ng` con el backend distribuido. El estudiante prueba desde navegador y confirma que el frontend usa Gateway como único punto de entrada.
 
 ### 3.1 Preparar el punto de partida
 
 Producto del paso: identificar backend, frontend y contrato de URLs.
 
-Confirma que existan estos modulos. Si alguno falta, crealo o usa la ruta alternativa de la sesion correspondiente:
+Confirma que existan estos módulos. Si alguno falta, crealo o usa la ruta alternativa de la sesión correspondiente:
 
 - `clients/ecom-ng`
 - `infra/gateway`
@@ -298,29 +298,29 @@ Producto del paso: token obtenido desde frontend.
 
 Usar credenciales de laboratorio y verificar en Network:
 
-- Peticion a Gateway.
+- Petición a Gateway.
 - Respuesta 200.
 - Token recibido.
 
-### 3.9 Probar CRUD de categorias
+### 3.9 Probar CRUD de categorías
 
 Producto del paso: frontend consume `catalogo-ms` por Gateway.
 
-Crear, listar, editar o eliminar una categoria desde la interfaz y verificar que la llamada va a `localhost:18080`.
+Crear, listar, editar o eliminar una categoría desde la interfaz y verificar que la llamada va a `localhost:18080`.
 
 ### 3.10 Probar CRUD de productos
 
 Producto del paso: frontend consume `producto-ms` por Gateway.
 
-Crear un producto asociado a una categoria existente.
+Crear un producto asociado a una categoría existente.
 
 ### 3.11 Diagnosticar 401/403
 
-Producto del paso: estudiante distingue error de autenticacion y autorizacion.
+Producto del paso: estudiante distingue error de autenticación y autorización.
 
 Probar:
 
-- Peticion sin token.
+- Petición sin token.
 - Token incorrecto.
 - Token vencido o mal formado.
 
@@ -332,7 +332,7 @@ Valida:
 
 - Consola del navegador.
 - Cabeceras de respuesta.
-- Configuracion de origen permitido.
+- Configuración de origen permitido.
 
 ### 3.13 Probar en PROD local
 
@@ -359,7 +359,7 @@ Revisa logs del Gateway y del microservicio llamado. Si existe correlation id, s
 
 ### 3.15 Registrar evidencia funcional
 
-Producto del paso: capturas y comandos suficientes para demostrar integracion.
+Producto del paso: capturas y comandos suficientes para demostrar integración.
 
 Evidenciar:
 
@@ -373,26 +373,26 @@ Evidenciar:
 
 Producto del paso: entorno local ordenado.
 
-Detener `npm start` y procesos Maven con `Ctrl+C`. Para Docker, ejecutar `docker compose down` en cada modulo levantado.
+Detener `npm start` y procesos Maven con `Ctrl+C`. Para Docker, ejecutar `docker compose down` en cada módulo levantado.
 
-### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
 
 ```bash
 git clone --branch vs11-integracion-frontend https://github.com/261dist/ecom.git ecom-s11
 cd ecom-s11
 ```
 
-## 4. Crea: actividad autonoma
+## 4. Crea: actividad autónoma
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
+Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
 Entrega un PDF:
 
-El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
+El PDF de esta sesión debe generarse como impresion o exportacion de la sección correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentación del proyecto.
 
 ```text
 S11_Equipo##_ApellidoNombre.pdf
@@ -402,19 +402,19 @@ S11_Equipo##_ApellidoNombre.pdf
 
 - Nombre:
 - Equipo:
-- Sesion: S11 - Integracion con cliente frontend
+- Sesión: S11 - Integración con cliente frontend
 - Rol o aporte realizado:
 - Link de GitHub:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 4.1.2 Trabajo autónomo realizado
 
 1. Levantar frontend.
 2. Probar consumo por Gateway.
 3. Probar login o ruta protegida.
 4. Evidenciar CRUD desde interfaz.
-5. Diagnosticar un error de integracion.
+5. Diagnosticar un error de integración.
 
-### 4.2 Criterios minimos de aceptacion
+### 4.2 Criterios mínimos de aceptación
 
 - PDF con nombre correcto.
 - Frontend ejecutando.
@@ -431,9 +431,9 @@ Tiempo: 20 min.
 - `ecom-ng` se ejecuta.
 - Frontend consume Gateway.
 - Flujo autenticado o protegido funciona.
-- El estudiante diagnostica errores de integracion.
+- El estudiante diagnostica errores de integración.
 
-### 5.2 Evidencia del producto de sesion
+### 5.2 Evidencia del producto de sesión
 
 Entrega individual:
 
@@ -441,35 +441,35 @@ Entrega individual:
 S11_Equipo##_ApellidoNombre.pdf
 ```
 
-### 5.3 Preguntas de defensa y reflexion
+### 5.3 Preguntas de defensa y reflexión
 
-1. Por que el frontend consume Gateway y no cada microservicio?
-2. Que problema resuelve CORS?
-3. Donde se usa el token?
-4. Como diagnosticas un error 401 desde Angular?
+1. Por qué el frontend consume Gateway y no cada microservicio?
+2. Qué problema resuelve CORS?
+3. Dónde se usa el token?
+4. Cómo diagnosticas un error 401 desde Angular?
 
-### 5.4 Rubrica de evaluacion
+### 5.4 Rúbrica de evaluación
 
-| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+| Dimensión | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuación obtenida |
 |---|---:|---|---|---|---|---:|
-| 1. Frontend operativo | 2 | Evidencia frontend funcionando e integrado. | Frontend ejecuta correctamente. | Ejecucion parcial. | No evidencia frontend. | |
+| 1. Frontend operativo | 2 | Evidencia frontend funcionando e integrado. | Frontend ejecuta correctamente. | Ejecución parcial. | No evidencia frontend. | |
 | 2. Consumo por Gateway | 2 | Evidencia varias APIs consumidas por Gateway. | Evidencia consumo de una API. | Consumo parcial. | No evidencia consumo. | |
-| 3. Seguridad/CORS | 2 | Evidencia login/token o diagnostico CORS claro. | Evidencia flujo protegido. | Evidencia parcial. | No evidencia seguridad/CORS. | |
-| 4. Diagnostico | 2 | Analiza fallo frontend-backend con solucion. | Explica problema. | Menciona problema sin analisis. | No diagnostica. | |
+| 3. Seguridad/CORS | 2 | Evidencia login/token o diagnóstico CORS claro. | Evidencia flujo protegido. | Evidencia parcial. | No evidencia seguridad/CORS. | |
+| 4. Diagnóstico | 2 | Analiza fallo frontend-backend con solución. | Explica problema. | Menciona problema sin análisis. | No diagnostica. | |
 | 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+| 6. Orden y reflexión | 1 | PDF ordenado y reflexión técnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
 
-Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+Puntuación acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
 Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 
-Para usar la rubrica con IA, solicita:
+Para usar la rúbrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
-Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
-Justifica brevemente cada puntuacion.
-Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
-Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 ```

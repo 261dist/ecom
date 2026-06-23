@@ -1,30 +1,30 @@
-# S10 - Observabilidad y diagnostico de sistemas distribuidos
+# S10 - Observabilidad y diagnóstico de sistemas distribuidos
 
-## 1. Introduccion
+## 1. Introducción
 
 Tiempo: 20 min.
 
-### 1.1 Proposito
+### 1.1 Propósito
 
-Consolidar practicas de observabilidad para diagnosticar el comportamiento del sistema distribuido mediante logs, health, metricas y paneles.
+Consolidar prácticas de observabilidad para diagnosticar el comportamiento del sistema distribuido mediante logs, health, métricas y paneles.
 
 ### 1.2 Resultado de aprendizaje
 
-El estudiante configura y consulta herramientas de observabilidad, interpreta senales del sistema y diagnostica fallos comunes.
+El estudiante configura y consulta herramientas de observabilidad, interpreta señales del sistema y diagnostica fallos comunes.
 
-### 1.3 Producto de sesion
+### 1.3 Producto de sesión
 
 Stack de observabilidad operativo con Prometheus, Loki y Grafana, conectado a servicios del sistema.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Motivacion de la sesión
 
-En microservicios no basta con saber que "algo fallo". Se necesita ubicar en que servicio, en que instancia, con que solicitud y bajo que condicion ocurrio el problema.
+En microservicios no basta con saber que "algo fallo". Se necesita ubicar en que servicio, en que instancia, con que solicitud y bajo que condición ocurrió el problema.
 
-### 1.5 Ubicacion en el curso
+### 1.5 Ubicación en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
 - Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
-- Avance del producto en esta sesion: diagnostico operacional del sistema distribuido.
+- Avance del producto en esta sesión: diagnóstico operacional del sistema distribuido.
 
 ## 2. Explica
 
@@ -34,14 +34,14 @@ Tiempo: 15 min.
 
 - Logs.
 - Health checks.
-- Metricas.
+- Métricas.
 - Trazabilidad.
 - Dashboard.
 - Correlation id.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
-En esta sesion se consolida la observabilidad. Los servicios ya exponen Actuator; ahora se agrega recoleccion, consulta y visualizacion con Prometheus, Loki y Grafana.
+En esta sesión se consolida la observabilidad. Los servicios ya exponen Actuator; ahora se agrega recoleccion, consulta y visualización con Prometheus, Loki y Grafana.
 
 #### 2.2.1 Observabilidad en DEV
 
@@ -88,9 +88,9 @@ flowchart TB
     Grafana -->|"datasource"| Loki
 ```
 
-### 2.3 Observabilidad y diagnostico
+### 2.3 Observabilidad y diagnóstico
 
-Senales a revisar:
+Señales a revisar:
 
 - `/actuator/health`.
 - `/actuator/metrics`.
@@ -99,13 +99,13 @@ Senales a revisar:
 - Paneles de Grafana.
 - Errores 4xx/5xx.
 
-## 3. Aplica: actividad practica guiada
+## 3. Aplica: actividad práctica guiada
 
 Tiempo: 3h.
 
-En el laboratorio, el docente guia la puesta en marcha del stack de observabilidad y los estudiantes diagnostican el sistema usando senales reales: health, metricas, logs y dashboards.
+En el laboratorio, el docente guía la puesta en marcha del stack de observabilidad y los estudiantes diagnostican el sistema usando señales reales: health, métricas, logs y dashboards.
 
-### 3.1 Configurar exposicion de Actuator
+### 3.1 Configurar exposición de Actuator
 
 Producto del paso: servicios preparados para exponer health, metrics y prometheus.
 
@@ -127,7 +127,7 @@ Para exponer `/actuator/prometheus`, agrega:
 </dependency>
 ```
 
-En la configuracion externa del servicio, agrega:
+En la configuración externa del servicio, agrega:
 
 ```yaml
 management:
@@ -163,7 +163,7 @@ Loki DEV: http://localhost:13100
 
 ### 3.4 Levantar backend DEV
 
-Producto del paso: Gateway y microservicios generando senales.
+Producto del paso: Gateway y microservicios generando señales.
 
 Levantar Config Server, Eureka, Gateway y al menos dos microservicios:
 
@@ -196,7 +196,7 @@ mvn spring-boot:run
 
 ### 3.5 Verificar endpoints Actuator
 
-Producto del paso: health y metricas consultables desde consola.
+Producto del paso: health y métricas consultables desde consola.
 
 PowerShell:
 
@@ -214,11 +214,11 @@ curl http://localhost:<puerto>/actuator/metrics
 curl http://localhost:<puerto>/actuator/prometheus
 ```
 
-### 3.6 Generar trafico por Gateway
+### 3.6 Generar tráfico por Gateway
 
-Producto del paso: logs y metricas con actividad real.
+Producto del paso: logs y métricas con actividad real.
 
-Ejecutar pruebas por Gateway para generar logs y metricas.
+Ejecutar pruebas por Gateway para generar logs y métricas.
 
 Ejemplos:
 
@@ -238,7 +238,7 @@ curl http://localhost:18080/api/v1/categorias
 
 ### 3.7 Consultar Prometheus
 
-Producto del paso: Prometheus consulta metricas expuestas por servicios.
+Producto del paso: Prometheus consulta métricas expuestas por servicios.
 
 Entrar a:
 
@@ -260,9 +260,9 @@ Producto del paso: logs consultables desde el stack de observabilidad.
 
 Consulta logs por servicio y, si existe, por correlation id.
 
-### 3.9 Crear dashboard basico en Grafana
+### 3.9 Crear dashboard básico en Grafana
 
-Producto del paso: visualizacion basica de estado del sistema.
+Producto del paso: visualización básica de estado del sistema.
 
 Entrar a:
 
@@ -277,15 +277,15 @@ Verificar datasources:
 
 ### 3.10 Diagnosticar un fallo
 
-Provocar un error controlado y ubicarlo mediante logs, health o metricas.
+Provocar un error controlado y ubicarlo mediante logs, health o métricas.
 
-Producto del paso: hallazgo documentado con causa probable y solucion.
+Producto del paso: hallazgo documentado con causa probable y solución.
 
 ### 3.11 Validar correlation id
 
 Producto del paso: una solicitud puede seguirse en logs del sistema.
 
-Enviar una peticion con header:
+Enviar una petición con header:
 
 PowerShell:
 
@@ -306,7 +306,7 @@ Luego buscar ese valor en logs.
 
 ### 3.12 Validar observabilidad en Gateway
 
-Producto del paso: Gateway tambien expone senales operacionales.
+Producto del paso: Gateway también expone señales operacionales.
 
 Verificar:
 
@@ -346,7 +346,7 @@ Luego levantar microservicios necesarios con Docker.
 
 ### 3.14 Consultar URLs PROD
 
-Producto del paso: herramientas abiertas en puertos de produccion local.
+Producto del paso: herramientas abiertas en puertos de producción local.
 
 ```text
 Gateway PROD health: http://localhost:28082/actuator/health
@@ -355,19 +355,19 @@ Loki PROD: http://localhost:23100
 Grafana PROD: http://localhost:23000
 ```
 
-### 3.15 Registrar evidencias de diagnostico
+### 3.15 Registrar evidencias de diagnóstico
 
-Producto del paso: captura o registro claro del analisis.
+Producto del paso: captura o registro claro del análisis.
 
 Evidenciar:
 
 - Health de un servicio.
-- Metrica consultada.
+- Métrica consultada.
 - Log de una solicitud.
 - Dashboard o panel.
-- Error controlado con solucion.
+- Error controlado con solución.
 
-### 3.16 Detener stack cuando termine la practica
+### 3.16 Detener stack cuando termine la práctica
 
 Producto del paso: recursos locales liberados.
 
@@ -385,24 +385,24 @@ cd obs
 docker compose down
 ```
 
-### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
 
 ```bash
 git clone --branch vs10-observabilidad https://github.com/261dist/ecom.git ecom-s10
 cd ecom-s10
 ```
 
-## 4. Crea: actividad autonoma
+## 4. Crea: actividad autónoma
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
+Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
 Entrega un PDF:
 
-El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
+El PDF de esta sesión debe generarse como impresion o exportacion de la sección correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentación del proyecto.
 
 ```text
 S10_Equipo##_ApellidoNombre.pdf
@@ -412,11 +412,11 @@ S10_Equipo##_ApellidoNombre.pdf
 
 - Nombre:
 - Equipo:
-- Sesion: S10 - Observabilidad y diagnostico de sistemas distribuidos
+- Sesión: S10 - Observabilidad y diagnóstico de sistemas distribuidos
 - Rol o aporte realizado:
 - Link de GitHub:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 4.1.2 Trabajo autónomo realizado
 
 1. Consultar health y metrics.
 2. Revisar logs de un servicio.
@@ -424,12 +424,12 @@ S10_Equipo##_ApellidoNombre.pdf
 4. Diagnosticar un error.
 5. Explicar correlation id o trazabilidad.
 
-### 4.2 Criterios minimos de aceptacion
+### 4.2 Criterios mínimos de aceptación
 
 - PDF con nombre correcto.
 - Evidencia de health/metrics.
 - Evidencia de logs o paneles.
-- Diagnostico tecnico.
+- Diagnóstico técnico.
 - Aporte individual verificable.
 
 ## 5. Cierre evaluativo
@@ -441,9 +441,9 @@ Tiempo: 20 min.
 - Stack de observabilidad operativo.
 - Servicios exponen health/metrics.
 - Logs permiten diagnosticar errores.
-- El estudiante interpreta una senal operacional.
+- El estudiante interpreta una señal operacional.
 
-### 5.2 Evidencia del producto de sesion
+### 5.2 Evidencia del producto de sesión
 
 Entrega individual:
 
@@ -451,35 +451,35 @@ Entrega individual:
 S10_Equipo##_ApellidoNombre.pdf
 ```
 
-### 5.3 Preguntas de defensa y reflexion
+### 5.3 Preguntas de defensa y reflexión
 
-1. Que diferencia hay entre logs y metricas?
-2. Para que sirve un health check?
-3. Como ayuda un correlation id?
-4. Que revisas ante un error 500?
+1. Qué diferencia hay entre logs y métricas?
+2. Para qué sirve un health check?
+3. Cómo ayuda un correlation id?
+4. Qué revisas ante un error 500?
 
-### 5.4 Rubrica de evaluacion
+### 5.4 Rúbrica de evaluación
 
-| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+| Dimensión | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuación obtenida |
 |---|---:|---|---|---|---|---:|
 | 1. Herramientas operativas | 2 | Evidencia Grafana, Prometheus y Loki operativos. | Evidencia herramientas principales. | Evidencia parcial. | No evidencia stack. | |
-| 2. Health y metricas | 2 | Consulta e interpreta health/metrics. | Consulta health/metrics. | Consulta parcial. | No evidencia. | |
+| 2. Health y métricas | 2 | Consulta e interpreta health/metrics. | Consulta health/metrics. | Consulta parcial. | No evidencia. | |
 | 3. Logs y trazabilidad | 2 | Usa logs/correlation id para diagnosticar. | Evidencia logs suficientes. | Logs poco claros. | No evidencia logs. | |
-| 4. Diagnostico | 2 | Analiza fallo con causa y solucion. | Explica problema. | Menciona problema sin analisis. | No diagnostica. | |
+| 4. Diagnóstico | 2 | Analiza fallo con causa y solución. | Explica problema. | Menciona problema sin análisis. | No diagnostica. | |
 | 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+| 6. Orden y reflexión | 1 | PDF ordenado y reflexión técnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
 
-Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+Puntuación acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
 Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 
-Para usar la rubrica con IA, solicita:
+Para usar la rúbrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
-Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
-Justifica brevemente cada puntuacion.
-Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
-Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 ```

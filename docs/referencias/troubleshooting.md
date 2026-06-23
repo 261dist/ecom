@@ -42,7 +42,7 @@ Posibles causas:
 Posibles causas:
 
 - Ruta protegida sin token.
-- Token vencido o invalido.
+- Token vencido o inválido.
 - `JWT_SECRET` o `issuer` no coinciden entre `auth-ms` y Gateway.
 
 ## Kafka no genera pagos
@@ -60,6 +60,6 @@ Verificar:
 Verificar:
 
 - `environment.ts` apunta a `http://localhost:18080`.
-- Gateway esta activo.
+- Gateway está activo.
 - CORS configurado.
-- Token enviado por interceptor si la ruta esta protegida.
+- Token enviado por interceptor si la ruta está protegida.

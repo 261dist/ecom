@@ -1,48 +1,48 @@
-# S3 - Registro, descubrimiento y ejecucion concurrente de servicios
+# S3 - Registro, descubrimiento y ejecución concurrente de servicios
 
-## 1. Introduccion
+## 1. Introducción
 
 Tiempo: 20 min.
 
-### 1.1 Proposito
+### 1.1 Propósito
 
-Incorporar registro y descubrimiento de servicios para que los microservicios puedan encontrarse por nombre logico y ejecutarse en multiples instancias.
+Incorporar registro y descubrimiento de servicios para que los microservicios puedan encontrarse por nombre lógico y ejecutarse en múltiples instancias.
 
 ### 1.2 Resultado de aprendizaje
 
-El estudiante implementa un servidor de descubrimiento, registra microservicios con puertos dinamicos y verifica multiples instancias activas.
+El estudiante implementa un servidor de descubrimiento, registra microservicios con puertos dinámicos y verifica múltiples instancias activas.
 
-### 1.3 Producto de sesion
+### 1.3 Producto de sesión
 
-Eureka Server operativo en `infra/eureka`, con `catalogo-ms` y `producto-ms` registrados desde configuracion centralizada.
+Eureka Server operativo en `infra/eureka`, con `catalogo-ms` y `producto-ms` registrados desde configuración centralizada.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Motivacion de la sesión
 
-Cuando un sistema crece, los servicios ya no deben depender de puertos fijos. Un microservicio puede tener varias instancias, reiniciarse o cambiar de ubicacion. El reto es que los demas componentes lo encuentren sin conocer su host y puerto exactos.
+Cuando un sistema crece, los servicios ya no deben depender de puertos fijos. Un microservicio puede tener varias instancias, reiniciarse o cambiar de ubicación. El reto es que los demas componentes lo encuentren sin conocer su host y puerto exactos.
 
 Preguntas para los estudiantes:
 
-1. Que problema aparece cuando cada servicio tiene un puerto fijo?
-2. Como se ubica un servicio si existen varias instancias?
-3. Que evidencia demuestra que un servicio esta registrado dinamicamente?
+1. Qué problema aparece cuando cada servicio tiene un puerto fijo?
+2. Cómo se ubica un servicio si existen varias instancias?
+3. Qué evidencia demuestra que un servicio está registrado dinámicamente?
 
-### 1.5 Ubicacion en el curso
+### 1.5 Ubicación en el curso
 
-- Unidad: U1 - Sistema distribuido base orientado a produccion.
-- Producto de unidad: sistema distribuido base funcional, configurable y preparado para multiples instancias.
-- Avance del producto en esta sesion: registro dinamico de servicios y ejecucion concurrente.
+- Unidad: U1 - Sistema distribuido base orientado a producción.
+- Producto de unidad: sistema distribuido base funcional, configurable y preparado para múltiples instancias.
+- Avance del producto en esta sesión: registro dinamico de servicios y ejecución concurrente.
 
 Roadmap para elaborar el producto de la unidad:
 
 ```mermaid
 flowchart TB
     Cliente["Cliente de prueba<br/>PowerShell / bash / Swagger"]
-    Gateway["Gateway<br/>punto unico de acceso<br/>balanceo de carga"]
+    Gateway["Gateway<br/>punto único de acceso<br/>balanceo de carga"]
     Catalogo["catalogo-ms<br/>construido<br/>REST + BD + health"]
     Producto["producto-ms<br/>trabajo aplicado"]
     Eureka["Registro de servicios<br/>Eureka<br/>HOY"]
-    Config["Servidor de configuracion<br/>Config Server<br/>construido"]
-    Repo["Repositorio de configuracion<br/>catalogo-ms.yml<br/>producto-ms.yml"]
+    Config["Servidor de configuración<br/>Config Server<br/>construido"]
+    Repo["Repositorio de configuración<br/>catalogo-ms.yml<br/>producto-ms.yml"]
 
     Cliente --> Gateway
     Gateway --> Catalogo
@@ -68,9 +68,9 @@ Tiempo: 15 min.
 ### 2.1 Conceptos clave
 
 - **Registro de servicios**: componente donde los microservicios anuncian su existencia.
-- **Descubrimiento de servicios**: capacidad de encontrar instancias por nombre logico.
-- **Puerto dinamico**: puerto asignado automaticamente para permitir multiples instancias.
-- **Heartbeat**: senal periodica que indica que una instancia sigue viva.
+- **Descubrimiento de servicios**: capacidad de encontrar instancias por nombre lógico.
+- **Puerto dinamico**: puerto asignado automáticamente para permitir múltiples instancias.
+- **Heartbeat**: señal periódica que indica que una instancia sigue viva.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
@@ -105,7 +105,7 @@ Eureka Server: http://localhost:18761
 Microservicios: puerto dinamico
 ```
 
-Los microservicios cargan configuracion desde Config Server y luego se registran en Eureka. Como usan puerto dinamico, se pueden levantar varias instancias del mismo servicio en terminales distintas.
+Los microservicios cargan configuración desde Config Server y luego se registran en Eureka. Como usan puerto dinamico, se pueden levantar varias instancias del mismo servicio en terminales distintas.
 
 #### 2.2.2 Registro y descubrimiento en PROD local
 
@@ -157,7 +157,7 @@ La regla de arranque se mantiene:
 |---|---|---|
 | DEV | Config Server | `http://localhost:18888` |
 | DEV | Eureka Server | `http://localhost:18761` |
-| DEV | Config de catalogo | `http://localhost:18888/catalogo-ms/dev` |
+| DEV | Config de catálogo | `http://localhost:18888/catalogo-ms/dev` |
 | DEV | `catalogo-ms` | `http://localhost:<puerto-dinamico>` |
 | PROD local | Config Server desde host | `http://localhost:28888` |
 | PROD local | Eureka desde host | `http://localhost:28761` |
@@ -165,37 +165,37 @@ La regla de arranque se mantiene:
 | PROD local | Eureka desde contenedores | `http://eureka:8761/eureka` |
 | PROD local | `catalogo-ms` dentro de Docker | `http://catalogo-ms:8080` |
 
-### 2.3 Observabilidad y diagnostico
+### 2.3 Observabilidad y diagnóstico
 
-Senales a revisar:
+Señales a revisar:
 
 - Health de Config Server.
 - Health y dashboard de Eureka.
 - Logs de registro de clientes.
 - Instancias con nombres `*-ms`.
-- Puertos dinamicos distintos para un mismo servicio.
+- Puertos dinámicos distintos para un mismo servicio.
 
 Errores frecuentes:
 
-| Problema | Causa probable | Solucion |
+| Problema | Causa probable | Solución |
 |---|---|---|
 | Servicio no aparece en Eureka | Eureka apagado o URL incorrecta | Revisar Config Server y `eureka.client.service-url` |
 | Solo aparece una instancia | No se levanto una segunda terminal | Ejecutar otra instancia con Maven |
 | Nombre incorrecto | `spring.application.name` mal definido | Revisar archivo `*-ms-dev.yml` |
 
-## 3. Aplica: actividad practica guiada
+## 3. Aplica: actividad práctica guiada
 
 Tiempo: 3h.
 
-En el laboratorio, el docente guia la incorporacion de Eureka y el registro de microservicios. Los estudiantes verifican multiples instancias desde consola y dashboard.
+En el laboratorio, el docente guía la incorporacion de Eureka y el registro de microservicios. Los estudiantes verifican múltiples instancias desde consola y dashboard.
 
-La ruta principal de la sesion es construir desde cero. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17 para clonar el tag final y ejecutar las pruebas.
+La ruta principal de la sesión es construir desde cero. Si el estudiante necesita avanzar más rápido, puede usar la ruta alternativa del paso 3.17 para clonar el tag final y ejecutar las pruebas.
 
 - Crear el proyecto `ecom-eureka`.
 - Habilitar Eureka Server.
-- Externalizar configuracion con Config Server.
+- Externalizar configuración con Config Server.
 - Conectar microservicios como clientes Eureka.
-- Levantar multiples instancias en DEV.
+- Levantar múltiples instancias en DEV.
 - Probar registro en PROD local.
 
 ### 3.1 Crear la base de infraestructura para Eureka
@@ -214,7 +214,7 @@ Si partes desde cero, crea la carpeta dentro de `infra` y genera el proyecto Spr
 
 **Producto del paso:** proyecto Spring Boot `ecom-eureka` creado dentro de `infra/eureka`.
 
-Configuracion sugerida en Spring Initializr:
+Configuración sugerida en Spring Initializr:
 
 | Campo | Valor |
 |---|---|
@@ -226,16 +226,16 @@ Configuracion sugerida en Spring Initializr:
 | Artifact Id | `ecom-eureka` |
 | Package name | `com.upeu.eureka` |
 | Packaging | Jar |
-| Ubicacion | `infra/eureka` |
+| Ubicación | `infra/eureka` |
 
 Dependencias:
 
-| Grupo | Dependencias | Proposito |
+| Grupo | Dependencias | Propósito |
 |---|---|---|
 | Spring Cloud | Eureka Server | Registro y descubrimiento de servicios |
-| Spring Cloud | Config Client | Leer configuracion desde Config Server |
-| Operacion | Spring Boot Actuator | Health y diagnostico |
-| Productividad | Spring Boot DevTools | Facilitar ejecucion en desarrollo |
+| Spring Cloud | Config Client | Leer configuración desde Config Server |
+| Operación | Spring Boot Actuator | Health y diagnóstico |
+| Productividad | Spring Boot DevTools | Facilitar ejecución en desarrollo |
 
 ### 3.3 Habilitar Eureka Server
 
@@ -259,7 +259,7 @@ public class EurekaApplication {
 
 ### 3.4 Configurar `application.yml` base de Eureka
 
-**Producto del paso:** Eureka preparado para leer configuracion externa.
+**Producto del paso:** Eureka preparado para leer configuración externa.
 
 En `infra/eureka/src/main/resources/application.yml`:
 
@@ -276,7 +276,7 @@ spring:
     import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:18888}"
 ```
 
-### 3.5 Crear configuracion de Eureka en `config-repo`
+### 3.5 Crear configuración de Eureka en `config-repo`
 
 Crea el archivo DEV:
 
@@ -334,7 +334,7 @@ management:
       show-details: never
 ```
 
-### 3.6 Probar configuracion de Eureka desde Config Server
+### 3.6 Probar configuración de Eureka desde Config Server
 
 Con Config Server ejecutando:
 
@@ -386,7 +386,7 @@ Verifica con bash macOS/Linux:
 curl http://localhost:18761/actuator/health
 ```
 
-Tambien abre:
+También abre:
 
 ```text
 http://localhost:18761
@@ -405,7 +405,7 @@ En el `pom.xml` de cada microservicio agrega la dependencia:
 </dependency>
 ```
 
-Si el microservicio aun no tiene Spring Cloud, agrega tambien la version:
+Si el microservicio aún no tiene Spring Cloud, agrega también la versión:
 
 ```xml
 <properties>
@@ -440,7 +440,7 @@ spring:
 
 ### 3.9 Configurar clientes Eureka desde Config Server
 
-Producto del paso: microservicios conectados a Eureka desde configuracion externa.
+Producto del paso: microservicios conectados a Eureka desde configuración externa.
 
 En `catalogo-ms-dev.yml` y `producto-ms-dev.yml`, agrega:
 
@@ -491,7 +491,7 @@ cd services/catalogo-ms
 mvn spring-boot:run
 ```
 
-### 3.12 Verificar multiples instancias
+### 3.12 Verificar múltiples instancias
 
 Abre:
 
@@ -502,10 +502,10 @@ http://localhost:18761
 Resultado esperado:
 
 - Eureka muestra `CATALOGO-MS`.
-- Hay mas de una instancia si se levantaron dos terminales.
+- Hay más de una instancia si se levantaron dos terminales.
 - Cada instancia tiene puerto dinamico diferente.
 
-### 3.13 Repetir el patron con `producto-ms`
+### 3.13 Repetir el patrón con `producto-ms`
 
 **Producto del paso:** `producto-ms` registrado como cliente Eureka.
 
@@ -513,7 +513,7 @@ Repite:
 
 1. Agregar dependencia Eureka Client.
 2. Revisar `spring.application.name: producto-ms`.
-3. Revisar configuracion `producto-ms-dev.yml`.
+3. Revisar configuración `producto-ms-dev.yml`.
 4. Levantar el microservicio.
 5. Verificar `PRODUCTO-MS` en Eureka.
 
@@ -523,7 +523,7 @@ En PROD local, primero se levanta infraestructura y luego microservicios:
 
 ```text
 1. infra -> ecom-config + eureka
-2. services/catalogo-ms -> BD + catalogo-ms
+2. services/catalogo-ms -> BD + catálogo-ms
 3. services/producto-ms -> BD + producto-ms
 ```
 
@@ -590,16 +590,16 @@ Al terminar:
 docker compose down
 ```
 
-Si tambien quieres apagar infraestructura:
+Si también quieres apagar infraestructura:
 
 ```bash
 cd ../../infra
 docker compose down
 ```
 
-### 3.16 Validar evidencias de cierre de la practica
+### 3.16 Validar evidencias de cierre de la práctica
 
-Antes de pasar a la actividad autonoma, verifica:
+Antes de pasar a la actividad autónoma, verifica:
 
 - Config Server DEV entrega `eureka/dev`.
 - Eureka DEV responde en `localhost:18761`.
@@ -608,7 +608,7 @@ Antes de pasar a la actividad autonoma, verifica:
 - Eureka PROD responde en `localhost:28761`.
 - Un microservicio se registra en PROD local.
 
-### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
 
 PowerShell / bash macOS/Linux:
 
@@ -617,17 +617,17 @@ git clone --branch vs03-registro-descubrimiento https://github.com/261dist/ecom.
 cd ecom-s03
 ```
 
-## 4. Crea: actividad autonoma
+## 4. Crea: actividad autónoma
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
+Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
 Entrega un PDF con el siguiente nombre:
 
-El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
+El PDF de esta sesión debe generarse como impresion o exportacion de la sección correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentación del proyecto.
 
 ```text
 S03_Equipo##_ApellidoNombre.pdf
@@ -637,40 +637,40 @@ S03_Equipo##_ApellidoNombre.pdf
 
 - Nombre:
 - Equipo:
-- Sesion: S03 - Registro, descubrimiento y ejecucion concurrente de servicios
+- Sesión: S03 - Registro, descubrimiento y ejecución concurrente de servicios
 - Rol o aporte realizado:
 - Link de GitHub:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 4.1.2 Trabajo autónomo realizado
 
 1. Registrar otro microservicio en Eureka.
 2. Ejecutar al menos dos instancias de un servicio.
 3. Verificar dashboard de Eureka.
-4. Explicar nombre logico vs puerto fisico.
-5. Documentar errores encontrados y solucion.
+4. Explicar nombre lógico vs puerto fisico.
+5. Documentar errores encontrados y solución.
 
-#### 4.1.3 Evidencia tecnica
+#### 4.1.3 Evidencia técnica
 
 - Config Server activo.
 - Eureka activo.
 - Servicio registrado.
-- Multiples instancias visibles.
+- Múltiples instancias visibles.
 - Logs de registro o heartbeat.
 
 #### 4.1.4 Error o hallazgo
 
 Describe un problema de registro, nombre de servicio, URL de Eureka o puerto dinamico.
 
-#### 4.1.5 Reflexion tecnica breve
+#### 4.1.5 Reflexión técnica breve
 
-Explica por que el descubrimiento de servicios es necesario antes de usar Gateway y balanceo de carga.
+Explica por qué el descubrimiento de servicios es necesario antes de usar Gateway y balanceo de carga.
 
-### 4.2 Criterios minimos de aceptacion
+### 4.2 Criterios mínimos de aceptación
 
 - PDF con nombre correcto.
 - Evidencia de Eureka activo.
 - Evidencia de al menos un microservicio registrado.
-- Evidencia de multiples instancias o explicacion de por que no se logro.
+- Evidencia de múltiples instancias o explicación de por qué no se logro.
 - Aporte individual verificable.
 
 ## 5. Cierre evaluativo
@@ -680,13 +680,13 @@ Tiempo: 20 min.
 ### 5.1 Resultados esperados
 
 - Eureka ejecuta en DEV.
-- Microservicios se registran con nombre logico.
-- Se evidencia mas de una instancia.
+- Microservicios se registran con nombre lógico.
+- Se evidencia más de una instancia.
 - El estudiante explica registro, descubrimiento y puerto dinamico.
 
-### 5.2 Evidencia del producto de sesion
+### 5.2 Evidencia del producto de sesión
 
-Cada estudiante entrega un PDF individual siguiendo la plantilla de la seccion 4.1.
+Cada estudiante entrega un PDF individual siguiendo la plantilla de la sección 4.1.
 
 Nombre del archivo:
 
@@ -694,38 +694,38 @@ Nombre del archivo:
 S03_Equipo##_ApellidoNombre.pdf
 ```
 
-La revision se realiza con los criterios minimos de aceptacion y la rubrica de la seccion 5.4.
+La revisión se realiza con los criterios mínimos de aceptación y la rúbrica de la sección 5.4.
 
-### 5.3 Preguntas de defensa y reflexion
+### 5.3 Preguntas de defensa y reflexión
 
-1. Por que un microservicio usa puerto dinamico?
-2. Que ventaja tiene registrar por nombre logico?
-3. Como demuestras que hay dos instancias?
-4. Que pasa si Eureka no esta disponible al arrancar?
-5. Que diferencia hay entre Config Server y Eureka?
+1. Por qué un microservicio usa puerto dinamico?
+2. Qué ventaja tiene registrar por nombre lógico?
+3. Cómo demuestras que hay dos instancias?
+4. Qué pasa si Eureka no está disponible al arrancar?
+5. Qué diferencia hay entre Config Server y Eureka?
 
-### 5.4 Rubrica de evaluacion
+### 5.4 Rúbrica de evaluación
 
-| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+| Dimensión | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuación obtenida |
 |---|---:|---|---|---|---|---:|
 | 1. Eureka operativo | 2 | Evidencia Eureka activo en DEV/PROD local y dashboard funcional. | Evidencia Eureka activo en DEV. | Evidencia parcial o sin health/dashboard claro. | No evidencia Eureka funcionando. | |
 | 2. Registro de servicios | 2 | Registra varios microservicios con nombres correctos. | Registra al menos un microservicio correctamente. | Registro parcial o con nombres confusos. | No evidencia registro. | |
-| 3. Multiples instancias | 2 | Evidencia dos o mas instancias con puertos dinamicos. | Evidencia multiples instancias parcialmente. | Explica escalado pero no lo evidencia claramente. | No evidencia ni explica multiples instancias. | |
-| 4. Diagnostico tecnico | 2 | Analiza errores de registro, URL o nombre logico con solucion. | Explica un error y su causa probable. | Menciona un problema sin analisis. | No presenta diagnostico. | |
+| 3. Múltiples instancias | 2 | Evidencia dos o más instancias con puertos dinámicos. | Evidencia múltiples instancias parcialmente. | Explica escalado pero no lo evidencia claramente. | No evidencia ni explica múltiples instancias. | |
+| 4. Diagnóstico técnico | 2 | Analiza errores de registro, URL o nombre lógico con solución. | Explica un error y su causa probable. | Menciona un problema sin análisis. | No presenta diagnóstico. | |
 | 5. Aporte individual | 1 | Aporte claro, verificable y conectado al producto. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Orden y reflexion | 1 | PDF ordenado, evidencias legibles y reflexion tecnica clara. | Evidencias entendibles y reflexion suficiente. | Evidencias poco claras o reflexion superficial. | PDF desordenado o sin reflexion. | |
+| 6. Orden y reflexión | 1 | PDF ordenado, evidencias legibles y reflexión técnica clara. | Evidencias entendibles y reflexión suficiente. | Evidencias poco claras o reflexión superficial. | PDF desordenado o sin reflexión. | |
 
-Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+Puntuación acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
 Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 
-Para usar la rubrica con IA, solicita:
+Para usar la rúbrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
-Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
-Justifica brevemente cada puntuacion.
-Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
-Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 ```

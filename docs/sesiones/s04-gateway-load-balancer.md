@@ -1,47 +1,47 @@
-# S4 - Punto unico de acceso y distribucion de trafico
+# S4 - Punto único de acceso y distribución de tráfico
 
-## 1. Introduccion
+## 1. Introducción
 
 Tiempo: 20 min.
 
-### 1.1 Proposito
+### 1.1 Propósito
 
-Incorporar un punto unico de acceso para que los clientes consuman el sistema mediante Gateway y para distribuir trafico entre instancias disponibles.
+Incorporar un punto único de acceso para que los clientes consuman el sistema mediante Gateway y para distribuir tráfico entre instancias disponibles.
 
 ### 1.2 Resultado de aprendizaje
 
 El estudiante configura rutas en Gateway, consume microservicios mediante un acceso centralizado y evidencia balanceo de carga.
 
-### 1.3 Producto de sesion
+### 1.3 Producto de sesión
 
-Gateway operativo en `infra/gateway`, con rutas hacia microservicios registrados en Eureka y pruebas de distribucion de trafico.
+Gateway operativo en `infra/gateway`, con rutas hacia microservicios registrados en Eureka y pruebas de distribución de tráfico.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Motivacion de la sesión
 
-Si un cliente conoce directamente todos los microservicios, queda acoplado a sus puertos, rutas y ubicaciones. Un Gateway permite centralizar el acceso y esconder la topologia interna del sistema.
+Si un cliente conoce directamente todos los microservicios, queda acoplado a sus puertos, rutas y ubicaciones. Un Gateway permite centralizar el acceso y esconder la topología interna del sistema.
 
 Preguntas para los estudiantes:
 
-1. Por que el cliente no deberia conocer todos los microservicios?
-2. Que problema aparece si cada cliente llama directamente a cada microservicio?
-3. Como se demuestra que existe balanceo de carga?
+1. Por qué el cliente no debería conocer todos los microservicios?
+2. Qué problema aparece si cada cliente llama directamente a cada microservicio?
+3. Cómo se demuestra que existe balanceo de carga?
 
-### 1.5 Ubicacion en el curso
+### 1.5 Ubicación en el curso
 
-- Unidad: U1 - Sistema distribuido base orientado a produccion.
-- Producto de unidad: sistema distribuido base funcional, configurable y preparado para multiples instancias.
-- Avance del producto en esta sesion: acceso centralizado con rutas y balanceo de carga.
+- Unidad: U1 - Sistema distribuido base orientado a producción.
+- Producto de unidad: sistema distribuido base funcional, configurable y preparado para múltiples instancias.
+- Avance del producto en esta sesión: acceso centralizado con rutas y balanceo de carga.
 
 Roadmap para elaborar el producto de la unidad:
 
 ```mermaid
 flowchart TB
     Cliente["Cliente de prueba<br/>PowerShell / bash / Swagger"]
-    Gateway["Gateway<br/>punto unico de acceso<br/>balanceo de carga<br/>HOY"]
+    Gateway["Gateway<br/>punto único de acceso<br/>balanceo de carga<br/>HOY"]
     Catalogo["catalogo-ms<br/>construido"]
     Producto["producto-ms<br/>trabajo aplicado"]
     Eureka["Registro de servicios<br/>Eureka<br/>construido"]
-    Config["Servidor de configuracion<br/>Config Server<br/>construido"]
+    Config["Servidor de configuración<br/>Config Server<br/>construido"]
 
     Cliente --> Gateway
     Gateway --> Catalogo
@@ -65,10 +65,10 @@ Tiempo: 15 min.
 
 ### 2.1 Conceptos clave
 
-- **Gateway**: punto unico de entrada al sistema.
-- **Ruta**: regla que dirige una peticion hacia un servicio.
+- **Gateway**: punto único de entrada al sistema.
+- **Ruta**: regla que dirige una petición hacia un servicio.
 - **Load Balancer**: selecciona una instancia disponible del servicio.
-- **`lb://`**: esquema usado para resolver servicios registrados por nombre logico.
+- **`lb://`**: esquema usado para resolver servicios registrados por nombre lógico.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
@@ -107,7 +107,7 @@ flowchart TB
     end
 
     Cliente -->|"GET localhost:28082/actuator/health"| Gateway
-    Cliente -->|"GET localhost:28082/api/v1/categorias"| Gateway
+    Cliente -->|"GET localhost:28082/api/v1/categorías"| Gateway
     Gateway -. "spring.config.import<br/>http://ecom-config:8888" .-> Config
     Gateway -. "descubre servicios<br/>http://eureka:8761/eureka" .-> Eureka
     Catalogo1 -. "registra instancia<br/>http://eureka:8761/eureka" .-> Eureka
@@ -129,9 +129,9 @@ flowchart TB
 | PROD local | Gateway interno | `http://ecom-gateway:8080` |
 | PROD local | Eureka interno | `http://eureka:8761/eureka` |
 
-### 2.3 Observabilidad y diagnostico
+### 2.3 Observabilidad y diagnóstico
 
-Senales a revisar:
+Señales a revisar:
 
 - Health de Gateway.
 - Eureka con servicios registrados.
@@ -140,23 +140,23 @@ Senales a revisar:
 
 Errores frecuentes:
 
-| Problema | Causa probable | Solucion |
+| Problema | Causa probable | Solución |
 |---|---|---|
 | 503 | Servicio no registrado o Eureka no disponible | Revisar Eureka y registros |
 | 404 | Ruta mal configurada | Revisar predicates y paths |
 | No balancea | Solo existe una instancia | Levantar otra instancia |
 
-## 3. Aplica: actividad practica guiada
+## 3. Aplica: actividad práctica guiada
 
 Tiempo: 3h.
 
-En el laboratorio, el docente guia la configuracion de Gateway y la prueba de rutas hacia microservicios registrados.
+En el laboratorio, el docente guía la configuración de Gateway y la prueba de rutas hacia microservicios registrados.
 
-La ruta principal de la sesion es construir desde cero. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17 para clonar el tag final y ejecutar las pruebas.
+La ruta principal de la sesión es construir desde cero. Si el estudiante necesita avanzar más rápido, puede usar la ruta alternativa del paso 3.17 para clonar el tag final y ejecutar las pruebas.
 
 ### 3.1 Crear carpeta del Gateway
 
-**Producto del paso:** ubicacion del proyecto Gateway preparada dentro del monorepo.
+**Producto del paso:** ubicación del proyecto Gateway preparada dentro del monorepo.
 
 En el monorepo `ecom`, Gateway vive en:
 
@@ -192,26 +192,26 @@ Group Id: com.upeu
 Artifact Id: ecom-gateway
 Package name: com.upeu.gateway
 Packaging: Jar
-Ubicacion: infra/gateway
+Ubicación: infra/gateway
 ```
 
 Dependencias para S04:
 
-| Grupo | Dependencias | Proposito |
+| Grupo | Dependencias | Propósito |
 |---|---|---|
-| Spring Cloud | Gateway | Punto unico de acceso |
+| Spring Cloud | Gateway | Punto único de acceso |
 | Spring Cloud | Eureka Discovery Client | Resolver servicios registrados |
 | Spring Cloud | Config Client | Leer rutas desde Config Server |
-| Operacion | Actuator | Health y diagnostico |
+| Operación | Actuator | Health y diagnóstico |
 | Desarrollo | DevTools | Recarga durante desarrollo |
 
-En S07 se agregara seguridad al Gateway. En esta sesion todavia se trabaja el acceso unico y el balanceo.
+En S07 se agregará seguridad al Gateway. En esta sesión todavía se trabaja el acceso único y el balanceo.
 
 ### 3.3 Ajustar `pom.xml`
 
 **Producto del paso:** Gateway con Spring Cloud y dependencias necesarias para DEV.
 
-En `infra/gateway/pom.xml`, confirma o agrega la version de Spring Cloud:
+En `infra/gateway/pom.xml`, confirma o agrega la versión de Spring Cloud:
 
 ```xml
 <properties>
@@ -309,7 +309,7 @@ logging:
 
 ### 3.5 Crear rutas desde Config Server
 
-Producto del paso: archivos de configuracion externa del Gateway creados en `config-repo`.
+Producto del paso: archivos de configuración externa del Gateway creados en `config-repo`.
 
 Crea el archivo DEV:
 
@@ -413,11 +413,11 @@ management:
       show-details: never
 ```
 
-Las rutas apuntan a nombres logicos registrados en Eureka. Por eso el Gateway no necesita conocer el puerto dinamico de cada instancia.
+Las rutas apuntan a nombres lógicos registrados en Eureka. Por eso el Gateway no necesita conocer el puerto dinamico de cada instancia.
 
 ### 3.6 Levantar Config Server en DEV
 
-Producto del paso: configuracion externa disponible por HTTP.
+Producto del paso: configuración externa disponible por HTTP.
 
 PowerShell / bash macOS/Linux:
 
@@ -426,7 +426,7 @@ cd infra/config
 mvn spring-boot:run
 ```
 
-### 3.7 Probar configuracion de Gateway desde Config Server
+### 3.7 Probar configuración de Gateway desde Config Server
 
 Producto del paso: confirmar que `gateway-dev.yml` y `gateway-prod.yml` son leidos por Config Server.
 
@@ -497,7 +497,7 @@ Resultado esperado: estado `UP`.
 
 ### 3.11 Levantar microservicio y segunda instancia
 
-Producto del paso: `catalogo-ms` registrado con mas de una instancia.
+Producto del paso: `catalogo-ms` registrado con más de una instancia.
 
 PowerShell / bash macOS/Linux:
 
@@ -547,15 +547,15 @@ curl http://localhost:18080/api/v1/categorias
 
 ### 3.14 Evidenciar balanceo
 
-Producto del paso: se observa distribucion de trafico entre instancias disponibles.
+Producto del paso: se observa distribución de tráfico entre instancias disponibles.
 
-El endpoint de instancia debe existir en `catalogo-ms`. Si todavia no lo tienes, crea este controlador:
+El endpoint de instancia debe existir en `catalogo-ms`. Si todavía no lo tienes, crea este controlador:
 
 ```text
-services/catalogo-ms/src/main/java/com/upeu/catalogo/controller/GatewayInstanciasController.java
+services/catalogo-ms/src/main/java/com/upeu/catálogo/controller/GatewayInstanciasController.java
 ```
 
-Pega este codigo:
+Pega este código:
 
 ```java
 package com.upeu.catalogo.controller;
@@ -631,11 +631,11 @@ Deten una instancia o cambia temporalmente una ruta para observar:
 - `503` cuando no hay servicio disponible.
 - `404` cuando la ruta no coincide.
 
-Luego restaura la configuracion.
+Luego restaura la configuración.
 
 ### 3.16 Preparar, levantar y probar PROD local
 
-En este paso se cierra la sesion mostrando que el Gateway tambien funciona en produccion local con Docker. Primero se prepara soporte Docker, luego se levanta infraestructura y finalmente se prueba el acceso por Gateway.
+En este paso se cierra la sesión mostrando que el Gateway también funciona en producción local con Docker. Primero se prepara soporte Docker, luego se levanta infraestructura y finalmente se prueba el acceso por Gateway.
 
 #### 3.16.1 Crear soporte Docker para Gateway
 
@@ -700,7 +700,7 @@ infra -> ecom-config + eureka + ecom-gateway
 Luego se levantan microservicios:
 
 ```text
-services/catalogo-ms -> BD + catalogo-ms
+services/catalogo-ms -> BD + catálogo-ms
 ```
 
 PowerShell / bash macOS/Linux:
@@ -754,18 +754,18 @@ Resultado esperado:
 - Microservicios no exponen puerto host fijo.
 - El acceso funcional pasa por Gateway.
 
-#### 3.16.4 Validar evidencias de cierre de la practica
+#### 3.16.4 Validar evidencias de cierre de la práctica
 
-Antes de pasar a la actividad autonoma, verifica:
+Antes de pasar a la actividad autónoma, verifica:
 
 - Gateway DEV health.
 - Ruta DEV por Gateway.
-- Eureka con multiples instancias.
+- Eureka con múltiples instancias.
 - Gateway PROD health.
 - Ruta PROD por Gateway.
-- Diagnostico de 404 o 503 explicado.
+- Diagnóstico de 404 o 503 explicado.
 
-### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
 
 PowerShell / bash macOS/Linux:
 
@@ -774,17 +774,17 @@ git clone --branch vs04-gateway-load-balancer https://github.com/261dist/ecom.gi
 cd ecom-s04
 ```
 
-## 4. Crea: actividad autonoma
+## 4. Crea: actividad autónoma
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
+Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
 Entrega un PDF con el siguiente nombre:
 
-El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
+El PDF de esta sesión debe generarse como impresion o exportacion de la sección correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentación del proyecto.
 
 ```text
 S04_Equipo##_ApellidoNombre.pdf
@@ -794,19 +794,19 @@ S04_Equipo##_ApellidoNombre.pdf
 
 - Nombre:
 - Equipo:
-- Sesion: S04 - Punto unico de acceso y distribucion de trafico
+- Sesión: S04 - Punto único de acceso y distribución de tráfico
 - Rol o aporte realizado:
 - Link de GitHub:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 4.1.2 Trabajo autónomo realizado
 
 1. Agregar o revisar una ruta en Gateway.
 2. Probar un endpoint mediante Gateway.
-3. Levantar multiples instancias de un microservicio.
-4. Evidenciar balanceo o explicar el diagnostico.
-5. Documentar un error frecuente y su solucion.
+3. Levantar múltiples instancias de un microservicio.
+4. Evidenciar balanceo o explicar el diagnóstico.
+5. Documentar un error frecuente y su solución.
 
-#### 4.1.3 Evidencia tecnica
+#### 4.1.3 Evidencia técnica
 
 - Gateway activo.
 - Ruta probada por Gateway.
@@ -818,11 +818,11 @@ S04_Equipo##_ApellidoNombre.pdf
 
 Describe un 404, 503, error de ruta, servicio no registrado o problema de balanceo.
 
-#### 4.1.5 Reflexion tecnica breve
+#### 4.1.5 Reflexión técnica breve
 
-Explica por que Gateway permite ocultar la topologia interna del sistema.
+Explica por qué Gateway permite ocultar la topología interna del sistema.
 
-### 4.2 Criterios minimos de aceptacion
+### 4.2 Criterios mínimos de aceptación
 
 - PDF con nombre correcto.
 - Evidencia de Gateway activo.
@@ -837,13 +837,13 @@ Tiempo: 20 min.
 ### 5.1 Resultados esperados
 
 - Gateway ejecuta en DEV.
-- Rutas consumen microservicios por nombre logico.
-- Se evidencia distribucion de trafico.
+- Rutas consumen microservicios por nombre lógico.
+- Se evidencia distribución de tráfico.
 - El estudiante diagnostica errores 404 y 503.
 
-### 5.2 Evidencia del producto de sesion
+### 5.2 Evidencia del producto de sesión
 
-Cada estudiante entrega un PDF individual siguiendo la plantilla de la seccion 4.1.
+Cada estudiante entrega un PDF individual siguiendo la plantilla de la sección 4.1.
 
 Nombre del archivo:
 
@@ -851,36 +851,36 @@ Nombre del archivo:
 S04_Equipo##_ApellidoNombre.pdf
 ```
 
-### 5.3 Preguntas de defensa y reflexion
+### 5.3 Preguntas de defensa y reflexión
 
-1. Por que el cliente debe entrar por Gateway?
-2. Que significa `lb://`?
-3. Como se relacionan Gateway y Eureka?
-4. Como diagnosticas un 503?
-5. Como evidencias balanceo?
+1. Por qué el cliente debe entrar por Gateway?
+2. Qué significa `lb://`?
+3. Cómo se relacionan Gateway y Eureka?
+4. Cómo diagnosticas un 503?
+5. Cómo evidencias balanceo?
 
-### 5.4 Rubrica de evaluacion
+### 5.4 Rúbrica de evaluación
 
-| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+| Dimensión | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuación obtenida |
 |---|---:|---|---|---|---|---:|
 | 1. Gateway operativo | 2 | Evidencia Gateway activo, health y rutas funcionales. | Evidencia Gateway activo y una ruta funcional. | Evidencia parcial o sin prueba clara. | No evidencia Gateway funcionando. | |
-| 2. Rutas centralizadas | 2 | Configura y explica rutas por nombre logico. | Evidencia rutas funcionales. | Rutas incompletas o confusas. | No evidencia rutas. | |
-| 3. Balanceo de carga | 2 | Evidencia distribucion entre multiples instancias. | Evidencia multiples instancias y prueba parcial. | Explica balanceo sin evidencia suficiente. | No evidencia balanceo. | |
-| 4. Diagnostico tecnico | 2 | Analiza errores de Gateway/Eureka con solucion. | Explica error y causa probable. | Menciona error sin analisis. | No presenta diagnostico. | |
+| 2. Rutas centralizadas | 2 | Configura y explica rutas por nombre lógico. | Evidencia rutas funcionales. | Rutas incompletas o confusas. | No evidencia rutas. | |
+| 3. Balanceo de carga | 2 | Evidencia distribución entre múltiples instancias. | Evidencia múltiples instancias y prueba parcial. | Explica balanceo sin evidencia suficiente. | No evidencia balanceo. | |
+| 4. Diagnóstico técnico | 2 | Analiza errores de Gateway/Eureka con solución. | Explica error y causa probable. | Menciona error sin análisis. | No presenta diagnóstico. | |
 | 5. Aporte individual | 1 | Aporte claro, verificable y conectado al producto. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Orden y reflexion | 1 | PDF ordenado, evidencias legibles y reflexion tecnica clara. | Evidencias entendibles y reflexion suficiente. | Evidencias poco claras o reflexion superficial. | PDF desordenado o sin reflexion. | |
+| 6. Orden y reflexión | 1 | PDF ordenado, evidencias legibles y reflexión técnica clara. | Evidencias entendibles y reflexión suficiente. | Evidencias poco claras o reflexión superficial. | PDF desordenado o sin reflexión. | |
 
-Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+Puntuación acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
 Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 
-Para usar la rubrica con IA, solicita:
+Para usar la rúbrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
-Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
-Justifica brevemente cada puntuacion.
-Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
-Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 ```

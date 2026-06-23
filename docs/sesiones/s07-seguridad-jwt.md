@@ -1,30 +1,30 @@
 # S7 - Seguridad distribuida y control de acceso
 
-## 1. Introduccion
+## 1. Introducción
 
 Tiempo: 20 min.
 
-### 1.1 Proposito
+### 1.1 Propósito
 
-Proteger el sistema distribuido mediante autenticacion, autorizacion y validacion de acceso en rutas expuestas por Gateway y microservicios.
+Proteger el sistema distribuido mediante autenticación, autorización y validación de acceso en rutas expuestas por Gateway y microservicios.
 
 ### 1.2 Resultado de aprendizaje
 
 El estudiante implementa un flujo de acceso seguro, obtiene un token, consume rutas protegidas y evidencia respuestas 401/403 cuando corresponde.
 
-### 1.3 Producto de sesion
+### 1.3 Producto de sesión
 
 Sistema con `auth-ms` operativo, token de acceso emitido y rutas protegidas en Gateway y microservicios.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Motivacion de la sesión
 
 Un sistema distribuido no debe confiar en cualquier solicitud. La identidad del usuario y sus permisos deben viajar de forma verificable entre cliente, Gateway y servicios internos.
 
-### 1.5 Ubicacion en el curso
+### 1.5 Ubicación en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
 - Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
-- Avance del producto en esta sesion: autenticacion, autorizacion y proteccion de rutas.
+- Avance del producto en esta sesión: autenticación, autorización y protección de rutas.
 
 ## 2. Explica
 
@@ -32,12 +32,12 @@ Tiempo: 15 min.
 
 ### 2.1 Conceptos clave
 
-- Autenticacion.
-- Autorizacion.
+- Autenticación.
+- Autorización.
 - Token de acceso.
 - Claims.
 - Rutas publicas y protegidas.
-- Validacion en Gateway y microservicios.
+- Validación en Gateway y microservicios.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
@@ -79,15 +79,15 @@ flowchart LR
     Gateway --> Producto
 ```
 
-### 2.3 Observabilidad y diagnostico
+### 2.3 Observabilidad y diagnóstico
 
-Revisar health de `auth-ms`, logs de autenticacion, respuesta 401 sin token, respuesta 403 sin permisos y consumo correcto con token.
+Revisar health de `auth-ms`, logs de autenticación, respuesta 401 sin token, respuesta 403 sin permisos y consumo correcto con token.
 
-## 3. Aplica: actividad practica guiada
+## 3. Aplica: actividad práctica guiada
 
 Tiempo: 3h.
 
-La ruta principal de la sesion es construir desde cero el flujo de seguridad. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17.
+La ruta principal de la sesión es construir desde cero el flujo de seguridad. Si el estudiante necesita avanzar más rápido, puede usar la ruta alternativa del paso 3.17.
 
 ### 3.1 Crear `auth-ms`
 
@@ -103,18 +103,18 @@ Group Id: com.upeu
 Artifact Id: ecom-auth-ms
 Package name: com.upeu.auth
 Packaging: Jar
-Ubicacion: services/auth-ms
+Ubicación: services/auth-ms
 ```
 
 Dependencias base:
 
-| Grupo | Dependencias | Proposito |
+| Grupo | Dependencias | Propósito |
 |---|---|---|
-| Web | Spring Web, Validation | Endpoint de login y validacion |
-| Seguridad | Spring Security | Autenticacion |
+| Web | Spring Web, Validation | Endpoint de login y validación |
+| Seguridad | Spring Security | Autenticación |
 | Datos | Spring Data JPA, PostgreSQL, Flyway | Usuarios, roles y migraciones |
-| Infra | Config Client, Eureka Discovery Client, Actuator | Configuracion, registro y health |
-| Productividad | Lombok, DevTools | Codigo y desarrollo |
+| Infra | Config Client, Eureka Discovery Client, Actuator | Configuración, registro y health |
+| Productividad | Lombok, DevTools | Código y desarrollo |
 
 Agrega dependencias JWT en `services/auth-ms/pom.xml`:
 
@@ -140,7 +140,7 @@ Agrega dependencias JWT en `services/auth-ms/pom.xml`:
 
 ### 3.2 Configurar credenciales y secreto de token
 
-Producto del paso: `auth-ms` recibe configuracion externa para BD y JWT.
+Producto del paso: `auth-ms` recibe configuración externa para BD y JWT.
 
 Crea `infra/config/config-repo/auth-ms-dev.yml`:
 
@@ -208,7 +208,7 @@ jwt:
 
 ### 3.3 Configurar rutas publicas y protegidas
 
-Producto del paso: login publico y resto del servicio protegido.
+Producto del paso: login público y resto del servicio protegido.
 
 Crea `JwtProperties`:
 
@@ -229,7 +229,7 @@ public class JwtProperties {
 }
 ```
 
-Crea la configuracion de seguridad:
+Crea la configuración de seguridad:
 
 ```java
 @Bean
@@ -254,7 +254,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 }
 ```
 
-### 3.4 Integrar validacion en Gateway
+### 3.4 Integrar validación en Gateway
 
 Producto del paso: Gateway valida JWT antes de enrutar a rutas protegidas.
 
@@ -287,7 +287,7 @@ jwt:
   issuer: auth
 ```
 
-### 3.5 Integrar validacion en microservicios
+### 3.5 Integrar validación en microservicios
 
 Producto del paso: microservicios preparados para rechazar accesos no autorizados cuando corresponda.
 
@@ -304,7 +304,7 @@ Agrega a los microservicios protegidos:
 </dependency>
 ```
 
-La regla minima: health publico, API protegida.
+La regla mínima: health público, API protegida.
 
 ### 3.6 Levantar infraestructura en DEV
 
@@ -409,7 +409,7 @@ curl -i http://localhost:18080/api/v1/productos
 
 Resultado esperado: respuesta `401`.
 
-### 3.11 Probar token invalido o expirado
+### 3.11 Probar token inválido o expirado
 
 Enviar un token incorrecto y verificar respuesta controlada.
 
@@ -456,7 +456,7 @@ curl -s -X POST http://localhost:28082/auth/login \
 
 Consumir ruta protegida con `Bearer token` usando `localhost:28082`.
 
-### 3.16 Validar evidencias de cierre de la practica
+### 3.16 Validar evidencias de cierre de la práctica
 
 Verifica:
 
@@ -466,24 +466,24 @@ Verifica:
 - Ruta protegida falla sin token.
 - DEV y PROD local usan Gateway como punto de entrada.
 
-### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
 
 ```bash
 git clone --branch vs07-seguridad-distribuida https://github.com/261dist/ecom.git ecom-s07
 cd ecom-s07
 ```
 
-## 4. Crea: actividad autonoma
+## 4. Crea: actividad autónoma
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
+Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
 Entrega un PDF:
 
-El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
+El PDF de esta sesión debe generarse como impresion o exportacion de la sección correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentación del proyecto.
 
 ```text
 S07_Equipo##_ApellidoNombre.pdf
@@ -493,11 +493,11 @@ S07_Equipo##_ApellidoNombre.pdf
 
 - Nombre:
 - Equipo:
-- Sesion: S07 - Seguridad distribuida y control de acceso
+- Sesión: S07 - Seguridad distribuida y control de acceso
 - Rol o aporte realizado:
 - Link de GitHub:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 4.1.2 Trabajo autónomo realizado
 
 1. Obtener token.
 2. Consumir ruta protegida.
@@ -505,7 +505,7 @@ S07_Equipo##_ApellidoNombre.pdf
 4. Explicar claims o permisos usados.
 5. Evidenciar aporte individual.
 
-### 4.2 Criterios minimos de aceptacion
+### 4.2 Criterios mínimos de aceptación
 
 - PDF con nombre correcto.
 - Token obtenido.
@@ -521,9 +521,9 @@ Tiempo: 20 min.
 
 - El sistema emite token.
 - Gateway o servicios validan acceso.
-- Rutas protegidas responden segun autenticacion.
+- Rutas protegidas responden según autenticación.
 
-### 5.2 Evidencia del producto de sesion
+### 5.2 Evidencia del producto de sesión
 
 Entrega individual:
 
@@ -531,35 +531,35 @@ Entrega individual:
 S07_Equipo##_ApellidoNombre.pdf
 ```
 
-### 5.3 Preguntas de defensa y reflexion
+### 5.3 Preguntas de defensa y reflexión
 
-1. Que diferencia hay entre autenticacion y autorizacion?
-2. Que contiene un token?
-3. Por que una ruta responde 401?
-4. Donde conviene validar acceso: Gateway, servicio o ambos?
+1. Qué diferencia hay entre autenticación y autorización?
+2. Qué contiene un token?
+3. Por qué una ruta responde 401?
+4. Dónde conviene validar acceso: Gateway, servicio o ambos?
 
-### 5.4 Rubrica de evaluacion
+### 5.4 Rúbrica de evaluación
 
-| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+| Dimensión | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuación obtenida |
 |---|---:|---|---|---|---|---:|
-| 1. Autenticacion | 2 | Evidencia login, token y explicacion clara. | Evidencia login y token. | Evidencia parcial. | No evidencia autenticacion. | |
-| 2. Autorizacion | 2 | Evidencia rutas protegidas y permisos. | Evidencia ruta protegida. | Evidencia incompleta. | No evidencia autorizacion. | |
+| 1. Autenticación | 2 | Evidencia login, token y explicación clara. | Evidencia login y token. | Evidencia parcial. | No evidencia autenticación. | |
+| 2. Autorización | 2 | Evidencia rutas protegidas y permisos. | Evidencia ruta protegida. | Evidencia incompleta. | No evidencia autorización. | |
 | 3. Errores esperados | 2 | Evidencia y explica 401/403. | Evidencia error esperado. | Error poco claro. | No evidencia error. | |
-| 4. Integracion con Gateway/MS | 2 | Explica validacion en arquitectura distribuida. | Evidencia integracion funcional. | Integracion parcial. | No evidencia integracion. | |
+| 4. Integración con Gateway/MS | 2 | Explica validación en arquitectura distribuida. | Evidencia integración funcional. | Integración parcial. | No evidencia integración. | |
 | 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+| 6. Orden y reflexión | 1 | PDF ordenado y reflexión técnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
 
-Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+Puntuación acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
 Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 
-Para usar la rubrica con IA, solicita:
+Para usar la rúbrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
-Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
-Justifica brevemente cada puntuacion.
-Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
-Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 ```

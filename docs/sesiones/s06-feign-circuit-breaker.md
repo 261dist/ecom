@@ -1,30 +1,30 @@
-# S6 - Comunicacion sincronica resiliente entre servicios
+# S6 - Comunicación síncrona resiliente entre servicios
 
-## 1. Introduccion
+## 1. Introducción
 
 Tiempo: 20 min.
 
-### 1.1 Proposito
+### 1.1 Propósito
 
-Implementar comunicacion entre microservicios para resolver operaciones que requieren datos de otro servicio, manteniendo respuestas controladas ante errores.
+Implementar comunicación entre microservicios para resolver operaciones que requieren datos de otro servicio, manteniendo respuestas controladas ante errores.
 
 ### 1.2 Resultado de aprendizaje
 
 El estudiante implementa una llamada interna entre microservicios, valida el flujo distribuido y evidencia una respuesta controlada ante fallos.
 
-### 1.3 Producto de sesion
+### 1.3 Producto de sesión
 
-`producto-ms` consulta `catalogo-ms` para validar o enriquecer informacion de categorias, con trazabilidad y manejo basico de errores.
+`producto-ms` consulta `catalogo-ms` para validar o enriquecer información de categorías, con trazabilidad y manejo básico de errores.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Motivacion de la sesión
 
-En un sistema distribuido, ningun microservicio debe leer directamente la base de datos de otro. Si `producto-ms` necesita informacion de categorias, debe comunicarse con `catalogo-ms` por una API interna.
+En un sistema distribuido, ningun microservicio debe leer directamente la base de datos de otro. Si `producto-ms` necesita información de categorías, debe comunicarse con `catalogo-ms` por una API interna.
 
-### 1.5 Ubicacion en el curso
+### 1.5 Ubicación en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
 - Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
-- Avance del producto en esta sesion: comunicacion sincronica entre servicios.
+- Avance del producto en esta sesión: comunicación síncrona entre servicios.
 
 ## 2. Explica
 
@@ -32,7 +32,7 @@ Tiempo: 15 min.
 
 ### 2.1 Conceptos clave
 
-- Comunicacion sincronica.
+- Comunicación síncrona.
 - Cliente HTTP interno.
 - DTO entre servicios.
 - Timeout y error controlado.
@@ -40,7 +40,7 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
-#### 2.2.1 Comunicacion sincronica en DEV
+#### 2.2.1 Comunicación síncrona en DEV
 
 ```mermaid
 flowchart LR
@@ -50,18 +50,18 @@ flowchart LR
     Producto["producto-ms<br/>puerto dinamico"]
     Catalogo["catalogo-ms<br/>puerto dinamico"]
     ProductoDB["producto_db"]
-    CatalogoDB["catalogo_db"]
+    CatalogoDB["catálogo_db"]
 
     Cliente --> Gateway
     Gateway --> Producto
     Gateway -. "descubre servicios<br/>localhost:18761/eureka" .-> Eureka
     Producto -. "descubre catalogo-ms<br/>localhost:18761/eureka" .-> Eureka
-    Producto -->|"consulta categoria<br/>http://catalogo-ms"| Catalogo
+    Producto -->|"consulta categoría<br/>http://catalogo-ms"| Catalogo
     Producto --> ProductoDB
     Catalogo --> CatalogoDB
 ```
 
-#### 2.2.2 Comunicacion sincronica en PROD local
+#### 2.2.2 Comunicación síncrona en PROD local
 
 ```mermaid
 flowchart LR
@@ -77,28 +77,28 @@ flowchart LR
     Gateway --> Producto
     Gateway -. "descubre servicios<br/>http://eureka:8761/eureka" .-> Eureka
     Producto -. "descubre catalogo-ms<br/>http://eureka:8761/eureka" .-> Eureka
-    Producto -->|"consulta categoria<br/>http://catalogo-ms:8080"| Catalogo
+    Producto -->|"consulta categoría<br/>http://catalogo-ms:8080"| Catalogo
 ```
 
-### 2.3 Observabilidad y diagnostico
+### 2.3 Observabilidad y diagnóstico
 
 Revisar logs de `producto-ms`, logs de `catalogo-ms`, correlation id, health y respuesta HTTP cuando `catalogo-ms` no responde.
 
-## 3. Aplica: actividad practica guiada
+## 3. Aplica: actividad práctica guiada
 
 Tiempo: 3h.
 
-La ruta principal de la sesion es construir desde cero la comunicacion entre `producto-ms` y `catalogo-ms`. Si el estudiante necesita avanzar mas rapido, puede usar la ruta alternativa del paso 3.17.
+La ruta principal de la sesión es construir desde cero la comunicación entre `producto-ms` y `catalogo-ms`. Si el estudiante necesita avanzar más rápido, puede usar la ruta alternativa del paso 3.17.
 
 ### 3.1 Identificar servicios base
 
-**Producto del paso:** `catalogo-ms` y `producto-ms` identificados como servicios que participaran en la comunicacion.
+**Producto del paso:** `catalogo-ms` y `producto-ms` identificados como servicios que participaran en la comunicación.
 
-En esta sesion:
+En esta sesión:
 
-- `catalogo-ms` expone categorias.
-- `producto-ms` consulta `catalogo-ms` para obtener el detalle de la categoria de un producto.
-- La llamada se hace por nombre logico registrado en Eureka, no por puerto fijo.
+- `catalogo-ms` expone categorías.
+- `producto-ms` consulta `catalogo-ms` para obtener el detalle de la categoría de un producto.
+- La llamada se hace por nombre lógico registrado en Eureka, no por puerto fijo.
 
 ### 3.2 Agregar dependencia de cliente HTTP interno
 
@@ -113,7 +113,7 @@ En `services/producto-ms/pom.xml`, agrega:
 </dependency>
 ```
 
-Si tambien se trabajara respuesta controlada con Circuit Breaker, agrega:
+Si también se trabajara respuesta controlada con Circuit Breaker, agrega:
 
 ```xml
 <dependency>
@@ -140,7 +140,7 @@ public class ProductoApplication {
 }
 ```
 
-### 3.3 Crear DTO de categoria
+### 3.3 Crear DTO de categoría
 
 Producto del paso: contrato de datos recibido desde `catalogo-ms`.
 
@@ -175,7 +175,7 @@ public class CategoriaDto {
 
 ### 3.4 Crear cliente interno hacia `catalogo-ms`
 
-Producto del paso: cliente Feign que consulta `catalogo-ms` por nombre logico.
+Producto del paso: cliente Feign que consulta `catalogo-ms` por nombre lógico.
 
 Crea:
 
@@ -203,7 +203,7 @@ public interface CatalogoClient {
 
 ### 3.5 Integrar cliente en el servicio de producto
 
-Producto del paso: `producto-ms` devuelve detalle de producto enriquecido con categoria.
+Producto del paso: `producto-ms` devuelve detalle de producto enriquecido con categoría.
 
 Inyecta `CatalogoClient` en el servicio de producto:
 
@@ -211,7 +211,7 @@ Inyecta `CatalogoClient` en el servicio de producto:
 private final CatalogoClient catalogoClient;
 ```
 
-Agrega un metodo de consulta de detalle:
+Agrega un método de consulta de detalle:
 
 ```java
 @Override
@@ -319,13 +319,13 @@ bash macOS/Linux:
 curl http://localhost:18080/api/v1/productos
 ```
 
-### 3.11 Probar detalle o validacion de categoria
+### 3.11 Probar detalle o validación de categoría
 
-Ejecutar una operacion de producto que obligue a consultar `catalogo-ms`.
+Ejecutar una operación de producto que obligue a consultar `catalogo-ms`.
 
 ### 3.12 Probar error controlado
 
-Detener `catalogo-ms` o simular una categoria inexistente y verificar que `producto-ms` responde de forma controlada.
+Detener `catalogo-ms` o simular una categoría inexistente y verificar que `producto-ms` responde de forma controlada.
 
 ### 3.13 Validar trazabilidad en logs
 
@@ -341,7 +341,7 @@ services/catalogo-ms
 services/producto-ms
 ```
 
-### 3.15 Probar comunicacion en PROD local
+### 3.15 Probar comunicación en PROD local
 
 PowerShell / bash macOS/Linux:
 
@@ -376,34 +376,34 @@ Prueba por Gateway PROD con bash macOS/Linux:
 curl http://localhost:28082/api/v1/productos
 ```
 
-### 3.16 Validar evidencias de cierre de la practica
+### 3.16 Validar evidencias de cierre de la práctica
 
 Verifica:
 
 - `producto-ms` consulta `catalogo-ms`.
-- La llamada ocurre por nombre logico.
+- La llamada ocurre por nombre lógico.
 - El flujo correcto responde.
 - El error controlado responde sin romper el sistema.
 - PROD local mantiene el mismo comportamiento.
 
-### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
 
 ```bash
 git clone --branch vs06-comunicacion-sincronica https://github.com/261dist/ecom.git ecom-s06
 cd ecom-s06
 ```
 
-## 4. Crea: actividad autonoma
+## 4. Crea: actividad autónoma
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
+Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
 Entrega un PDF:
 
-El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
+El PDF de esta sesión debe generarse como impresion o exportacion de la sección correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentación del proyecto.
 
 ```text
 S06_Equipo##_ApellidoNombre.pdf
@@ -413,22 +413,22 @@ S06_Equipo##_ApellidoNombre.pdf
 
 - Nombre:
 - Equipo:
-- Sesion: S06 - Comunicacion sincronica resiliente entre servicios
+- Sesión: S06 - Comunicación síncrona resiliente entre servicios
 - Rol o aporte realizado:
 - Link de GitHub:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 4.1.2 Trabajo autónomo realizado
 
 1. Evidenciar llamada de `producto-ms` a `catalogo-ms`.
 2. Probar caso exitoso.
 3. Probar error controlado.
-4. Explicar por que no se comparte base de datos.
+4. Explicar por qué no se comparte base de datos.
 5. Registrar aporte individual.
 
-### 4.2 Criterios minimos de aceptacion
+### 4.2 Criterios mínimos de aceptación
 
 - PDF con nombre correcto.
-- Evidencia de comunicacion entre servicios.
+- Evidencia de comunicación entre servicios.
 - Evidencia de caso correcto y error controlado.
 - Aporte individual verificable.
 
@@ -442,7 +442,7 @@ Tiempo: 20 min.
 - El flujo distribuido funciona.
 - Los errores internos se responden de forma controlada.
 
-### 5.2 Evidencia del producto de sesion
+### 5.2 Evidencia del producto de sesión
 
 Entrega individual:
 
@@ -450,35 +450,35 @@ Entrega individual:
 S06_Equipo##_ApellidoNombre.pdf
 ```
 
-### 5.3 Preguntas de defensa y reflexion
+### 5.3 Preguntas de defensa y reflexión
 
-1. Por que un microservicio no debe leer la BD de otro?
-2. Que pasa si el servicio llamado no responde?
-3. Que evidencia demuestra la comunicacion entre servicios?
-4. Como ayuda el correlation id?
+1. Por qué un microservicio no debe leer la BD de otro?
+2. Qué pasa si el servicio llamado no responde?
+3. Qué evidencia demuestra la comunicación entre servicios?
+4. Cómo ayuda el correlation id?
 
-### 5.4 Rubrica de evaluacion
+### 5.4 Rúbrica de evaluación
 
-| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+| Dimensión | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuación obtenida |
 |---|---:|---|---|---|---|---:|
-| 1. Comunicacion entre servicios | 2 | Evidencia flujo completo y consistente entre servicios. | Evidencia llamada funcional. | Evidencia parcial o poco clara. | No evidencia comunicacion. | |
+| 1. Comunicación entre servicios | 2 | Evidencia flujo completo y consistente entre servicios. | Evidencia llamada funcional. | Evidencia parcial o poco clara. | No evidencia comunicación. | |
 | 2. Contrato y datos | 2 | Usa DTOs y valida datos correctamente. | Usa contrato funcional. | Contrato parcial o confuso. | No evidencia contrato. | |
 | 3. Manejo de errores | 2 | Evidencia error controlado y explica causa. | Evidencia respuesta ante error. | Error probado parcialmente. | No evidencia manejo de error. | |
-| 4. Observabilidad | 2 | Evidencia logs/correlation id del flujo. | Evidencia logs suficientes. | Evidencia limitada. | No evidencia diagnostico. | |
+| 4. Observabilidad | 2 | Evidencia logs/correlation id del flujo. | Evidencia logs suficientes. | Evidencia limitada. | No evidencia diagnóstico. | |
 | 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+| 6. Orden y reflexión | 1 | PDF ordenado y reflexión técnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
 
-Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+Puntuación acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
 Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 
-Para usar la rubrica con IA, solicita:
+Para usar la rúbrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
-Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
-Justifica brevemente cada puntuacion.
-Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
-Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 ```

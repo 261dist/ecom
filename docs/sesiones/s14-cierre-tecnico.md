@@ -1,30 +1,30 @@
-# S14 - Revision tecnica y estabilizacion del producto
+# S14 - Revisión técnica y estabilización del producto
 
-## 1. Introduccion
+## 1. Introducción
 
 Tiempo: 20 min.
 
-### 1.1 Proposito
+### 1.1 Propósito
 
-Cerrar brechas tecnicas, ordenar documentacion y asegurar que el producto sea reproducible por el docente.
+Cerrar brechas técnicas, ordenar documentación y asegurar que el producto sea reproducible por el docente.
 
 ### 1.2 Resultado de aprendizaje
 
-El estudiante estabiliza el producto, corrige fallos, documenta ejecucion y prepara defensa tecnica.
+El estudiante estabiliza el producto, corrige fallos, documenta ejecución y prepara defensa técnica.
 
-### 1.3 Producto de sesion
+### 1.3 Producto de sesión
 
 Producto documentado, reproducible, depurado y con evidencias organizadas para defensa.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Motivacion de la sesión
 
 Un producto final no solo debe funcionar en la maquina del equipo. Debe poder levantarse, probarse, diagnosticarse y explicarse con documentos claros.
 
-### 1.5 Ubicacion en el curso
+### 1.5 Ubicación en el curso
 
-- Unidad: U3 - Validacion y consolidacion del producto del curso.
+- Unidad: U3 - Validación y consolidación del producto del curso.
 - Producto de unidad: producto final del curso validado, documentado, estabilizado y defendido.
-- Avance del producto en esta sesion: estabilizacion final antes de defensa.
+- Avance del producto en esta sesión: estabilización final antes de defensa.
 
 ## 2. Explica
 
@@ -33,20 +33,20 @@ Tiempo: 15 min.
 ### 2.1 Conceptos clave
 
 - Reproducibilidad.
-- Documentacion tecnica.
+- Documentación técnica.
 - Checklist operativo.
 - Incidencias.
 - Guion de defensa.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
-Revisar que la documentacion explique como levantar e integrar el producto completo.
+Revisar que la documentación explique como levantar e integrar el producto completo.
 
-#### 2.2.1 Revision tecnica en DEV
+#### 2.2.1 Revisión técnica en DEV
 
 ```mermaid
 flowchart TB
-    Doc["Documentacion<br/>README + docs"]
+    Doc["Documentación<br/>README + docs"]
     Cliente["Cliente<br/>PowerShell / bash / ecom-ng"]
     Infra["infra<br/>Config + Eureka + Gateway"]
     Services["services<br/>microservicios"]
@@ -66,11 +66,11 @@ flowchart TB
     Obs --> Evidencias
 ```
 
-#### 2.2.2 Revision tecnica en PROD local
+#### 2.2.2 Revisión técnica en PROD local
 
 ```mermaid
 flowchart TB
-    Doc["Documentacion<br/>README + .env.example"]
+    Doc["Documentación<br/>README + .env.example"]
 
     subgraph Docker["Docker local"]
         Infra["infra<br/>Config + Eureka + Gateway"]
@@ -80,7 +80,7 @@ flowchart TB
     end
 
     Cliente["Cliente<br/>PowerShell / bash / navegador"]
-    Evidencias["Evidencias finales<br/>comandos + capturas + diagnostico"]
+    Evidencias["Evidencias finales<br/>comandos + capturas + diagnóstico"]
 
     Doc --> Infra
     Doc --> Services
@@ -94,24 +94,24 @@ flowchart TB
     Docker --> Evidencias
 ```
 
-### 2.3 Observabilidad y diagnostico
+### 2.3 Observabilidad y diagnóstico
 
-La revision debe incluir al menos un caso de fallo documentado y su ruta de diagnostico.
+La revisión debe incluir al menos un caso de fallo documentado y su ruta de diagnóstico.
 
-## 3. Aplica: actividad practica guiada
+## 3. Aplica: actividad práctica guiada
 
 Tiempo: 3h.
 
-En el laboratorio, el docente guia una revision tecnica final. El equipo no solo demuestra que funciona: deja el producto ordenado, reproducible y defendible.
+En el laboratorio, el docente guía una revisión técnica final. El equipo no solo demuestra que funciona: deja el producto ordenado, reproducible y defendible.
 
-### 3.1 Preparar checklist de estabilizacion
+### 3.1 Preparar checklist de estabilización
 
-Producto del paso: lista de verificacion acordada por equipo.
+Producto del paso: lista de verificación acordada por equipo.
 
-Checklist minimo:
+Checklist mínimo:
 
 - README principal.
-- README por modulo.
+- README por módulo.
 - `.env.example`.
 - Comandos DEV.
 - Comandos PROD local.
@@ -119,23 +119,23 @@ Checklist minimo:
 - Flujo end-to-end.
 - Evidencias por integrante.
 
-### 3.2 Revisar README principal y por modulo
+### 3.2 Revisar README principal y por módulo
 
 Verificar que los comandos funcionen en DEV y PROD local cuando aplique.
 
-Producto del paso: documentacion alineada al codigo real.
+Producto del paso: documentación alineada al código real.
 
 ### 3.3 Revisar variables y perfiles
 
 Confirmar `.env.example`, perfiles `dev/prod`, puertos, health y rutas.
 
-Producto del paso: configuracion externa comprensible y sin secretos innecesarios.
+Producto del paso: configuración externa comprensible y sin secretos innecesarios.
 
 ### 3.4 Validar comandos DEV
 
 Producto del paso: el sistema se puede levantar desde consola en desarrollo.
 
-Probar, como minimo:
+Probar, como mínimo:
 
 - Config Server.
 - Eureka.
@@ -154,7 +154,7 @@ cd infra
 docker compose up -d --build
 ```
 
-Luego levantar los modulos necesarios y verificar health.
+Luego levantar los módulos necesarios y verificar health.
 
 ### 3.6 Ejecutar prueba principal
 
@@ -162,9 +162,9 @@ Repetir el flujo end-to-end principal y registrar incidencias.
 
 Producto del paso: flujo funcional y reproducible.
 
-### 3.7 Registrar incidencias tecnicas
+### 3.7 Registrar incidencias técnicas
 
-Producto del paso: errores descritos con causa probable y decision tomada.
+Producto del paso: errores descritos con causa probable y decisión tomada.
 
 Usar formato:
 
@@ -178,19 +178,19 @@ Resultado:
 
 ### 3.8 Corregir fallos prioritarios
 
-Priorizar fallos que bloquean ejecucion, evidencia o defensa.
+Priorizar fallos que bloquean ejecución, evidencia o defensa.
 
 Producto del paso: producto estabilizado para la defensa.
 
-### 3.9 Revisar observabilidad minima
+### 3.9 Revisar observabilidad mínima
 
-Producto del paso: diagnostico basico disponible.
+Producto del paso: diagnóstico básico disponible.
 
 Verificar:
 
 - Health de Gateway.
 - Logs de un microservicio.
-- Una metrica o panel.
+- Una métrica o panel.
 - Un correlation id si aplica.
 
 ### 3.10 Revisar seguridad
@@ -203,7 +203,7 @@ Probar:
 - Ruta protegida con token.
 - Ruta protegida sin token.
 
-### 3.11 Revisar mensajeria y consistencia
+### 3.11 Revisar mensajería y consistencia
 
 Producto del paso: topics, eventos y estados finales coherentes.
 
@@ -221,7 +221,7 @@ Asignar a cada integrante:
 - Componente.
 - Evidencia.
 - Pregunta probable.
-- Riesgo tecnico.
+- Riesgo técnico.
 
 ### 3.13 Preparar evidencias individuales
 
@@ -230,9 +230,9 @@ Producto del paso: cada estudiante tiene evidencia propia.
 Cada integrante debe tener:
 
 - Captura o comando de su aporte.
-- Explicacion breve.
+- Explicación breve.
 - Link de GitHub.
-- Riesgo o aprendizaje tecnico.
+- Riesgo o aprendizaje técnico.
 
 ### 3.14 Validar repositorio GitHub
 
@@ -247,13 +247,13 @@ Verificar:
 
 ### 3.15 Ejecutar simulacro breve de defensa
 
-Producto del paso: cada integrante responde al menos una pregunta tecnica.
+Producto del paso: cada integrante responde al menos una pregunta técnica.
 
 El docente puede seleccionar integrantes al azar y pedir evidencia directa.
 
 ### 3.16 Cerrar pendientes
 
-Producto del paso: lista corta de pendientes o confirmacion de cierre.
+Producto del paso: lista corta de pendientes o confirmación de cierre.
 
 Clasificar:
 
@@ -261,24 +261,24 @@ Clasificar:
 - Importante pero no bloqueante.
 - Mejora futura.
 
-### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
 
 ```bash
 git clone --branch vs14-estabilizacion-final https://github.com/261dist/ecom.git ecom-s14
 cd ecom-s14
 ```
 
-## 4. Crea: actividad autonoma
+## 4. Crea: actividad autónoma
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
+Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
 Entrega un PDF:
 
-El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
+El PDF de esta sesión debe generarse como impresion o exportacion de la sección correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentación del proyecto.
 
 ```text
 S14_Equipo##_ApellidoNombre.pdf
@@ -288,22 +288,22 @@ S14_Equipo##_ApellidoNombre.pdf
 
 - Nombre:
 - Equipo:
-- Sesion: S14 - Revision tecnica y estabilizacion del producto
+- Sesión: S14 - Revisión técnica y estabilización del producto
 - Rol o aporte realizado:
 - Link de GitHub:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 4.1.2 Trabajo autónomo realizado
 
-1. Corregir una incidencia o mejorar documentacion.
+1. Corregir una incidencia o mejorar documentación.
 2. Validar comandos reales.
 3. Preparar evidencia final.
 4. Ensayar defensa individual.
-5. Registrar riesgo tecnico pendiente, si existe.
+5. Registrar riesgo técnico pendiente, si existe.
 
-### 4.2 Criterios minimos de aceptacion
+### 4.2 Criterios mínimos de aceptación
 
 - PDF con nombre correcto.
-- Evidencia de estabilizacion o documentacion.
+- Evidencia de estabilización o documentación.
 - Comandos validados.
 - Aporte individual verificable.
 - Defensa preparada.
@@ -319,7 +319,7 @@ Tiempo: 20 min.
 - Incidencias prioritarias cerradas.
 - Defensa preparada por integrante.
 
-### 5.2 Evidencia del producto de sesion
+### 5.2 Evidencia del producto de sesión
 
 Entrega individual:
 
@@ -327,35 +327,35 @@ Entrega individual:
 S14_Equipo##_ApellidoNombre.pdf
 ```
 
-### 5.3 Preguntas de defensa y reflexion
+### 5.3 Preguntas de defensa y reflexión
 
-1. Que cambio tecnico estabilizaste?
-2. Como sabe el docente que el proyecto es reproducible?
-3. Que evidencia individual presentaras?
-4. Que riesgo tecnico queda y como lo mitigarias?
+1. Qué cambio técnico estabilizaste?
+2. Cómo sabe el docente que el proyecto es reproducible?
+3. Qué evidencia individual presentaras?
+4. Qué riesgo técnico queda y cómo lo mitigarias?
 
-### 5.4 Rubrica de evaluacion
+### 5.4 Rúbrica de evaluación
 
-| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+| Dimensión | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuación obtenida |
 |---|---:|---|---|---|---|---:|
-| 1. Reproducibilidad | 2 | Comandos probados y documentados claramente. | Comandos principales validados. | Validacion parcial. | No evidencia reproducibilidad. | |
-| 2. Documentacion | 2 | README completo y alineado al codigo. | README suficiente. | Documentacion incompleta. | No evidencia documentacion. | |
-| 3. Correccion de incidencias | 2 | Incidencias cerradas con evidencia. | Incidencias principales atendidas. | Correccion parcial. | No corrige incidencias. | |
-| 4. Preparacion de defensa | 2 | Guion y evidencias por integrante claros. | Defensa preparada. | Preparacion parcial. | No evidencia preparacion. | |
+| 1. Reproducibilidad | 2 | Comandos probados y documentados claramente. | Comandos principales validados. | Validación parcial. | No evidencia reproducibilidad. | |
+| 2. Documentación | 2 | README completo y alineado al código. | README suficiente. | Documentación incompleta. | No evidencia documentación. | |
+| 3. Corrección de incidencias | 2 | Incidencias cerradas con evidencia. | Incidencias principales atendidas. | Corrección parcial. | No corrige incidencias. | |
+| 4. Preparación de defensa | 2 | Guion y evidencias por integrante claros. | Defensa preparada. | Preparación parcial. | No evidencia preparación. | |
 | 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+| 6. Orden y reflexión | 1 | PDF ordenado y reflexión técnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
 
-Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+Puntuación acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
 Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 
-Para usar la rubrica con IA, solicita:
+Para usar la rúbrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
-Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
-Justifica brevemente cada puntuacion.
-Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
-Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 ```

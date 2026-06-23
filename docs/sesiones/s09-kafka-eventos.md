@@ -1,30 +1,30 @@
 # S9 - Consistencia distribuida en procesos de negocio
 
-## 1. Introduccion
+## 1. Introducción
 
 Tiempo: 20 min.
 
-### 1.1 Proposito
+### 1.1 Propósito
 
-Modelar un proceso de negocio distribuido donde varios microservicios colaboran sin una transaccion unica compartida.
+Modelar un proceso de negocio distribuido donde varios microservicios colaboran sin una transacción única compartida.
 
 ### 1.2 Resultado de aprendizaje
 
-El estudiante implementa un flujo con consistencia eventual, eventos de confirmacion o rechazo, compensacion e idempotencia basica.
+El estudiante implementa un flujo con consistencia eventual, eventos de confirmación o rechazo, compensacion e idempotencia básica.
 
-### 1.3 Producto de sesion
+### 1.3 Producto de sesión
 
 Proceso `orden-ms` y `pago-ms` integrado por eventos, con estados de orden y respuesta ante pago confirmado o rechazado.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Motivacion de la sesión
 
-En un monolito se puede usar una transaccion local. En microservicios, cada servicio tiene su base de datos. Por eso, una compra no se valida con una unica transaccion global, sino mediante pasos coordinados y compensaciones.
+En un monolito se puede usar una transacción local. En microservicios, cada servicio tiene su base de datos. Por eso, una compra no se valida con una única transacción global, sino mediante pasos coordinados y compensaciones.
 
-### 1.5 Ubicacion en el curso
+### 1.5 Ubicación en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
 - Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
-- Avance del producto en esta sesion: proceso distribuido con consistencia eventual.
+- Avance del producto en esta sesión: proceso distribuido con consistencia eventual.
 
 ## 2. Explica
 
@@ -41,7 +41,7 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
-En esta sesion se usa mensajeria para sostener un proceso distribuido: `orden-ms` crea la orden, `pago-ms` procesa el pago y la orden cambia de estado cuando llega el resultado. La idea central no es la tecnologia del broker, sino la consistencia eventual del negocio.
+En esta sesión se usa mensajería para sostener un proceso distribuido: `orden-ms` crea la orden, `pago-ms` procesa el pago y la orden cambia de estado cuando llega el resultado. La idea central no es la tecnología del broker, sino la consistencia eventual del negocio.
 
 #### 2.2.1 Consistencia distribuida en DEV
 
@@ -101,15 +101,15 @@ flowchart TB
     KafkaUI -->|"inspecciona eventos"| Kafka
 ```
 
-### 2.3 Observabilidad y diagnostico
+### 2.3 Observabilidad y diagnóstico
 
 Revisar estados en BD, eventos publicados, eventos consumidos, duplicados, errores de pago y compensaciones ejecutadas.
 
-## 3. Aplica: actividad practica guiada
+## 3. Aplica: actividad práctica guiada
 
 Tiempo: 3h.
 
-En el laboratorio, el docente guia la construccion de un flujo de negocio distribuido. El estudiante debe ver que ya no existe una transaccion unica: cada microservicio cuida su base de datos y el proceso avanza por eventos.
+En el laboratorio, el docente guía la construcción de un flujo de negocio distribuido. El estudiante debe ver que ya no existe una transacción única: cada microservicio cuida su base de datos y el proceso avanza por eventos.
 
 ### 3.1 Preparar el punto de partida
 
@@ -125,7 +125,7 @@ Componentes:
 
 ### 3.2 Definir estados de negocio
 
-Producto del paso: estados minimos acordados para la orden.
+Producto del paso: estados mínimos acordados para la orden.
 
 Estados sugeridos:
 
@@ -195,7 +195,7 @@ Producto del paso: `pago-ms` produce una respuesta de pago sin acoplarse al cont
 
 ### 3.8 Conectar pasarela de pagos externa o simulada
 
-Producto del paso: pago confirmado o rechazado con una decision de negocio controlada.
+Producto del paso: pago confirmado o rechazado con una decisión de negocio controlada.
 
 La pasarela puede ser real, simulada o reemplazada por un adaptador temporal para laboratorio.
 
@@ -205,7 +205,7 @@ La pasarela puede ser real, simulada o reemplazada por un adaptador temporal par
 
 Producto del paso: la orden refleja el resultado final del proceso.
 
-### 3.10 Probar idempotencia basica
+### 3.10 Probar idempotencia básica
 
 Reenviar o simular un evento repetido y verificar que no se duplique el efecto de negocio.
 
@@ -238,7 +238,7 @@ mvn spring-boot:run
 
 ### 3.12 Levantar microservicios DEV
 
-Producto del paso: `orden-ms` y `pago-ms` ejecutando con configuracion externa.
+Producto del paso: `orden-ms` y `pago-ms` ejecutando con configuración externa.
 
 PowerShell / bash macOS/Linux:
 
@@ -271,7 +271,7 @@ Crear una orden y verificar:
 
 Producto del paso: evidencia de estados y registros de negocio.
 
-Usar `docker exec` con `psql` segun el contenedor de cada microservicio para revisar tablas y registros.
+Usar `docker exec` con `psql` según el contenedor de cada microservicio para revisar tablas y registros.
 
 ### 3.15 Probar en PROD local
 
@@ -311,24 +311,24 @@ Prueba o identifica estos casos:
 - Evento consumido por grupo incorrecto.
 - Pasarela externa no disponible.
 
-### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
 
 ```bash
 git clone --branch vs09-consistencia-distribuida https://github.com/261dist/ecom.git ecom-s09
 cd ecom-s09
 ```
 
-## 4. Crea: actividad autonoma
+## 4. Crea: actividad autónoma
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
+Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
 Entrega un PDF:
 
-El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
+El PDF de esta sesión debe generarse como impresion o exportacion de la sección correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentación del proyecto.
 
 ```text
 S09_Equipo##_ApellidoNombre.pdf
@@ -338,19 +338,19 @@ S09_Equipo##_ApellidoNombre.pdf
 
 - Nombre:
 - Equipo:
-- Sesion: S09 - Consistencia distribuida en procesos de negocio
+- Sesión: S09 - Consistencia distribuida en procesos de negocio
 - Rol o aporte realizado:
 - Link de GitHub:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 4.1.2 Trabajo autónomo realizado
 
 1. Evidenciar flujo orden-pago.
 2. Mostrar estados en BD.
-3. Probar evento de confirmacion o rechazo.
+3. Probar evento de confirmación o rechazo.
 4. Explicar compensacion.
 5. Explicar idempotencia.
 
-### 4.2 Criterios minimos de aceptacion
+### 4.2 Criterios mínimos de aceptación
 
 - PDF con nombre correcto.
 - Flujo distribuido evidenciado.
@@ -365,10 +365,10 @@ Tiempo: 20 min.
 ### 5.1 Resultados esperados
 
 - El proceso distribuido avanza por eventos.
-- La orden cambia de estado segun el resultado del pago.
+- La orden cambia de estado según el resultado del pago.
 - El estudiante explica consistencia eventual y compensacion.
 
-### 5.2 Evidencia del producto de sesion
+### 5.2 Evidencia del producto de sesión
 
 Entrega individual:
 
@@ -376,36 +376,36 @@ Entrega individual:
 S09_Equipo##_ApellidoNombre.pdf
 ```
 
-### 5.3 Preguntas de defensa y reflexion
+### 5.3 Preguntas de defensa y reflexión
 
-1. Por que no se usa una transaccion global?
-2. Que significa consistencia eventual?
-3. Que es una compensacion?
-4. Que problema resuelve la idempotencia?
-5. Que evidencia demuestra que el proceso fue distribuido?
+1. Por qué no se usa una transacción global?
+2. Qué significa consistencia eventual?
+3. Qué es una compensacion?
+4. Qué problema resuelve la idempotencia?
+5. Qué evidencia demuestra que el proceso fue distribuido?
 
-### 5.4 Rubrica de evaluacion
+### 5.4 Rúbrica de evaluación
 
-| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+| Dimensión | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuación obtenida |
 |---|---:|---|---|---|---|---:|
 | 1. Flujo distribuido | 2 | Evidencia proceso completo orden-pago. | Evidencia flujo principal. | Flujo parcial. | No evidencia flujo. | |
 | 2. Consistencia eventual | 2 | Explica estados y transiciones con claridad. | Evidencia estados principales. | Estados confusos o incompletos. | No evidencia consistencia. | |
 | 3. Compensacion/idempotencia | 2 | Evidencia compensacion o idempotencia aplicada. | Explica el mecanismo. | Mencion parcial. | No evidencia ni explica. | |
-| 4. Diagnostico | 2 | Analiza fallos de evento/pago con solucion. | Explica un problema. | Menciona problema sin analisis. | No diagnostica. | |
+| 4. Diagnóstico | 2 | Analiza fallos de evento/pago con solución. | Explica un problema. | Menciona problema sin análisis. | No diagnostica. | |
 | 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+| 6. Orden y reflexión | 1 | PDF ordenado y reflexión técnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
 
-Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+Puntuación acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
 Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 
-Para usar la rubrica con IA, solicita:
+Para usar la rúbrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
-Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
-Justifica brevemente cada puntuacion.
-Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
-Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 ```

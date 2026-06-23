@@ -1,30 +1,30 @@
-# S8 - Mensajeria asincrona entre servicios
+# S8 - Mensajería asíncrona entre servicios
 
-## 1. Introduccion
+## 1. Introducción
 
 Tiempo: 20 min.
 
-### 1.1 Proposito
+### 1.1 Propósito
 
-Incorporar comunicacion por eventos para desacoplar microservicios y permitir que operaciones de negocio avancen sin depender de una respuesta inmediata.
+Incorporar comunicación por eventos para desacoplar microservicios y permitir que operaciones de negocio avancen sin depender de una respuesta inmediata.
 
 ### 1.2 Resultado de aprendizaje
 
-El estudiante publica y consume eventos entre microservicios, verifica topics y evidencia procesamiento asincrono.
+El estudiante publica y consume eventos entre microservicios, verifica topics y evidencia procesamiento asíncrono.
 
-### 1.3 Producto de sesion
+### 1.3 Producto de sesión
 
-Broker de eventos operativo, topics creados y comunicacion asincrona entre `orden-ms` y `pago-ms`.
+Broker de eventos operativo, topics creados y comunicación asíncrona entre `orden-ms` y `pago-ms`.
 
-### 1.4 Motivacion de la sesion
+### 1.4 Motivacion de la sesión
 
 No todas las operaciones requieren una llamada inmediata. Cuando una orden se crea, otros servicios pueden reaccionar por eventos sin bloquear al usuario ni acoplar directamente los servicios.
 
-### 1.5 Ubicacion en el curso
+### 1.5 Ubicación en el curso
 
 - Unidad: U2 - Sistema distribuido robusto.
 - Producto de unidad: sistema distribuido seguro, resiliente, consistente, observable e integrado con cliente frontend.
-- Avance del producto en esta sesion: comunicacion por eventos entre servicios desacoplados.
+- Avance del producto en esta sesión: comunicación por eventos entre servicios desacoplados.
 
 ## 2. Explica
 
@@ -32,7 +32,7 @@ Tiempo: 15 min.
 
 ### 2.1 Conceptos clave
 
-- Mensajeria asincrona.
+- Mensajería asíncrona.
 - Evento.
 - Productor.
 - Consumidor.
@@ -42,9 +42,9 @@ Tiempo: 15 min.
 
 ### 2.2 Arquitectura del producto en `ecom`
 
-En esta sesion se agrega mensajeria asincrona. `orden-ms` publica eventos de orden y `pago-ms` los consume. `pago-ms` tambien puede publicar eventos de pago para que `orden-ms` actualice el estado de negocio.
+En esta sesión se agrega mensajería asíncrona. `orden-ms` publica eventos de orden y `pago-ms` los consume. `pago-ms` también puede publicar eventos de pago para que `orden-ms` actualice el estado de negocio.
 
-#### 2.2.1 Mensajeria en DEV
+#### 2.2.1 Mensajería en DEV
 
 ```mermaid
 flowchart TB
@@ -83,7 +83,7 @@ Kafka UI: http://localhost:41085
 Microservicios: puerto dinamico
 ```
 
-#### 2.2.2 Mensajeria en PROD local
+#### 2.2.2 Mensajería en PROD local
 
 ```mermaid
 flowchart TB
@@ -117,21 +117,21 @@ flowchart TB
     Gateway -.->|"descubre servicios"| Eureka
 ```
 
-### 2.3 Observabilidad y diagnostico
+### 2.3 Observabilidad y diagnóstico
 
 Revisar topics, logs de productor, logs de consumidor, Kafka UI y errores de serializacion/deserializacion.
 
-## 3. Aplica: actividad practica guiada
+## 3. Aplica: actividad práctica guiada
 
 Tiempo: 3h.
 
-En el laboratorio, el docente guia la incorporacion de mensajeria asincrona entre `orden-ms` y `pago-ms`. El foco es construir el flujo desde cero: levantar Kafka, crear topics, configurar productor/consumidor y probar que el proceso ya no depende de una llamada sincronica directa.
+En el laboratorio, el docente guía la incorporacion de mensajería asíncrona entre `orden-ms` y `pago-ms`. El foco es construir el flujo desde cero: levantar Kafka, crear topics, configurar productor/consumidor y probar que el proceso ya no depende de una llamada síncrona directa.
 
 ### 3.1 Preparar el punto de partida
 
 Producto del paso: identificar que el sistema ya tiene Config Server, Eureka, Gateway, seguridad y microservicios base.
 
-Antes de construir eventos, confirma que existan o crea estos modulos:
+Antes de construir eventos, confirma que existan o crea estos módulos:
 
 - `infra/config`
 - `infra/eureka`
@@ -164,13 +164,13 @@ docker exec -it ecom-kafka-dev /opt/kafka/bin/kafka-topics.sh --create --topic p
 docker exec -it ecom-kafka-dev /opt/kafka/bin/kafka-topics.sh --list --bootstrap-server kafka:9092
 ```
 
-Tambien puedes revisar Kafka UI:
+También puedes revisar Kafka UI:
 
 ```text
 http://localhost:41085
 ```
 
-### 3.4 Agregar dependencias de mensajeria
+### 3.4 Agregar dependencias de mensajería
 
 Producto del paso: `orden-ms` y `pago-ms` preparados para usar Kafka.
 
@@ -183,11 +183,11 @@ Agregar en los `pom.xml` de los microservicios que publican o consumen eventos:
 </dependency>
 ```
 
-### 3.5 Externalizar configuracion de Kafka
+### 3.5 Externalizar configuración de Kafka
 
 Producto del paso: bootstrap server definido por ambiente desde Config Server.
 
-En los archivos de configuracion DEV:
+En los archivos de configuración DEV:
 
 ```yaml
 spring:
@@ -243,10 +243,10 @@ public class EventoOrden {
 
 Producto del paso: productor y consumidor comparten formato JSON.
 
-Crea una configuracion Kafka en el microservicio productor:
+Crea una configuración Kafka en el microservicio productor:
 
 ```text
-services/orden-ms/src/main/java/com/upeu/ordenms/configuracion/KafkaConfiguracion.java
+services/orden-ms/src/main/java/com/upeu/ordenms/configuración/KafkaConfiguracion.java
 ```
 
 Pega la base:
@@ -280,7 +280,7 @@ En el consumidor se usa `JsonDeserializer` y un `groupId` para leer `orden-event
 
 Producto del paso: `orden-ms` publica en `orden-eventos` cuando se crea una orden.
 
-El productor debe enviar el evento despues de persistir la orden. Si la orden no se guarda, no debe publicarse el evento.
+El productor debe enviar el evento después de persistir la orden. Si la orden no se guarda, no debe publicarse el evento.
 
 Crea:
 
@@ -361,7 +361,7 @@ mvn spring-boot:run
 
 ### 3.13 Levantar microservicios DEV
 
-Producto del paso: `orden-ms` y `pago-ms` ejecutando con puertos dinamicos.
+Producto del paso: `orden-ms` y `pago-ms` ejecutando con puertos dinámicos.
 
 PowerShell / bash macOS/Linux:
 
@@ -377,11 +377,11 @@ cd services/pago-ms
 mvn spring-boot:run
 ```
 
-### 3.14 Probar flujo asincrono por Gateway
+### 3.14 Probar flujo asíncrono por Gateway
 
 Producto del paso: orden creada, evento publicado y pago procesado por evento.
 
-Ejecutar una solicitud de creacion de orden desde shell o Swagger, segun los endpoints reales del proyecto. Luego valida:
+Ejecutar una solicitud de creación de orden desde shell o Swagger, según los endpoints reales del proyecto. Luego valida:
 
 - Logs de `orden-ms`.
 - Logs de `pago-ms`.
@@ -416,7 +416,7 @@ docker compose up -d --build
 
 ### 3.16 Diagnosticar errores frecuentes
 
-Producto del paso: estudiante reconoce fallos tipicos de mensajeria.
+Producto del paso: estudiante reconoce fallos tipicos de mensajería.
 
 Prueba o identifica estos casos:
 
@@ -426,24 +426,24 @@ Prueba o identifica estos casos:
 - Consumidor no recibe por `groupId`.
 - Diferencia entre `localhost:41092` en DEV y `kafka:9092` en PROD.
 
-### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesion
+### 3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
 
 ```bash
 git clone --branch vs08-mensajeria-asincrona https://github.com/261dist/ecom.git ecom-s08
 cd ecom-s08
 ```
 
-## 4. Crea: actividad autonoma
+## 4. Crea: actividad autónoma
 
 Tiempo: 4h fuera del aula.
 
-Esta actividad autonoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesion; por eso, la evidencia de esta sesion debe incorporarse a la documentacion del proyecto y quedar trazable en GitHub.
+Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.
 
 ### 4.1 Plantilla de evidencia individual
 
 Entrega un PDF:
 
-El PDF de esta sesion debe generarse como impresion o exportacion de la seccion correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentacion del proyecto.
+El PDF de esta sesión debe generarse como impresion o exportacion de la sección correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentación del proyecto.
 
 ```text
 S08_Equipo##_ApellidoNombre.pdf
@@ -453,19 +453,19 @@ S08_Equipo##_ApellidoNombre.pdf
 
 - Nombre:
 - Equipo:
-- Sesion: S08 - Mensajeria asincrona entre servicios
+- Sesión: S08 - Mensajería asíncrona entre servicios
 - Rol o aporte realizado:
 - Link de GitHub:
 
-#### 4.1.2 Trabajo autonomo realizado
+#### 4.1.2 Trabajo autónomo realizado
 
 1. Crear o verificar topics.
 2. Publicar evento desde un microservicio.
 3. Consumir evento en otro microservicio.
 4. Revisar Kafka UI.
-5. Explicar ventaja frente a comunicacion sincronica.
+5. Explicar ventaja frente a comunicación síncrona.
 
-### 4.2 Criterios minimos de aceptacion
+### 4.2 Criterios mínimos de aceptación
 
 - PDF con nombre correcto.
 - Topics evidenciados.
@@ -484,7 +484,7 @@ Tiempo: 20 min.
 - Productor publica eventos.
 - Consumidor procesa eventos.
 
-### 5.2 Evidencia del producto de sesion
+### 5.2 Evidencia del producto de sesión
 
 Entrega individual:
 
@@ -492,36 +492,36 @@ Entrega individual:
 S08_Equipo##_ApellidoNombre.pdf
 ```
 
-### 5.3 Preguntas de defensa y reflexion
+### 5.3 Preguntas de defensa y reflexión
 
-1. Que diferencia hay entre mensaje y evento?
-2. Por que la mensajeria reduce acoplamiento?
-3. Que hace un productor?
-4. Que hace un consumidor?
-5. Como diagnosticas que un evento no llega?
+1. Qué diferencia hay entre mensaje y evento?
+2. Por qué la mensajería reduce acoplamiento?
+3. Qué hace un productor?
+4. Qué hace un consumidor?
+5. Cómo diagnosticas que un evento no llega?
 
-### 5.4 Rubrica de evaluacion
+### 5.4 Rúbrica de evaluación
 
-| Dimension | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuacion obtenida |
+| Dimensión | Peso | 3 - Logro destacado | 2 - Logro | 1 - Proceso | 0 - Inicio | Puntuación obtenida |
 |---|---:|---|---|---|---|---:|
 | 1. Broker y topics | 2 | Evidencia broker, topics y UI funcionando. | Evidencia broker y topics. | Evidencia parcial. | No evidencia broker. | |
-| 2. Productor | 2 | Evento publicado correctamente y explicado. | Evento publicado. | Publicacion parcial. | No evidencia productor. | |
+| 2. Productor | 2 | Evento publicado correctamente y explicado. | Evento publicado. | Publicación parcial. | No evidencia productor. | |
 | 3. Consumidor | 2 | Evento consumido y procesado correctamente. | Evento consumido. | Consumo parcial. | No evidencia consumidor. | |
-| 4. Diagnostico | 2 | Analiza errores de mensajeria con solucion. | Explica un problema. | Menciona problema sin analisis. | No diagnostica. | |
+| 4. Diagnóstico | 2 | Analiza errores de mensajería con solución. | Explica un problema. | Menciona problema sin análisis. | No diagnostica. | |
 | 5. Aporte individual | 1 | Aporte claro y verificable. | Aporte identificable. | Aporte general. | No se identifica aporte. | |
-| 6. Orden y reflexion | 1 | PDF ordenado y reflexion tecnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
+| 6. Orden y reflexión | 1 | PDF ordenado y reflexión técnica clara. | Evidencia suficiente. | Evidencia poco clara. | PDF insuficiente. | |
 
-Puntuacion acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
+Puntuación acumulada = suma de (`Peso` * `Puntuacion obtenida`) = ____.
 
 Nota final = (`Puntuacion acumulada` / 30) * 20 = ____.
 
-Para usar la rubrica con IA, solicita:
+Para usar la rúbrica con IA, solicita:
 
 ```text
-Evalua el PDF usando la rubrica de la sesion.
-Para cada dimension selecciona la puntuacion obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
-Justifica brevemente cada puntuacion.
-Calcula la puntuacion acumulada con la formula: suma de (Peso * Puntuacion obtenida).
-Calcula la nota final sobre 20 con la formula: (Puntuacion acumulada / 30) * 20.
+Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
 Indica 2 fortalezas y 2 recomendaciones.
 ```

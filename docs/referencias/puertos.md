@@ -24,7 +24,7 @@
 | Servicio | Puerto | DB |
 |---|---:|---|
 | auth-ms | 15431 | `ecom_auth_db` |
-| catalogo-ms | 15432 | `ecom_catalogo_db` |
+| catálogo-ms | 15432 | `ecom_catalogo_db` |
 | producto-ms | 15433 | `ecom_producto_db` |
 | orden-ms | 15434 | `ecom_orden_db` |
 | pago-ms | 15435 | `ecom_pago_db` |
@@ -36,7 +36,7 @@ Credenciales: `ecom` / `ecom`.
 | Servicio | Puerto | DB |
 |---|---:|---|
 | auth-ms | 25431 | `ecom_auth_db` |
-| catalogo-ms | 25432 | `ecom_catalogo_db` |
+| catálogo-ms | 25432 | `ecom_catalogo_db` |
 | producto-ms | 25433 | `ecom_producto_db` |
 | orden-ms | 25434 | `ecom_orden_db` |
 | pago-ms | 25435 | `ecom_pago_db` |
