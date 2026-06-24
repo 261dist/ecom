@@ -27,5 +27,19 @@ jobs:
         run: |
           pip install mkdocs mkdocs-material pymdown-extensions
 
+      - name: Configurar topics académicos
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api \
+            --method PUT \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/topics \
+            -f names[]=campus-juliaca \
+            -f names[]=linea-software \
+            -f names[]=curso-distribuidas \
+            -f names[]=grupo-gu \
+            -f names[]=equipo-thereeds
+
       - name: Deploy to GitHub Pages
         run: mkdocs gh-deploy --force
