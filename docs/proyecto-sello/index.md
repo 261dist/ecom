@@ -111,18 +111,20 @@ Componentes mínimos:
 
 ## 6. Evaluación
 
-| Criterio | Qué se observa |
-|---|---|
-| Arquitectura distribuida | Los servicios tienen responsabilidades claras y forman un flujo coherente. |
-| Reproducibilidad | El sistema puede levantarse y probarse con comandos documentados. |
-| Configuración y descubrimiento | Config Server, perfiles, registro de servicios y Gateway funcionan integrados. |
-| Seguridad | Las rutas y servicios críticos están protegidos y se evidencian accesos permitidos y denegados. |
-| Resiliencia | La comunicación entre servicios responde de forma controlada ante fallos. |
-| Mensajería y consistencia | Los eventos, compensaciones e idempotencia responden al proceso de negocio. |
-| Observabilidad | Existen logs, métricas, health checks y paneles útiles para diagnóstico. |
-| Integración frontend | El cliente consume flujos reales mediante Gateway y seguridad. |
-| Evidencias técnicas | Se presentan pruebas, capturas, comandos, logs y resultados verificables. |
-| Sustentación profesional | El equipo expone con orden, cada integrante defiende su aporte, demuestra el sistema en vivo y presenta el repositorio académico disponible desde la primera presentación con los topics mínimos configurados correctamente y evidencia el cumplimiento de estándares básicos de programación, organización del repositorio, documentación y reproducibilidad. |
+Los criterios se organizan según una matriz común de evaluación de proyectos académicos: problema, arquitectura, implementación, datos o comunicación, integración, calidad, validación y sustentación. Cada criterio se adapta al enfoque de sistemas distribuidos y se verifica mediante evidencias del producto, el repositorio y la demostración.
+
+| Dimensión común | Criterio del PS | Qué se observa |
+|---|---|---|
+| Problema y alcance | Alcance del sistema distribuido | El proyecto responde a una necesidad clara y delimita los servicios, actores y flujos principales. |
+| Requerimientos o funcionalidad esperada | Flujos distribuidos esperados | Los servicios cubren los casos principales del negocio y exponen operaciones verificables. |
+| Diseño, modelo o arquitectura | Arquitectura distribuida | Los servicios tienen responsabilidades claras y forman un flujo coherente. |
+| Implementación técnica | Configuración, seguridad y resiliencia | Config Server, perfiles, registro de servicios, Gateway, seguridad y resiliencia funcionan integrados. |
+| Datos, persistencia o procesamiento | Mensajería y consistencia | Los eventos, compensaciones e idempotencia responden al proceso de negocio. |
+| Integración del producto | Integración frontend | El cliente consume flujos reales mediante Gateway y seguridad. |
+| Calidad técnica | Reproducibilidad y observabilidad | El sistema puede levantarse con comandos documentados y cuenta con logs, métricas, health checks o paneles útiles para diagnóstico. |
+| Validación, pruebas o resultados | Pruebas y resultados verificables | Se presentan pruebas, capturas, comandos, logs, accesos permitidos/denegados y resultados verificables. |
+| Sustentación técnica | Sustentación técnica | El equipo explica arquitectura, comunicación entre servicios, decisiones técnicas, fallos controlados, limitaciones y evidencias generadas. |
+| Sustentación profesional | Sustentación profesional | El equipo expone con orden, cada integrante defiende su aporte, demuestra el sistema en vivo y presenta el repositorio académico disponible desde la primera presentación con los topics mínimos configurados correctamente y evidencia el cumplimiento de estándares básicos de programación, organización del repositorio, documentación y reproducibilidad. |
 
 ## 7. Sustentación
 
