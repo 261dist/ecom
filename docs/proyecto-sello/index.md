@@ -1,4 +1,4 @@
-?# Proyecto Sello de Desarrollo de Aplicaciones Distribuidas
+# Proyecto Sello de Desarrollo de Aplicaciones Distribuidas
 
 ## 1. Propósito
 
@@ -75,6 +75,24 @@ Este alineamiento muestra cómo cada bloque de sesiones agrega una capacidad dis
 
 ## 5. Producto Final
 
+### Repositorio académico y topics
+
+Desde la primera presentación del proyecto, el repositorio debe estar creado y configurado con los topics académicos mínimos. Esta configuración es obligatoria porque permite identificar campus, semestre, línea, tipo de proyecto, curso, sección y grupo.
+
+El detalle oficial del estándar se encuentra en [Estándar transversal de topics para repositorios académicos](https://upeuoficial.github.io/planb/anexos/estandar-topics-repositorios/).
+
+Ejemplo base para Distribuidas:
+
+```text
+campus-juliaca
+semestre-2026-2
+linea-software
+tipo-ps
+dist
+seccion-g1
+grupo-<numero>-<nombre-proyecto>
+```
+
 Componentes mínimos:
 
 - Microservicios con responsabilidades claras.
@@ -104,7 +122,7 @@ Componentes mínimos:
 | Observabilidad | Existen logs, métricas, health checks y paneles útiles para diagnóstico. |
 | Integración frontend | El cliente consume flujos reales mediante Gateway y seguridad. |
 | Evidencias técnicas | Se presentan pruebas, capturas, comandos, logs y resultados verificables. |
-| Sustentación profesional | El equipo expone con orden, cada integrante defiende su aporte y demuestra el sistema en vivo. |
+| Sustentación profesional | El equipo expone con orden, cada integrante defiende su aporte, demuestra el sistema en vivo y presenta el repositorio académico disponible desde la primera presentación con los topics mínimos configurados correctamente y evidencia el cumplimiento de estándares básicos de programación, organización del repositorio, documentación y reproducibilidad. |
 
 ## 7. Sustentación
 
@@ -124,4 +142,3 @@ Al finalizar el curso, el estudiante debe demostrar que puede construir y defend
 ```text
 Flujo de negocio -> Microservicios -> Infraestructura -> Seguridad -> Eventos -> Observabilidad -> Frontend -> Defensa
 ```
-
