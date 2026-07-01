@@ -1537,51 +1537,63 @@ grupo-&lt;numero&gt;-&lt;nombre-proyecto&gt;
 <li>Documentación técnica y evidencias de ejecución.</li>
 </ul>
 <h2 id="6-evaluacion">6. Evaluación</h2>
+<p>Los criterios se organizan según una matriz común de evaluación de proyectos académicos: problema, arquitectura, implementación, datos o comunicación, integración, calidad, validación y sustentación. Cada criterio se adapta al enfoque de sistemas distribuidos y se verifica mediante evidencias del producto, el repositorio y la demostración.</p>
 <table>
 <thead>
 <tr>
-<th>Criterio</th>
+<th>Dimensión común</th>
+<th>Criterio del PS</th>
 <th>Qué se observa</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>Problema y alcance</td>
+<td>Alcance del sistema distribuido</td>
+<td>El proyecto responde a una necesidad clara y delimita los servicios, actores y flujos principales.</td>
+</tr>
+<tr>
+<td>Requerimientos o funcionalidad esperada</td>
+<td>Flujos distribuidos esperados</td>
+<td>Los servicios cubren los casos principales del negocio y exponen operaciones verificables.</td>
+</tr>
+<tr>
+<td>Diseño, modelo o arquitectura</td>
 <td>Arquitectura distribuida</td>
 <td>Los servicios tienen responsabilidades claras y forman un flujo coherente.</td>
 </tr>
 <tr>
-<td>Reproducibilidad</td>
-<td>El sistema puede levantarse y probarse con comandos documentados.</td>
+<td>Implementación técnica</td>
+<td>Configuración, seguridad y resiliencia</td>
+<td>Config Server, perfiles, registro de servicios, Gateway, seguridad y resiliencia funcionan integrados.</td>
 </tr>
 <tr>
-<td>Configuración y descubrimiento</td>
-<td>Config Server, perfiles, registro de servicios y Gateway funcionan integrados.</td>
-</tr>
-<tr>
-<td>Seguridad</td>
-<td>Las rutas y servicios críticos están protegidos y se evidencian accesos permitidos y denegados.</td>
-</tr>
-<tr>
-<td>Resiliencia</td>
-<td>La comunicación entre servicios responde de forma controlada ante fallos.</td>
-</tr>
-<tr>
+<td>Datos, persistencia o procesamiento</td>
 <td>Mensajería y consistencia</td>
 <td>Los eventos, compensaciones e idempotencia responden al proceso de negocio.</td>
 </tr>
 <tr>
-<td>Observabilidad</td>
-<td>Existen logs, métricas, health checks y paneles útiles para diagnóstico.</td>
-</tr>
-<tr>
+<td>Integración del producto</td>
 <td>Integración frontend</td>
 <td>El cliente consume flujos reales mediante Gateway y seguridad.</td>
 </tr>
 <tr>
-<td>Evidencias técnicas</td>
-<td>Se presentan pruebas, capturas, comandos, logs y resultados verificables.</td>
+<td>Calidad técnica</td>
+<td>Reproducibilidad y observabilidad</td>
+<td>El sistema puede levantarse con comandos documentados y cuenta con logs, métricas, health checks o paneles útiles para diagnóstico.</td>
 </tr>
 <tr>
+<td>Validación, pruebas o resultados</td>
+<td>Pruebas y resultados verificables</td>
+<td>Se presentan pruebas, capturas, comandos, logs, accesos permitidos/denegados y resultados verificables.</td>
+</tr>
+<tr>
+<td>Sustentación técnica</td>
+<td>Sustentación técnica</td>
+<td>El equipo explica arquitectura, comunicación entre servicios, decisiones técnicas, fallos controlados, limitaciones y evidencias generadas.</td>
+</tr>
+<tr>
+<td>Sustentación profesional</td>
 <td>Sustentación profesional</td>
 <td>El equipo expone con orden, cada integrante defiende su aporte, demuestra el sistema en vivo y presenta el repositorio académico disponible desde la primera presentación con los topics mínimos configurados correctamente y evidencia el cumplimiento de estándares básicos de programación, organización del repositorio, documentación y reproducibilidad.</td>
 </tr>
