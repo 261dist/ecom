@@ -123,10 +123,25 @@ Los criterios se organizan según una matriz común de evaluación de proyectos 
 | Integración del producto | Integración frontend | El cliente consume flujos reales mediante Gateway y seguridad. |
 | Calidad técnica | Reproducibilidad y observabilidad | El sistema puede levantarse con comandos documentados y cuenta con logs, métricas, health checks o paneles útiles para diagnóstico. |
 | Validación, pruebas o resultados | Pruebas y resultados verificables | Se presentan pruebas, capturas, comandos, logs, accesos permitidos/denegados y resultados verificables. |
-| Sustentación técnica | Sustentación técnica | El equipo explica arquitectura, comunicación entre servicios, decisiones técnicas, fallos controlados, limitaciones y evidencias generadas. |
-| Sustentación profesional | Sustentación profesional | El equipo expone con orden, cada integrante defiende su aporte, demuestra el sistema en vivo y evidencia comunicación clara, puntualidad, vestimenta limpia y adecuada, cabello ordenado, higiene personal y actitud profesional; además presenta el repositorio académico disponible desde la primera presentación con los topics mínimos configurados correctamente y evidencia el cumplimiento de estándares básicos de programación, organización del repositorio, documentación y reproducibilidad. |
+| Sustentación técnica y profesional | Sustentación integral | Se evalúa mediante subaspectos de defensa técnica, comunicación, presentación personal, aporte individual, repositorio, documentación publicada y pitch/demo ejecutiva. |
+
+### Subaspectos de la sustentación integral
+
+La sustentación integral debe representar como mínimo el 30% de la evaluación del proyecto. Se revisa mediante los siguientes subaspectos:
+
+| Subaspecto | Qué observa |
+|---|---|
+| Defensa técnica | Explicación de arquitectura, comunicación entre servicios, decisiones técnicas, fallos controlados, limitaciones y evidencias generadas. |
+| Comunicación y orden | Claridad, estructura, tiempo y lenguaje técnico. |
+| Presentación personal y actitud | Puntualidad, vestimenta limpia y adecuada, higiene, cabello ordenado y actitud profesional. |
+| Aporte individual | Cada integrante demuestra lo que hizo. |
+| Repositorio y estándares | Topics, organización, commits, documentación y reproducibilidad. |
+| MkDocs o equivalente | Documentación publicada, navegable y alineada al producto. |
+| Pitch/demo ejecutiva | Introducción clara del problema, solución y valor, seguida de una demo funcional. |
 
 ## 7. Sustentación
+
+La sustentación inicia con un video pitch breve o introducción ejecutiva de 1 a 3 minutos para presentar el problema, la solución, el valor del producto y la participación del equipo o estudiante.
 
 | Momento | Tiempo sugerido | Propósito |
 |---|---:|---|
@@ -142,3 +157,22 @@ Al finalizar el curso, el estudiante debe demostrar que puede construir y defend
 ```text
 Flujo de negocio -> Microservicios -> Infraestructura -> Seguridad -> Eventos -> Observabilidad -> Frontend -> Defensa
 ```
+
+## Anexo. Secuencia sugerida de presentación
+
+La presentación puede organizarse con una secuencia breve de apoyo visual. El video pitch o introducción ejecutiva abre la sustentación y no reemplaza la demo ni la defensa técnica.
+
+| Orden | Slide o momento | Propósito |
+|---:|---|---|
+| 1 | Título del proyecto y equipo | Identificar el proyecto, integrantes y dominio elegido. |
+| 2 | Video pitch o introducción ejecutiva | Presentar problema, solución, valor y participación del equipo. |
+| 3 | Problema y alcance | Explicar el proceso distribuido y los límites del sistema. |
+| 4 | Arquitectura distribuida | Mostrar servicios, Gateway, configuración y comunicación. |
+| 5 | Seguridad | Evidenciar rutas protegidas, autenticación o autorización. |
+| 6 | Resiliencia y consistencia | Explicar fallos controlados, eventos, compensaciones o idempotencia. |
+| 7 | Observabilidad | Mostrar logs, métricas, health checks o paneles. |
+| 8 | Integración frontend | Explicar cómo el cliente consume los servicios reales. |
+| 9 | Demo end-to-end | Ejecutar el flujo principal del sistema distribuido. |
+| 10 | Aporte individual | Indicar qué hizo cada integrante. |
+| 11 | Repositorio y estándares | Mostrar repositorio, topics, estructura, documentación publicada en MkDocs o equivalente, y forma de ejecución. |
+| 12 | Limitaciones y mejoras | Reconocer límites del producto y mejoras posibles. |
