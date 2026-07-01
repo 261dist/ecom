@@ -124,7 +124,7 @@ Los criterios se organizan según una matriz común de evaluación de proyectos 
 | Calidad técnica | Reproducibilidad y observabilidad | El sistema puede levantarse con comandos documentados y cuenta con logs, métricas, health checks o paneles útiles para diagnóstico. |
 | Validación, pruebas o resultados | Pruebas y resultados verificables | Se presentan pruebas, capturas, comandos, logs, accesos permitidos/denegados y resultados verificables. |
 | Sustentación técnica | Sustentación técnica | El equipo explica arquitectura, comunicación entre servicios, decisiones técnicas, fallos controlados, limitaciones y evidencias generadas. |
-| Sustentación profesional | Sustentación profesional | El equipo expone con orden, cada integrante defiende su aporte, demuestra el sistema en vivo y presenta el repositorio académico disponible desde la primera presentación con los topics mínimos configurados correctamente y evidencia el cumplimiento de estándares básicos de programación, organización del repositorio, documentación y reproducibilidad. |
+| Sustentación profesional | Sustentación profesional | El equipo expone con orden, cada integrante defiende su aporte, demuestra el sistema en vivo y evidencia comunicación clara, puntualidad, vestimenta limpia y adecuada, cabello ordenado, higiene personal y actitud profesional; además presenta el repositorio académico disponible desde la primera presentación con los topics mínimos configurados correctamente y evidencia el cumplimiento de estándares básicos de programación, organización del repositorio, documentación y reproducibilidad. |
 
 ## 7. Sustentación
 
@@ -134,8 +134,6 @@ Los criterios se organizan según una matriz común de evaluación de proyectos 
 | Demostración en vivo | 5 minutos | Ejecutar el flujo end-to-end, evidenciar Gateway, servicios, eventos, seguridad y monitoreo. |
 
 Cada integrante debe demostrar su aporte: servicio, configuración, seguridad, frontend, mensajería, observabilidad, documentación o pruebas. La defensa es grupal, pero la nota técnica exige aporte individual verificable.
-
-Se espera presentación profesional: comunicación clara, puntualidad, vestimenta adecuada, apariencia ordenada y disposición para responder preguntas técnicas.
 
 ## 8. Resultado Esperado
 
