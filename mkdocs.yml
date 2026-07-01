@@ -4,6 +4,8 @@ docs_dir: docs
 
 nav:
   - Inicio: index.md
+  - Proyecto Sello:
+      - Guia del proyecto: proyecto-sello/index.md
   - Silabos:
       - Silabo 2026-1: silabo_dist_2026_1.md
       - Silabo 2026-2: silabo_dist_2026_2.md
