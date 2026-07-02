@@ -1,8 +1,20 @@
-# Proyecto Sello de Desarrollo de Aplicaciones Distribuidas
+﻿# Proyecto Sello de Desarrollo de Aplicaciones Distribuidas
 
 ## 1. Propósito
 
 El Proyecto Sello integra las sesiones de **Desarrollo de Aplicaciones Distribuidas** alrededor de un sistema de microservicios construido de manera progresiva. Cada sesión agrega una capacidad real de arquitectura distribuida hasta llegar a un producto end-to-end configurable, seguro, resiliente, observable y defendible técnicamente.
+
+### Competencia o capacidad del proyecto
+
+Al finalizar el Proyecto Sello, el estudiante demuestra que puede diseñar, implementar y defender un sistema distribuido end-to-end, aplicando microservicios, configuración centralizada, descubrimiento, Gateway, seguridad, resiliencia, mensajería, observabilidad, integración frontend, reproducibilidad y sustentación integral del producto.
+
+### Competencias relacionadas
+
+| Código | Competencia | Relación con el proyecto |
+|---|---|---|
+| CE023 | Programación | Evidencia construcción de un sistema distribuido escalable basado en servicios interoperables. |
+| CE022 | Ingeniería de la Información | Evidencia persistencia, mensajería, consistencia y procesamiento de datos entre servicios. |
+| CE024 | Calidad de Software | Evidencia seguridad, resiliencia, observabilidad, reproducibilidad, documentación y sustentación integral. |
 
 ```text
 Servicio -> Configuración -> Descubrimiento -> Gateway -> Seguridad -> Eventos -> Observabilidad -> Frontend -> Defensa
@@ -109,21 +121,33 @@ Componentes mínimos:
 - Docker o entorno reproducible.
 - Documentación técnica y evidencias de ejecución.
 
-## 6. Evaluación
+## 6. Evaluación por competencias
 
-Los criterios se organizan según una matriz común de evaluación de proyectos académicos: problema, arquitectura, implementación, datos o comunicación, integración, calidad, validación y sustentación. Cada criterio se adapta al enfoque de sistemas distribuidos y se verifica mediante evidencias del producto, el repositorio y la demostración.
+Los criterios se organizan según una matriz común de evaluación de proyectos académicos: problema, arquitectura, implementación, datos o comunicación, integración y calidad, validación y sustentación. Cada criterio se adapta al enfoque de sistemas distribuidos y se verifica mediante evidencias del producto, el repositorio y la demostración.
 
-| Dimensión común | Criterio del PS | Qué se observa |
-|---|---|---|
-| Problema y alcance | Alcance del sistema distribuido | El proyecto responde a una necesidad clara y delimita los servicios, actores y flujos principales. |
-| Requerimientos o funcionalidad esperada | Flujos distribuidos esperados | Los servicios cubren los casos principales del negocio y exponen operaciones verificables. |
-| Diseño, modelo o arquitectura | Arquitectura distribuida | Los servicios tienen responsabilidades claras y forman un flujo coherente. |
-| Implementación técnica | Configuración, seguridad y resiliencia | Config Server, perfiles, registro de servicios, Gateway, seguridad y resiliencia funcionan integrados. |
-| Datos, persistencia o procesamiento | Mensajería y consistencia | Los eventos, compensaciones e idempotencia responden al proceso de negocio. |
-| Integración del producto | Integración frontend | El cliente consume flujos reales mediante Gateway y seguridad. |
-| Calidad técnica | Reproducibilidad y observabilidad | El sistema puede levantarse con comandos documentados y cuenta con logs, métricas, health checks o paneles útiles para diagnóstico. |
-| Validación, pruebas o resultados | Pruebas y resultados verificables | Se presentan pruebas, capturas, comandos, logs, accesos permitidos/denegados y resultados verificables. |
-| Sustentación técnica y profesional | Sustentación integral | Se evalúa mediante subaspectos de defensa técnica, comunicación, presentación personal, aporte individual, repositorio, documentación publicada y pitch/demo ejecutiva. |
+| Dimensión común | Criterio del PS | Capacidad evaluada | Evidencias esperadas |
+|---|---|---|---|
+| 1. Problema y alcance | Arquitectura distribuida | Delimita un problema que justifica distribución, servicios y comunicación entre componentes. | Problema, alcance, servicios, actores, restricciones y justificación técnica. |
+| 2. Requerimientos o funcionalidad esperada | Funcionalidad distribuida | Define flujos verificables entre cliente, gateway, servicios y datos. | Endpoints, flujos, criterios de aceptación, seguridad esperada y escenarios de uso. |
+| 3. Diseño, modelo o arquitectura | Diseño de microservicios | Diseña componentes distribuidos con responsabilidades claras y comunicación definida. | Diagrama de arquitectura, servicios, API Gateway, seguridad, mensajería o integración. |
+| 4. Implementación técnica | Backend distribuido | Implementa servicios, APIs, seguridad, comunicación y despliegue básico según el alcance. | Código, endpoints, configuración, Docker o scripts, autenticación y servicios ejecutables. |
+| 5. Datos, persistencia o procesamiento | Datos por servicio | Gestiona datos, persistencia o eventos de forma coherente con la arquitectura. | Bases, esquemas, datos de prueba, eventos, consultas o evidencias de persistencia. |
+| 6. Integración del producto y calidad técnica | Integración frontend y calidad técnica | Integra cliente, Gateway y servicios en una experiencia funcional, ordenada y reproducible. | Cliente consumiendo servicios reales, autenticación, flujo end-to-end, comandos, logs, health checks y documentación. |
+| 7. Validación, pruebas o resultados | Pruebas y resultados verificables | Comprueba comportamiento, seguridad, resiliencia y resultados del sistema. | Pruebas, capturas, comandos, accesos permitidos/denegados y evidencias de fallos controlados. |
+| 8. Sustentación técnica y profesional | Sustentación integral | Defiende técnica y profesionalmente la solución distribuida, evidenciando autoría, comprensión y responsabilidad académica. | Pitch, demo end-to-end, defensa técnica, aporte individual, repositorio, topics y MkDocs o equivalente. |
+
+### Rúbrica
+
+| Criterios | % | A (20) | B (15) | C (10) | D (5) |
+|---|---:|---|---|---|---|
+| 1. Problema y alcance | 10% | Problema claro, viable y bien delimitado; el alcance responde al contexto y está justificado. | Problema y alcance comprensibles, con algunos límites o justificaciones por precisar. | Problema poco delimitado o alcance parcialmente viable. | Problema confuso, sin alcance definido o sin relación clara con el producto. |
+| 2. Requerimientos o funcionalidad esperada | 10% | Funcionalidades o requerimientos completos, coherentes y verificables según la necesidad planteada. | Funcionalidades principales cubiertas, con detalles menores pendientes o poco precisos. | Funcionalidades incompletas o parcialmente alineadas al problema. | Funcionalidades ausentes, inconexas o sin relación verificable con la necesidad. |
+| 3. Diseño, modelo o arquitectura | 10% | Diseño, modelo o arquitectura coherente, aplicado y alineado al producto; muestra estructura y decisiones claras. | Diseño funcional con limitaciones menores o decisiones parcialmente justificadas. | Diseño poco claro, incompleto o aplicado de forma parcial. | No presenta diseño, modelo o arquitectura verificable. |
+| 4. Implementación técnica | 10% | Implementación correcta, funcional y alineada a los contenidos centrales del curso. | Implementación funcional con detalles técnicos menores por corregir. | Implementación parcial, con errores o uso limitado de los contenidos del curso. | Implementación insuficiente, no funcional o no relacionada con los contenidos del curso. |
+| 5. Datos, persistencia o procesamiento | 10% | Los datos se gestionan, almacenan, consultan o procesan correctamente según el tipo de proyecto. | Gestión de datos funcional con detalles menores de consistencia, estructura o procesamiento. | Gestión de datos parcial, limitada o con errores relevantes. | No hay manejo de datos verificable o este impide el funcionamiento del producto. |
+| 6. Integración del producto y calidad técnica | 10% | El producto funciona como sistema integrado, ordenado, documentado y reproducible. | Integración funcional con detalles menores de organización, documentación o reproducibilidad. | Integración parcial; existen componentes aislados, desorden o evidencias incompletas. | Componentes desconectados, sin organización técnica ni evidencia reproducible. |
+| 7. Validación, pruebas o resultados | 10% | Presenta pruebas, evidencias o resultados claros que comprueban el funcionamiento y el valor del producto. | Presenta evidencias suficientes, con algunos casos o resultados por completar. | Evidencias limitadas, poco claras o con validación parcial. | No presenta pruebas, evidencias ni resultados verificables. |
+| 8. Sustentación técnica y profesional | 30% | Explica y defiende el producto con solvencia; demuestra aporte individual, dominio técnico, comunicación clara, repositorio, documentación y actitud profesional. | Sustentación clara y funcional, con detalles menores en defensa técnica, evidencias, comunicación o documentación. | Sustentación parcial; dominio, evidencias, comunicación o aporte individual insuficientemente demostrados. | No sustenta adecuadamente, no demuestra autoría o no presenta evidencias mínimas del producto. |
 
 ### Subaspectos de la sustentación integral
 
@@ -131,13 +155,15 @@ La sustentación integral debe representar como mínimo el 30% de la evaluación
 
 | Subaspecto | Qué observa |
 |---|---|
-| Defensa técnica | Explicación de arquitectura, comunicación entre servicios, decisiones técnicas, fallos controlados, limitaciones y evidencias generadas. |
-| Comunicación y orden | Claridad, estructura, tiempo y lenguaje técnico. |
-| Presentación personal y actitud | Puntualidad, vestimenta limpia y adecuada, higiene, cabello ordenado y actitud profesional. |
-| Aporte individual | Cada integrante demuestra lo que hizo. |
-| Repositorio y estándares | Topics, organización, commits, documentación y reproducibilidad. |
-| MkDocs o equivalente | Documentación publicada, navegable y alineada al producto. |
-| Pitch/demo ejecutiva | Introducción clara del problema, solución y valor, seguida de una demo funcional. |
+| 1. Defensa técnica | Explicación de arquitectura, comunicación entre servicios, decisiones técnicas, fallos controlados, limitaciones y evidencias generadas. |
+| 2. Comunicación y orden | Claridad, estructura, tiempo y lenguaje técnico. |
+| 3. Presentación personal y actitud | Puntualidad, vestimenta limpia y adecuada, higiene, cabello ordenado, actitud profesional, respeto, honestidad y coherencia con los valores y principios cristianos de la institución. |
+| 4. Aporte individual | Cada integrante demuestra lo que hizo. |
+| 5. Repositorio y estándares | Topics, organización, commits, documentación y reproducibilidad. |
+| 6. MkDocs o equivalente | Documentación publicada, navegable y alineada al producto. |
+| 7. Pitch/demo ejecutiva | Introducción clara del problema, solución y valor, seguida de una demo funcional. |
+
+La sustentación profesional forma parte de la evaluación porque el producto final no solo debe funcionar; también debe ser presentado, explicado y defendido con responsabilidad académica, ética, respeto, honestidad y coherencia con los valores y principios cristianos de la institución.
 
 ## 7. Sustentación
 
@@ -162,17 +188,68 @@ Flujo de negocio -> Microservicios -> Infraestructura -> Seguridad -> Eventos ->
 
 La presentación puede organizarse con una secuencia breve de apoyo visual. El video pitch o introducción ejecutiva abre la sustentación y no reemplaza la demo ni la defensa técnica.
 
-| Orden | Slide o momento | Propósito |
-|---:|---|---|
-| 1 | Título del proyecto y equipo | Identificar el proyecto, integrantes y dominio elegido. |
-| 2 | Video pitch o introducción ejecutiva | Presentar problema, solución, valor y participación del equipo. |
-| 3 | Problema y alcance | Explicar el proceso distribuido y los límites del sistema. |
-| 4 | Arquitectura distribuida | Mostrar servicios, Gateway, configuración y comunicación. |
-| 5 | Seguridad | Evidenciar rutas protegidas, autenticación o autorización. |
-| 6 | Resiliencia y consistencia | Explicar fallos controlados, eventos, compensaciones o idempotencia. |
-| 7 | Observabilidad | Mostrar logs, métricas, health checks o paneles. |
-| 8 | Integración frontend | Explicar cómo el cliente consume los servicios reales. |
-| 9 | Demo end-to-end | Ejecutar el flujo principal del sistema distribuido. |
-| 10 | Aporte individual | Indicar qué hizo cada integrante. |
-| 11 | Repositorio y estándares | Mostrar repositorio, topics, estructura, documentación publicada en MkDocs o equivalente, y forma de ejecución. |
-| 12 | Limitaciones y mejoras | Reconocer límites del producto y mejoras posibles. |
+| Orden | Slide o momento | Propósito | Competencia evidenciada |
+|---:|---|---|---|
+| 1 | Título del proyecto y equipo | Identificar el proyecto, integrantes y dominio elegido. | CE024 |
+| 2 | Video pitch o introducción ejecutiva | Presentar problema, solución, valor y participación del equipo. | CE024 |
+| 3 | 1. Problema y alcance | Explicar el proceso distribuido y los límites del sistema. | CE023 |
+| 4 | Arquitectura distribuida | Mostrar servicios, Gateway, configuración y comunicación. | CE023 |
+| 5 | Seguridad | Evidenciar rutas protegidas, autenticación o autorización. | CE024 |
+| 6 | Resiliencia y consistencia | Explicar fallos controlados, eventos, compensaciones o idempotencia. | CE022 + CE024 |
+| 7 | Observabilidad | Mostrar logs, métricas, health checks o paneles. | CE024 |
+| 8 | Integración frontend | Explicar cómo el cliente consume los servicios reales. | CE023 |
+| 9 | Demo end-to-end | Ejecutar el flujo principal del sistema distribuido. | CE023 + CE024 |
+| 10 | 4. Aporte individual | Indicar qué hizo cada integrante. | CE024 |
+| 11 | 5. Repositorio y estándares | Mostrar repositorio, topics, estructura, documentación publicada en MkDocs o equivalente, y forma de ejecución. | CE024 |
+| 12 | Limitaciones y mejoras | Reconocer límites del producto y mejoras posibles. | CE024 |
+
+## Anexo. Plantilla mínima de documentación MkDocs o equivalente
+
+La documentación publicada no reemplaza al informe. Su función es permitir que otra persona comprenda, ejecute, revise y verifique el producto desde el repositorio.
+
+| Página o sección | Contenido mínimo | Evidencia esperada |
+|---|---|---|
+| Inicio | Nombre del proyecto, problema, solución, curso o cursos, integrantes y enlace al repositorio. | Presentación clara del producto. |
+| Instalación o ejecución | Requisitos, dependencias, configuración y comandos para ejecutar el proyecto. | Instrucciones reproducibles. |
+| Uso del sistema | Flujo principal, pantallas, comandos, endpoints, notebooks o casos de uso según corresponda. | Guía breve para probar el producto. |
+| Arquitectura o estructura | Diagrama, componentes, carpetas principales y decisiones técnicas. | Vista técnica comprensible. |
+| Módulos o funcionalidades | Descripción de las funciones principales del producto. | Relación entre funcionalidades y problema. |
+| Datos | Modelo, archivos, base de datos, datasets, fuentes o estructura de almacenamiento según el curso. | Evidencia de gestión de datos. |
+| Pruebas y evidencias | Casos de prueba, capturas, resultados, métricas, validaciones o salidas generadas. | Verificación del funcionamiento. |
+| Equipo y aporte individual | Integrantes, responsabilidades, aportes y evidencias de participación. | Autoría verificable. |
+| 5. Repositorio y estándares | Topics académicos, estructura, commits, ramas si aplica y criterios de reproducibilidad. | Cumplimiento de estándares técnicos. |
+| Limitaciones y mejoras | Restricciones del producto y mejoras futuras priorizadas. | Cierre reflexivo y realista. |
+
+La documentación debe estar disponible desde las primeras presentaciones y crecer con el proyecto. Para FP puede ser una documentación sencilla; para proyectos integradores y cursos avanzados debe ser más completa y técnica.
+## Anexo. Plantilla sugerida de informe del proyecto
+
+El informe debe documentar el producto de manera breve, verificable y alineada a las competencias evaluadas. No reemplaza la demo ni la sustentación; organiza las evidencias del proyecto.
+
+| Sección | Contenido mínimo | Evidencia esperada |
+|---|---|---|
+| Portada | Nombre del proyecto, curso, sección, integrantes, docente y semestre. | Datos completos del equipo. |
+| Resumen del proyecto | Problema, solución distribuida y valor del producto. | Síntesis de 8 a 12 líneas. |
+| Competencia y alcance | Competencia/capacidad del proyecto y competencias relacionadas. | CE023, CE022 y CE024 vinculadas al producto. |
+| Flujo de negocio | Proceso distribuido, actores, servicios y límites. | Descripción del flujo end-to-end. |
+| Arquitectura distribuida | Microservicios, Gateway, configuración, descubrimiento y comunicación. | Diagrama de arquitectura y componentes. |
+| Datos y consistencia | Persistencia, eventos, compensaciones o idempotencia. | Evidencias de datos, mensajes y resultados. |
+| Observabilidad | Logs, métricas, health checks o paneles. | Capturas, comandos o paneles. |
+| Validación y pruebas | Pruebas de flujo, seguridad, fallos y resultados. | Tabla de pruebas y evidencias. |
+| Repositorio y documentación | Repositorio, topics, estructura, comandos y documentación publicada. | URL del repositorio y MkDocs o equivalente. |
+| 4. Aporte individual | Responsabilidad de cada integrante. | Tabla de tareas, commits o evidencias por integrante. |
+| Limitaciones y mejoras | Límites actuales y mejoras posibles. | Lista priorizada y realista. |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
