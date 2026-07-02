@@ -9,6 +9,10 @@ nav:
   - Silabos:
       - Silabo 2026-1: silabo_dist_2026_1.md
       - Silabo 2026-2: silabo_dist_2026_2.md
+      - Silabo MOV 2026-1: silabo_mov_2026_1.md
+      - Silabo SW1 2026-1: silabo_sw1_2026_1.md
+      - Silabo SW2 2026-1: silabo_sw2_2026_1.md
+      - Silabo PDS 2026-1: silabo_pds_2026_1.md
   - 1. Sistema distribuido base:
       - S1 - Servicio base: sesiones/s01-arquitectura-base.md
       - S2 - Configuracion y ambientes: sesiones/s02-configuracion-centralizada.md
