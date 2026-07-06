@@ -1,5 +1,6 @@
 site_name: ecom - Distribuidas 2026
 site_description: Guía del curso de sistemas distribuidos con Spring Cloud
+site_url: https://261dist.github.io/ecom/
 docs_dir: docs
 
 nav:
