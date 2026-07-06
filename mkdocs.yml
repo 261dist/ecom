@@ -1,37 +1,38 @@
-site_name: ecom - DISTribuidas 2026
-site_description: Guia del curso de sistemas distribuidos con Spring Cloud
+site_name: ecom - Distribuidas 2026
+site_description: Guía del curso de sistemas distribuidos con Spring Cloud
 docs_dir: docs
 
 nav:
   - Inicio: index.md
   - Proyecto Sello:
       - Guía del proyecto: proyecto-sello/index.md
-  - Silabos:
-      - Silabo 2026-1: silabo_dist_2026_1.md
-      - Silabo 2026-2: silabo_dist_2026_2.md
-      - Silabo MOV 2026-1: silabo_mov_2026_1.md
-      - Silabo SW1 2026-1: silabo_sw1_2026_1.md
-      - Silabo SW2 2026-1: silabo_sw2_2026_1.md
-      - Silabo PDS 2026-1: silabo_pds_2026_1.md
+  - Sílabos:
+      - Sílabo DIST 2026-1: silabo_dist_2026_1.md
+      - Sílabo DIST 2026-2: silabo_dist_2026_2.md
+      - Sílabo MOV 2026-1: silabo_mov_2026_1.md
+      - Sílabo SW1 2026-1: silabo_sw1_2026_1.md
+      - Sílabo SW2 2026-1: silabo_sw2_2026_1.md
+      - Sílabo PDS 2026-1: silabo_pds_2026_1.md
   - 1. Sistema distribuido base:
       - S1 - Servicio base: sesiones/s01-arquitectura-base.md
-      - S2 - Configuracion y ambientes: sesiones/s02-configuracion-centralizada.md
+      - S2 - Configuración y ambientes: sesiones/s02-configuracion-centralizada.md
       - S3 - Registro y descubrimiento: sesiones/s03-eureka-escalado.md
-      - S4 - Acceso unico y trafico: sesiones/s04-gateway-load-balancer.md
-      - S5 - Evaluacion U1: sesiones/s05-evaluacion-u1.md
+      - S4 - Acceso único y tráfico: sesiones/s04-gateway-load-balancer.md
+      - S5 - Evaluación U1: sesiones/s05-evaluacion-u1.md
   - 2. Sistema distribuido robusto:
-      - S6 - Comunicacion sincronica resiliente: sesiones/s06-feign-circuit-breaker.md
+      - S6 - Comunicación sincrónica resiliente: sesiones/s06-feign-circuit-breaker.md
       - S7 - Seguridad distribuida: sesiones/s07-seguridad-jwt.md
-      - S8 - Mensajeria asincrona: sesiones/s08-angular-cors-jwt.md
+      - S8 - Mensajería asíncrona: sesiones/s08-angular-cors-jwt.md
       - S9 - Consistencia distribuida: sesiones/s09-kafka-eventos.md
-      - S10 - Observabilidad y diagnostico: sesiones/s10-observabilidad.md
-      - S11 - Integracion frontend: sesiones/s11-integracion-fullstack.md
-      - S12 - Evaluacion U2: sesiones/s12-evaluacion-u2.md
-  - 3. Validacion y consolidacion:
-      - S13 - Validacion end-to-end: sesiones/s13-validacion-integral.md
-      - S14 - Revision tecnica: sesiones/s14-cierre-tecnico.md
-      - S15 - Defensa tecnica: sesiones/s15-defensa-tecnica.md
-      - S16 - Evaluacion final: sesiones/s16-evaluacion-final.md
+      - S10 - Observabilidad y diagnóstico: sesiones/s10-observabilidad.md
+      - S11 - Integración frontend: sesiones/s11-integracion-fullstack.md
+      - S12 - Evaluación U2: sesiones/s12-evaluacion-u2.md
+  - 3. Validación y consolidación:
+      - S13 - Validación end-to-end: sesiones/s13-validacion-integral.md
+      - S14 - Revisión técnica: sesiones/s14-cierre-tecnico.md
+      - S15 - Defensa técnica: sesiones/s15-defensa-tecnica.md
+      - S16 - Evaluación final: sesiones/s16-evaluacion-final.md
+
 theme:
   name: material
   features:
