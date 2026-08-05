@@ -1,4 +1,4 @@
-<!-- Versión 2026-2 construida desde silabo_sw2_2026_1.md, con nuevos temas (NTP ISO/IEC 12207, ISO/IEC 29110, ISO/IEC 25010, CMMI/SCAMPI) proporcionados por el docente -->
+<!-- Versión 2026-2 construida desde silabo_is2_2026_1.md, con nuevos temas (NTP ISO/IEC 12207, ISO/IEC 29110, ISO/IEC 25010, CMMI/SCAMPI) proporcionados por el docente -->
 
 Universidad Peruana Unión  
 Carret. Central km. 19.5 Ñaña. Telf. 01-6186300 Casilla 3564 Lima 1, Perú

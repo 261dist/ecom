@@ -11,8 +11,10 @@ nav:
       - Sílabo DIST 2026-1: silabo_dist_2026_1.md
       - Sílabo DIST 2026-2: silabo_dist_2026_2.md
       - Sílabo MOV 2026-1: silabo_mov_2026_1.md
-      - Sílabo SW1 2026-1: silabo_sw1_2026_1.md
-      - Sílabo SW2 2026-1: silabo_sw2_2026_1.md
+      - Sílabo IS1 2026-1: silabo_is1_2026_1.md
+      - Sílabo IS1 2026-2: silabo_is1_2026_2.md
+      - Sílabo IS2 2026-1: silabo_is2_2026_1.md
+      - Sílabo IS2 2026-2: silabo_is2_2026_2.md
       - Sílabo PDS 2026-1: silabo_pds_2026_1.md
   - 1. Sistema distribuido base:
       - S1 - Servicio base: sesiones/s01-arquitectura-base.md
