@@ -16,6 +16,8 @@ nav:
       - Sílabo IS2 2026-1: silabo_is2_2026_1.md
       - Sílabo IS2 2026-2: silabo_is2_2026_2.md
       - Sílabo PDS 2026-1: silabo_pds_2026_1.md
+      - Sílabo Electivo I (IoT) 2026-1: silabo_iot_2026_1.md
+      - Sílabo Electivo I (IoT) 2026-2: silabo_iot_2026_2.md
   - 1. Sistema distribuido base:
       - S1 - Servicio base: sesiones/s01-arquitectura-base.md
       - S2 - Configuración y ambientes: sesiones/s02-configuracion-centralizada.md
